@@ -1,26 +1,901 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-elms-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-elms-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-brand: var(--brand);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-nav-surface: var(--nav-surface);
+  --color-hero-title-muted: var(--hero-title-muted);
+  --color-signal-good: var(--signal-good);
+  --color-signal-warn: var(--signal-warn);
+  --color-signal-bad: var(--signal-bad);
+  --color-signal-cloud: var(--signal-cloud);
+  --color-signal-rain: var(--signal-rain);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Paleta heredada del sistema administrativo de Knotfix
+   (../administrativo Knotfix/src/index.css) para que el sitio y el producto
+   se lean como la misma familia. El morado es acento, nunca relleno. */
+:root {
+  --radius: 0.625rem;
+  --container-max: 1200px;
+
+  /* Blanco hueso en TODA la pagina, no solo en el hero. Tiene que ser mas
+     oscuro que el blanco puro o los destellos de luz no tendrian contra que
+     leerse. Las tarjetas siguen en blanco (--card) y por eso se levantan. */
+  --background: #d6d5d1;
+  --foreground: #0b0a0f;
+  --card: #ffffff;
+  --card-foreground: #0b0a0f;
+  --popover: #ffffff;
+  --popover-foreground: #0b0a0f;
+  /* Los botones son negros, no morados. El morado quedo reservado para
+     gradientes y detalles: vive en --brand y en --ring. */
+  --primary: #0b0a0f;
+  --primary-foreground: #ffffff;
+
+  /* Morado de marca: resplandores, gradientes y acentos puntuales.
+     NO se usa como relleno de botones. */
+  --brand: #5b21b6;
+
+  --secondary: #f4f4f5;
+  --secondary-foreground: #0b0a0f;
+  --muted: #f4f4f5;
+  /* Sobre el hueso, el gris de antes (#6b7280) daba 3.35:1 y no llegaba al
+     minimo AA. Este da 5.4:1 contra el fondo de pagina y 7.5:1 dentro de las
+     tarjetas blancas. */
+  --muted-foreground: #4b5563;
+  --accent: #f4f4f5;
+  --accent-foreground: #0b0a0f;
+  --destructive: #dc2626;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #5b21b6;
+
+  /* Superficie translucida generica (glass_panel). */
+  --surface: #fffffff5;
+
+  /* Vidrio del navbar. Bastante translucido a proposito: el navbar viaja por
+     encima del hueso del hero y de las secciones blancas de mas abajo, asi que
+     no puede tener un color propio — tiene que tomar el de atras. Un blanco
+     casi opaco se recortaria como una banda sobre el hero.
+     El texto igual se lee: lo de atras va desenfocado. */
+  --nav-surface: #ffffff8c;
+
+  /* La isla despegada va mas solida que la barra del tope. No es incoherencia:
+     pegada al tope el navbar tiene que FUNDIRSE con el fondo, y despegado
+     tiene que leerse como un objeto que flota por encima. Con la misma
+     translucidez que el scrim, isla y scrim se funden en una sola masa y la
+     pildora deja de distinguirse. */
+  --nav-surface-island: #ffffffcc;
+
+  /* Gris de las palabras apagadas del titular. Es texto grande, asi que le
+     alcanza con 3:1 (AA large): este da 3.4:1. Un gris mas claro se veria
+     mejor y no pasaria. */
+  --hero-title-muted: #767676;
+
+  /* Lineas del organigrama. Token propio y NO `--border`: ese vale #e5e7eb,
+     que es mas CLARO que el hueso del fondo (#d6d5d1), asi que las lineas
+     desaparecian. `--border` esta pensado para el borde de las tarjetas
+     blancas, no para dibujar sobre el fondo de pagina. */
+  --org-line: #a4a29c;
+  /* Trama de puntitos del fondo del organigrama. Mas tenue que la linea: es
+     textura, no dibujo. */
+  --org-dot: #bcbab4;
+  /* Canto de una caja: el costado de la pieza. Lo comparten el organigrama y
+     `.surface-key`. Va por tema y no con un `color-mix` hacia negro, porque en
+     oscuro la tarjeta ya es casi negra y oscurecerla mas la funde con el fondo.
+     Y NO puede ser `--border` (#e5e7eb): es mas CLARO que el hueso del fondo,
+     asi que el canto desapareceria — el mismo problema que `--org-line`. */
+  --box-edge: #c5c3be;
+
+  /* Colores de senal de las fichas del titular. Son la UNICA excepcion a la
+     regla de blanco y negro: aca el color ES el dato — una cara verde y una
+     roja significan cosas distintas, y en gris no se distinguirian.
+     Van sobre la ficha oscura, no sobre el fondo de pagina. */
+  --signal-good: #22c55e;
+  --signal-warn: #f59e0b;
+  --signal-bad: #ef4444;
+  --signal-cloud: #94a3b8;
+  --signal-rain: #60a5fa;
+
+  /* Grafico del hero: escala de grises + un solo morado para el segmento
+     destacado. Nunca dos colores compitiendo. */
+  --chart-1: #5b21b6;
+  --chart-2: #52525b;
+  --chart-3: #71717a;
+  --chart-4: #a1a1aa;
+  --chart-5: #d4d4d8;
+
+  --sidebar: #fafafa;
+  --sidebar-foreground: #0b0a0f;
+  --sidebar-primary: #5b21b6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #0b0a0f;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #5b21b6;
+}
+
+.dark {
+  --background: #0b0a0f;
+  --foreground: #f4f3f6;
+  --card: #14121a;
+  --card-foreground: #f4f3f6;
+  --popover: #14121a;
+  --popover-foreground: #f4f3f6;
+  /* En oscuro el boton negro desaparece contra el fondo: se invierte a
+     casi-blanco con texto oscuro, que es el equivalente monocromo. */
+  --primary: #f4f3f6;
+  --primary-foreground: #0b0a0f;
+
+  --brand: #8b5cf6;
+
+  --secondary: #1f1c28;
+  --secondary-foreground: #f4f3f6;
+  --muted: #1f1c28;
+  --muted-foreground: #9491a0;
+  --accent: #1f1c28;
+  --accent-foreground: #f4f3f6;
+  --destructive: #f87171;
+  --border: #2a2733;
+  --input: #2a2733;
+  --ring: #8b5cf6;
+
+  --surface: #14121af5;
+  --nav-surface: #181521a6;
+  --nav-surface-island: #181521e0;
+
+  --hero-title-muted: #6d6879;
+
+  --org-line: #423e52;
+  --org-dot: #2b2836;
+  /* Mas CLARO que la tarjeta, al reves que en tema claro: sobre el casi negro
+     del fondo un canto mas oscuro que la cara seria invisible. */
+  --box-edge: #2e2a3b;
+
+  /* Un punto mas brillantes: sobre la ficha clara del tema oscuro los tonos
+     del tema claro se apagan. */
+  --signal-good: #4ade80;
+  --signal-warn: #fbbf24;
+  --signal-bad: #f87171;
+  --signal-cloud: #cbd5e1;
+  --signal-rain: #93c5fd;
+
+  --chart-1: #8b5cf6;
+  --chart-2: #a1a1aa;
+  --chart-3: #71717a;
+  --chart-4: #52525b;
+  --chart-5: #3f3f46;
+
+  --sidebar: #14121a;
+  --sidebar-foreground: #f4f3f6;
+  --sidebar-primary: #8b5cf6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1f1c28;
+  --sidebar-accent-foreground: #f4f3f6;
+  --sidebar-border: #2a2733;
+  --sidebar-ring: #8b5cf6;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+    /* El navbar flotante mide ~64px + su separacion del tope: sin esto,
+       un ancla deja el titulo escondido debajo de la barra. */
+    scroll-padding-top: 6rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Vidrio esmerilado del navbar: lo usan tanto la barra pegada al tope como la
+   isla despegada.
+   NO puede vivir bajo un elemento con `filter` — un `filter` en cualquier
+   ancestro anula el `backdrop-filter` de sus hijos. Es exactamente por eso que
+   el navbar ya no lleva el filtro goo: la mezcla no era posible. */
+.nav-glass {
+  background-color: var(--nav-surface);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+}
+
+/* Variante de la isla: mismo vidrio, mas solido. Ver --nav-surface-island. */
+.nav-glass-island {
+  background-color: var(--nav-surface-island);
+}
+
+/* Sin soporte de backdrop-filter el navbar quedaria casi transparente y el
+   texto ilegible: se compensa con un fondo opaco. */
+@supports not (backdrop-filter: blur(1px)) {
+  .nav-glass,
+  .nav-glass-island {
+    background-color: var(--background);
+  }
+}
+
+/* Hover de los links del navbar: fondo neutro y una sombra difusa por debajo.
+   Sin relieve — nada de luz interior, borde ni desplazamiento, que era lo que
+   lo hacia leer como tecla 3D. El morado tampoco entra aca: quedo para
+   resplandores y acentos, no para el hover de un link.
+   Vive en CSS y no en clases utilitarias porque la sombra cambia por tema. */
+.nav-key {
+  transition:
+    box-shadow 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.nav-key:hover {
+  /* Casi blanco, no gris: `--muted` (#f4f4f5) se lee sucio sobre la barra
+     blanca, asi que se mezcla contra blanco y queda solo el tono justo para
+     separarse. El realce lo hace la sombra, no el relleno. */
+  background-color: color-mix(in srgb, var(--muted) 30%, #ffffff);
+  box-shadow: 0 6px 14px -6px rgb(0 0 0 / 0.28);
+}
+
+/* Al presionar, la sombra se acorta: la unica pista de profundidad que queda. */
+.nav-key:active {
+  box-shadow: 0 3px 8px -6px rgb(0 0 0 / 0.32);
+}
+
+.dark .nav-key:hover {
+  /* En oscuro "mas claro" es subir luminancia, no acercarse al blanco: se
+     mezcla contra el texto para aclarar sin lavar el tema. */
+  background-color: color-mix(in srgb, var(--foreground) 12%, var(--secondary));
+  box-shadow: 0 8px 18px -8px rgb(0 0 0 / 0.8);
+}
+
+.dark .nav-key:active {
+  box-shadow: 0 4px 10px -8px rgb(0 0 0 / 0.8);
+}
+
+/* Luz de la pagina: destellos diagonales que bajan de izquierda a derecha, mas
+   un lavado blanco de arriba hacia abajo.
+
+   Se monta como una capa FIJA a pantalla completa en el layout, no como fondo
+   de una seccion. Dos razones: cubre toda la pagina de una, y al ser fija los
+   destellos conservan su tamano y su angulo mientras scrolleas. Como fondo de
+   un elemento de 5000px de alto, las franjas se estirarian hasta deformarse.
+   Se usa un div fijo y no `background-attachment: fixed` porque eso ultimo
+   repinta en cada scroll y iOS Safari lo trata mal.
+
+   Son gradientes CSS y no WebGL a proposito: la luz no se mueve, asi que un
+   canvas con su contexto y su bucle de animacion no compra nada y cuesta.
+   Ademas asi no hay nada que apagar con `prefers-reduced-motion`.
+
+   Las franjas no estan repartidas parejo (no es un `repeating-linear-gradient`)
+   porque la luz real no cae en bandas regulares: cada una lleva su ancho y su
+   intensidad. Van ANTES del lavado en la lista: en `background-image` la
+   primera capa es la de arriba, y si el lavado quedara encima las apagaria
+   justo donde tienen que verse mas. */
+.page-light {
+  background-image:
+    linear-gradient(
+      65deg,
+      transparent 6%,
+      rgb(255 255 255 / 0.9) 13%,
+      transparent 21%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 19%,
+      rgb(255 255 255 / 0.5) 25%,
+      transparent 33%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 31%,
+      rgb(255 255 255 / 0.95) 41%,
+      transparent 52%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 50%,
+      rgb(255 255 255 / 0.4) 57%,
+      transparent 66%
+    ),
+    /* El lavado se queda en 0.42: mas arriba blanquea el fondo, los destellos
+       pierden contra que recortarse y la luz deja de leerse marcada. */
+    linear-gradient(
+        to bottom,
+        rgb(255 255 255 / 0.42),
+        rgb(255 255 255 / 0) 58%
+      );
+}
+
+/* En oscuro la misma luz a plena intensidad quemaria el hero: se baja mucho y
+   se apaga el lavado superior, que sobre un fondo casi negro se veria como una
+   niebla gris. */
+.dark .page-light {
+  background-image:
+    linear-gradient(
+      65deg,
+      transparent 6%,
+      rgb(255 255 255 / 0.14) 13%,
+      transparent 21%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 19%,
+      rgb(255 255 255 / 0.07) 25%,
+      transparent 33%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 31%,
+      rgb(255 255 255 / 0.16) 41%,
+      transparent 52%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 50%,
+      rgb(255 255 255 / 0.06) 57%,
+      transparent 66%
+    );
+}
+
+/* Franja superior que impide que el contenido de la pagina pase crudo por el
+   hueco que deja la isla al despegarse del tope. Es un solido enmascarado con
+   un degradado: cuesta lo mismo que pintar un div y funciona igual en movil,
+   asi que no hace falta un segundo `backdrop-filter` (el de la isla alcanza
+   para el efecto vidrio). La mascara evita el corte duro al pie de la franja. */
+/* Tapa el hueco de DETACH_OFFSET px que queda sobre la isla despegada, para
+   que el texto de la pagina no pase crudo por ahi.
+   Solo cubre ESE hueco: cuando era alto y a todo lo ancho se convertia en una
+   superficie que competia con la isla y se la tragaba — con vidrio contra
+   vidrio, la pildora dejaba de distinguirse. Bajo y tenue, apenas escarcha el
+   borde de arriba y la isla sigue siendo el objeto que flota.
+   La mascara arranca a los 24px (45% de 56px), poco despues del borde
+   superior de la isla, y se apaga antes de llegarle al pie. */
+.nav-scrim {
+  background-color: color-mix(in srgb, var(--nav-surface) 30%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0 45%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0 45%, transparent 100%);
+}
+
+/* ---- Organigrama ------------------------------------------------------
+   Cada nivel se dibuja con dos trazos: una vertical que baja del padre y una
+   horizontal que une a los hermanos.
+
+   La horizontal la dibuja CADA HIJO, media a cada lado, no el contenedor de
+   una sola pieza:
+
+     - el primero la tira desde su centro hacia la derecha,
+     - el ultimo desde su izquierda hasta su centro,
+     - los del medio de lado a lado,
+     - el hijo unico no la dibuja.
+
+   Sumadas dan una linea continua del centro del primero al centro del ultimo
+   **sea cual sea el ancho de cada rama**. La version anterior la dibujaba el
+   contenedor con una cuenta de 50%/n que asumia ramas de igual ancho: con
+   `flex: 1 1 0` parecia cierto, pero `min-width: auto` le da mas ancho a la
+   rama con mas contenido, asi que en los arboles asimetricos —los dos ultimos—
+   los centros se corrian y la linea moria antes de llegar a la ultima caja.
+
+   Por eso ahora las ramas van a ancho de contenido (`flex: 0 0 auto`): ya no
+   hace falta que sean iguales.
+
+   Las lineas son de 2px y mas trazo que hueco (6px de raya, 4px de aire). Con
+   1px y mitad-y-mitad las esquinas caian seguido dentro de un hueco y los
+   codos se veian cortados. */
+@keyframes org-flow-y {
+  to {
+    background-position-y: 10px;
+  }
+}
+
+@keyframes org-flow-x {
+  to {
+    background-position-x: 10px;
+  }
+}
+
+.org-children {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 3rem;
+}
+
+.org-children::before,
+.org-branch::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 1.5rem;
+  background-image: linear-gradient(
+    to bottom,
+    var(--org-line) 0 6px,
+    transparent 6px 10px
+  );
+  background-size: 2px 10px;
+  animation: org-flow-y 0.9s linear infinite;
+}
+
+.org-children::before {
+  top: 0;
+}
+
+.org-branch::before {
+  top: -1.5rem;
+}
+
+.org-branch {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0.35rem;
+}
+
+/* La mitad de horizontal que le toca a cada hijo. Se apoya a la misma altura
+   que el codo de las verticales. */
+.org-branch::after {
+  content: "";
+  position: absolute;
+  top: -1.5rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-image: linear-gradient(
+    to right,
+    var(--org-line) 0 6px,
+    transparent 6px 10px
+  );
+  background-size: 10px 2px;
+  animation: org-flow-x 0.9s linear infinite;
+}
+
+.org-branch:first-child::after {
+  left: calc(50% - 1px);
+}
+
+.org-branch:last-child::after {
+  right: calc(50% - 1px);
+}
+
+.org-branch:only-child::after {
+  display: none;
+}
+
+/* Las cajas usan el mismo idioma de relieve que los CTA del hero: luz arriba,
+   sombra abajo y un canto SOLIDO de 3px que es el costado de la pieza, no una
+   sombra difusa. Por eso va sin desenfoque. */
+.org-box {
+  background-color: var(--card);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.2),
+    rgb(255 255 255 / 0) 45%,
+    rgb(0 0 0 / 0.04) 70%,
+    rgb(0 0 0 / 0.1)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    inset 0 -1px 0 rgb(0 0 0 / 0.08),
+    0 3px 0 -1px var(--box-edge),
+    0 8px 14px -7px rgb(0 0 0 / 0.35);
+}
+
+/* La raiz es la organizacion contratante: va en solido para que se lea de una
+   cual es. El canto sale del propio color de la cara, asi el mismo bloque
+   sirve en los dos temas — en claro es una cara negra con canto casi negro
+   sobre el hueso, y en oscuro una cara casi blanca con canto gris. */
+.org-box-root {
+  background-color: var(--foreground);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.18),
+    rgb(255 255 255 / 0) 45%,
+    rgb(0 0 0 / 0.05) 70%,
+    rgb(0 0 0 / 0.16)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    inset 0 -1px 0 rgb(0 0 0 / 0.25),
+    0 3px 0 -1px color-mix(in srgb, var(--foreground) 55%, #000),
+    0 9px 16px -7px rgb(0 0 0 / 0.5);
+}
+
+/* El fondo de puntitos del organigrama, con la trama apagandose hacia los
+   bordes para que no termine en un rectangulo recortado.
+   Va en una capa APARTE y no en el contenedor: `mask-image` recorta al
+   elemento y a todo lo que tenga adentro, asi que puesto en el contenedor
+   desvanecia tambien las cajas de las puntas del organigrama. */
+/* El canto y la sombra del panel del organigrama: es lo que lo encierra y lo
+   despega del fondo.
+
+   > **El borde sale de `--box-edge` y NO de `--border`.** Está anotado más
+   > arriba en este mismo archivo: `--border` vale `#e5e7eb`, **más claro que el
+   > hueso del fondo**, así que en claro el canto simplemente no existiría — el
+   > mismo problema por el que existe `--org-line`. `--box-edge` se creó para
+   > esto y ya lo usan las cajas del propio organigrama.
+
+   La sombra va corta y baja: el panel se apoya, no flota. */
+.org-canvas {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--box-edge);
+  box-shadow: 0 10px 30px -22px rgb(0 0 0 / 0.5);
+}
+
+.org-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--org-dot) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    #000 50%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    #000 50%,
+    transparent 100%
+  );
+}
+
+/* El contenido se levanta por encima de la trama. */
+.org-canvas > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* El punteado que corre es decoracion pura: se apaga con el ajuste del
+   sistema, sin depender de nada de JavaScript. */
+@media (prefers-reduced-motion: reduce) {
+  .org-children::before,
+  .org-children::after,
+  .org-branch::before {
+    animation: none;
+  }
+}
+
+/* ---- CTA con relieve --------------------------------------------------
+   Tres grados de la misma idea, de mas a menos: el primario del hero se
+   apoya en un plato y tiene cuerpo; el secundario solo levanta; el del
+   navbar apenas se sombrea.
+
+   Vive en CSS y no en utilidades por lo mismo que `.nav-key`: cada capa
+   cambia con el tema. Ojo, va SIN capa (`@layer`), y en la cascada lo no
+   estratificado le gana a todo Tailwind — por eso hay que declarar los
+   estados a mano, incluido el `:active` que el boton de shadcn ya traia.
+
+   EL CANTO es lo que da el volumen: `0 4px 0` es el COSTADO del boton, no
+   una sombra, asi que va solido y sin desenfoque. Al presionar, el canto se
+   acorta a 1px y la cara baja 3px: el pie queda clavado donde estaba y el
+   boton se hunde dentro de su propio grosor. Si la cara bajara sin acortar
+   el canto, el boton entero se mudaria hacia abajo y se leeria como un
+   deslizamiento, no como una tecla.
+
+   LA TEXTURA es un solo degradado que sirve para los dos temas: luz blanca
+   arriba y sombra negra abajo. Sobre la cara negra del tema claro solo se
+   ve la luz; sobre la cara blanca del oscuro solo se ve la sombra. En los
+   dos casos el objeto queda iluminado desde arriba, sin una sola regla
+   duplicada por tema. */
+
+/* El plato: la bandeja sobre la que se apoya el CTA primario. `--card` es
+   blanco puro en claro (que es el plato que se pidio) y en oscuro cae a la
+   superficie de tarjeta, para no encender una loza brillante en medio de
+   una pagina oscura. */
+.cta-plate {
+  display: inline-flex;
+  border-radius: calc(var(--radius-lg) + 11px);
+  background-color: var(--card);
+  /* Asimetrico a proposito: mas abajo que arriba. Con padding parejo el
+     plato se lee como un aro alrededor del boton; con el pie mas ancho se
+     lee como una base sobre la que el boton esta APOYADO, que es lo que
+     hace que la escena tenga dos objetos y no uno con borde. */
+  padding: 8px 12px 12px;
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.07),
+    /* Sombra interior arriba: la que proyectaria el boton sobre su propia
+       base. Es lo que lo sienta en el plato en vez de flotar sobre el. */
+    inset 0 2px 4px -2px rgb(0 0 0 / 0.22),
+    0 1px 1px rgb(0 0 0 / 0.04),
+    0 14px 28px -18px rgb(0 0 0 / 0.55);
+}
+
+.dark .cta-plate {
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.08),
+    inset 0 2px 4px -2px rgb(0 0 0 / 0.5),
+    0 1px 1px rgb(0 0 0 / 0.4),
+    0 16px 32px -20px rgb(0 0 0 / 0.9);
+}
+
+/* Cara con volumen. El canto sale de `--primary`, asi que se da vuelta solo
+   con el tema: negro bajo el boton negro del claro, gris medio bajo el
+   boton blanco del oscuro. */
+.cta-key {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.18),
+    rgb(255 255 255 / 0) 45%,
+    rgb(0 0 0 / 0.05) 70%,
+    rgb(0 0 0 / 0.16)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    inset 0 -1px 0 rgb(0 0 0 / 0.25),
+    0 4px 0 -1px color-mix(in srgb, var(--primary) 55%, #000),
+    0 9px 16px -7px rgb(0 0 0 / 0.5);
+}
+
+.cta-key:hover {
+  /* El `hover:bg-primary/80` de shadcn destinaria la cara y, sobre el plato
+     blanco, el negro se volveria gris. Aca el hover lo hace levantarse, no
+     desteñirse. */
+  background-color: var(--primary);
+  translate: 0 -1px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.32),
+    inset 0 -1px 0 rgb(0 0 0 / 0.25),
+    0 5px 0 -1px color-mix(in srgb, var(--primary) 55%, #000),
+    0 13px 20px -8px rgb(0 0 0 / 0.55);
+}
+
+.cta-key:active {
+  background-color: var(--primary);
+  translate: 0 3px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    inset 0 2px 4px rgb(0 0 0 / 0.3),
+    0 1px 0 -1px color-mix(in srgb, var(--primary) 55%, #000),
+    0 3px 6px -4px rgb(0 0 0 / 0.5);
+}
+
+/* Version simple: mismo idioma, la mitad del cuerpo y sin plato. El canto no
+   puede salir de `--primary` porque la cara es la del boton `outline`; se
+   arma oscureciendo el fondo de la pagina. */
+.cta-key-soft {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.5),
+    rgb(255 255 255 / 0) 50%,
+    rgb(0 0 0 / 0.04)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 3px 0 -1px color-mix(in srgb, var(--foreground) 16%, var(--background)),
+    0 7px 12px -6px rgb(0 0 0 / 0.35);
+}
+
+.cta-key-soft:hover {
+  translate: 0 -1px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 4px 0 -1px color-mix(in srgb, var(--foreground) 16%, var(--background)),
+    0 10px 16px -7px rgb(0 0 0 / 0.4);
+}
+
+.cta-key-soft:active {
+  translate: 0 2px;
+  box-shadow:
+    inset 0 2px 3px rgb(0 0 0 / 0.16),
+    0 1px 0 -1px color-mix(in srgb, var(--foreground) 16%, var(--background)),
+    0 2px 5px -4px rgb(0 0 0 / 0.35);
+}
+
+.dark .cta-key-soft {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.09),
+    rgb(255 255 255 / 0) 50%,
+    rgb(0 0 0 / 0.2)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 3px 0 -1px rgb(0 0 0 / 0.55),
+    0 7px 14px -6px rgb(0 0 0 / 0.8);
+}
+
+.dark .cta-key-soft:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 4px 0 -1px rgb(0 0 0 / 0.55),
+    0 11px 18px -7px rgb(0 0 0 / 0.85);
+}
+
+.dark .cta-key-soft:active {
+  box-shadow:
+    inset 0 2px 4px rgb(0 0 0 / 0.5),
+    0 1px 0 -1px rgb(0 0 0 / 0.55),
+    0 2px 6px -4px rgb(0 0 0 / 0.8);
+}
+
+/* El del navbar: sin canto, solo la luz de arriba y una sombra que lo
+   despega de la barra. Dentro de una barra de 64px un boton con cuerpo
+   compite con la isla; alcanza con que no se lea plano. */
+.cta-key-flat {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.16),
+    rgb(255 255 255 / 0) 55%,
+    rgb(0 0 0 / 0.12)
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.24),
+    0 2px 5px -1px rgb(0 0 0 / 0.35);
+}
+
+.cta-key-flat:hover {
+  background-color: var(--primary);
+  translate: 0 -1px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 5px 10px -3px rgb(0 0 0 / 0.45);
+}
+
+.cta-key-flat:active {
+  background-color: var(--primary);
+  translate: 0 1px;
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.3),
+    0 1px 3px -1px rgb(0 0 0 / 0.35);
+}
+
+/* ---- Superficie con relieve -------------------------------------------
+   La misma idea de `.cta-key` sobre una tarjeta: canto solido abajo y luz
+   arriba, para que la pieza se lea apoyada y no pintada.
+
+   Va en CSS y no en utilidades por lo mismo que las teclas: cada capa cambia
+   con el tema, y sin capa (`@layer`) le gana a Tailwind, asi que los estados
+   se declaran a mano.
+
+   NO tiene `:active`. Una tarjeta no se pulsa, y hundirse sin que pase nada
+   promete una accion que no existe. El hover levanta 2px y alarga el canto,
+   que es lo unico que la tarjeta tiene para contestar.
+
+   EL CANTO sale de `--box-edge`, el mismo token que usan las cajas del
+   organigrama, y NO de `--primary` ni de `--border`. De `--primary` seria un
+   canto morado abajo de cada una de las cinco, o sea acento convertido en
+   relleno. De `--border` seria invisible: vale #e5e7eb, mas claro que el hueso
+   del fondo. */
+/* La cara de una tarjeta: gris arriba, limpia abajo.
+
+   Va como clase propia y NO adentro de `.surface-key` porque son dos cosas
+   distintas — `.surface-key` es el RELIEVE (el canto de 4px y su hover) y esto
+   es la CARA. Las tarjetas de la pila del problema quieren la cara y no el
+   relieve: ya tienen su propia sombra, calibrada contra la linea difusa que les
+   cruza por encima.
+
+   El sentido del degradado se invierte con el tema, y no es un descuido. En
+   claro la tarjeta es blanca y lo que la despega del fondo es una sombra propia
+   arriba: gris que se abre hacia el blanco. En oscuro la tarjeta ya es casi
+   negra —oscurecerle la cabeza la funde con la pagina— asi que lo que va arriba
+   es la luz, y la sombra cae al pie. Es la misma pieza mirada bajo dos luces,
+   no dos estilos. */
+.graded-face {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.055),
+    rgb(0 0 0 / 0.022) 38%,
+    rgb(0 0 0 / 0) 72%
+  );
+}
+
+.dark .graded-face {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.07),
+    rgb(255 255 255 / 0) 45%,
+    rgb(0 0 0 / 0.14) 70%,
+    rgb(0 0 0 / 0.28)
+  );
+}
+
+.surface-key {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 4px 0 -1px var(--box-edge),
+    0 12px 22px -14px rgb(0 0 0 / 0.4);
+  transition:
+    box-shadow 200ms ease,
+    translate 200ms ease;
+}
+
+.surface-key:hover {
+  translate: 0 -2px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    0 6px 0 -1px var(--box-edge),
+    0 18px 28px -16px rgb(0 0 0 / 0.45);
+}
+
+.dark .surface-key {
+  /* El canto sigue saliendo de `--box-edge`: en oscuro ese token es mas CLARO
+     que la tarjeta, al reves que en claro. Un canto mas oscuro que la cara,
+     sobre un fondo casi negro, no existiria. */
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.09),
+    0 4px 0 -1px var(--box-edge),
+    0 14px 26px -16px rgb(0 0 0 / 0.9);
+}
+
+.dark .surface-key:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 6px 0 -1px var(--box-edge),
+    0 20px 32px -18px rgb(0 0 0 / 0.95);
+}
+
+/* Movimiento reducido: el sitio completo deja de animarse.
+   Los componentes ademas lo consultan en JS para no montar efectos. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

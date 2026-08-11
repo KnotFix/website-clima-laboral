@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# herramientas de agentes (Claude Code y demas): configuracion de la maquina,
+# subagentes y skills de terceros. No es codigo del sitio, no viaja en el repo.
+.claude/
+.agents/
+.mcp.json
+skills-lock.json
+CLAUDE.md
