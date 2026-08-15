@@ -147,17 +147,17 @@ const es = {
     {
       step_title: "Subí tu nómina",
       step_body:
-        "Arrastrás tu CSV o Excel y elegís qué columnas forman tu jerarquía. El sistema arma solo el árbol de la organización —regiones, empresas, sucursales, áreas— y te lo muestra para que lo revises antes de confirmar.",
+        "Arrastrás tu CSV. El sistema arma el árbol de la organización y te lo muestra para que lo confirmes.",
     },
     {
       step_title: "Lanzá el estudio",
       step_body:
-        "Elegís a quién medir y listo. La boleta de cada persona se compone sola: el núcleo común que responden todos, más las preguntas propias de su rama. No configurás encuestas una por una.",
+        "Elegís a quién medir. Cada boleta se compone sola: el núcleo común más las preguntas de su rama.",
     },
     {
       step_title: "Leé los resultados",
       step_body:
-        "Llegan desglosados por segmento desde el primer estudio. Comparás áreas entre sí, seguís la evolución de cada una y ves dónde hay que actuar, no solo cuánto dio en general.",
+        "Llegan desglosados por segmento. Comparás áreas y ves dónde actuar, no solo cuánto dio en general.",
     },
   ],
 
@@ -165,24 +165,81 @@ const es = {
   weights_title: "Cruzá filtros. Ponderá lo que importa.",
   weights_body:
     "El análisis no es un promedio más grande. Es poder hacerle preguntas específicas a los datos y que respondan.",
+  // Los títulos dicen qué hacés y los cuerpos qué ganás. Antes los cuerpos
+  // describían el mecanismo —"asignás pesos y comparás"— y había que deducir
+  // solo para qué servía.
   weights_points: [
     {
       title: "Uní filtros entre sí",
-      body: "Región Norte, antigüedad mayor a cinco años y turno noche, todo a la vez. Ves el resultado exacto de ese cruce, no una aproximación.",
+      body: "Región Norte, turno noche y más de cinco años, todo junto. Dejás de discutir promedios y ves el grupo exacto que te preocupa.",
     },
     {
       title: "Ponderá por categoría",
-      body: "En tu operación no todo pesa igual. Asignás pesos y comparás el resultado ponderado contra el simple para ver qué cambia.",
+      body: "Si producción pesa más que administración, el número lo refleja. Comparás el ponderado contra el simple y ves qué cambia.",
     },
     {
       title: "Compará poblaciones equivalentes",
-      body: "Un segmento contra otro, o contra su propia historia. El sistema no mezcla un estudio global con uno regional en la misma línea.",
+      body: "Un área contra otra, o contra su propio pasado. Nadie va a poder decirte que la comparación no era válida.",
     },
     {
       title: "Sabé cuándo no alcanza",
-      body: "Al cruzar filtros los grupos se hacen chicos rápido. Cuando un cruce se queda con muy pocas respuestas, el sistema lo avisa en vez de mostrar un número frágil.",
+      body: "Si un cruce se queda con pocas respuestas, el sistema lo avisa. No decidís sobre un número que no se sostiene.",
     },
   ],
+
+  // Una maqueta del sistema por punto, en el mismo orden que `weights_points`.
+  // Cada una muestra al producto haciendo lo que su punto promete.
+  //
+  // **Los números son parte del contenido**: en español el decimal es coma y en
+  // inglés punto, así que no pueden vivir en el componente. De dividirlos por
+  // `scale_max` sale el largo de cada barra.
+  weights_shots: {
+    scale_max: "4",
+    cross: {
+      a11y: "Maqueta del sistema: tres filtros cruzados y el resultado de ese grupo",
+      title: "Resultado del cruce",
+      chips: ["Región Norte", "Turno noche", "Antigüedad > 5 años"],
+      count: "214",
+      count_label: "respuestas en este cruce",
+      bars: [
+        { label: "Este cruce", value: "3,4" },
+        { label: "General de la empresa", value: "2,9" },
+      ],
+    },
+    weights: {
+      a11y: "Maqueta del sistema: pesos por categoría y el resultado ponderado",
+      title: "Pesos por categoría",
+      categories: [
+        { label: "Producción", weight: "×2,0" },
+        { label: "Administración", weight: "×1,0" },
+        { label: "Ventas", weight: "×1,5" },
+      ],
+      bars: [
+        { label: "Resultado ponderado", value: "3,1" },
+        { label: "Promedio simple", value: "3,4" },
+      ],
+    },
+    compare: {
+      a11y: "Maqueta del sistema: dos regiones comparadas en el mismo período",
+      title: "Norte contra Sur",
+      bars: [
+        { label: "Región Norte", value: "3,4" },
+        { label: "Región Sur", value: "2,8" },
+      ],
+      footnote:
+        "Mismo período, mismo núcleo de preguntas y la misma escala. Por eso los dos números se pueden poner en la misma línea.",
+    },
+    threshold: {
+      a11y: "Maqueta del sistema: un cruce con muy pocas respuestas, sin resultado",
+      title: "Cruce sin muestra suficiente",
+      chips: ["Turno noche", "Sede 3"],
+      count: "6",
+      count_label: "respuestas en este cruce",
+      result_label: "Resultado",
+      notice:
+        "Por debajo del mínimo que definiste. El sistema no muestra este segmento, en vez de darte un número que no se sostiene.",
+    },
+  },
 
   // Sección 5 — escala
   scale_title: "De 20 empleados a 50.000, el mismo sistema",
@@ -290,6 +347,9 @@ const es = {
   // El riel de la medición solo recibe el foco cuando NO está clavado: ahí se
   // recorre a mano y sin esto no hay forma de moverlo con el teclado.
   a11y_measurement_rail: "Fichas de la medición: se recorren de lado",
+  // Las maquetas del análisis llevan su propio `a11y` adentro de
+  // `weights_shots`: son cuatro y cada una describe algo distinto, así que el
+  // texto vive pegado al contenido que describe y no acá suelto.
   a11y_mood_face: "Cara que cambia entre contenta, seria y triste",
   a11y_weather_tile: "Clima que cambia entre soleado, nublado y lluvioso",
   a11y_skip_to_content: "Saltar al contenido",

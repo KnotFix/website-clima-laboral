@@ -39,8 +39,10 @@ src/
                                 encabezado con el empalme + carrusel    [programmer]
       cycling_tile.jsx          fichas del titular: cara y clima        [programmer]
       problem.jsx               seccion 2                               [programmer]
-      how_it_works.jsx          seccion 3 (critica: autoservicio)       [programmer]
-      weights_filters.jsx       seccion 4 (diferenciadora)              [programmer]
+      how_it_works.jsx          seccion 3 (critica: autoservicio): las
+                                tres fichas en zigzag + StepCard local  [programmer]
+      weights_filters.jsx       seccion 4 (diferenciadora): cuatro
+                                bloques, cada uno con su maqueta        [programmer]
       scale_tree.jsx            escala: 4 organizaciones en pestanas    [programmer]
       org_chart.jsx             organigrama recursivo de un arbol       [programmer]
       confidentiality.jsx       seccion 6                               [programmer]
@@ -78,6 +80,11 @@ src/
       globe.jsx                 <Globe>: planeta cobe (WebGL)           [creative]
       chart_line.jsx            <ChartLine>: el grafico que corre por
                                 detras del carrusel de la medicion      [creative]
+      steps_trail.jsx           <StepsTrail>: la ruta punteada que une
+                                las fichas de los tres pasos            [creative]
+      system_shots.jsx          las CUATRO maquetas del sistema del
+                                analisis: <CrossShot>, <WeightsShot>,
+                                <CompareShot> y <ThresholdShot>         [creative]
     ui/                         shadcn — NO SE TOCA
   content/
     es.js                       copy espanol                            [programmer]
@@ -175,6 +182,17 @@ docs/
 | `POINTS` | const array | los vértices del gráfico, en coordenadas del viewBox. El primero es de entrada y no lleva punto |
 | `BASELINE` / `GRID_TOP` | const number | el eje y el techo de la retícula, en por mil del alto del bloque |
 | `DOT_FADE` | const number | cuánto antes de su punto empieza a aparecer un vértice, en fracción del dibujo |
+| `PIECE_STAGGER` | const number | retraso entre pieza y pieza de la parte de arriba de una maqueta (chips, categorías), en segundos |
+| `BAR_DELAY` / `BAR_STAGGER` | const number | cuánto espera la primera barra después de la última pieza de arriba, y cuánto va entre barra y barra. Las barras son la **consecuencia** de lo que se armó arriba: llegando a la vez, la maqueta se mueve de golpe y no se lee que una cosa produce la otra |
+| `shot` | prop object | el contenido de UNA maqueta: `weights_shots[key]` del idioma actual |
+| `scale_max` | prop string | el techo de la escala. De dividir cada valor por él sale el largo de su barra |
+| `ratio` / `accent` | prop | fracción de la escala que ocupa una barra, y si va morada (la que la sección promete) o gris (la de referencia) |
+| `SHOTS` | const array | qué maqueta va con qué punto, en el orden de `weights_points`. Vive en `weights_filters.jsx` — ver por qué no puede vivir con las maquetas |
+| `TEXT_DRIFT` / `SHOT_DRIFT` | const number | cuánto deriva cada columna de una fila del análisis. **Distintos a propósito: la diferencia es el parallax** |
+| `TRAIL` | const string | la ruta punteada que une los tres pasos, en coordenadas del viewBox de `StepsTrail` (100 × 1000 = porcentajes) |
+| `DRAW_START` / `DRAW_END` | const number | dónde arranca y dónde termina de dibujarse la ruta, en altos de ventana medidos contra el bloque de las fichas |
+| `STEP_CELLS` | const array | el zigzag: la celda de la reja y el ángulo de cada paso. Vive en `how_it_works.jsx` |
+| `cell` / `angle` | prop string | las clases de una entrada de `STEP_CELLS`: dónde cae la ficha y cuánto se tuerce |
 | `zoom_from` | prop number | escala con la que `ScrollZoom` entra: 0.7 = 30% más chico |
 | `zoom_to` | prop number | escala de llegada; 1 = el tamaño real, reservado en el layout |
 | `zoom_origin` | prop `"center"` \| `"top"` | desde donde crece y sobre qué eje se inclina |
@@ -223,9 +241,17 @@ problem_items[]    { title, body }  — el título de cada una nombra lo que cri
                    afirma una falla concreta y se entiende sin el cuerpo
 how_title
 how_steps[]        { step_title, step_body }
-weights_title
+weights_title      se parte por espacios para `BlurText`; el punto de una frase
+                   corta el renglon, igual que en el titular del problema
 weights_body
-weights_points[]
+weights_points[]   { title, body } — el titulo dice que hacés, el cuerpo que ganás
+weights_shots      { scale_max, cross, weights, compare, threshold } — una
+                   maqueta por punto, en el mismo orden. Cada una lleva su
+                   propio `a11y`: son cuatro y describen cosas distintas, asi
+                   que el texto vive pegado al contenido que describe.
+                   **Los numeros son contenido**: el decimal es coma en español
+                   y punto en ingles, y de dividirlos por `scale_max` sale el
+                   largo de cada barra
 scale_title
 scale_body
 scale_orgs[]      { label, size, tree }  — `size` es la cifra que se despliega
@@ -911,10 +937,17 @@ orden relativo, así que la navegación sigue coincidiendo con la página.
 
 ### Las tres secciones de argumento no se ven iguales
 
-Las tres tienen cajas, y cada una las trata distinto: `Problem` **apila** `Card`
-con el scroll, `WeightsFilters` usa `GlassPanel` a la deriva, y `Measurement` las
-pone en un **riel horizontal** con relieve de tecla (`.surface-key`). Lo que no
-puede pasar es que las tres sean la misma grilla de rectángulos quietos.
+`Problem` **apila** `Card` con el scroll y `Measurement` las pone en un **riel
+horizontal** con relieve de tecla (`.surface-key`). Lo que no puede pasar es que
+todas sean la misma grilla de rectángulos quietos.
+
+**`HowItWorks` desparrama sus fichas en zigzag** y las une con una ruta
+punteada: no apila, no corre de costado, se lee bajando en diagonal.
+
+**`WeightsFilters` ya no tiene cajas.** Eran cuatro `GlassPanel` a la deriva;
+hoy son una lista numerada con badge y, enfrente, la maqueta del producto. Es la
+única de las cuatro que **muestra el sistema** en vez de describirlo, y para la
+sección diferenciadora eso es justo lo que faltaba.
 
 > **`Measurement` cambió dos veces, y las dos por lo mismo.** Primero fue sin
 > cajas —cada punto sobre una regla— para no ser la tercera reja seguida.
@@ -923,13 +956,14 @@ puede pasar es que las tres sean la misma grilla de rectángulos quietos.
 > arriba a abajo, igual que las otras dos; el riel se lee de izquierda a derecha
 > y ya no compite con nada del sitio.
 
-> **`Problem` y `WeightsFilters` comparten esqueleto** —texto quieto a la
-> izquierda, cajas moviéndose a la derecha— y eso es deuda asumida, no un
-> descuido. Lo que las separa es el mecanismo: en el problema las fichas se
-> **apilan** una sobre otra y quedan; en los pesos **derivan** con parallax y se
-> van. Si alguna vez se ven demasiado parecidas, la que tiene que cambiar es
-> `WeightsFilters`: la pila es lo que le da el golpe a la sección que abre el
-> problema.
+> **`WeightsFilters` compartía esqueleto con `Problem`** —texto quieto a la
+> izquierda, cajas moviéndose a la derecha— y estaba anotado como deuda asumida.
+> Al sacarle las cajas, esa deuda se saldó y **se mudó**: ahora el esqueleto que
+> repite es el de `WorldReach`, texto a la izquierda e ilustración a la derecha.
+> Es un intercambio deliberado y no se leen iguales: enfrente hay una esfera que
+> gira contra una captura del producto, y acá la izquierda es una lista numerada
+> y no un titular suelto. Si alguna vez se parecen demasiado, la que se mueve es
+> `WeightsFilters`: el planeta llegó primero a esa maqueta.
 
 **`Measurement` ya no pone aire propio**: es una diapositiva del capítulo y mide
 exactamente una pantalla. El aire con el planeta lo da la pista del capítulo al
@@ -1321,6 +1355,167 @@ tramo tapado se ve **desenfocado** a través de cada una.
 es el hover en CSS, así que el levantado y el `translate-z` llevan
 `motion-reduce:` propio.
 
+### El análisis: cuatro bloques, y cada uno muestra el sistema
+
+Es la sección **diferenciadora** —el análisis estadístico es lo que separa a este
+producto de una encuesta de clima cualquiera— y hasta acá no mostraba el
+producto: eran cuatro `GlassPanel` con texto explicándolo.
+
+Hoy es el titular y la bajada arriba, y debajo **cuatro filas: el punto a la
+izquierda y su maqueta a la derecha**. Cada maqueta muestra al producto haciendo
+exactamente lo que su punto promete.
+
+| | Punto | Maqueta |
+|---|---|---|
+| 01 | Uní filtros entre sí | `CrossShot`: los tres chips del cruce, `n = 214`, y el cruce (`3,4`) contra el general (`2,9`) |
+| 02 | Ponderá por categoría | `WeightsShot`: los pesos por categoría, y el ponderado (`3,1`) contra el simple (`3,4`) |
+| 03 | Compará poblaciones equivalentes | `CompareShot`: Norte contra Sur, y al pie lo que las hace comparables |
+| 04 | Sabé cuándo no alcanza | `ThresholdShot`: un cruce con `n = 6` y la barra **vacía y punteada** |
+
+**Las cuatro filas van igual** —texto a la izquierda, maqueta a la derecha— y no
+alternadas: con el orden fijo el ojo siempre sabe dónde cae el título, y lo que
+cambia de fila en fila es la maqueta, que es lo que hay que mirar.
+
+> **El título de cada punto es más grande que la tipografía de ítem del sitio**
+> (`text-xl sm:text-2xl` contra `text-lg sm:text-xl`), y es la única excepción a
+> esa regla. El rol cambió: ya no es un ítem dentro de una lista apretada, es el
+> encabezado de un bloque que se lleva media pantalla y tiene una ilustración al
+> lado. A `text-lg` quedaba chico contra la maqueta.
+
+> **El titular lleva el efecto del planeta.** `BlurText` palabra por palabra,
+> envuelto en `ScrollPass` para que además se vaya al salir. Es la única mezcla
+> de los dos en el sitio: `BlurText` entra una vez y `ScrollPass` es función pura
+> del scroll, así que en la primera entrada las dos opacidades se multiplican.
+> Se pidió explícitamente y se ve bien; si alguna vez el desenfoque se lee
+> lavado, lo que sale es el `ScrollPass`.
+
+> **Se retiró el `sticky` de la columna izquierda.** Existía porque la izquierda
+> era corta y la derecha larguísima. Con el texto repartido en cuatro filas, cada
+> una al lado de su maqueta, no hay nada que pegar.
+
+#### El parallax sale de la diferencia entre dos números
+
+Las dos columnas de una fila entran con **distinta deriva** —`TEXT_DRIFT` 45 y
+`SHOT_DRIFT` 85—, y esa diferencia es el parallax: dos columnas que entran a
+distinta velocidad se leen a distinta profundidad. Sale gratis, porque es el
+mismo `ScrollPass` que ya hace la entrada y la salida, con otro número.
+
+> **Había un `Parallax` aparte para esto.** Con una sola maqueta se justificaba;
+> con cuatro filas eran cuatro componentes más midiendo el mismo scroll para
+> conseguir el mismo efecto.
+
+#### `SHOTS` no puede vivir con las maquetas
+
+El array que dice qué maqueta va con qué punto vive en `weights_filters.jsx`, que
+es un Server Component, y **no** en `system_shots.jsx`, que es donde están las
+maquetas.
+
+Es una restricción de RSC, no una preferencia: `system_shots.jsx` es `"use
+client"`, y de un módulo cliente un Server Component sólo puede importar
+**componentes**. Un valor común —un array, un objeto— le llega como referencia de
+cliente y no como el dato. Estuvo un rato exportado desde ahí como
+`SYSTEM_SHOTS`, y la página devolvía 500: `SYSTEM_SHOTS[index]` era `undefined`.
+
+#### Las maquetas no son adornos
+
+Las cuatro van sobre **`.org-canvas`**, la misma superficie del organigrama de la
+escala. Es a propósito: tienen que leerse como una parte más del producto y no
+como una ilustración de la página de marketing.
+
+- El **morado sale de `--chart-1`** y va sólo en la primera barra de cada
+  maqueta, que es la que la sección promete. La de referencia usa `--chart-3`,
+  gris, que es exactamente su papel.
+- **`ThresholdShot` no dibuja barra**: el valor es una raya y el lugar de la
+  barra queda punteado y hueco. Es el remate de las cuatro — donde las otras tres
+  muestran un número, ésta muestra que no lo hay. Dibujar una barra corta diría
+  justo lo contrario de lo que dice el punto. Y va **sin rojo**: la paleta es
+  blanco y negro con morado, y además esto no es un error, es el sistema haciendo
+  lo que tiene que hacer.
+- Las barras crecen con **`scaleX` y `origin-left`**, nunca con `width`. El valor
+  numérico va **fuera** de la barra: escalar el padre le deforma las letras a los
+  hijos.
+- **La etiqueta va arriba de la barra, no al lado.** Al lado hay que fijarle
+  ancho a la columna de texto, y ahí cualquier etiqueta larga —"General de la
+  empresa", "This cross-section"— parte en dos renglones y desalinea las dos
+  filas. Arriba, el largo del texto deja de importar en los dos idiomas.
+- El movimiento entra **una sola vez** al cruzar el viewport, y **las barras
+  llegan después de lo de arriba** (`BAR_DELAY`): son la consecuencia del cruce,
+  de los pesos, de la comparación. Creciendo a la vez, la maqueta se mueve de
+  golpe y no se lee que una cosa produce la otra.
+- Las únicas animaciones por reloj del sitio son `RotatingText` e `ImageCycle` y
+  no hacen falta cuatro más: el ritmo continuo lo pone la deriva diferencial de
+  las dos columnas, que es función del scroll y se deshace al subir.
+- Con `prefers-reduced-motion` se entregan armadas. Armarse es el efecto; el
+  resultado es el contenido.
+
+### Los pasos: tres fichas clavadas en zigzag
+
+Era una `<ol>` con `Separator` entre ítem e ítem: lo más plano de la página justo
+en la sección que más tiene que convencer, porque el producto se vende por
+autoservicio. Hoy son tres fichas —chinche arriba, número grande, paso— que
+alternan izquierda, derecha, izquierda, con una **ruta punteada** que las une.
+
+El copy también cambió: **una idea por paso**. Los cuerpos tenían tres oraciones
+cada uno y en una ficha de 340px eso es un párrafo, no un paso.
+
+#### La reja, y por qué cada ficha declara su fila
+
+El zigzag sale de `STEP_CELLS`: columna, fila y ángulo por paso. Dos cosas que no
+son obvias:
+
+- **La fila va declarada.** Con sólo `col-start`, la ficha 2 se mete en el hueco
+  que dejó la 1 y las dos terminan en la primera fila: sale una reja de dos
+  arriba y una abajo, no un zigzag. Cada una pide su `row-start`.
+- **Nada de posiciones absolutas con alto fijo.** La referencia de la que salió
+  esto clavaba cada ficha en un `top` y le fijaba el alto al bloque por
+  breakpoint. Con eso, un texto una línea más largo —o el mismo texto en inglés—
+  desacomoda todo. Con celdas, el alto lo pone el contenido.
+
+La rotación es de 2° y sólo desde `md`. En una columna las fichas van derechas:
+torcidas y apiladas se leen como un error de maquetado y no como un tablero. Va
+en la propiedad `rotate` de Tailwind v4, que **no** es el `transform`, así que
+convive con el `rotateX/rotateY` que `Tilt` pone por `style` en vez de pisarlo.
+
+Medido a 1440: las fichas ocupan del 0 al 30% y del 70 al 100% del ancho de la
+reja, y las filas caen en 157, 500 y 843 por mil del alto. De ahí salen los
+números de `TRAIL`.
+
+#### La ruta es punteada, y la dibuja el scroll
+
+Punteada **a propósito**: la línea sólida ya es el motivo del capítulo problema →
+medición, donde hilvana la pila y termina siendo el gráfico. Acá tiene que leerse
+como otra cosa —una ruta de un paso al siguiente— y no como el mismo hilo
+cruzando la página de nuevo.
+
+> **El avance va en una máscara, no en el trazo visible.** `pathLength` no
+> dibuja: lo que hace es escribir `stroke-dasharray` (ver
+> `motion-dom/render/svg/utils/path`), o sea que se pelea por el mismo atributo
+> con el que se hace el punteado. Puestos juntos gana `pathLength` y la línea
+> sale sólida. Con la máscara cada uno usa su atributo: el trazo de abajo es
+> punteado y quieto, y el de la máscara —sólido, blanco y más grueso— es el que
+> crece.
+
+> **La máscara NO lleva `non-scaling-stroke`, y costó encontrarlo.** El viewBox
+> se estira 11× en `x` y 0.85× en `y`: el largo del camino medido en coordenadas
+> del viewBox no es el mismo que medido en pantalla. `pathLength` normaliza
+> contra el primero y el trazo constante se dibuja contra el segundo, así que el
+> avance se queda corto y **la ruta nunca termina de destaparse** — se cortaba en
+> la ficha 2 con el avance ya en 1. Sin él, las dos cuentas viven en el mismo
+> espacio. El grosor va en unidades del viewBox y sobrado: lo único que hay
+> debajo es una línea de 2px, así que taparla de más no se ve.
+>
+> El trazo **visible** sí lo lleva: ahí es lo que evita que el punteado salga
+> finito en los tramos verticales y grueso en los horizontales.
+
+En `md` para abajo la ruta se apaga: en una columna no hay zigzag que unir.
+
+#### El fade in y el fade out son de cada ficha
+
+Cada una va envuelta en su propio `ScrollPass`, con los hitos abiertos
+(`0.28` / `0.78`) para que nunca quede una ficha translúcida mientras alguien la
+está leyendo. Volviendo para arriba se deshace, que es lo que lo separa de
+`Reveal`.
+
 ### Un ítem se ve igual en toda la página
 
 Las cajas cambian —`Card`, `GlassPanel`, o ninguna— pero **la tipografía de un
@@ -1333,8 +1528,13 @@ los pesos), y el mismo rol se leía de tres tamaños distintos según dónde cay
 | Título de ítem (`h3`) | `text-lg font-medium tracking-tight sm:text-xl` |
 | Cuerpo gris (ítem y bajada) | `text-sm leading-relaxed text-muted-foreground text-pretty sm:text-[15px]` |
 
-Rige en `problem`, `measurement`, `how_it_works`, `weights_filters`,
-`confidentiality`, `scale_tree` y `final_cta`.
+Rige en `problem`, `measurement`, `how_it_works`, `confidentiality`, `scale_tree`
+y `final_cta`.
+
+**`weights_filters` es la única excepción, y sólo en el título** (`text-xl
+sm:text-2xl`). Ahí el rol dejó de ser un ítem de una lista apretada: cada punto
+es un bloque que se lleva media pantalla con una maqueta al lado. El cuerpo gris
+sigue siendo el mismo de todos.
 
 > **Todo el texto gris del sitio mide 15px, y 14 en pantalla chica.** Antes era
 > `text-lg`: 18px contra los 20 del título, o sea el mismo peso dos veces y una

@@ -146,17 +146,17 @@ const en = {
     {
       step_title: "Upload your roster",
       step_body:
-        "Drag in your CSV or Excel file and pick which columns form your hierarchy. The system builds your org tree on its own — regions, companies, sites, areas — and shows it to you to review before you confirm.",
+        "Drag in your CSV. The system builds your org tree and shows it to you before you confirm.",
     },
     {
       step_title: "Launch the study",
       step_body:
-        "Choose who to measure and you're done. Each person's questionnaire assembles itself: the common core everyone answers, plus the questions that belong to their branch. You never configure surveys one by one.",
+        "Pick who to measure. Each questionnaire assembles itself: the common core plus the branch's own questions.",
     },
     {
       step_title: "Read the results",
       step_body:
-        "They arrive broken down by segment from the very first study. Compare areas against each other, follow how each one moves, and see where to act — not just what the overall number was.",
+        "They arrive split by segment. Compare areas and see where to act, not just the overall number.",
     },
   ],
 
@@ -164,29 +164,86 @@ const en = {
   weights_title: "Combine filters. Weight what matters.",
   weights_body:
     "Analysis isn't a bigger average. It's being able to ask your data specific questions and get an answer.",
+  // Titles say what you do, bodies say what you get. The bodies used to describe
+  // the mechanism — "assign weights and compare" — leaving the reader to work
+  // out what it was for.
   weights_points: [
     {
       title: "Stack filters together",
-      body: "North region, tenure over five years, and night shift — all at once. You see the exact result for that cross-section, not an approximation.",
+      body: "North region, night shift and over five years, all at once. You stop arguing about averages and see the exact group you care about.",
     },
     {
       title: "Weight by category",
-      body: "In your operation not everything carries the same weight. Assign weights and compare the weighted result against the flat one to see what shifts.",
+      body: "If production weighs more than back office, the number says so. Compare weighted against flat and see what moves.",
     },
     {
       title: "Compare like with like",
-      body: "One segment against another, or against its own history. The system never puts a company-wide study and a regional one on the same line.",
+      body: "One area against another, or against its own past. Nobody gets to tell you the comparison wasn't fair.",
     },
     {
       title: "Know when it isn't enough",
-      body: "Stack filters and groups shrink fast. When a cross-section is left with too few responses, the system says so instead of showing you a fragile number.",
+      body: "If a cross-section is left with too few responses, the system says so. You don't decide on a number that can't hold.",
     },
   ],
+
+  // One product mock per point, in the same order as `weights_points`. Each one
+  // shows the product doing what its point promises.
+  //
+  // **The numbers are content**: Spanish writes the decimal with a comma and
+  // English with a period, so they can't live in the component. The length of
+  // each bar comes from dividing them by `scale_max`.
+  weights_shots: {
+    scale_max: "4",
+    cross: {
+      a11y: "Product mock: three filters stacked and the result for that group",
+      title: "Cross-section result",
+      chips: ["North region", "Night shift", "Tenure > 5 years"],
+      count: "214",
+      count_label: "responses in this cross-section",
+      bars: [
+        { label: "This cross-section", value: "3.4" },
+        { label: "Company-wide", value: "2.9" },
+      ],
+    },
+    weights: {
+      a11y: "Product mock: weights by category and the weighted result",
+      title: "Weights by category",
+      categories: [
+        { label: "Production", weight: "×2.0" },
+        { label: "Back office", weight: "×1.0" },
+        { label: "Sales", weight: "×1.5" },
+      ],
+      bars: [
+        { label: "Weighted result", value: "3.1" },
+        { label: "Flat average", value: "3.4" },
+      ],
+    },
+    compare: {
+      a11y: "Product mock: two regions compared over the same period",
+      title: "North against South",
+      bars: [
+        { label: "North region", value: "3.4" },
+        { label: "South region", value: "2.8" },
+      ],
+      footnote:
+        "Same period, same core questions and the same scale. That is why the two numbers can sit on one line.",
+    },
+    threshold: {
+      a11y: "Product mock: a cross-section with too few responses and no result",
+      title: "Cross-section below the minimum",
+      chips: ["Night shift", "Site 3"],
+      count: "6",
+      count_label: "responses in this cross-section",
+      result_label: "Result",
+      notice:
+        "Below the minimum you set. The system hides this segment instead of handing you a number that can't hold.",
+    },
+  },
 
   // Section 5 — scale
   scale_title: "From 20 employees to 50,000, the same system",
   scale_body:
-    "Your organization doesn't fit into fixed columns, so we don't force it. You declare it as a tree: a flat company is a one-level tree, and a group with regions, companies, and sites is that same tree, deeper. Adding a site means hanging a branch — and the history of what you already measured stays intact.",
+    "Your organization doesn't fit into fixed columns, so we don't force it. You declare it as a tree: a flat company is a one-level tree, and a group with regions, companies, and sites is that same tree, deeper. Adding a site means hanging a branch, and the history of what you already measured stays intact.",
   // Four organizations, smallest to largest. Each chart is drawn from `tree`:
   // a node with children, recursive.
   scale_orgs: [
@@ -260,11 +317,11 @@ const en = {
   // Section 6 — confidentiality
   confidentiality_title: "If it isn't confidential, it doesn't work",
   confidentiality_body:
-    "People answer honestly only when they know they can't be identified. That isn't a promise — it's how the system is built.",
+    "People answer honestly only when they know they can't be identified. That isn't a promise. It's how the system is built.",
   confidentiality_points: [
     "Responses are detached from identity. Tokens are issued per segment, never per name.",
     "No segment shows results below the minimum number of responses you set.",
-    "That minimum applies when filters are combined too — which is exactly where groups shrink without anyone noticing.",
+    "That minimum applies when filters are combined too, which is exactly where groups shrink without anyone noticing.",
   ],
 
   // Section 7 — final CTA
@@ -287,6 +344,9 @@ const en = {
   // The measurement rail only takes focus when it is NOT pinned: there it is
   // scrolled by hand, and without this there is no way to move it by keyboard.
   a11y_measurement_rail: "Measurement cards: scroll sideways",
+  // The analysis mocks carry their own `a11y` inside `weights_shots`: there are
+  // four of them and each describes something different, so the text lives next
+  // to the content it describes instead of loose in here.
   a11y_mood_face: "Face cycling between happy, neutral and sad",
   a11y_weather_tile: "Weather cycling between sunny, cloudy and rainy",
   a11y_skip_to_content: "Skip to content",
