@@ -10,6 +10,9 @@ const es = {
     { label: "Confidencialidad", href: "#confidentiality" },
   ],
   nav_cta: "Empezar",
+  // Va SUELTA y no dentro de `nav_links`: los items de esa lista son anclas de
+  // la home y `NavLinks` les saca el id cortando el "#". Ver `navbar.jsx`.
+  nav_docs: "Documentación",
 
   // Hero
   hero_title: "Equipos comprometidos alcanzan siempre resultados extraordinarios",
@@ -333,17 +336,54 @@ const es = {
     "Creá tu cuenta, subí la nómina y medí. Sin proyecto de implementación y sin llamada de ventas.",
   final_cta_button: "Empezar gratis",
 
+  // Documentación. Acá va SOLO el chrome: los títulos y la prosa de cada
+  // página viven en `src/content/docs/**.mdx` y en `docs/nav.js`. Meter texto
+  // largo en el diccionario lo vuelve inmanejable a la décima página.
+  docs_index_title: "Documentación",
+  docs_index_body:
+    "Cómo funciona Clima por dentro: los conceptos que hay que tener claros para leer un resultado, y las guías de cada módulo.",
+  docs_all_pages: "Todas las páginas",
+  docs_on_this_page: "En esta página",
+  docs_prev: "Anterior",
+  docs_next: "Siguiente",
+
   // Footer
   footer_tagline: "Evaluación de clima laboral por segmento.",
   footer_rights: "Todos los derechos reservados.",
 
+  // Legales. Acá va SOLO el chrome, igual que en docs: el texto de cada
+  // documento vive en `src/content/legal/**.mdx`, y su título, versión y fecha
+  // en `legal/nav.js` — que es de donde los lee también el registro de
+  // aceptación del producto.
+  // Novedades. La prosa de cada entrada vive en `src/content/changelog/es/*.mdx`
+  // —una por fecha—; acá va solo el encabezado de la página y el enlace que la
+  // ofrece desde el índice de la documentación.
+  changelog_title: "Novedades",
+  changelog_body:
+    "Qué cambió en Clima y cuándo. Lo más nuevo arriba; las entradas viejas no se corrigen.",
+  changelog_hint: "¿Buscás qué cambió y cuándo?",
+
+  legal_version: "Versión",
+  legal_updated: "Actualizado el",
+  legal_draft_title: "Borrador sin revisión legal",
+  legal_draft_body:
+    "Este documento todavía no fue revisado por un abogado y no rige. Está publicado para poder trabajarlo, no para ser invocado.",
+
   // Accesibilidad
   a11y_toggle_theme: "Cambiar tema",
+  a11y_light_switch: "Cambiar entre el día y la noche del sitio",
   a11y_open_menu: "Abrir menú",
   a11y_close_menu: "Cerrar menú",
   a11y_switch_lang: "Cambiar idioma",
   a11y_main_nav: "Navegación principal",
   a11y_mobile_nav: "Navegación del menú",
+  a11y_legal_nav: "Documentos legales",
+  // Tres nombres distintos y no uno repetido: en las docs conviven el árbol
+  // lateral, su copia plegada de móvil y el índice de la página. Con el mismo
+  // nombre accesible, un lector de pantalla lista landmarks indistinguibles.
+  a11y_docs_nav: "Páginas de la documentación",
+  a11y_docs_nav_mobile: "Páginas de la documentación (plegado)",
+  a11y_docs_toc: "Secciones de esta página",
   // El riel de la medición solo recibe el foco cuando NO está clavado: ahí se
   // recorre a mano y sin esto no hay forma de moverlo con el teclado.
   a11y_measurement_rail: "Fichas de la medición: se recorren de lado",

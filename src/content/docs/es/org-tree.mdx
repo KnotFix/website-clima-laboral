@@ -1,0 +1,69 @@
+export const meta = {
+  title: "El árbol organizacional",
+  description:
+    "Cómo Clima representa tu organización, y por qué la forma que le des decide qué vas a poder comparar después.",
+};
+
+Clima no asume que tu organización tenga niveles fijos. No hay un campo «sucursal»
+ni uno «departamento»: hay un **árbol de nodos** que armás vos, con la profundidad y
+los nombres que tenga tu empresa de verdad.
+
+Una cadena de tiendas puede llegar a `País → Región → Tienda → Departamento`.
+Una consultora de cuarenta personas puede tener dos niveles y terminar ahí. Las dos
+son estructuras válidas y el producto trata a las dos igual.
+
+## Una sola raíz, y la cuenta no es parte del árbol
+
+Cada organización tiene **exactamente un nodo raíz**, y lo creás vos con el nombre y
+el tipo que quieras. No es automático y no es la cuenta: la organización es a quién
+le facturamos, y no aparece en la estructura.
+
+La distinción parece un detalle y no lo es. La cuenta es una frontera de datos —
+nada de una organización es visible desde otra. El árbol es una **herramienta de
+análisis**: lo cambiás cuando cambia la empresa, o cuando querés mirar los
+resultados de otra manera.
+
+## El nodo es la unidad de todo lo demás
+
+Casi todo en el producto cuelga de un nodo:
+
+- **Los empleados.** Cada persona de la nómina vive en un nodo.
+- **Las boletas.** El cuestionario se asigna a un nodo y **lo heredan sus
+  descendientes**, así que no hace falta asignarlo tienda por tienda.
+- **El alcance de un estudio.** Un estudio mide un nodo y todo lo que cuelga de él.
+- **Los permisos.** A un gerente se le asigna una rama y ve esa rama: ni el resto
+  del árbol ni los resultados de al lado.
+- **Los resultados.** Todo índice se publica por nodo. Es lo que deja decir «la
+  Región Norte está ocho puntos abajo del promedio».
+
+## La forma del árbol decide qué vas a poder comparar
+
+Esta es la parte que conviene pensar antes y no después.
+
+Los resultados se publican **por nodo**. Un corte que no existe en el árbol no
+existe en los resultados: si todos los cajeros de una tienda cuelgan del mismo nodo
+que los repositores, no hay forma de mirarlos por separado, por más que la pregunta
+sea interesante. Y al revés — un árbol partido en veinte nodos de seis personas
+cada uno produce veinte resultados que casi ninguno se va a poder publicar, porque
+no llegan al umbral de confidencialidad.
+
+> **Es un equilibrio entre granularidad y publicabilidad, y tiene un piso duro.**
+> Cada nodo cuyos resultados quieras leer tiene que juntar suficientes respuestas
+> para superar el umbral de tu organización. Antes de subdividir una rama, mirá
+> cuánta gente le queda a cada lado — ver [Anonimato y N mínimo](/es/docs/anonymity).
+
+Los ejes demográficos —sexo, rango de edad, rango de antigüedad— son la otra mitad
+del análisis y **no viven en el árbol**: se cruzan con él. O sea que no hace falta
+un nodo «mujeres de menos de 30»; eso es un segmento, y se arma al leer los
+resultados.
+
+## Reorganizar sin perder el histórico
+
+Las empresas se reorganizan, y el producto lo contempla: los nodos se renombran, se
+reordenan y se mueven. Antes de eliminar uno, el producto te dice qué se lleva
+puesto — cuántos empleados, cuántas asignaciones y cuántos estudios tocan esa rama.
+
+Lo que **no** se puede es mover el piso a un estudio que está midiendo. Un estudio
+en proceso tiene su alcance y su instrumento fijados desde que se lanzó, y esa
+inmovilidad es lo que hace que sus resultados signifiquen algo — la misma razón por
+la que tampoco se edita una pregunta a mitad de camino.

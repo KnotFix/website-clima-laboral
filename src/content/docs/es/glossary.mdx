@@ -1,0 +1,104 @@
+export const meta = {
+  title: "Glosario",
+  description:
+    "Los términos propios de Clima, definidos en una línea cada uno.",
+};
+
+Clima tiene vocabulario propio. Esta página lo define; el resto de la documentación
+lo usa dando por sentado que pasaste por acá.
+
+## Estructura
+
+**Nodo** — Cada unidad del árbol organizacional: un país, una región, una tienda, un
+departamento. Los nombres y la profundidad los definís vos.
+
+**Raíz** — El nodo del que cuelga todo lo demás. Hay **exactamente una** por
+organización, y la creás vos: la cuenta no forma parte del árbol.
+
+**Nodo hoja** — Un nodo sin hijos. Es el único lugar donde puede vivir un empleado.
+
+**Subárbol** — Un nodo y todo lo que cuelga de él. Es la unidad del alcance de un
+estudio y la del permiso de un gerente.
+
+**Organización** — El cliente que paga: la frontera de datos. Nada de una
+organización es visible desde otra.
+
+## Instrumento
+
+**Boleta** — El cuestionario. Tiene tres secciones: Satisfacción, Clima y las
+preguntas propias.
+
+**Sección 3** — La parte editable de la boleta: las preguntas que escribís vos.
+
+**Boleta efectiva** — El cuestionario que le toca *en realidad* a un nodo: el
+asignado a él, o —si no tiene— el del ancestro más cercano que sí tenga.
+
+**Modelo teórico** — El marco con el que se mide una de las dos secciones fijas.
+Define las categorías y cómo se combinan para producir el índice. Hay uno por índice.
+
+**Ancla** — La palabra que acompaña a un valor de la escala: «Nada», «Algo», «Mucho»,
+«Completamente». Son parte del instrumento y **no se traducen**.
+
+**Pregunta condicional** — Una pregunta que solo aparece según cómo se respondió otra.
+
+**Corte de serie** — Lo que pasa cuando una pregunta cambia lo que pregunta: sus
+resultados viejos dejan de ser comparables con los nuevos y la línea histórica se
+parte.
+
+## Medición
+
+**Estudio** — Una medición concreta: un alcance, un instrumento y un período.
+
+**Muestreo estratificado** — Elegir a quién se le pregunta repartiendo la muestra
+entre los segmentos, en vez de sortear nombres al azar.
+
+**Nivel de confianza** — El parámetro que determina el tamaño de la muestra.
+
+**Kiosco** — Responder desde una tablet en el lugar de trabajo, con varias estaciones
+si hace falta.
+
+**Participación** — Cuánta gente respondió. Se guarda por separado del contenido de
+las respuestas, y nunca se cruzan.
+
+## Resultados
+
+**Índice** — El número resumen de una sección. Hay dos: Satisfacción y Clima. **No se
+comparan entre sí.**
+
+**Satisfacción** — El índice de qué tan conforme está la gente con los aspectos de su
+trabajo.
+
+**Clima** — El índice de cómo se percibe el ambiente de trabajo en conjunto.
+
+**Categoría** — Una dimensión dentro de un índice. Cuáles son lo define el modelo.
+
+**Aceptable** — El agrupamiento de las respuestas del lado favorable de la escala. De
+ahí sale el **porcentaje de aceptación** de una pregunta.
+
+**Segmento** — Un recorte de los resultados, cruzando una rama con los ejes
+demográficos: sexo, rango de edad y rango de antigüedad.
+
+**Meta de mejora** — El objetivo del próximo período, calculado por rama a partir de su
+último resultado y de la tasa que configuraste. Se congela al lanzar el estudio.
+
+## Confidencialidad
+
+**Umbral de confidencialidad** (o **N mínimo**) — Cuántas respuestas necesita un grupo
+para que sus resultados se puedan publicar. Es un número por organización, lo fija el
+titular, y **cada estudio congela el que estaba vigente cuando se creó**.
+
+**Resultado oculto** — Un resultado que no se publica porque su grupo no llega al
+umbral, o porque publicarlo dejaría deducir uno que no llega. Ningún rol puede verlo.
+
+## Cuenta
+
+**Titular** (`owner`) — El dueño de la relación comercial. Hay exactamente uno.
+
+**Administrador** (`admin`) — Configura la cuenta entera.
+
+**RRHH** (`rrhh`) — Rol operativo: nómina y estudios.
+
+**Gerente** (`gerente`) — Lee, no escribe, y solo su rama.
+
+**Nómina** — El directorio de empleados. Es administrativa, no resultados: el umbral
+de confidencialidad no aplica acá.

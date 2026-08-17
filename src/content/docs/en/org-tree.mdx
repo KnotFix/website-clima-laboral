@@ -1,0 +1,69 @@
+export const meta = {
+  title: "The org tree",
+  description:
+    "How Clima represents your organization, and why the shape you give it decides what you will be able to compare later.",
+};
+
+Clima does not assume your organization has fixed levels. There is no «branch» field
+and no «department» field: there is a **tree of nodes** that you build, with the
+depth and the names your company actually has.
+
+A retail chain might go `Country → Region → Store → Department`. A forty-person
+consultancy might have two levels and stop there. Both are valid structures, and the
+product treats them the same way.
+
+## One single root, and the account is not part of the tree
+
+Each organization has **exactly one root node**, and you create it yourself with
+whatever name and type you want. It is not automatic and it is not the account: the
+organization is who we bill, and it never appears in the structure.
+
+The distinction looks like a detail and it is not. The account is a data boundary —
+nothing from one organization is visible from another. The tree is an **analysis
+tool**: you change it when the company changes, or when you want to look at the
+results a different way.
+
+## The node is the unit of everything else
+
+Almost everything in the product hangs off a node:
+
+- **Employees.** Every person in the roster lives in a node.
+- **Questionnaires.** A questionnaire is assigned to a node and **its descendants
+  inherit it**, so you do not have to assign it store by store.
+- **The scope of a study.** A study measures a node and everything below it.
+- **Permissions.** A manager is assigned a branch and sees that branch: not the rest
+  of the tree, and not the results next door.
+- **Results.** Every index is published per node. That is what lets you say «the
+  Northern Region is eight points below average».
+
+## The shape of the tree decides what you can compare
+
+This is the part worth thinking about up front rather than afterwards.
+
+Results are published **per node**. A cut that does not exist in the tree does not
+exist in the results: if all the cashiers in a store hang off the same node as the
+stockers, there is no way to look at them separately, however interesting the
+question. And the other way round — a tree split into twenty nodes of six people
+each produces twenty results, almost none of which can be published, because they do
+not reach the confidentiality threshold.
+
+> **It is a trade-off between granularity and publishability, and it has a hard
+> floor.** Every node whose results you want to read has to gather enough responses
+> to clear your organization's threshold. Before subdividing a branch, look at how
+> many people are left on each side — see [Anonymity and minimum
+> N](/en/docs/anonymity).
+
+The demographic axes —sex, age band, tenure band— are the other half of the analysis
+and **do not live in the tree**: they cross it. Which means you do not need a
+«women under 30» node; that is a segment, and you build it while reading the results.
+
+## Reorganizing without losing history
+
+Companies reorganize, and the product accounts for it: nodes can be renamed,
+reordered and moved. Before you delete one, the product tells you what goes with it
+— how many employees, how many assignments and how many studies touch that branch.
+
+What you **cannot** do is move the ground under a study that is currently measuring.
+A study in progress has its scope and its instrument fixed from the moment it
+launched, and that immobility is what makes its results mean anything — the same
+reason you cannot edit a question halfway through.

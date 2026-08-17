@@ -1,0 +1,78 @@
+export const meta = {
+  title: "Boletas y herencia",
+  description:
+    "Las tres secciones del cuestionario, cómo se hereda por rama, y qué es la boleta efectiva de un nodo.",
+};
+
+La **boleta** es el cuestionario. Tiene tres secciones y no son intercambiables:
+cada una existe por una razón distinta.
+
+## Las tres secciones
+
+**Sección 1 — Satisfacción** y **Sección 2 — Clima** son las **secciones fijas**. Las
+preguntas no las escribís vos: vienen con el producto, curadas, y son idénticas para
+todas las empresas que miden con el mismo modelo teórico. Esa identidad no es
+comodidad — **es la comparabilidad**. Dos empresas que eligen el mismo modelo miden
+exactamente lo mismo, palabra por palabra.
+
+**Sección 3** es tuya. Ahí van las preguntas propias, las que tienen sentido en tu
+organización y en ninguna otra. Es el lugar diseñado para lo particular, justamente
+para no tener que tocar las dos primeras.
+
+> **Por eso la Sección 3 es editable y las otras dos no.** Si cada empresa pudiera
+> reescribir las preguntas de sistema, no habría forma de afirmar que dos resultados
+> son comparables, y la Sección 3 pasaría a ser, de hecho, todo el instrumento.
+
+## La herencia
+
+Una boleta **se asigna a un nodo, y la heredan todos sus descendientes**.
+
+Esa sola regla es lo que hace manejable una organización de doscientos nodos: le
+asignás la boleta a la raíz y ya la tiene la empresa entera. Si después una rama
+necesita algo distinto —una tienda con tres preguntas propias sobre su turno de
+noche—, le asignás la suya y **esa rama deja de heredar** de arriba.
+
+### La boleta efectiva
+
+Es la respuesta a "¿qué cuestionario le toca en realidad a este nodo?": la asignada a
+él si tiene una, y si no, la del ancestro más cercano que tenga.
+
+Es el concepto que importa cuando algo no cuadra. Un nodo casi nunca tiene boleta
+propia; lo que tiene es una **efectiva**, que puede venir de tres niveles más arriba.
+Si una rama está midiendo preguntas que no esperabas, la pregunta correcta no es
+"¿qué boleta le asigné?" sino "¿de dónde la está heredando?".
+
+## Las preguntas propias
+
+En la Sección 3 podés agregar preguntas de seis tipos, y también **bloques
+condicionales**: una pregunta que, según cómo se responda, abre otra, y esa otra.
+
+La anidación no tiene un límite de un nivel. Un bloque puede llegar a tres:
+`¿Estás conforme? → ¿Por qué no? → ¿Qué de eso te afecta más?`
+
+> **Borrar una pregunta con hijas se las lleva a todas, a cualquier profundidad.**
+> Antes de borrar, el producto cuenta los descendientes y te los dice — desde la
+> lista no se ven, porque las hijas se muestran como preguntas cualesquiera.
+
+Ver [Tipos de pregunta](/es/docs/question-types) para el detalle de cada uno.
+
+## Lo que no se puede cambiar, y cuándo
+
+**Mientras un estudio está recolectando, su boleta no se toca.** Ni las preguntas ni
+la asignación de la rama que está midiendo.
+
+No es rigidez administrativa: si el cuestionario cambia a mitad de camino, la primera
+mitad de la gente contestó una cosa y la segunda otra, y los dos grupos se publican
+juntos como si fueran uno. El número que sale de ahí no significa nada.
+
+Por lo mismo, si querés corregir una falta de ortografía en una pregunta, esperá a
+que el estudio cierre.
+
+### Cambiar una pregunta puede cortar su serie
+
+Editar una pregunta **de manera que cambie lo que pregunta** hace que sus resultados
+anteriores dejen de ser comparables con los nuevos. La pregunta sigue viva y las
+respuestas viejas no se pierden, pero en las gráficas históricas la línea se parte en
+dos tramos que no se unen.
+
+Ver [La serie histórica](/es/docs/history).

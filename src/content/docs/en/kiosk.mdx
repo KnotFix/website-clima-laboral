@@ -1,0 +1,111 @@
+export const meta = {
+  title: "Running the survey: the kiosk",
+  description:
+    "How to set up a kiosk session with tablets, how to run people through it, and what to do when something goes wrong.",
+};
+
+The **kiosk** means responding from a tablet at the workplace. It exists for a concrete
+reason: in most organizations that measure climate, the majority of people **have no
+corporate email and no computer**. A survey that only arrives by mail measures desk
+workers.
+
+<Shot
+  src="kiosco-panel.png"
+  alt="The survey panel of a running study: two busy kiosk stations showing who is answering at each one, and below them the list of people to survey with their progress."
+  caption="Each device is a station. The panel shows them all at once, next to who is still missing."
+  ratio="1413 / 1239"
+/>
+
+## How it works, in one sentence
+
+You open a **station** for each tablet, you **check in** whoever sits down, they
+respond, and the station frees itself for the next person.
+
+## Setting up the session
+
+**1. Open one station per tablet.** Each gives you a link —or a QR— that you open
+**once** on that tablet. That link is what turns the device into a station for this
+study.
+
+**2. Leave the tablet on that screen.** Nobody needs to sign in on it; the tablet has no
+account and no user. It is a capture device, not a workstation.
+
+**3. Run the queue.** When someone sits down, you **check them in** from the panel. The
+tablet loads their questionnaire. When they finish, the station frees itself and is ready
+for the next person.
+
+> **Check-in is done by the operator, not by the person responding.** That is what stops
+> anyone from responding twice or responding for someone else, and what lets forty people
+> pass through one tablet in a morning without any of them seeing anything from the
+> previous one.
+
+## Several tablets at once
+
+You can open as many stations as you have tablets, and the panel shows them all: which
+is free, which is busy, and who is responding at each.
+
+**Each session is yours.** If two HR people are surveying different branches, each sees
+their own tablets. They do not collide and cannot shut down each other's stations.
+
+### Station states
+
+| State | What it means |
+|---|---|
+| **Available** | Ready for the next check-in |
+| **Busy** | Someone is responding right now |
+| **Disconnected** | The tablet has not reported in for a while |
+
+**«Disconnected» breaks nothing.** It is a presence indicator: it tells you the tablet
+was switched off, ran out of battery or lost wifi. Nothing expires because of it, and
+closing the tablet's tab does not unregister the device. When it comes back, it keeps
+working.
+
+## Mixed mode: kiosk and email together
+
+It is not all or nothing. You can be running the kiosk session and, for one person who
+did not show up, **send them the email invitation without taking them out of the
+kiosk**.
+
+That is the sane setup for a mixed organization: the plant responds on tablets and the
+ten people in admin by email, in the same study.
+
+## Anonymity during capture
+
+Worth stating plainly, because this is where people doubt most: **the kiosk does not
+weaken anonymity**.
+
+The system knows a person's turn came up —that is participation, and it is what lets you
+know who is left— and it stores their response separately, with no link between the two.
+The operator doing check-in **does not see what gets answered**, and the tablet keeps
+nothing from the previous person.
+
+See [Anonymity and minimum N](/en/docs/anonymity).
+
+> **The fragile part is not technical, it is physical.** A tablet against a wall with its
+> screen facing the queue ruins perceived anonymity however impeccable the system is.
+> Point it at a wall, not at the aisle — and **keep managers away**.
+
+## When something goes wrong
+
+**Someone walked off mid-survey.** Close the station and reopen it. That person stays
+unanswered, and you can check them in again later.
+
+**A tablet ran out of battery.** The session is not lost: that station shows as
+disconnected and the rest keep working. With the tablet back, you open the link again.
+
+**You lost a station's link.** It can be viewed again from the panel; you do not need to
+create a new station.
+
+**The session is over.** Close the stations. There is an action to close them all at
+once, and another to delete temporary devices you will not use again.
+
+## Before the first session
+
+**Test with one tablet and one person** before forming a queue. The flow is simple, but
+the first time is worth seeing without twenty people waiting.
+
+**Do the arithmetic.** Multiply how long one response takes by the people in that branch
+and divide by the number of tablets. The number tends to be larger than expected, and it
+is what tells you how many tablets to bring.
+
+**Announce it first.** See [Announcing the survey](/en/docs/announcing).

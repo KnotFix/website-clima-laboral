@@ -1,0 +1,102 @@
+export const meta = {
+  title: "Segmentos",
+  description:
+    "Cómo recortar los resultados por rama y por demografía, qué se puede cruzar, y por qué a veces el recorte queda oculto.",
+};
+
+Un **segmento** es un recorte de los resultados. Es la herramienta que responde
+preguntas como «¿el problema es de la Región Norte, o es de los cajeros, o es de los
+cajeros de la Región Norte?».
+
+Es también donde el producto se separa de una encuesta de clima cualquiera: no hay que
+pedir un informe ni volver a preguntar. El recorte se arma sobre los resultados que ya
+tenés.
+
+<Shot
+  src="segmentos-panel.png"
+  alt="El panel lateral de segmentos: arriba el árbol para elegir la rama y debajo los ejes demográficos —puesto, sexo, rango de edad y antigüedad— con el contador de respuestas del segmento."
+  caption="El segmento se arma en un panel al costado y la pantalla entera se recalcula."
+  ratio="1415 / 1068"
+/>
+
+## Se arma en dos capas
+
+**Capa 1 — el alcance.** Un nodo del árbol, y con él **todo su subárbol**. Es un solo
+valor: elegís «Región Norte» y estás mirando la región entera, con sus tiendas y sus
+departamentos.
+
+**Capa 2 — los filtros.** Sobre ese alcance, podés recortar por cuatro ejes:
+
+- **Puesto**
+- **Sexo**
+- **Rango de edad**
+- **Rango de antigüedad** en la empresa
+
+Cada eje admite **varias opciones a la vez**, y dejarlo vacío significa «todos».
+
+## Cómo se combinan
+
+Es la parte que hay que tener clara para no leer mal un número:
+
+**Dentro de un eje, las opciones se suman.** Elegir «cajero» y «repositor» en Puesto te
+da la gente que es una cosa **o** la otra.
+
+**Entre ejes, se restringe.** Puesto «cajero» más Sexo «mujer» te da las cajeras: hay
+que cumplir las dos condiciones, no una.
+
+O sea que **agregar opciones dentro de un eje agranda el grupo, y agregar ejes lo
+achica.** Suena obvio escrito y es la causa habitual de que un segmento se quede sin
+datos.
+
+## Los ejes demográficos no vienen de la nómina
+
+Esto importa y sorprende: el sexo, la edad y la antigüedad **no se importan del Excel
+de empleados**. Nacen de la propia boleta, al responder.
+
+Es exactamente lo que permite segmentar por demografía sin poder unir una respuesta con
+una persona. Si vinieran de la nómina, cruzar «mujeres, 30-40, Tienda Norte» contra el
+directorio daría nombres. Ver [Anonimato y N mínimo](/es/docs/anonymity) y
+[El Excel de la nómina](/es/docs/roster-format).
+
+## El puesto y la rama quedan congelados al responder
+
+El puesto y el nodo con los que una respuesta entra al análisis son **los que la persona
+tenía en el momento de responder**.
+
+Si alguien cambia de tienda seis meses después, los resultados del estudio anterior no
+se mueven. Es lo correcto: esa respuesta describe cómo se sentía esa persona **ahí**, y
+reasignarla al lugar nuevo reescribiría el pasado de las dos ramas.
+
+## Cuando el segmento sale oculto
+
+Es lo más frecuente al empezar a usar segmentos, y casi nunca es un error.
+
+Cada recorte tiene que juntar suficientes respuestas para superar el umbral de
+confidencialidad. Cruzar cuatro ejes a la vez sobre una rama mediana parte la muestra
+en celdas diminutas, y ahí el producto deja de publicar.
+
+**Qué hacer, en orden:**
+
+1. **Sacá un eje.** Casi siempre alcanza. «Cajeras de la Región Norte» suele existir;
+   «cajeras de 30 a 40 con más de cinco años en la Tienda Centro» casi nunca.
+2. **Subí el alcance.** El mismo cruce sobre la región en vez de sobre la tienda.
+3. **Agrupá opciones.** Dos rangos de edad contiguos en vez de uno.
+
+> **El aviso es el mismo siempre y no dice cuál de los motivos fue.** Es deliberado: el
+> motivo es información sobre el grupo escondido. No es un mensaje perezoso.
+
+## Cómo usarlo bien
+
+**Empezá ancho y andá cerrando.** Mirá la rama entera, encontrá la categoría floja, y
+recién ahí probá si se concentra en algún grupo. Al revés —arrancar con cuatro filtros
+puestos— te deja mirando resultados ocultos sin saber si el problema existe.
+
+**Usalo para confirmar, no para explorar.** Probar veinte cruces hasta que uno dé
+distinto no es un hallazgo: con suficientes intentos, alguno siempre da. Si tenés una
+hipótesis, el segmento la contesta; si no la tenés, el segmento te va a dar una
+casualidad.
+
+**El segmento manda en toda la pantalla.** El recorte que apliques se conserva al
+cambiar de pestaña, y los reportes que descargues salen **con ese segmento aplicado**.
+Si bajaste un archivo que no cuadra con lo que esperabas, mirá qué segmento tenías
+puesto.

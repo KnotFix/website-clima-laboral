@@ -1,8 +1,13 @@
+import Link from "next/link";
+
 import { LangSwitch } from "@/components/site/lang_switch";
 import { Container } from "@/components/site/container";
+import { LEGAL_NAV } from "@/content/legal/nav";
 import { site_config } from "@/lib/site_config";
 
-export function Footer({ lang, dict }) {
+// `section_base` funciona igual que en el navbar: vacio en la home (anclas de
+// esta pagina), "/es" o "/en" fuera de ella. Ver `navbar.jsx`.
+export function Footer({ lang, dict, section_base = "" }) {
   const year = new Date().getFullYear();
 
   return (
@@ -31,12 +36,18 @@ export function Footer({ lang, dict }) {
             {dict.nav_links.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={`${section_base}${link.href}`}
                 className="text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
               </a>
             ))}
+            <Link
+              href={`/${lang}/docs`}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {dict.nav_docs}
+            </Link>
           </nav>
         </div>
 
@@ -46,6 +57,29 @@ export function Footer({ lang, dict }) {
           </p>
           <LangSwitch lang={lang} dict={dict} />
         </div>
+
+        {/* Los legales van en su propia fila y ABAJO del ©, no mezclados con la
+            navegacion de secciones de arriba: no son parte del recorrido de
+            venta y ponerlos ahi le compite al unico camino que esa columna
+            tiene que dejar claro. Abajo es donde se los busca.
+
+            Los titulos salen de `LEGAL_NAV` y no del diccionario: son el mismo
+            texto que encabeza cada documento, y duplicarlo en `es.js` deja dos
+            fuentes que se separan en cuanto una cambie. */}
+        <nav
+          className="mt-4 flex flex-wrap gap-x-6 gap-y-2"
+          aria-label={dict.a11y_legal_nav}
+        >
+          {LEGAL_NAV.map((entry) => (
+            <Link
+              key={entry.slug}
+              href={`/${lang}/legal/${entry.slug}`}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {entry.title[lang]}
+            </Link>
+          ))}
+        </nav>
       </Container>
     </footer>
   );

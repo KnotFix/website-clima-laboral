@@ -1,6 +1,7 @@
 import { Elms_Sans, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 
+import { PageGrain } from "@/components/effects/page_grain";
 import { ThemeProvider } from "@/components/site/theme_provider";
 import { get_dictionary } from "@/lib/dictionaries";
 import { LOCALES, is_locale, site_config } from "@/lib/site_config";
@@ -37,7 +38,14 @@ export async function generateMetadata({ params }) {
   const dict = await get_dictionary(lang);
 
   return {
-    title: dict.meta_title,
+    // `template` es lo que le pone la marca al <title> de las paginas hijas:
+    // una doc exporta "Satisfaccion y Clima" y sale "Satisfaccion y Clima —
+    // Knotfix Clima". `default` es el de la home, que no declara titulo propio
+    // y por eso NO pasa por la plantilla (si no, diria la marca dos veces).
+    title: {
+      default: dict.meta_title,
+      template: `%s — ${site_config.brand} ${site_config.product}`,
+    },
     description: dict.meta_description,
     metadataBase: new URL(site_config.domain),
     alternates: {
@@ -75,13 +83,14 @@ export default async function RootLayout({ children, params }) {
           enableSystem
           disableTransitionOnChange
         >
-          {/* Luz de toda la pagina. Fija y detras del contenido: -z-10 la
-              deja sobre el fondo del body pero debajo de todo lo demas. */}
-          <div
-            aria-hidden="true"
-            className="page-light pointer-events-none fixed inset-0 -z-10"
-          />
+          {/* Aca vivia `PageLight`, la luz fija de toda la pagina. Se retiro
+              junto con el haz: hoy la atmosfera la pone la seda del hero, que
+              es del hero y no de la pagina. El resto del sitio va sobre el
+              fondo pelado. */}
           {children}
+          {/* El grano va ULTIMO y por encima de todo: es una propiedad de la
+              lente, no del fondo. */}
+          <PageGrain />
         </ThemeProvider>
       </body>
     </html>

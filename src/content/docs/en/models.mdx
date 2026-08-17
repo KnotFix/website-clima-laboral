@@ -1,0 +1,74 @@
+export const meta = {
+  title: "Theoretical models",
+  description:
+    "What a model is, why there is one per index rather than one overall, and what happens to your history if you change it.",
+};
+
+A **theoretical model** is the framework used to measure one of the two fixed
+sections. It defines which categories exist and how they combine into the index.
+
+It is not an aesthetic preference: it is the instrument. Changing it changes what gets
+asked and how the index is computed.
+
+## One per index, not one per questionnaire
+
+Each questionnaire points at **two** models: one for Satisfaction and one for Climate.
+
+That follows directly from the two indices being parallel and never combined. They are
+two different questions about the same people, so **choosing the theory behind one
+says nothing about the other**. See [Satisfaction and Climate](/en/docs/indices).
+
+## The catalog is global and you do not edit it
+
+Models ship with the product. There is no way to write your own system questions, and
+that is deliberate.
+
+Comparability rests on a strong claim: **two companies choosing the same model measure
+exactly the same thing, with the same instrument.** If every account could
+rewrite those questions, that claim could not be made about any pair of organizations
+— and cross-company comparison would go with it.
+
+The place for what is specific to your organization is Section 3, which is editable
+precisely so this never has to be. See
+[Questionnaires and inheritance](/en/docs/questionnaires).
+
+## Changing model starts from zero
+
+This is the part that surprises people, so it is worth knowing beforehand.
+
+**Results from one model do not mix with those from another.** An account that has
+measured Satisfaction with one model for three years and tries another does not see
+three years of history in the new one: it sees day one.
+
+That is correct. They are two different instruments, and joining their series would
+assert a trend between two things that were not measured the same way. In practice a
+model behaves like a separate space: each has its own history, and they are
+independent.
+
+> **Practical consequence: choose the model at the start and change it deliberately,
+> never to try it out.** A model change costs that index's history, and that cost is
+> not recoverable.
+>
+> If you want to see what another model looks like before committing, do it in a test
+> account, not the one that has been measuring.
+
+## A model is not deleted: it is retired
+
+When a model stops being offered it disappears from the selectors, but **nothing
+already measured is touched**. Studies measured with it keep their results, and their
+series still names it.
+
+It had to work this way: deleting it would leave published results with no way to say
+which instrument produced them, which is the same as not being able to interpret them.
+
+## The questionnaire decides, and it does so per branch
+
+The model belongs to the **questionnaire**, not the study. Since questionnaires are
+inherited per branch, two branches of the same company can be configured with
+different models.
+
+What **cannot** happen is one study measuring with two models at once: the index would
+be the average of two instruments, which is not a number that means anything.
+
+When you create a study, step 3 of the wizard shows you the model in force on that
+branch, already selected. Normally you confirm and move on.

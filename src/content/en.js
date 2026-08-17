@@ -10,6 +10,9 @@ const en = {
     { label: "Confidentiality", href: "#confidentiality" },
   ],
   nav_cta: "Start",
+  // Kept OUT of `nav_links`: the items in that list are anchors on the home
+  // page and `NavLinks` derives their id by cutting the "#". See `navbar.jsx`.
+  nav_docs: "Docs",
 
   // Hero
   hero_title: "Engaged teams always achieve extraordinary results",
@@ -330,17 +333,54 @@ const en = {
     "Create your account, upload your roster, and measure. No implementation project, no sales call.",
   final_cta_button: "Start free",
 
+  // Docs. Only the chrome lives here: the titles and prose of each page live
+  // in `src/content/docs/**.mdx` and in `docs/nav.js`. Putting long-form text
+  // in the dictionary becomes unmanageable by the tenth page.
+  docs_index_title: "Documentation",
+  docs_index_body:
+    "How Clima works underneath: the concepts you need to read a result correctly, and the guides for each module.",
+  docs_all_pages: "All pages",
+  docs_on_this_page: "On this page",
+  docs_prev: "Previous",
+  docs_next: "Next",
+
   // Footer
   footer_tagline: "Workplace climate measured by segment.",
   footer_rights: "All rights reserved.",
 
+  // Legal. Only the chrome lives here, same as docs: the text of each document
+  // lives in `src/content/legal/**.mdx`, and its title, version and date in
+  // `legal/nav.js` — which is also where the product's acceptance record reads
+  // them from.
+  // What's new. Each entry's prose lives in `src/content/changelog/en/*.mdx`
+  // —one per date—; only the page header and the link that offers it from the
+  // docs index live here.
+  changelog_title: "What's new",
+  changelog_body:
+    "What changed in Clima and when. Newest first; older entries are not rewritten.",
+  changelog_hint: "Looking for what changed, and when?",
+
+  legal_version: "Version",
+  legal_updated: "Updated",
+  legal_draft_title: "Draft, not reviewed by counsel",
+  legal_draft_body:
+    "This document has not yet been reviewed by a lawyer and is not in force. It is published so it can be worked on, not to be relied upon.",
+
   // Accessibility
   a11y_toggle_theme: "Toggle theme",
+  a11y_light_switch: "Switch the site between day and night",
   a11y_open_menu: "Open menu",
   a11y_close_menu: "Close menu",
   a11y_switch_lang: "Change language",
   a11y_main_nav: "Main navigation",
   a11y_mobile_nav: "Menu navigation",
+  a11y_legal_nav: "Legal documents",
+  // Three distinct names rather than one repeated: the docs pages hold the
+  // side tree, its collapsed mobile copy and the page index all at once. With
+  // the same accessible name a screen reader lists identical landmarks.
+  a11y_docs_nav: "Documentation pages",
+  a11y_docs_nav_mobile: "Documentation pages (collapsed)",
+  a11y_docs_toc: "Sections on this page",
   // The measurement rail only takes focus when it is NOT pinned: there it is
   // scrolled by hand, and without this there is no way to move it by keyboard.
   a11y_measurement_rail: "Measurement cards: scroll sideways",

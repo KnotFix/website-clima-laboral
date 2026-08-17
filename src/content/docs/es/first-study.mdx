@@ -1,0 +1,116 @@
+export const meta = {
+  title: "Los cuatro pasos antes del primer estudio",
+  description:
+    "De una cuenta vacía a una encuesta en la calle. El orden importa: cada paso necesita el anterior.",
+};
+
+Cuatro cosas, en este orden. **No es una sugerencia** — cada una necesita la
+anterior: sin árbol no hay dónde colgar empleados, y sin nodos no hay a qué asignar
+un cuestionario. Por eso los tres primeros viven juntos, como pestañas de
+Configuración, en vez de estar repartidos por el menú.
+
+## 1. El árbol
+
+Creás tu **nodo raíz** —con el nombre y el tipo que quieras— y de ahí colgás la
+estructura. La organización no aparece en el árbol: la raíz la ponés vos.
+
+<Shot
+  src="estructura-arbol.png"
+  alt="El módulo de Estructura con el árbol de una cuenta: el nodo raíz, sus áreas y los departamentos que cuelgan de una de ellas."
+  caption="Configuración → Estructura. El árbol se arma y se reordena arrastrando."
+  ratio="1387 / 768"
+/>
+
+Antes de subdividir mucho, leé
+[El árbol organizacional](/es/docs/org-tree): la forma que le des acá decide qué vas
+a poder comparar después, y ramas de muy poca gente producen resultados que no se
+van a poder publicar.
+
+## 2. La nómina
+
+Cada persona va en un nodo. Se cargan de a una o **se importan desde Excel**, que es
+lo razonable arriba de veinte personas.
+
+La importación va en tres tiempos —**analizar, previsualizar y recién ahí
+ejecutar**— para que veas qué va a pasar antes de que pase: cuántas filas entran,
+cuáles tienen problemas y qué se va a crear.
+
+<Shot
+  src="nomina-importar.png"
+  alt="El asistente de importación de nómina en el primer paso: el mapeo de cada columna del Excel a su campo y una muestra de las filas leídas."
+  caption="Nada se guarda hasta el último paso: el mapeo y la revisión ocurren antes."
+  ratio="956 / 1262"
+/>
+
+> **La nómina es la que decide a quién se le pregunta**, así que conviene que esté
+> al día antes de lanzar. Es también contra la que se cuenta el tope de personas de
+> tu plan (ver [Cuenta y plan](/es/docs/account-and-plan)).
+
+## 3. Las boletas
+
+La boleta es el cuestionario. Tiene el **núcleo común** —las preguntas que hacen
+comparables los resultados entre áreas y entre años— y las **preguntas propias** que
+le agregues.
+
+Se asigna a un nodo y **la heredan todos sus descendientes**. Eso es lo que evita
+asignarla tienda por tienda: se la pegás a la raíz y ya la tiene toda la empresa;
+después, si una rama necesita algo distinto, le asignás la suya y esa rama deja de
+heredar.
+
+<Shot
+  src="boletas-editor.png"
+  alt="El detalle de una boleta: arriba las dos secciones del núcleo común, cerradas con un candado, y debajo la lista de preguntas propias con su tipo de respuesta."
+  caption="Las dos primeras secciones son iguales en todas las cuentas que miden con el mismo modelo; la tercera es tuya."
+  ratio="1377 / 1303"
+/>
+
+Podés agregar preguntas de varios tipos, incluidas las **condicionales**: una
+dicotomía que, según la respuesta, abre una pregunta de seguimiento, y esa otra.
+
+## 4. El estudio
+
+Con el árbol, la gente y el cuestionario en su lugar, el estudio es lo fácil. Un
+asistente de cuatro pasos:
+
+1. **Información** — el nombre del estudio y las fechas.
+2. **Alcance** — qué nodo se mide (y con él, todo lo que cuelga), y con qué **nivel
+   de confianza**, que es lo que determina el tamaño de la muestra.
+3. **Modelo** — con qué modelo teórico se mide Satisfacción. Viene precargado con el
+   que rige en la boleta de esa rama, así que normalmente se confirma y se sigue.
+   Ver [Modelos teóricos](/es/docs/models).
+4. **Revisión** — el resumen de las tres decisiones antes de confirmar.
+
+<Shot
+  src="estudio-wizard.png"
+  alt="El asistente de creación de un estudio en el paso de alcance: el árbol para elegir el nodo, el resumen con la población elegible y el cálculo de la muestra mínima."
+  caption="Paso 2 de 4. Al elegir el nodo se calcula la muestra mínima para ese alcance."
+  ratio="1381 / 1235"
+/>
+
+Al confirmar se genera la **muestra**: no es un sorteo de nombres al azar, es un
+**muestreo estratificado**, que es lo que evita que un segmento quede
+sub-representado. La pantalla final te muestra la muestra real que salió.
+
+> **Al lanzar, el estudio se congela.** El alcance, el cuestionario y el umbral de
+> confidencialidad quedan fijos hasta que cierre. No es una limitación: si la
+> primera mitad de la gente contesta un cuestionario y la segunda otro, los dos
+> grupos se publican juntos como si fueran uno, y el resultado no significa nada.
+>
+> Mientras es **borrador** se puede cambiar todo. Después de lanzar, no.
+
+## Lo que viene después
+
+Cuando termina la recolección, finalizás el estudio y ahí se calculan y se
+persisten los resultados. De ese momento en adelante tenés los dos índices, el
+desglose por rama y por categoría, los segmentos, y —a partir del segundo estudio—
+la serie histórica.
+
+## Antes de lanzar, dos cosas
+
+**Avisale a tu gente.** Una encuesta que llega sin contexto tiene mala
+participación, y la participación es lo que decide cuántos resultados vas a poder
+publicar.
+
+**Revisá el umbral.** Si tu árbol tiene ramas chicas, mirá el número antes de medir
+y no después de que la mitad de los resultados salgan ocultos. Ver
+[Anonimato y N mínimo](/es/docs/anonymity).

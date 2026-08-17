@@ -14,9 +14,13 @@ function section_id_of(href) {
  * Es cliente porque necesita observar el scroll; el resto del navbar sigue
  * siendo Server Component.
  */
-export function NavLinks({ dict, class_name }) {
+export function NavLinks({ dict, class_name, section_base = "" }) {
+  // Con `section_base` no estamos en la home, asi que no hay ninguna de estas
+  // secciones en el documento y no hay nada que marcar como activo. Se le pasa
+  // una lista VACIA en vez de saltear el hook: los hooks no se llaman bajo
+  // condicion, y `useActiveSection` con cero ids ya no monta el observer.
   const active_id = useActiveSection(
-    dict.nav_links.map((link) => section_id_of(link.href)),
+    section_base ? [] : dict.nav_links.map((link) => section_id_of(link.href)),
   );
 
   return (
@@ -30,7 +34,7 @@ export function NavLinks({ dict, class_name }) {
         return (
           <a
             key={link.href}
-            href={link.href}
+            href={`${section_base}${link.href}`}
             aria-current={is_active ? "true" : undefined}
             className={cn(
               // nav-key trae el relieve 3D del hover y su propia transicion.

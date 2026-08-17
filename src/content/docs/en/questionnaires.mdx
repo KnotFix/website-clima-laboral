@@ -1,0 +1,79 @@
+export const meta = {
+  title: "Questionnaires and inheritance",
+  description:
+    "The three sections of the questionnaire, how it is inherited down a branch, and what a node's effective questionnaire is.",
+};
+
+The **questionnaire** has three sections, and they are not interchangeable: each one
+exists for a different reason.
+
+## The three sections
+
+**Section 1 — Satisfaction** and **Section 2 — Climate** are the **fixed sections**.
+You do not write those questions: they ship with the product, curated, and they are
+identical for every company measuring with the same theoretical model. That sameness
+is not convenience — **it is the comparability**. Two companies on the same model
+measure exactly the same thing, word for word.
+
+**Section 3** is yours. That is where your own questions go, the ones that make sense
+in your organization and nowhere else. It is the place designed for the particular,
+precisely so the first two never have to be touched.
+
+> **That is why Section 3 is editable and the other two are not.** If every company
+> could rewrite the system questions, there would be no way to claim two results are
+> comparable, and Section 3 would in effect become the whole instrument.
+
+## Inheritance
+
+A questionnaire is **assigned to a node, and every descendant inherits it**.
+
+That single rule is what makes a two-hundred-node organization manageable: assign it
+to the root and the whole company has it. If one branch later needs something
+different —a store with three of its own questions about the night shift— you assign
+it its own, and **that branch stops inheriting** from above.
+
+### The effective questionnaire
+
+It is the answer to «which questionnaire does this node actually get?»: the one
+assigned to it if it has one, and otherwise the one from the nearest ancestor that
+does.
+
+This is the concept that matters when something does not add up. A node rarely has its
+own questionnaire; what it has is an **effective** one, which may come from three
+levels up. If a branch is asking questions you did not expect, the right question is
+not «which one did I assign?» but «where is it inheriting from?».
+
+## Your own questions
+
+In Section 3 you can add questions of six types, and also **conditional blocks**: a
+question that, depending on the answer, opens another, and that one another.
+
+Nesting is not capped at one level. A block can go three deep:
+`Are you satisfied? → Why not? → Which part affects you most?`
+
+> **Deleting a question with children takes all of them, at any depth.** Before you
+> confirm, the product counts the descendants and tells you — from the list they are
+> invisible, because children display as ordinary questions.
+
+See [Question types](/en/docs/question-types) for the detail on each.
+
+## What cannot change, and when
+
+**While a study is collecting, its questionnaire is untouchable.** Neither the
+questions nor the assignment of the branch being measured.
+
+This is not administrative rigidity: if the questionnaire changes halfway, the first
+half of your people answered one thing and the second half another, and both groups
+get published together as if they were one. The number that comes out means nothing.
+
+For the same reason, if you want to fix a typo in a question, wait until the study
+closes.
+
+### Changing a question can break its series
+
+Editing a question **in a way that changes what it asks** makes its previous results
+no longer comparable with the new ones. The question stays alive and the old responses
+are not lost, but in historical charts the line splits into two segments that do not
+join.
+
+See [The historical series](/en/docs/history).

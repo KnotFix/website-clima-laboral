@@ -1,12 +1,13 @@
 import { ArrowRight } from "lucide-react";
 
-import { GridBackdrop } from "@/components/effects/grid_backdrop";
 import { HeroCover } from "@/components/effects/hero_cover";
+import { SilkBackdrop } from "@/components/effects/silk_backdrop";
 import { HeroTitle } from "@/components/home/hero_title";
 import { HeroVideo } from "@/components/home/hero_video";
 import { Reveal } from "@/components/motion/reveal";
 import { ScrollLift } from "@/components/motion/scroll_lift";
 import { Container } from "@/components/site/container";
+import { LightSwitch } from "@/components/site/light_switch";
 import { Button } from "@/components/ui/button";
 import { site_config } from "@/lib/site_config";
 
@@ -61,10 +62,25 @@ export function Hero({ dict }) {
         className="relative overflow-hidden pt-32 sm:pt-[max(8rem,calc(50svh_-_11.5rem))]"
         style={{ paddingBottom: HERO_EDGE }}
       >
-        <GridBackdrop show_glow={false} />
-        {/* Los fondos se pintan en orden de DOM: la reticula, encima el pie
-            opaco que se disuelve en niebla, y arriba de todo el Container. */}
+        {/* La seda es el fondo del hero, y por eso aca no hay `GridBackdrop`:
+            la reticula de puntos sobre la tela son dos texturas peleando por el
+            mismo plano. Sigue viva en el CTA final, que no tiene seda. */}
+        <SilkBackdrop />
+        {/* Los fondos se pintan en orden de DOM: la seda, encima el pie opaco
+            que se disuelve en niebla, y arriba de todo el Container. La niebla
+            es ademas lo que entrega la tela al fondo liso de la pagina: sin
+            ella el hero terminaria en un corte recto entre seda y hueso. */}
         <HeroCover height={HERO_LIFT * 2} fog={HERO_EDGE} />
+
+        {/* El interruptor de la luz. Va centrado y arriba, en el hueco que
+            queda entre el pie del navbar (72px con su `pt-2`) y el arranque del
+            titular, que en movil es `pt-32` (128px) y en escritorio mucho mas
+            abajo. Es el unico tramo del hero donde un objeto no le pisa nada a
+            nadie. */}
+        <LightSwitch
+          dict={dict}
+          class_name="absolute left-1/2 top-[5.5rem] size-8 -translate-x-1/2 sm:size-10"
+        />
         <Container class_name="relative">
           <div className="mx-auto max-w-6xl text-center">
             {/* El titular entra palabra por palabra; el subtitulo y los CTA

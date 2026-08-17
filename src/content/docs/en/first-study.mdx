@@ -1,0 +1,113 @@
+export const meta = {
+  title: "The four steps before your first study",
+  description:
+    "From an empty account to a survey in the field. The order matters: each step needs the one before it.",
+};
+
+Four things, in this order. **It is not a suggestion** — each one needs the previous:
+without a tree there is nowhere to put employees, and without nodes there is nothing
+to assign a questionnaire to. That is why the first three live together as tabs of
+Configuration instead of being scattered across the menu.
+
+## 1. The tree
+
+You create your **root node** —with whatever name and type you want— and hang the
+structure off it. The organization itself never appears in the tree: you place the
+root.
+
+<Shot
+  src="estructura-arbol.png"
+  alt="The Structure module with an account's tree: the root node, its areas, and the departments hanging from one of them."
+  caption="Configuration → Structure. The tree is built and reordered by dragging."
+  ratio="1387 / 768"
+/>
+
+Before subdividing much, read [The org tree](/en/docs/org-tree): the shape you give it
+here decides what you will be able to compare later, and branches with very few
+people produce results that will never be publishable.
+
+## 2. The roster
+
+Each person goes in a node. You add them one by one, or **import from Excel**, which
+is the sane option above twenty people.
+
+The import happens in three beats —**analyze, preview, and only then execute**— so
+you see what is going to happen before it happens: how many rows go in, which ones
+have problems, and what will be created.
+
+<Shot
+  src="nomina-importar.png"
+  alt="The roster import wizard at its first step: mapping each spreadsheet column to its field, with a sample of the rows that were read."
+  caption="Nothing is saved until the last step: mapping and review happen before that."
+  ratio="956 / 1262"
+/>
+
+> **The roster decides who gets asked**, so it is worth having it current before you
+> launch. It is also what your plan's headcount allowance is counted against (see
+> [Account and plan](/en/docs/account-and-plan)).
+
+## 3. The questionnaires
+
+The questionnaire has the **common core** —the questions that make results comparable
+across areas and across years— plus whatever **own questions** you add.
+
+It is assigned to a node and **all of its descendants inherit it**. That is what
+saves you from assigning it store by store: attach it to the root and the whole
+company has it; later, if one branch needs something different, you assign it its own
+and that branch stops inheriting.
+
+<Shot
+  src="boletas-editor.png"
+  alt="A questionnaire's detail: the two common-core sections at the top, locked, and the list of own questions below with their answer type."
+  caption="The first two sections are identical across every account measuring with the same model; the third one is yours."
+  ratio="1377 / 1303"
+/>
+
+You can add questions of several types, including **conditional** ones: a yes/no that,
+depending on the answer, opens a follow-up question, and that one another.
+
+## 4. The study
+
+With the tree, the people and the questionnaire in place, the study is the easy part.
+A four-step wizard:
+
+1. **Information** — the study's name and dates.
+2. **Scope** — which node gets measured (and with it, everything below), and at what
+   **confidence level**, which is what determines the sample size.
+3. **Model** — which theoretical model measures Satisfaction. It arrives preloaded
+   with the one in force on that branch's questionnaire, so normally you confirm and
+   move on. See [Theoretical models](/en/docs/models).
+4. **Review** — the summary of all three decisions before confirming.
+
+<Shot
+  src="estudio-wizard.png"
+  alt="The study wizard at the scope step: the tree to pick the node, the summary with the eligible population, and the minimum sample calculation."
+  caption="Step 2 of 4. Picking the node computes the minimum sample for that scope."
+  ratio="1381 / 1235"
+/>
+
+On confirmation the **sample** is generated: not a random draw of names, but
+**stratified sampling**, which is what keeps a segment from being under-represented.
+The final screen shows you the actual sample that came out.
+
+> **On launch, the study freezes.** Scope, questionnaire and confidentiality threshold
+> are fixed until it closes. This is not a limitation: if the first half of your people
+> answer one questionnaire and the second half another, both groups get published
+> together as if they were one, and the result means nothing.
+>
+> While it is a **draft** everything can change. After launch, nothing.
+
+## What comes after
+
+When collection ends, you finalize the study and that is when results are computed and
+stored. From then on you have both indices, the breakdown by branch and by category,
+the segments, and —from the second study onward— the historical series.
+
+## Two things before you launch
+
+**Tell your people.** A survey that arrives with no context gets poor participation,
+and participation is what decides how many results you will be able to publish.
+
+**Check the threshold.** If your tree has small branches, look at the number before
+measuring rather than after half the results come out hidden. See
+[Anonymity and minimum N](/en/docs/anonymity).

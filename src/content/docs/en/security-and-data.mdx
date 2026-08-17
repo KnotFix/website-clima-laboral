@@ -1,0 +1,132 @@
+export const meta = {
+  title: "Security and data",
+  description:
+    "Where your data lives, who can see it, what not even we can see, how long it is kept and what happens when you leave.",
+};
+
+This page is for the security, IT or legal team that has to approve the tool. It is
+written to be read in full before signing, and it also states what we **don't** have.
+
+The binding terms are in the [Privacy policy](/en/legal/privacy) and the
+[Data processing addendum](/en/legal/dpa). If something here and something there seem to
+disagree, **the legal document wins**.
+
+## Two sets of data, and we don't play the same role in both
+
+Almost everything else follows from this distinction.
+
+**Account data** is your organization's and its administrators': name, email, role. Here
+Knotfix is the **controller**.
+
+**Measurement data** is your roster and your people's answers. Here **you are the
+controller**: you choose who is measured, what is asked and what the result is used for.
+Knotfix processes it on your behalf and under your instructions, never for its own ends.
+**It is not used to train models, to build cross-client benchmarks, or for any purpose of
+ours.**
+
+## Where it lives
+
+The application and the database run in the **United States**. The complete, current list
+of providers with their countries lives in the [Privacy policy](/en/legal/privacy) —that
+is the authoritative one—; this is the summary:
+
+| Provider | What for | Country |
+|---|---|---|
+| Hostinger | The server the application runs on | United States |
+| Supabase | The database: roster, answers and results | United States |
+| Clerk | Identity: email, password and second factor | United States |
+| Resend | Sending the invitations to answer | United States |
+| Cloudflare R2 | Your organization's logo | United States |
+| ONVOPay | Payments | Costa Rica |
+| Allegra | Electronic invoicing before the tax authority | Costa Rica |
+
+> **Changing a provider on that list comes with notice**, not silently: the terms set 30
+> days ahead.
+
+## Who can see what
+
+Access is cut along two axes at once, and both are enforced **on the server**, on every
+query:
+
+- **By organization.** No query can reach another client's data. It is not a filter the
+  screen applies: it is the cut the database makes before returning anything, and if it is
+  missing, **it doesn't return more — it returns nothing**.
+- **By branch.** A person can be given access to part of the tree —one plant, one region—
+  and from there they cannot see the rest, neither on screen nor in a downloaded report.
+
+There are four roles, explained in [Roles and permissions](/en/docs/roles). There is
+**exactly one account owner**, and some things only they can touch: subscribing,
+cancelling, and moving the confidentiality threshold.
+
+## What nobody can see, us included
+
+This is the part that makes the instrument work, and it is not a promise of good faith:
+these are properties of how it is built.
+
+**An answer cannot be traced back to a person.** Who took part and what was answered are
+stored **with no relationship between them**, and an answer's date is stored without a
+time precisely so they cannot be matched by arrival order either. There is no screen, no
+report and no support query that shows "so-and-so's answers", because the piece of data
+that would be needed to build one is not stored anywhere.
+
+**Small groups are not published.** There is a minimum number of people below which a
+result is not shown — not on screen, not in a spreadsheet, not in a PDF. **No role
+unlocks it**: not the account owner, not Knotfix support. There is no setting to turn it
+off. It is explained in [Anonymity and minimum N](/en/docs/anonymity).
+
+**Your card never touches our servers.** Payment details are entered against the processor
+and travel from the browser to it; we receive the outcome, never the number.
+
+**Passwords are not in our database.** Identity is handled by Clerk, second factor
+included. We store which organization each person belongs to and with what role, not how
+they authenticate.
+
+## Encryption, access and logging
+
+- **In transit**, all traffic is TLS-encrypted, both the application and the API.
+- **At rest**, the database and the file storage are encrypted by their providers.
+- **Direct access to the production database is held by one person**, Knotfix's owner,
+  bound by the duty of confidentiality of article 11 of Law 8968, which survives the end
+  of the relationship.
+- **Result queries are logged** —who queried, on which study and with what filter—. That
+  log **does not store the values queried**: storing what the anonymity rule hides would
+  be the rule defeated by its own audit trail.
+
+## How long it is kept, and what happens when you leave
+
+**An expired account is not deleted on its own.** When the trial or the subscription ends,
+the account becomes **read-only**: what was already measured can still be consulted and
+downloaded, and nothing new can be written. It stays that way until you ask for closure.
+
+When you do, two clocks start: **30 days to export** your information in a commonly used
+format, and **irreversible deletion within the 90 days** following closure, backups
+included, except for what a legal obligation requires us to keep (invoicing has its own
+tax-law period).
+
+The details and the exceptions are in the
+[Data processing addendum](/en/legal/dpa).
+
+## Incidents
+
+No set of measures makes a system invulnerable. If an incident affecting personal data
+occurs, we notify whoever must be notified **without delay and at the latest within 72
+hours** of detecting it, with whatever we know at that point — we do not wait for the full
+picture before telling you.
+
+To report a security problem: **knotfixservice@knotfix.com**. If it is a vulnerability,
+write to us before publishing it and we will get back to you.
+
+## What we do NOT have
+
+Saying so is part of the answer, and it is what a security team values more than a list of
+virtues.
+
+- **We hold no certifications.** Neither ISO 27001 nor SOC 2. Knotfix is a small operation
+  and those audits have not been done. What we can provide is the answers on this page in
+  writing and a signed data processing addendum.
+- **There is no public API.** There is no way for a third party to query your data: the API
+  is internal and only the application itself consumes it.
+- **There are no integrations reading your information.** No product analytics, no
+  cross-site tracking, no advertising pixels — neither in the application nor on this site.
+- **Support has no side door into your results.** Support sees what any query sees: nothing
+  that the anonymity rule hides.

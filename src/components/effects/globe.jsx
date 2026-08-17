@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
  * de las variables CSS: no hay nada que las lea del otro lado. Son los mismos
  * valores del sistema, escritos en la unidad que entiende el shader.
  *
- *   claro   base #ebebee   marca #5b21b6   halo #d6d5d1 (el hueso del fondo)
+ *   claro   base #ebebee   marca #5b21b6   halo #e4e3df (el hueso del fondo)
  *   oscuro  base #292630   marca #8b5cf6   halo #0b0a0f
  *
  * El halo tiene que ser EXACTAMENTE el fondo de la pagina: es el resplandor que
@@ -28,7 +28,7 @@ const PALETTES = {
     base_color: [0.922, 0.922, 0.933],
     marker_color: [0.357, 0.129, 0.714],
     arc_color: [0.357, 0.129, 0.714],
-    glow_color: [0.839, 0.835, 0.82],
+    glow_color: [0.894, 0.89, 0.875],
   },
   dark: {
     // La esfera va bastante mas clara que el fondo (#4a4655 contra #0b0a0f).

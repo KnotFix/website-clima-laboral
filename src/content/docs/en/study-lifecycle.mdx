@@ -1,0 +1,106 @@
+export const meta = {
+  title: "A study's states",
+  description:
+    "Draft, in progress and finished: what can change in each, and why the product sometimes will not let you edit.",
+};
+
+A study goes through **three states**, and each one allows something different. Almost
+every time the product will not let you touch something, the answer is here.
+
+## Draft
+
+Every study is born here, and in this state **everything can change**: the name, the
+dates, the scope, the model. The wizard resumes where you left it, and a draft can be
+re-edited in full through all four steps, not just its name.
+
+A draft asks nobody anything. It does not exist for employees.
+
+## Launching
+
+The transition from draft to in progress. Two things are required: the **sample must
+already be generated**, and your plan must allow it (see
+[Account and plan](/en/docs/account-and-plan)).
+
+**On launch, three things freeze until the study closes:**
+
+- **The scope.** Which node is measured and, with it, everything below.
+- **The instrument.** Each branch's questionnaire and its questions. You also cannot
+  reassign the questionnaire of a branch this study is measuring.
+- **The confidentiality threshold.** The one in force is locked in. Changing it later
+  does not touch this study.
+
+At that same moment the period's **targets are set**. See
+[Improvement targets](/en/docs/targets).
+
+> **The freeze is not administrative rigidity: it is what makes the result mean
+> something.** If the questionnaire changes halfway, the first half of your people
+> answered one thing and the second half another, and both groups get published
+> together as if they were one.
+>
+> Practical corollary: **change anything you want to change while it is a draft.** After
+> launch, the only way out is waiting for it to close.
+
+## In progress
+
+The study is collecting. Here is the part that surprises people most:
+
+> **A study in progress shows NO results. Only progress.**
+
+They are not hidden by the threshold: they are not computed. Results are produced on
+finalization, and until then what exists is participation.
+
+And that is deliberate. Looking at partial results of a climate survey invites
+conclusions about whoever answered first, and those are never a sample of anyone —
+they are the most motivated, or whoever was at the tablet at nine in the morning.
+
+### What you do see
+
+**Collection progress**: how many people have responded, broken down by node, plus the
+pace and an estimate of when it closes.
+
+Progress is **not subject to the confidentiality threshold**. The threshold protects
+survey results, not progress: knowing that three out of four people in a store responded
+says nothing about what they answered.
+
+### Each person's state
+
+| State | What it means |
+|---|---|
+| **Pending** | In the sample, not yet asked |
+| **Assigned** | The email invitation has been sent |
+| **Responding** | Answering right now at a tablet |
+| **Completed** | Has responded |
+| **Unavailable** | Left the company or was substituted |
+
+> **«Unavailable» is what keeps collection from staying open forever.** Someone who has
+> left will never respond; if they kept counting as pending, the study would never
+> reach the end. Marking them removes them from the expected without inventing an
+> answer they never gave.
+
+## Finished
+
+On finalization, results are **computed and stored**. From then on you have both indices
+per branch, the breakdown by category, segments, and —from the second study onward— the
+historical series.
+
+Results are **persisted**, not recomputed every time you open the screen. That is what
+makes a result published last year still say the same thing today, even if you have
+since reorganized the tree or moved people between nodes.
+
+## Summary
+
+| | Draft | In progress | Finished |
+|---|---|---|---|
+| Edit scope and model | Yes | No | No |
+| Edit that branch's questionnaire | Yes | No | No |
+| See participation progress | — | Yes | Yes |
+| See results | No | **No** | Yes |
+| Counts toward history | No | No | Yes |
+
+## If the product will not let you do something
+
+Before hunting for a permission, check the state. The two usual causes are that the
+study has already launched, or that your role does not write to that resource — and they
+are easy to tell apart: if it is the state, the button is there but fails or warns; if it
+is the role, **the button does not exist**. See
+[Roles and permissions](/en/docs/roles).

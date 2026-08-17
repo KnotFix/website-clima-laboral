@@ -10,15 +10,29 @@ Dueño: `architect`. Si necesitás un nombre que no está, se lo pedís; no lo i
 ```
 src/
   proxy.js                      "/" -> "/es" segun Accept-Language      [programmer]
+  mdx-components.js             enganche que @next/mdx exige por convencion.
+                                Guion medio y en la raiz de src/: lo fija
+                                Next, igual que page.js. El mapa real esta en
+                                components/docs/mdx_components.jsx      [programmer]
   app/
     globals.css                 tokens + @theme inline                  [programmer]
     layout.js                   NO existe: el layout raiz vive en [lang]
     [lang]/
-      layout.js                 <html lang>, fuentes, tema, .page-light [programmer]
+      layout.js                 <html lang>, fuentes, tema, <PageLight>.
+                                El title lleva `template`: de ahi sale que las
+                                docs terminen en "— Knotfix Clima"      [programmer]
       page.js                   home: compone las secciones. El envoltorio
                                 con bg-background corta la luz bajo el video
                                                                         [programmer]
       not-found.js              404                                     [programmer]
+      docs/
+        page.js                 indice de la documentacion              [programmer]
+        [...slug]/page.js       una pagina de doc. dynamicParams=false y
+                                generateStaticParams desde DOCS_NAV     [programmer]
+      legal/
+        [slug]/page.js          un documento legal. `[slug]` y no catch-all:
+                                la lista es plana. dynamicParams=false y
+                                generateStaticParams desde LEGAL_NAV    [programmer]
   components/
     site/
       container.jsx             ancho maximo 1200 (UNICO lugar)         [programmer]
@@ -28,6 +42,10 @@ src/
       mobile_menu.jsx           Sheet para < md                         [programmer]
       theme_provider.jsx        wrapper cliente de next-themes          [programmer]
       theme_toggle.jsx          claro/oscuro                            [programmer]
+      light_switch.jsx          <LightSwitch>: el sol del hero. Mismo cambio
+                                de tema que theme_toggle, sin etiqueta y
+                                solo en la home. Se ve por `.sun-switch`
+                                                                        [programmer]
       lang_switch.jsx           es/en                                   [programmer]
       footer.jsx                                                        [programmer]
     home/
@@ -73,6 +91,21 @@ src/
     effects/
       glass_bar.jsx             cascara de vidrio del navbar            [creative]
       grid_backdrop.jsx         fondo de puntos + resplandor            [creative]
+      page_grain.jsx            <PageGrain>: el grano de pelicula de
+                                toda la pagina, corriendose a 12 fps    [creative]
+      section_glow.jsx          <SectionGlow>: ENVUELVE una seccion y le
+                                da una direccion de luz. Resuelve el
+                                apilado (`isolate` + `-z-10`) por vos   [creative]
+      god_lights_layer.jsx      <GodLightsLayer>: la maquinaria de una
+                                luz de canvas (godlights) — tema,
+                                resolucion, animacion, medida. No sabe
+                                de composicion                          [creative]
+      page_light.jsx            <PageLight>: la luz FIJA de toda la
+                                pagina + el lavado de `.page-light`     [creative]
+      hero_particles.jsx        <HeroParticles>: el polvo que sube en el
+                                hero, en canvas. Se mide a si mismo, se
+                                para fuera de pantalla, color de `--spark`
+                                                                        [creative]
       hero_cover.jsx            pie opaco del hero + la niebla del pie  [creative]
       stack_backdrop.jsx        degradado del problema                  [creative]
       ruler_marks.jsx           <RulerMarks>: cota con marcas           [creative]
@@ -85,16 +118,63 @@ src/
       system_shots.jsx          las CUATRO maquetas del sistema del
                                 analisis: <CrossShot>, <WeightsShot>,
                                 <CompareShot> y <ThresholdShot>         [creative]
+    docs/
+      docs_layout.jsx           marco de las docs: navbar, sidebar, contenido,
+                                indice y pie. Es un COMPONENTE y no un
+                                layout.js — ver el bloque de las docs  [programmer]
+      docs_sidebar.jsx          el arbol de DOCS_NAV, con la activa marcada
+                                                                        [programmer]
+      docs_toc.jsx              indice de la pagina, de los h2/h3       [programmer]
+      docs_pager.jsx            anterior/siguiente en el orden de DOCS_NAV
+                                                                        [programmer]
+      mdx_components.jsx        mapa de etiquetas HTML a los tokens del sitio.
+                                SIN @tailwindcss/typography             [programmer]
+      doc_shot.jsx              <Shot>: una captura del producto. Si el archivo
+                                no esta dibuja un HUECO con el nombre que falta,
+                                en vez de romper el build. Se usa en los .mdx
+                                sin importarlo                          [programmer]
+    legal/
+      legal_layout.jsx          el marco de un documento legal: cabecera con
+                                version + fecha, aviso de borrador, una sola
+                                columna. Sin sidebar ni indice — un legal no
+                                es un recorrido                         [programmer]
     ui/                         shadcn — NO SE TOCA
   content/
     es.js                       copy espanol                            [programmer]
     en.js                       copy ingles, MISMAS llaves              [programmer]
+    docs/
+      nav.js                    DOCS_NAV: el arbol de la documentacion.
+                                FUENTE UNICA del orden                  [architect]
+      es/*.mdx                  las paginas, en prosa                   [programmer]
+      en/*.mdx                  idem, MISMOS slugs                      [programmer]
+    legal/
+      nav.js                    LEGAL_NAV: slug, titulo, VERSION, fecha y
+                                `draft` de cada documento. FUENTE UNICA —
+                                de aca los lee tambien el registro de
+                                aceptacion del producto                 [architect]
+      es/*.mdx                  privacy, terms, dpa                     [programmer]
+      en/*.mdx                  idem, MISMOS slugs                      [programmer]
   lib/
     utils.js                    cn() — lo genero shadcn
     dictionaries.js             get_dictionary(lang), LOCALES           [programmer]
     site_config.js              marca, links, constantes                [programmer]
+    docs.js                     resolve_doc(), headings_of(). Lee el .mdx
+                                CRUDO con fs para el indice             [programmer]
+    legal.js                    resolve_legal(). Mas corto que docs.js: sin
+                                indice, no hace falta releer el .mdx    [programmer]
 docs/
   architecture.md               este archivo                            [architect]
+  legal.md                      los tres documentos legales: que falta
+                                completar antes de que rijan, y la
+                                ESPECIFICACION del registro de aceptacion
+                                que implementa el otro proyecto (la app)
+                                                                        [architect]
+  documentation.md              la seccion de docs del producto: por que
+                                vive aca y no en Docusaurus, su FRONTERA
+                                con el /ayuda del SaaS, la estructura de
+                                contenido y el registro de nombres de
+                                DOCS_NAV. El esqueleto ya esta en pie;
+                                el contenido se escribe de a poco       [architect]
 ```
 
 **Reglas de estructura**
@@ -103,6 +183,14 @@ docs/
 - `hero_visual.jsx` **se retiró**. Las tres tarjetas de gráficos eran una maqueta dibujada a mano, y el hero ahora muestra el producto en video. Con ella se fueron las llaves `hero_visual_*` del diccionario y el primer uso de `Tilt`; hoy la primitiva la consumen **las tarjetas de `problem.jsx`**.
 - El ancho de 1200px existe **únicamente** en `container.jsx`. Un `max-w-[1200px]` en cualquier otro archivo es un error.
 - `src/components/ui/**` se deja tal como vino del registro shadcn.
+- **Las docs no tienen `layout.js`, y es a propósito.** Un layout de App Router recibe los params de
+  **su** segmento: `app/[lang]/docs/layout.js` conocería `lang` y nunca el `slug` de la catch-all de
+  abajo, así que no podría marcar la página activa en la barra lateral. `DocsLayout` es un componente
+  que llaman las dos rutas. Es además el mismo patrón que ya usa la home — `page.js` monta `Navbar` y
+  `Footer`, y el layout raíz solo pone `<html>`, el tema y la luz.
+- **El detalle de la sección de docs vive en `documentation.md`**, no acá: la frontera con el
+  `/ayuda` del producto, el alcance de idiomas, por qué no se versiona y el registro de nombres de
+  `DOCS_NAV`. Este archivo tiene el mapa; aquel tiene las reglas.
 
 > **`next dev` no recarga en caliente `src/content/*.js`.** Los componentes sí,
 > los diccionarios no: llegan por un `import()` dinámico dentro de
@@ -221,6 +309,12 @@ Planas por sección, con prefijo de sección. **`es.js` y `en.js` tienen exactam
 ```
 nav_links[]        { label, href }   href es un ancla: "#how"
 nav_cta            "Empezar"
+nav_docs           el link a la documentacion. SUELTO y no dentro de
+                   nav_links: esa lista son anclas y NavLinks les saca el id
+                   cortando el "#". Ver documentation.md
+docs_*             el chrome de la seccion de docs (indice, plegado de movil,
+                   "En esta pagina", anterior/siguiente). La PROSA vive en
+                   src/content/docs/**.mdx, nunca aca
 hero_title             version PLANA, la que usan los metadatos
 hero_title_segments[]  { text, tone } | { face: true } | { weather: true }
 hero_subtitle
@@ -266,12 +360,20 @@ footer_tagline
 footer_rights
 
 a11y_toggle_theme
+a11y_light_switch      nombre del sol del hero. Distinto a proposito de
+                       a11y_toggle_theme: el disco no dice "tema", dice de
+                       que hora es la escena
 a11y_open_menu
 a11y_close_menu
 a11y_switch_lang
 a11y_main_nav          nav de escritorio
 a11y_mobile_nav        nav del Sheet — nombre distinto a proposito: dos
                        landmarks con el mismo nombre accesible son ambiguos
+a11y_docs_nav          sidebar de las docs
+a11y_docs_nav_mobile   su copia plegada de movil
+a11y_docs_toc          indice de la pagina de doc
+                       — los tres, por lo mismo que a11y_mobile_nav: en una
+                       pagina de docs hay TRES navs a la vez
 a11y_skip_to_content   enlace para saltar al <main id="main">
 a11y_measurement_rail  nombre del riel de la medicion. Solo se usa cuando NO
                        esta clavado: ahi el riel recibe el foco y se recorre
@@ -327,28 +429,248 @@ Van aparte de `--surface` porque `--surface` lo comparte `glass_panel.jsx`.
 | `--background` | **blanco hueso `#d6d5d1` en TODA la página**, no solo el hero. Las tarjetas siguen en `--card` blanco y por eso se levantan |
 | `--hero-title-muted` | gris de las palabras apagadas del titular. Texto grande, así que le alcanza 3:1 (AA large) |
 | `--signal-*` | `good` / `warn` / `bad` / `cloud` / `rain`: los colores de las fichas |
-| `.page-light` | destellos diagonales + lavado blanco de arriba abajo, **en gradientes CSS** |
+| `<GodLightsLayer>` | la maquinaria: recibe `halos` y `rays`, y resuelve tema, resolución, animación y medida. **No sabe de composición** |
+| `<PageLight>` | la luz de la página: dos abanicos de rayos + dos halos, en **canvas** con `godlights` |
+| `halos` / `rays` | prop array | las capas de una escena. **Tienen que ser constantes de módulo**: un array nuevo por render rearma la escena y redibuja el lienzo |
+| `.page-light` | lo que queda en CSS: **solo** el lavado de arriba abajo, que hace de piso. Cálido, no blanco |
+| `.light-handoff` | el fondo propio de todo lo que va abajo del video. Entra desde transparente: es lo que apaga la luz de a poco |
+| `LIGHT_RAY_COLOR` | const string | el marrón cálido con el que se dibuja la sombra de los rayos en tema claro |
+| `LIGHT_HALO_COLOR` | const string | el dorado del foco en tema claro. En oscuro el foco es `#ffffff` y no hay constante |
+| `<HeroParticles>` | el polvo que sube en el hero. Canvas propio, sin props: se mide a sí mismo |
+| `--spark` | color de una mota de polvo. Dorado en claro, blanco helado en oscuro |
+| `<LightSwitch>` | el sol: cambia el tema al apretarlo. Vive en `site/` con `theme_toggle`, porque es un control y no un adorno |
+| `.sun-switch` | todo su aspecto: disco, núcleo, las tres capas de resplandor y el aura que respira |
+| `--sun` / `--sun-core` / `--sun-glow` | disco, centro caliente y resplandor. **Es un solo objeto con dos horas**: la geometría no cambia entre temas, solo estos tres |
+| `<PageGrain>` | grano de película sobre toda la página, **animado**. Capa fija, `z-70` |
+| `.page-grain` | la MEZCLA, en el envoltorio fijo |
+| `.page-grain-texture` | el DIBUJO (`feTurbulence` en data-URI), en el div que se traslada |
+| `--grain-opacity` / `--grain-blend` | cuánto pesa el grano y con qué se mezcla. Van juntos: el número no significa nada sin el modo |
+| `TILE_SIZE` | const number | lado del mosaico de ruido, en px. Es también el tope del corrimiento |
+| `FRAME_MS` | const number | cada cuánto se corre el grano. 12 cuadros por segundo |
 
-`.page-light` se monta como una capa **fija a pantalla completa** en el layout,
-no como fondo de una sección: así los destellos conservan tamaño y ángulo al
-scrollear (como fondo de un elemento de 5000px se estirarían). Es un div fijo y
-no `background-attachment: fixed` porque eso repinta en cada scroll y iOS Safari
-lo trata mal.
+> **El grano se mueve, y el movimiento es un `transform`, no un canvas.** La
+> versión de Framer que inspiró esto redibuja ruido nuevo en un canvas cada
+> cuadro. No hace falta: **la textura es ruido, así que correrla ya se ve como
+> ruido nuevo.** Se genera un solo mosaico y cada cuadro se lo traslada a un
+> punto al azar dentro de él; el navegador solo recompone una capa ya
+> promocionada. Por eso el div de adentro es `inset: -TILE_SIZE`: si midiera lo
+> mismo que la pantalla, al correrlo asomaría el borde. Y por eso el mosaico
+> lleva `stitchTiles='stitch'` — se corre sobre sí mismo.
+>
+> **12 cuadros por segundo y no 60.** El grano de película va a la velocidad de
+> la película, no a la del monitor: a 60 el ruido se promedia en el ojo y se
+> convierte en una niebla gris quieta. **Más cuadros se ve menos.** De paso
+> cuesta cinco veces menos. Con `prefers-reduced-motion` el grano se queda
+> quieto pero **no se apaga**: la textura es lo que saca a la página de la
+> sensación de plano, y eso no es movimiento — lo que molesta es el hervor.
 
-> **La luz llega hasta el video y ahí se corta.** De ahí para abajo la página va
-> en gris pelado. Como la capa es **fija**, no se puede "terminar" en un punto
-> del documento: lo que la corta es que de ahí para abajo haya fondo propio. El
-> envoltorio de `page.js` y el `<footer>` llevan `bg-background`, que es opaco y
-> del mismo color, así que tapan la capa sin cambiar de tono.
+> **El modo de mezcla cambia con el tema.** `overlay` conserva el tono de abajo
+> en vez de lavarlo hacia el gris, que es lo que hace que el grano se lea como
+> grano y no como una veladura. Pero su fórmula para un fondo oscuro es `2 *
+> base * ruido`: sobre el casi negro del tema oscuro (11/255) el resultado no
+> llega ni a 20, o sea que el grano **desaparece**. Ahí se usa mezcla común, que
+> sobre negro levanta el ruido en vez de multiplicarlo por un fondo que ya es
+> cero. Es la misma asimetría que la de los rayos: en claro se resta, en oscuro
+> se suma.
+>
+> Las dos clases están separadas por una razón concreta: `mix-blend-mode` mezcla
+> contra el contexto de apilado del **padre**. Puesto en el div que se traslada,
+> el contexto sería el envoltorio fijo —que está vacío— y no se mezclaría con la
+> página. O sea, no haría nada.
+| `.section-band` | cambia el valor del fondo de un tramo, con los bordes desvanecidos **y en diagonal** |
+| `--band` | el color de la banda: más oscuro que el fondo en claro, más claro en oscuro |
+| `.section-seam` | la línea que separa una sección de la siguiente. **Reemplaza a `border-t border-border`, que en claro no se ve** |
+| `<SectionGlow>` | envuelve una sección y le da una dirección de luz. Resuelve el apilado por vos |
+| `side` | prop `"left"` \| `"right"` | de qué costado cae el modelado. **Alterna sección a sección** |
+| `.section-glow` / `--glow` | el dibujo del resplandor y su color: el fondo movido hacia el color del texto |
+| `--panel` / `bg-panel` | la cara de un panel grande. A mitad de camino entre el fondo y `--card` |
+
+> **El lienzo del organigrama no tenía fondo: era el hueso de la página con un
+> borde.** Se leía como un hueco, no como una superficie. Ahora lleva `bg-panel`.
+>
+> `--panel` va a **mitad de camino** entre el fondo y `--card`, y ninguno de los
+> dos extremos servía: en `--card` pelado sería blanco puro y las cajas del
+> organigrama —que también son `--card`— desaparecerían dentro de él. En el medio
+> el panel se levanta del fondo (228 → 242, y contra la banda de la sección son
+> 25 valores) y a las cajas les quedan 13 para levantarse de él, más su canto
+> sólido y su sombra.
+>
+> En oscuro la cuenta no sirve: entre el fondo (11) y `--card` (20) hay nueve
+> valores y el punto medio sería invisible. Se arma al revés, subiendo desde el
+> fondo hacia el texto, y queda **por encima** de la tarjeta. No hunde a las
+> cajas: en oscuro su relieve no lo da el relleno sino la línea blanca de arriba
+> y el canto de `--box-edge`, que es más claro que la cara.
+
+> **`.org-canvas` NO declara la cara, y es a propósito.** La clase la comparten
+> el lienzo del organigrama y las cuatro maquetas del análisis
+> (`system_shots.jsx`), y esas ya traen `bg-card` propio. Como la regla va **sin
+> capa**, un `background-color` ahí le ganaría a Tailwind y les pisaría el blanco
+> a las cuatro. El relleno lo pone quien usa la clase; lo común es el relieve.
+
+> **`border-t border-border` no se veía, y era media página.** `--border` vale
+> `#e5e7eb`, más CLARO que el hueso del fondo (`#e4e3df`), así que los cinco
+> separadores que había de la sección del planeta para abajo no existían: era un
+> solo bloque sin un corte. Es el mismo defecto que ya obligó a inventar
+> `--org-line` y `--box-edge` — `--border` está pensado para el borde de las
+> tarjetas blancas, no para dibujar sobre el fondo de página.
+>
+> `.section-seam` sale de `--box-edge` y **se desvanece en las puntas** en vez de
+> ir de pared a pared: una línea que toca los dos bordes de la pantalla corta la
+> página en dos, una que nace y muere dentro del ancho del contenido acompaña a
+> la columna. Va como `background-image` y no como `::before` para no obligar a
+> hacer `relative` a cinco secciones que hoy no lo son.
+
+> **La inclinación va en el FONDO, nunca en una línea.** Las bandas cortan a
+> 176° —cuatro grados fuera de la vertical, unos cien píxeles de corrimiento a
+> lo ancho de la página— y los seams se quedan horizontales. No es inconsistencia:
+> un degradado torcido se lee como luz, una raya de 1px torcida se lee como un
+> error de alineación. Lo que se busca con los cuatro grados no es que se vea una
+> diagonal, es que el borde **no** sea horizontal: con todos los cortes paralelos
+> al borde de la pantalla, la mitad de abajo se lee como una pila de rectángulos.
+> Las dos bandas llevan el mismo ángulo, paralelas entre sí como los rayos del
+> hero — dos diagonales cruzadas serían dos ideas.
+
+> **`SectionGlow` es un envoltorio y no una capa suelta, por el apilado.** El
+> resplandor va en `-z-10` y el envoltorio en `isolate`. Sin el `isolate` un
+> `-z-10` se escapa hacia arriba hasta el primer contexto de apilado que
+> encuentre —acá el `<body>`— y el resplandor terminaría **detrás del fondo de la
+> página**, o sea invisible. Con él queda encerrado: fondo del envoltorio (la
+> banda, si la hay) → resplandor → contenido. La alternativa era el trato del
+> hero (capa absoluta sin `z-index` + contenido en `relative`), pero eso obliga a
+> tocar el `Container` de cada sección y a acordarse cada vez.
+>
+> `--glow` es siempre "el fondo movido hacia el color del texto": en claro un
+> gris que **oscurece** el hueso, en oscuro un casi blanco que **aclara** el
+> negro. La misma línea de CSS da sombra de un lado y luz del otro, y las dos son
+> modelado. Es la misma asimetría que la de los rayos.
+
+`<PageLight>` se monta como una capa **fija a pantalla completa** en el layout,
+no como fondo de una sección: así la luz conserva tamaño y ángulo al scrollear
+(como fondo de un elemento de 5000px se estiraría). Es un div fijo y no
+`background-attachment: fixed` porque eso repinta en cada scroll y iOS Safari lo
+trata mal.
+
+| Nombre | Tipo | Significado |
+|---|---|---|
+| `animated` | prop boolean | enciende el bucle de `requestAnimationFrame` de la luz |
+| `ANIMATED` | const boolean | el valor por defecto de `animated`, en `page_light.jsx`. **Encendido** |
+| `is_animated` | boolean | si de verdad se está animando: `animated` menos movimiento reducido, menos móvil |
+| `ANIMATED_MIN_WIDTH` | const number | ancho de ventana abajo del cual la luz se queda quieta |
+| `ANIMATED_MAX_WIDTH` | const number | techo de resolución del lienzo **moviéndose**. Es lo que hace pagable la animación |
+| `STATIC_MAX_WIDTH` | const number | ídem quieto |
+| `opacity` / `intensity` | campo de capa | la intensidad de esa capa **en el tema oscuro**: el valor tal como salió del editor |
+| `light_opacity` / `light_intensity` | campo de capa | la misma capa en el tema claro. Se saca con un rest antes de armar la escena: godlights no lo conoce |
+| `is_dark` | param boolean | cuál de los dos juegos de intensidades usa `build_scene` |
+| `SCENE_WIDTH` | const number | los 1920px con los que se diseñó la escena; `rayWidth` y `blur` se escalan contra esto |
+| `SIZE_STEP` | const number | escalón de la medida de ventana, en px: evita redibujar con la barra de direcciones de móvil |
+
+> **El fondo de la escena va `transparent`, no negro.** La escena que exporta el
+> editor de godlights trae un fondo negro sólido porque está pensada para un
+> sitio oscuro. Acá el fondo es del sitio —hueso en claro, casi negro en
+> oscuro— y pintarlo desde el canvas rompería el tema claro entero. Con
+> `bgType: "transparent"` el lienzo solo compone las luces y deja pasar el
+> `--background` del `body`, así que **la misma escena sirve para los dos
+> temas**. `drawScene` hace `clearRect` siempre, no solo con fondo sólido, así
+> que tampoco hay arrastre entre cuadros.
+
+> **En tema claro los rayos son SOMBRA, no luz.** Sobre el hueso (`#e4e3df` =
+> 228) un rayo blanco tiene 27 valores de recorrido hasta el 255, y
+> `fadeToTransparent` se come una parte a lo largo del haz: en la parte más
+> brillante llega a ~248, diecinueve valores sobre el fondo y repartidos en un
+> borde desenfocado de 15px. Se dibuja y no se ve. **Subirle la opacidad no
+> arregla nada**: el techo no es la opacidad, es que arriba de 255 no hay nada —
+> se probó en 0.95 y seguía sin verse.
+>
+> Sobre el casi negro del oscuro (`#0b0a0f` = 11) el mismo rayo tiene 244
+> valores. No son el mismo problema a distinta escala, son dos regímenes
+> opuestos.
+>
+> Por eso en claro el abanico se dibuja en un gris neutro (`LIGHT_RAY_COLOR`,
+> de la familia de `--org-line` y `--box-edge`) y lo que queda del fondo entre
+> rayo y rayo es lo que el ojo lee como la luz. Hacia abajo hay 228 valores de
+> recorrido en vez de 27. Los halos se quedan **blancos** en los dos temas: el
+> foco sigue siendo un punto brillante y de él salen las sombras.
+>
+> **La luz de canvas es UNA sola, y es la de la página.** Se probó una segunda
+> en la sección de escala —un haz rasante entrando por el canto izquierdo— y se
+> descartó: no gustó. `GodLightsLayer` quedó igual como pieza aparte porque la
+> separación es entre la maquinaria y la composición, y mide su propio elemento
+> en vez de la ventana, así que sirve tanto para una capa fija como para una
+> sección. Si nunca aparece una segunda luz, se puede volver a fusionar con
+> `page_light.jsx` sin perder nada.
+
+> Trampa a tener presente: con el fondo de la escena en `transparent`, el
+> `blendMode` solo mezcla **dentro** del lienzo — el `<canvas>` después se
+> compone sobre la página con alfa común. Lo que oscurece el fondo no es
+> `multiply`, es que el gris se dibuja gris. El `blendMode` importa donde los dos
+> abanicos se cruzan entre sí.
+>
+> El lavado de `.page-light` bajó de 0.42 a **0.12** por lo mismo: cae justo
+> arriba, donde los rayos son más fuertes, y dejaba el fondo en 239.
+
+> **La luz respira, y se apaga con `prefers-reduced-motion` y en móvil**
+> (`ANIMATED_MIN_WIDTH`). Cuesta: cada cuadro redibuja 43 rayos y, como los dos
+> abanicos llevan desenfoque, la librería se arma **un `OffscreenCanvas` nuevo
+> por capa y por cuadro** y lo pasa por un `blur()` gaussiano. Lo que lo hace
+> pagable es `ANIMATED_MAX_WIDTH`: moviéndose se dibuja a 1024 de ancho en vez
+> de 1600, que son 2.4 veces menos píxeles por cuadro y 2.4 veces menos memoria
+> descartada. Lo que se pierde es nitidez en una mancha ya desenfocada 17px.
+>
+> Perillas si el scroll se siente pesado, en orden: bajar `ANIMATED_MAX_WIDTH`,
+> bajar el `blur` de las capas, y por último `ANIMATED` a `false`. Para medirlo,
+> `<GodLights showFps>` dibuja el contador en pantalla.
+
+> **Las amplitudes de `ANIM_PARAMS` hay que leerlas contra la fórmula.** La
+> primera versión tenía `speed: 0.3` con amplitudes de 12 a 30 buscando algo
+> discreto, y el movimiento salió **invisible**:
+>
+> - `widthAmp` es la perilla que se ve: el ancho oscila `±(randomnessWidth /
+>   400) * (widthAmp / 50)`. Con `randomnessWidth: 100`, 55 da ±27%.
+> - `lengthAmp` va segundo: misma forma con `randomnessLength`, que es 24, así
+>   que hasta 70 da apenas ±8%.
+> - `angleAmp` **casi no hace nada con esta geometría**. El vaivén angular se
+>   mide en fracciones del hueco entre rayo y rayo, y con 28 rayos en 70° ese
+>   hueco es de 2.6°: aun en 100 el rayo se mueve menos de un cuarto de grado.
+>   La palanca real sería `randomnessAngle`, y está en 0 a propósito.
+> - `speed` decide si algo se percibe: el tiempo entra como `sin(t * 0.45)`, así
+>   que en 0.3 el ciclo del ancho tardaba **46 segundos**. En 1.1 tarda 13.
+>
+> Cada rayo lleva su propia fase (`h * 2.399`, el ángulo áureo), así que no
+> respiran todos juntos y el conjunto no se lee como un ciclo.
+
+> **El `noise` de la escena va en 0: el grano lo pone `.page-grain`.** Tiene que
+> haber uno solo. El de la librería cubre este lienzo y nada más —o sea el
+> hero—, así que dejarlo prendido deja la primera pantalla con más grano que el
+> resto. De paso se ahorra una pasada de `getImageData`/`putImageData` sobre el
+> lienzo entero en cada dibujado, y moviéndose, un segundo lienzo a pantalla
+> completa compuesto con `mix-blend-mode`.
+
+> **La luz se ENTREGA al pie del hero, no se corta.** Como la capa es **fija**,
+> no se puede "terminar" en un punto del documento: lo único que la apaga es que
+> de ahí para abajo haya fondo propio. Ese fondo es el envoltorio de `page.js`,
+> que lleva `.light-handoff`: entra desde transparente y termina de cerrar a las
+> **48rem**, así que el último tramo de luz le sobrevive al pie del hero y se
+> apaga scrolleando. De ahí para abajo la página queda en el hueso pelado,
+> igual que antes — el estado final no cambió, lo que cambió es que llegar a él
+> dejó de ser un evento.
+>
+> Las 48rem salen de `ScrollLift`: mete los primeros `HERO_LIFT` px (320) del
+> envoltorio detrás del hero, donde no se ven. Con un degradado corto la parte
+> visible del apagado sería de menos de 100px y volvería a leerse como un corte.
 >
 > Va en **un** envoltorio y no sección por sección para que sea una sola
-> decisión y no ocho que se pueden desincronizar. Y como los destellos ya no
-> existen abajo, el borde de abajo de `HeroCover` pudo volver a ser un corte
-> limpio — ver la tapa.
+> decisión y no ocho que se pueden desincronizar. El `<footer>` sigue con
+> `bg-background` opaco: ahí ya no queda luz que entregar.
 
-La luz es CSS, no WebGL. Se probó con `SideRays` de React Bits (dependencia
-`ogl`) y se descartó: la luz no se mueve, así que un canvas con su contexto y su
-bucle no compraba nada. `ogl` se desinstaló.
+La luz es **canvas 2D, no WebGL**. Se probó con `SideRays` de React Bits
+(dependencia `ogl`) y se descartó por el peso del contexto WebGL; `ogl` se
+desinstaló. `godlights` no trae runtime propio, solo React, y cae a un dibujado
+de una sola pasada cuando no hay que animar (móvil, movimiento reducido).
+
+Antes eran cuatro `linear-gradient` diagonales. Se fueron al canvas porque un
+gradiente no tiene de dónde nacer: cae en bandas de bordes rectos, con la misma
+opacidad de punta a punta y sin grano. Es lo que hacía que la primera pantalla se
+leyera plana.
 
 > **`--muted-foreground` se oscureció a `#4b5563`.** Sobre el hueso el gris
 > anterior (`#6b7280`) daba 3.35:1 y no llegaba al mínimo AA.
@@ -356,6 +678,47 @@ bucle no compraba nada. `ogl` se desinstaló.
 > **Los `--signal-*` son la única excepción al blanco y negro.** Ahí el color
 > **es** el dato: una cara verde y una roja significan cosas distintas y en gris
 > no se distinguirían. Van sobre la ficha, nunca sobre el fondo de página.
+
+### La luz tiene hora: de noche es blanca, de tarde es dorada
+
+El tema claro **no es el tema oscuro con el fondo cambiado**. Es la misma escena
+a otra hora del día, y todo lo que sea luz cambia de color con ella: el polvo
+del hero (`--spark`), el sol que lo enciende (`--sun*`), el foco de `PageLight`
+(`LIGHT_HALO_COLOR`), sus rayos (`LIGHT_RAY_COLOR`) y el lavado de
+`.page-light`. Seis lugares, una sola decisión.
+
+**Y el dorado no es una preferencia estética: es lo único que se ve.** Sobre el
+hueso (`#e4e3df` = 228) al blanco le quedan 27 valores de recorrido — es la
+misma cuenta que ya estaba escrita para los rayos en `god_lights_layer.jsx`, y
+para una mota de medio píxel de ancho pega todavía más fuerte. El dorado del
+atardecer resuelve las dos cosas al mismo tiempo: es más oscuro que el fondo,
+así que tiene con qué existir, y es el color que de verdad tiene la luz cuando
+entra baja. En oscuro se vuelve blanco frío porque ahí hay 244 valores hacia
+arriba y la luz puede volver a ser luz.
+
+El único que se queda quieto es el morado de marca. La luz cambia de hora; la
+marca no.
+
+> **El cambio de tema no se desvanece, y no es un olvido.** `ThemeProvider` va
+> con `disableTransitionOnChange`: durante el cambio de clase todas las
+> transiciones de la página quedan apagadas. Es una decisión de sitio — con el
+> fondo, el texto y las ocho secciones cruzándose de color a destiempo, el
+> cambio se ve roto. Si alguna vez se quiere el atardecer animado, hay que sacar
+> esa prop y resolver la página entera, no el bloque de `.sun-switch`.
+
+### De dónde salió el hero de partículas, y qué NO se trajo
+
+El polvo y el sol vienen de un componente de partículas de terceros. Entró
+menos de la mitad, y lo que quedó afuera importa tanto como lo que entró:
+
+| Del original | Qué pasó |
+|---|---|
+| el campo de partículas | **entró**, reescrito: mide su elemento y no la ventana, va por `devicePixelRatio`, mueve por delta de tiempo y se para fuera de pantalla |
+| el `mid-spot` que encendía un "gold mode" | **entró como control**: es `LightSwitch` y cambia el tema de verdad |
+| los abanicos de `conic-gradient` | **no**. `PageLight` ya los dibuja con godlights, con origen y ancho por rayo. Dos capas de haces no se suman, se ensucian |
+| las líneas de acento | **no**. El hero ya tiene la retícula de `GridBackdrop` |
+| el `gold mode` a fuerza de `filter: invert()` | **no**. Invertir medio hero con un filtro rompe el antialiasing del texto y anula el `backdrop-filter` del navbar. El cambio de hora lo hacen los tokens |
+| su titular, su copy y su `<style jsx>` | **no**. El copy vive en los diccionarios y el estilo en `globals.css` |
 
 ### Clases de relieve de los CTA
 

@@ -1,0 +1,134 @@
+export const meta = {
+  title: "Seguridad y datos",
+  description:
+    "Dónde viven tus datos, quién puede verlos, qué no podemos ver ni nosotros, cuánto se conservan y qué pasa cuando te vas.",
+};
+
+Esta página es para el área de seguridad, de TI o de legal que tiene que aprobar la
+herramienta. Está escrita para que se pueda leer entera antes de firmar, y dice también
+lo que **no** tenemos.
+
+Las condiciones que obligan están en la [Política de privacidad](/es/legal/privacy) y en
+el [Anexo de tratamiento de datos](/es/legal/dpa). Si algo de acá y algo de allá parecen
+decir cosas distintas, **manda el documento legal**.
+
+## Dos conjuntos de datos, y no ocupamos el mismo papel en los dos
+
+Es la distinción de la que sale casi todo lo demás.
+
+**Los datos de la cuenta** son los de tu organización y de las personas que la
+administran: nombre, correo, rol. Ahí Knotfix es **responsable**.
+
+**Los datos de la medición** son tu nómina y las respuestas de tu gente. Ahí el
+**responsable sos vos**: elegís a quién medís, qué preguntás y para qué usás el
+resultado. Knotfix los trata por cuenta tuya y siguiendo tus instrucciones, nunca para
+fines propios. **No se usan para entrenar modelos, ni para armar comparativas entre
+clientes, ni para ningún fin nuestro.**
+
+## Dónde viven
+
+La aplicación y la base corren en **Estados Unidos**. La lista completa y vigente de
+proveedores, con su país, vive en la [Política de privacidad](/es/legal/privacy) —esa es
+la que manda—; esto es el resumen:
+
+| Proveedor | Para qué | País |
+|---|---|---|
+| Hostinger | El servidor donde corre la aplicación | Estados Unidos |
+| Supabase | La base de datos: nómina, respuestas y resultados | Estados Unidos |
+| Clerk | Identidad: correo, contraseña y segundo factor | Estados Unidos |
+| Resend | El envío de las invitaciones a responder | Estados Unidos |
+| Cloudflare R2 | El logo de tu organización | Estados Unidos |
+| ONVOPay | El cobro | Costa Rica |
+| Allegra | La factura electrónica ante Hacienda | Costa Rica |
+
+> **Cambiar un proveedor de esa lista es un cambio con aviso**, no algo que pase en
+> silencio: los términos fijan 30 días de antelación.
+
+## Quién puede ver qué
+
+El acceso se corta en dos ejes a la vez, y los dos se aplican **en el servidor**, en cada
+consulta:
+
+- **Por organización.** Ninguna consulta puede alcanzar datos de otro cliente. No es un
+  filtro que la pantalla aplica: es el recorte que hace la base antes de devolver nada, y
+  si falta, **no devuelve de más: no devuelve nada**.
+- **Por rama.** A una persona se le puede dar acceso a una parte del árbol —una planta,
+  una región— y desde ahí no ve el resto, ni en pantalla ni en un reporte descargado.
+
+Los roles son cuatro y están explicados en [Roles y permisos](/es/docs/roles). El
+**titular de la cuenta es uno solo** y hay cosas que solo él puede tocar: contratar,
+cancelar, y mover el umbral de confidencialidad.
+
+## Lo que no puede ver nadie, y tampoco nosotros
+
+Esta es la parte que hace que el instrumento sirva, y no es una promesa de buena
+voluntad: son propiedades de cómo está construido.
+
+**Una respuesta no se puede atribuir a una persona.** Quién participó y qué se respondió
+se guardan **sin ninguna relación entre sí**, y la fecha de una respuesta se guarda sin
+hora justamente para que tampoco se puedan reunir por el orden de llegada. No existe
+ninguna pantalla, ningún reporte y ninguna consulta de soporte que muestre «las respuestas
+de fulano», porque el dato que haría falta para armarla no está guardado en ninguna parte.
+
+**Los grupos chicos no se publican.** Hay un umbral mínimo de personas por debajo del cual
+un resultado no sale — ni en pantalla, ni en un Excel, ni en un PDF. **Ningún rol lo
+destapa**: tampoco el titular de la cuenta, tampoco el soporte de Knotfix. No existe una
+opción para apagarlo. Está explicado en [Anonimato y N mínimo](/es/docs/anonymity).
+
+**Tu tarjeta nunca toca nuestros servidores.** Los datos del pago se digitan contra el
+procesador y viajan del navegador a él; nosotros recibimos el resultado, nunca el número.
+
+**Las contraseñas no están en nuestra base.** La identidad la administra Clerk, incluido
+el segundo factor. Nosotros guardamos a qué organización pertenece cada persona y con qué
+rol, no cómo se autentica.
+
+## Cifrado, acceso y registro
+
+- **En tránsito**, todo el tráfico va cifrado con TLS, tanto la aplicación como la API.
+- **En reposo**, la base y el almacenamiento de archivos están cifrados por sus
+  proveedores.
+- **Al acceso directo a la base de producción lo tiene una sola persona**, el titular de
+  Knotfix, sujeta al deber de confidencialidad del artículo 11 de la Ley 8968, que
+  subsiste después de terminada la relación.
+- **Las consultas de resultados quedan registradas** —quién consultó, de qué estudio y con
+  qué filtro—. Ese registro **no guarda los valores consultados**: si guardara lo que la
+  regla de anonimato oculta, sería la regla derrotada por su propia bitácora.
+
+## Cuánto se conservan y qué pasa cuando te vas
+
+**Una cuenta que vence no se borra sola.** Cuando termina la prueba o la suscripción, la
+cuenta queda en **solo lectura**: lo que ya se midió se puede seguir consultando y
+descargando, y no se puede escribir nada nuevo. Se queda así hasta que pidas el cierre.
+
+Cuando lo pedís, corren dos plazos: **30 días para exportar** tu información en un formato
+de uso común, y el **borrado irreversible dentro de los 90 días** siguientes al cierre,
+respaldos incluidos, salvo lo que una obligación legal nos exija conservar (la facturación
+tiene su propio plazo tributario).
+
+Los detalles y las excepciones están en el
+[Anexo de tratamiento de datos](/es/legal/dpa).
+
+## Incidentes
+
+Ninguna medida vuelve invulnerable a un sistema. Si ocurre un incidente que afecte datos
+personales, lo comunicamos a quien corresponda **sin demora y a más tardar dentro de las
+72 horas** de haberlo detectado, con lo que sepamos en ese momento — no esperamos a tener
+el panorama completo para avisar.
+
+Para reportarnos un problema de seguridad: **knotfixservice@knotfix.com**. Si es una
+vulnerabilidad, escribinos antes de publicarla y te respondemos.
+
+## Lo que NO tenemos
+
+Decirlo es parte de la respuesta, y es lo que un área de seguridad valora más que una
+lista de virtudes.
+
+- **No tenemos certificaciones.** Ni ISO 27001 ni SOC 2. Knotfix es una operación chica y
+  esas auditorías todavía no se hicieron. Lo que sí podemos dar son las respuestas de esta
+  página por escrito y el anexo de tratamiento de datos firmado.
+- **No hay API pública.** No hay forma de que un tercero consulte tus datos: la API es
+  interna y la consume solo la propia aplicación.
+- **No hay integraciones que lean tu información.** Ni analítica de producto, ni rastreo
+  entre sitios, ni píxeles de publicidad — ni en la aplicación ni en este sitio.
+- **No hay acceso de soporte a tus resultados por una puerta aparte.** El soporte ve lo
+  mismo que cualquier consulta: nada que la regla de anonimato oculte.

@@ -1,0 +1,88 @@
+export const meta = {
+  title: "Question types",
+  description:
+    "The six types available for your own questions, which scale each one uses, and how each is charted.",
+};
+
+Questions in **Section 3** —yours— can be of six types. The first three are scales and
+are the ones that produce an acceptance percentage; the other three are read
+differently.
+
+## The six
+
+| Type | What it is | Anchors |
+|---|---|---|
+| `escala_1_4` | The instrument's scale, 1 to 4 | Nada · Algo · Mucho · Completamente |
+| `escala_3` | Three-point scale | 1 · 2 · 3 (no words) |
+| `si_no` | Yes/no | No · Sí |
+| `opcion_multiple` | Choose among options you define | — |
+| `ranking` | Order or pick several options | — |
+| `abierta` | Free text | — |
+
+### Why `escala_3` uses numbers
+
+The verbal anchors of `escala_1_4` are verbatim from the official instrument. For three
+points no wording is defined, and **inventing it would be inventing instrument**: the
+words on a scale assert something about the distances between its values. So the numbers
+are shown instead.
+
+## Which ones produce an acceptance percentage
+
+The three scale types —`escala_1_4`, `escala_3` and `si_no`— produce an **acceptance
+percentage**: what proportion of responses fell on the favourable side. It is the
+number you will see most often and the only one comparable over time.
+
+Option, ranking and open questions **do not have one** —there is no order among their
+answers— so they are read by their distribution or their content.
+
+See [Reading a result](/en/docs/reading-results).
+
+## How each is charted
+
+**Scales and `si_no`** — A distribution bar with the spread of responses, plus the
+acceptance percentage. In the historical view, a line of that percentage over time.
+
+**Multiple choice** — The spread across options. Adds up to 100 %.
+
+**Ranking** — **Counts, never percentages.** Its selection is multiple, so counts add up
+to more than the responses: normalizing to 100 % would draw a distribution that does not
+exist. That is why ranking stays out of distribution charts and is read in the table.
+
+**Open** — Not charted. Read.
+
+## Conditional blocks
+
+Any question can have **children**: questions that only appear depending on how the
+parent was answered. Most useful with yes/no questions.
+
+```
+Are you satisfied with communication in your area?   → No
+   What is the main problem?                         → Lack of information
+      What information is missing?                   → [text]
+```
+
+Nesting is **not capped at one level**: a block can go three or more deep, and every
+level is captured and published.
+
+> **Deleting a question takes all its descendants, at any depth.** Before you confirm,
+> the product counts them and tells you how many — from the list it is not obvious,
+> because children appear as ordinary questions.
+
+## Which type to choose
+
+**If you want to follow it over time, use a scale.** It is the only thing that produces
+a number comparable year over year.
+
+**If you want to understand a why, use a conditional block.** A yes/no that opens a
+reason question gives you the metric *and* the explanation, and only shows up for people
+who have something to say.
+
+**Use `abierta` sparingly.** It is not charted and has to be read one by one. As the
+closing question of a conditional block it works very well; as a standalone question to
+the whole company it produces a thousand paragraphs nobody will process.
+
+## Before adding questions
+
+Remember that Section 3 questions are yours but **not free**: they lengthen the
+questionnaire, and a long questionnaire lowers participation — which is what decides how
+many results you get to publish. See [Announcing the survey](/en/docs/announcing).

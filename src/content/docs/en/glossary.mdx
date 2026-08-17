@@ -1,0 +1,101 @@
+export const meta = {
+  title: "Glossary",
+  description: "Clima's own vocabulary, one line each.",
+};
+
+Clima has vocabulary of its own. This page defines it; the rest of the documentation
+uses it assuming you have been here.
+
+## Structure
+
+**Node** — Each unit of the org tree: a country, a region, a store, a department. You
+define the names and the depth.
+
+**Root** — The node everything else hangs from. There is **exactly one** per
+organization, and you create it: the account is not part of the tree.
+
+**Leaf node** — A node with no children. The only place an employee can live.
+
+**Subtree** — A node and everything below it. It is the unit of a study's scope and of
+a manager's permission.
+
+**Organization** — The paying customer: the data boundary. Nothing in one organization
+is visible from another.
+
+## Instrument
+
+**Questionnaire** — Three sections: Satisfaction, Climate, and your own questions.
+
+**Section 3** — The editable part of the questionnaire: the questions you write.
+
+**Effective questionnaire** — The one a node *actually* gets: the one assigned to it,
+or —if it has none— the one from the nearest ancestor that does.
+
+**Theoretical model** — The framework used to measure one of the two fixed sections. It
+defines the categories and, in Satisfaction, their weights. There is one per index.
+
+**Anchor** — The word accompanying a scale value: «Nada», «Algo», «Mucho»,
+«Completamente». They are part of the instrument and **are not translated**.
+
+**Conditional question** — A question that only appears depending on how another was
+answered.
+
+**Series break** — What happens when a question changes what it asks: its old results
+stop being comparable with the new ones and the historical line splits.
+
+## Measurement
+
+**Study** — One concrete measurement: a scope, an instrument and a period.
+
+**Stratified sampling** — Choosing who gets asked by distributing the sample across
+segments, rather than drawing names at random.
+
+**Confidence level** — The parameter that determines sample size.
+
+**Kiosk** — Responding from a tablet at the workplace, with several stations if needed.
+
+**Participation** — How many people responded. Stored separately from the content of
+the responses, and never crossed with it.
+
+## Results
+
+**Index** — The summary number for a section. There are two: Satisfaction and Climate.
+**They are not compared against each other.**
+
+**Satisfaction** — The index for how content people are with the aspects of their work.
+
+**Climate** — The index for how the working environment is perceived as a whole.
+
+**Category** — A dimension within an index. Which ones exist is defined by the model.
+
+**Acceptable** — The grouping of responses on the favourable side of the scale. It is
+what produces a question's **acceptance percentage**.
+
+**Segment** — A slice of the results, crossing a branch with the demographic axes: sex,
+age band and tenure band.
+
+**Improvement target** — The next period's objective, computed per branch from its last
+result and the rate you configured. It freezes when the study launches.
+
+## Confidentiality
+
+**Confidentiality threshold** (or **minimum N**) — How many responses a group needs
+before its results can be published. One number per organization, set by the owner, and
+**each study freezes the one in force when it was created**.
+
+**Hidden result** — A result that is not published because its group falls below the
+threshold, or because publishing it would allow one that does to be deduced. No role can
+see it.
+
+## Account
+
+**Owner** — The commercial relationship. There is exactly one.
+
+**Admin** — Configures the whole account.
+
+**HR** (`rrhh`) — Operational role: roster and studies.
+
+**Manager** (`gerente`) — Reads, does not write, and only their own branch.
+
+**Roster** — The employee directory. It is administrative, not results: the
+confidentiality threshold does not apply here.

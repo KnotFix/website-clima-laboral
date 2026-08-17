@@ -66,7 +66,7 @@ export function ScaleTree({ dict }) {
   }, []);
 
   return (
-    <section className="border-t border-border py-24 sm:py-32">
+    <section className="section-seam py-24 sm:py-32">
       <Container>
         <ScrollPass {...HEADING_PASS}>
           <div className="max-w-2xl">
@@ -203,7 +203,10 @@ export function ScaleTree({ dict }) {
                   pinta cajas con `whitespace-nowrap` y el arbol de cuatro
                   niveles no entra en un telefono. */}
               <div
-                className="org-canvas flex items-center justify-center overflow-x-auto rounded-2xl px-4 py-8 lg:overflow-visible lg:px-0"
+                // `bg-panel` y no `bg-card`: el blanco puro es el de las cajas
+                // del organigrama, y un lienzo del mismo color se las traga.
+                // Ver `--panel`.
+                className="org-canvas flex items-center justify-center overflow-x-auto rounded-2xl bg-panel px-4 py-8 lg:overflow-visible lg:px-0"
                 style={{ minHeight: CHART_MIN_HEIGHT }}
               >
                 {/* Radix desmonta el panel inactivo, asi que la entrada corre

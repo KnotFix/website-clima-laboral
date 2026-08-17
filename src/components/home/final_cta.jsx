@@ -6,7 +6,7 @@ import { site_config } from "@/lib/site_config";
 
 export function FinalCta({ dict }) {
   return (
-    <section className="relative overflow-hidden border-t border-border py-28 sm:py-36">
+    <section className="relative overflow-hidden section-seam py-28 sm:py-36">
       <GridBackdrop />
       <Container class_name="relative">
         {/* > **El unico titular del sitio que NO entra y sale con el scroll, y

@@ -1,0 +1,59 @@
+export const meta = {
+  title: "Improvement targets",
+  description:
+    "How a period's objective works: where it comes from, when it is locked in, and why it differs by branch.",
+};
+
+An **improvement target** is the objective for the next period: how far an index has to
+rise for the period to count as met.
+
+You do not write it by hand study by study. You configure an **improvement rate** once
+in the account parameters, and from there the product computes each branch's target
+using its last real result as the starting point.
+
+## They are computed per branch
+
+Each node has its own target, based on **its** last result. There is no single company
+target divided downward: an area coming from 62 and one coming from 91 do not have the
+same objective, because they are not starting from the same place.
+
+Branches with no previous result have no target. There is nothing to compute it from —
+it is based on the last result, and in the first study there is none.
+
+## Falling short is not forgiven
+
+A period that closes below its target **does not reset the count**. The next objective
+accounts for what was left outstanding.
+
+The logic is that the target describes where the organization needed to get, not how
+hard it needed to try that period. Adjusting it down every time it is missed turns the
+objective into a description of the present.
+
+## The target freezes on launch
+
+**A study's objective is fixed the moment it launches.** Changing the rate afterwards
+does not rewrite targets already set: it applies to whatever launches from then on.
+
+It is the same rule that protects the confidentiality threshold, for the same reason: an
+objective that can be moved after the result is known is not an objective.
+
+> **Practical consequence:** if you are going to adjust the rate, do it **before**
+> launching that period's study. Afterwards it no longer applies to that study.
+
+## Choosing the rate
+
+This is your only real decision here, and it is worth taking slowly: an ambitious rate
+produces targets almost no branch meets, and an objective nobody reaches stops guiding
+anyone within a few months.
+
+As a reference, sustained year-over-year improvement in workplace climate is slow. If
+your first measurement came out low, there is more room to recover; an organization that
+is already high moves little, and its target should reflect that.
+
+## Where to see them
+
+In a finished study's results, next to each branch's index. And the Statistics module
+has a tab that follows them over time: target set against result achieved, period by
+period.
+
+See [Reading a result](/en/docs/reading-results).

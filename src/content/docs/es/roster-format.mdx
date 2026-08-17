@@ -1,0 +1,111 @@
+export const meta = {
+  title: "El Excel de la nómina",
+  description:
+    "Qué tiene que tener el archivo, qué campos son obligatorios y qué hace el importador con lo que no reconoce.",
+};
+
+## No hay una plantilla obligatoria
+
+Lo primero, porque ahorra trabajo: **no tenés que renombrar tus columnas**. El
+importador lee los encabezados que traiga tu archivo y **propone** un mapeo por
+nombre —«Cargo» → puesto, «Depto» → ubicación—; vos lo confirmás o lo corregís en
+pantalla.
+
+Nada se importa por la heurística sola. La sugerencia es una sugerencia; el mapeo que
+manda es el que confirmaste.
+
+## El archivo
+
+| | |
+|---|---|
+| Formato | `.xlsx` únicamente |
+| Tamaño máximo | 5 MB |
+| Encabezados | En la **fila 1** |
+| Encabezados repetidos | **Rechazados.** Renombralos antes de subir |
+
+Un `.xlsx` de 5 MB son cientos de miles de filas: el límite no te va a molestar.
+
+## Los campos
+
+| Campo | ¿Obligatorio? | Notas |
+|---|---|---|
+| **nombre** | **Sí** | |
+| **ubicación** (nodo) | **Sí** | Puede venir en una columna o repartida en varias |
+| **puesto** | **Sí** | |
+| apellido | No | |
+| correo | No | Hace falta si vas a aplicar la encuesta por correo |
+| fecha de ingreso | No | |
+| estado | No | Sin mapear, las altas quedan activas y las actualizaciones conservan su estado |
+
+> **No hay columnas demográficas, y no es un olvido.** El sexo, la edad y la
+> antigüedad **no se importan de la nómina**: nacen de la propia boleta al responder.
+> Esa separación es lo que permite segmentar por demografía sin poder unir una
+> respuesta con una persona. Si tu Excel las trae, simplemente no se mapean.
+
+### Formatos de fecha aceptados
+
+```
+2026-08-16      (AAAA-MM-DD)
+16/08/2026      (DD/MM/AAAA)
+16-08-2026      (DD-MM-AAAA)
+```
+
+## La ubicación: una columna o varias
+
+Si tu archivo tiene la ubicación completa en una columna («Tienda Norte»), mapeás esa.
+
+Si la tiene **desdoblada** —País, Región, Tienda, Departamento en columnas
+separadas—, podés mapear todas juntas al mismo campo. El importador las combina para
+identificar el nodo.
+
+### El emparejamiento contra el árbol
+
+Los textos del Excel tienen que corresponderse con nodos que **ya existen**. «Región
+Norte» en tu planilla contra «Norte» en el árbol es un caso normal, y lo resolvés en
+pantalla: el importador te muestra los textos que no pudo ubicar y vos elegís el nodo.
+
+**Nunca adivina en silencio.** Un texto sin resolver se reporta; no se crea un nodo ni
+se asigna al más parecido. Los nombres del árbol viven en el árbol.
+
+> **Un empleado solo puede vivir en un nodo HOJA** —uno sin hijos—. Si tu Excel manda
+> gente a un nodo intermedio, esas filas se rechazan. Es coherente con lo que el árbol
+> significa: una persona trabaja en un lugar concreto, no en una categoría.
+
+## Los dos modos
+
+**Agregar** — Suma lo que venga en el archivo. No toca a quien no aparezca.
+
+**Sincronizar** — Deja la nómina igual al archivo. Quien no aparezca **se marca como
+inactivo, nunca se borra**: la participación de estudios pasados tiene referencias a
+esas personas, y borrarlas rompería el histórico.
+
+## Los tres pasos
+
+**1. Analizar** — Lee los encabezados y propone el mapeo. No valida datos todavía.
+
+**2. Previsualizar** — Valida **todo** sin escribir nada: filas válidas, filas con
+error y su motivo, ubicaciones sin emparejar. Este es el punto donde todavía se
+cancela.
+
+**3. Ejecutar** — Escribe. Es **todo o nada**: si una sola fila es inválida, no se
+persiste ninguna.
+
+> **Que sea transaccional es lo que hace segura la previsualización.** No podés quedar
+> con media nómina cargada y la otra media no; o entró el archivo entero, o no entró
+> nada y podés corregirlo y reintentar.
+
+## Errores frecuentes
+
+| Qué ves | Qué pasó |
+|---|---|
+| «Encabezados repetidos» | Dos columnas con el mismo nombre. Renombralas |
+| «El archivo está vacío» | Falta la fila de encabezados, o está en blanco |
+| Ubicaciones sin emparejar | El nodo no existe en el árbol todavía, o se escribe distinto |
+| Filas rechazadas por el nodo | Apuntan a un nodo con hijos. Tienen que ir a una hoja |
+| Correos inválidos | No tienen forma de correo. Si no vas a usar el modo correo, dejá la columna sin mapear |
+
+## Antes de importar
+
+Armá el árbol primero. El importador empareja contra nodos existentes, así que subir
+la nómina antes de tener la estructura convierte cada fila en una ubicación sin
+resolver. Ver [El árbol organizacional](/es/docs/org-tree).

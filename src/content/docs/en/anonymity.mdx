@@ -1,0 +1,91 @@
+export const meta = {
+  title: "Anonymity and minimum N",
+  description:
+    "What the product guarantees about responses, how the confidentiality threshold works, and why some results cannot be shown.",
+};
+
+Anonymity in Clima is not a configuration option that can be switched off. There are
+two distinct mechanisms, and it is worth not confusing them because they protect
+different things.
+
+## One: the response is not tied to the person
+
+**Who responded and what they responded are stored with no relationship between
+them.** It is not a denied permission or a value hidden behind a role: the link does
+not exist in the database.
+
+That means the product can tell you Juan has already responded —you need that to
+chase participation— and it cannot tell you, or us, what he answered. The response
+date is also stored **without a time**, so the two ends cannot be rejoined by the
+order in which they arrived either.
+
+This comes before everything else and does not depend on the threshold: even with
+ten thousand responses in a study, there is still no way to recover one person's
+answers.
+
+## Two: the confidentiality threshold
+
+The second mechanism protects **small groups**. A result from three people is
+technically anonymous and practically is not: if you know who the three are, you
+already know a lot.
+
+The **confidentiality threshold** (also «minimum N») is the number of responses a
+group needs before its results can be published. It is one number per organization.
+
+### Who sets it, and when it starts to apply
+
+The account owner sets it, and everyone can see it: you need to see it to understand
+why something is not being shown.
+
+**Every study freezes the threshold in force when it was created.** Raising or
+lowering it today rewrites nothing backwards — it applies to studies created from
+now on. That is what keeps a result published last year from changing state because
+of an administrative decision this year.
+
+### Where it applies
+
+Everywhere a result could be exposed, not just in the main one:
+
+- The result of a **node** with few responses.
+- A **segment** built with filters, even when the whole node does clear the
+  threshold.
+- A **category** inside a result that clears it in total.
+- A **point in a historical series**, which is drawn as a gap instead of being joined
+  by a line.
+
+> **The rule applies to the whole table, not cell by cell.** It is not enough for
+> every visible cell to clear the threshold: if subtracting the ones you can see
+> would let you deduce one that does not, that combination is not published either.
+> Publishing nine cells out of ten reveals the tenth.
+
+### Why the notice is always the same
+
+When something is hidden, the product says it cannot be shown and **does not say
+which of the reasons applied**. This is deliberate, and it is the piece of the design
+most often mistaken for lazy copy.
+
+The reason *is* information about the hidden group. «This segment has fewer than N
+responses» and «this segment can be deduced from the one next to it» say different
+things about how many people are in there. A different message per cause rebuilds, in
+prose, exactly the channel the threshold closed in the data.
+
+## It sits above permissions
+
+This is the one rule in the product with no exception by role. **Nobody sees a hidden
+result** — not the account administrator, not the owner, not us.
+
+It is not a posture: it is the condition for the instrument to work at all. A climate
+survey measures what people dare to say, and that depends entirely on the promise
+being true in every case rather than in almost every case.
+
+## What you can do about it
+
+If a lot of results come out hidden, it is almost always a **design** question, not a
+technical problem:
+
+- **Look at the shape of the tree.** Branches with very few people produce results
+  that will never be readable. See [The org tree](/en/docs/org-tree).
+- **Segment more coarsely.** Crossing node × sex × age × tenure all at once splits
+  the sample into tiny cells. Drop one axis and the same data appears.
+- **Check participation before the threshold.** Sometimes the group is large enough
+  and what is missing is responses.

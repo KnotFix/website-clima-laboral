@@ -1,0 +1,90 @@
+export const meta = {
+  title: "Tipos de pregunta",
+  description:
+    "Los seis tipos que podés usar en tus preguntas propias, con qué escala va cada uno y cómo se grafica.",
+};
+
+Las preguntas de la **Sección 3** —las tuyas— pueden ser de seis tipos. Los tres
+primeros son escalas y son los que producen un porcentaje de aceptación; los otros
+tres se leen distinto.
+
+## Los seis
+
+| Tipo | Qué es | Anclas |
+|---|---|---|
+| `escala_1_4` | La escala del instrumento, de 1 a 4 | Nada · Algo · Mucho · Completamente |
+| `escala_3` | Escala de tres puntos | 1 · 2 · 3 (sin palabras) |
+| `si_no` | Dicotomía | No · Sí |
+| `opcion_multiple` | Elegir entre opciones que definís vos | — |
+| `ranking` | Ordenar o elegir varias opciones | — |
+| `abierta` | Texto libre | — |
+
+### Por qué `escala_3` va con números
+
+Las anclas verbales de `escala_1_4` son verbatim del instrumento oficial. Para tres
+puntos no existe una redacción definida, y **inventarla sería inventar instrumento**:
+las palabras de una escala afirman algo sobre las distancias entre sus valores. Así
+que se muestran los números.
+
+## Cuáles producen un porcentaje de aceptación
+
+Los tres tipos de escala —`escala_1_4`, `escala_3` y `si_no`— producen un **porcentaje
+de aceptación**: qué proporción de las respuestas cayó del lado favorable. Es el número
+que vas a ver más seguido y el único comparable a lo largo del tiempo.
+
+Las preguntas de opción, ranking y abierta **no lo tienen** —no hay un orden entre sus
+respuestas—, así que se leen por su reparto o por su contenido.
+
+Ver [Cómo leer un resultado](/es/docs/reading-results).
+
+## Cómo se grafica cada uno
+
+**Escalas y `si_no`** — Barra de distribución con el reparto de respuestas, más el
+porcentaje de aceptación. En el histórico, una línea de ese porcentaje en el tiempo.
+
+**Opción múltiple** — El reparto entre las opciones. Suma 100 %.
+
+**Ranking** — **Conteos, nunca porcentajes.** Su selección es múltiple, así que los
+conteos suman más que las respuestas: normalizarlos al 100 % dibujaría un reparto que
+no existe. Por eso el ranking queda fuera de las gráficas de distribución y se lee en
+la tabla.
+
+**Abierta** — No se grafica. Se lee.
+
+## Bloques condicionales
+
+Cualquier pregunta puede tener **hijas**: preguntas que solo aparecen según cómo se
+respondió la madre. Se usa sobre todo con dicotomías.
+
+```
+¿Estás conforme con la comunicación de tu área?     → No
+   ¿Cuál es el principal problema?                  → Falta de información
+      ¿Qué información te falta?                    → [texto]
+```
+
+La anidación **no tiene un límite de un nivel**: un bloque puede llegar a tres o más,
+y todos los niveles se capturan y se publican.
+
+> **Borrar una pregunta se lleva a todas sus descendientes, a cualquier profundidad.**
+> Antes de confirmar, el producto las cuenta y te dice cuántas son — desde la lista no
+> se nota, porque las hijas aparecen como preguntas cualesquiera.
+
+## Qué tipo elegir
+
+**Si querés seguirla en el tiempo, usá una escala.** Es lo único que produce un
+número comparable año contra año.
+
+**Si querés entender un porqué, usá un bloque condicional.** Una dicotomía que abre
+una pregunta de razón te da la métrica *y* la explicación, y solo se la muestra a
+quien tiene algo que decir.
+
+**Usá `abierta` con moderación.** No se grafica y hay que leerla una por una. Como
+cierre de un bloque condicional funciona muy bien; como pregunta suelta a toda la
+empresa, produce mil párrafos que nadie va a procesar.
+
+## Antes de agregar preguntas
+
+Recordá que las de Sección 3 son tuyas pero **no son gratis**: alargan el
+cuestionario, y un cuestionario largo baja la participación — que es lo que decide
+cuántos resultados vas a poder publicar. Ver
+[Cómo comunicar la encuesta](/es/docs/announcing).

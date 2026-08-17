@@ -106,7 +106,7 @@ function StepCard({ step, index, angle }) {
  */
 export function HowItWorks({ dict }) {
   return (
-    <section id="how" className="scroll-mt-24 border-t border-border py-24 sm:py-32">
+    <section id="how" className="scroll-mt-24 section-seam py-24 sm:py-32">
       <Container>
         {/* El titular entra y sale con el scroll, igual que el de todas las
             secciones. */}

@@ -1,0 +1,71 @@
+export const meta = {
+  title: "Roles y permisos",
+  description:
+    "Los cuatro roles de Clima, qué puede hacer cada uno, y por qué a veces un botón no aparece.",
+};
+
+Clima tiene **cuatro roles**. Cambian dos cosas distintas: qué se puede escribir, y
+qué parte de la organización se puede ver.
+
+## Los cuatro
+
+| Rol | Qué hace |
+|---|---|
+| **Titular** (`owner`) | Todo. Es el dueño de la relación comercial: es el único que contrata el plan y el único que mueve el umbral de confidencialidad. **Hay exactamente uno**, y no se asigna desde la pantalla de usuarios: se transfiere. |
+| **Administrador** (`admin`) | Configura la cuenta entera: árbol, nómina, boletas, estudios, usuarios. Todo menos lo que es exclusivo del titular. |
+| **RRHH** (`rrhh`) | El rol operativo: carga y mantiene la nómina, y crea y lanza estudios. **No toca la estructura ni las boletas** — la forma del árbol y el instrumento son decisiones de configuración. |
+| **Gerente** (`gerente`) | **Lee, no escribe.** Y lee solo su rama. |
+
+RRHH y Gerente están al mismo nivel a propósito. No son un escalón uno del otro: son
+ejes distintos. Uno opera y no ve más allá de lo suyo en configuración; el otro ve
+resultados y no escribe nada.
+
+## Las dos preguntas que se hacen por separado
+
+### ¿Podés escribir esto?
+
+Depende del recurso:
+
+- **Configuración** (árbol, boletas, parámetros de la cuenta): titular y
+  administrador.
+- **Operación** (nómina, estudios): titular, administrador y RRHH.
+- **El umbral de confidencialidad y el plan**: solo el titular.
+
+### ¿Qué parte de la organización ves?
+
+Al titular, al administrador y a RRHH se les puede no asignar ninguna rama, y
+entonces ven la organización entera. **A un gerente se le asigna una rama y ve esa
+rama**: sus empleados, sus estudios, sus resultados. El resto del árbol no le
+aparece — no oculto detrás de un aviso, sino directamente ausente.
+
+> **El recorte es del servidor, no de la pantalla.** Buscar a alguien de otra rama
+> desde la nómina no devuelve «no tenés permiso»: devuelve el mismo vacío que buscar
+> a alguien que no existe. Es deliberado — un mensaje distinto confirmaría que esa
+> persona existe en algún lado.
+
+## Por qué a veces un botón no aparece
+
+Cuando no tenés permiso de escritura sobre algo, **la acción no se dibuja**. No sale
+en gris ni sale y falla: no está.
+
+Es a propósito. Un botón que se puede apretar y devuelve un error es peor que
+ninguno: promete algo que no va a pasar. Si esperabas ver «Nuevo nodo» o «Importar»
+y no están, casi siempre es el rol.
+
+Un caso que confunde y no es un error: **una cuenta sin estructura se ve igual que
+una rama sin asignar**. Si sos gerente y todavía no te asignaron ninguna, la
+pantalla de Estructura se ve vacía aunque el árbol de la empresa esté lleno.
+
+## Lo que ningún rol puede hacer
+
+Esto es lo importante de la página, y es la única regla del producto que **no tiene
+excepción por rol**:
+
+**Nadie ve un resultado oculto por el umbral de confidencialidad.** Ni el gerente,
+ni el administrador, ni el titular, ni nosotros. Los permisos deciden qué parte de
+la organización mirás; el anonimato decide qué se puede publicar de lo que mirás, y
+está por encima.
+
+**Nadie ve qué respondió una persona**, tampoco. No es un permiso denegado: el
+vínculo entre la persona y su respuesta no existe en la base. Ver
+[Anonimato y N mínimo](/es/docs/anonymity).

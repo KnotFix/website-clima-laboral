@@ -1,0 +1,110 @@
+export const meta = {
+  title: "The roster spreadsheet",
+  description:
+    "What the file needs, which fields are required, and what the importer does with what it does not recognize.",
+};
+
+## There is no mandatory template
+
+First, because it saves work: **you do not have to rename your columns**. The importer
+reads whatever headers your file has and **proposes** a mapping by name —«Cargo» →
+position, «Depto» → location— and you confirm or correct it on screen.
+
+Nothing is imported on the heuristic alone. The suggestion is a suggestion; the mapping
+that counts is the one you confirmed.
+
+## The file
+
+| | |
+|---|---|
+| Format | `.xlsx` only |
+| Maximum size | 5 MB |
+| Headers | In **row 1** |
+| Duplicate headers | **Rejected.** Rename them before uploading |
+
+A 5 MB `.xlsx` is hundreds of thousands of rows: the limit will not bother you.
+
+## The fields
+
+| Field | Required? | Notes |
+|---|---|---|
+| **name** | **Yes** | |
+| **location** (node) | **Yes** | Can arrive in one column or spread across several |
+| **position** | **Yes** | |
+| surname | No | |
+| email | No | Needed if you will run the survey by email |
+| hire date | No | |
+| status | No | Unmapped, new rows come in active and existing ones keep their status |
+
+> **There are no demographic columns, and that is not an oversight.** Sex, age and
+> tenure **are not imported from the roster**: they originate in the questionnaire
+> itself, at response time. That separation is what makes it possible to segment by
+> demographics without ever being able to link a response to a person. If your
+> spreadsheet has them, they simply do not get mapped.
+
+### Accepted date formats
+
+```
+2026-08-16      (YYYY-MM-DD)
+16/08/2026      (DD/MM/YYYY)
+16-08-2026      (DD-MM-YYYY)
+```
+
+## Location: one column or several
+
+If your file has the full location in one column («North Store»), map that one.
+
+If it is **split** —Country, Region, Store, Department in separate columns— you can map
+them all to the same field. The importer combines them to identify the node.
+
+### Matching against the tree
+
+The text in your spreadsheet has to correspond to nodes that **already exist**. «North
+Region» in your file against «North» in the tree is a normal case, and you resolve it on
+screen: the importer shows you the values it could not place and you pick the node.
+
+**It never guesses silently.** An unresolved value is reported; no node is created and
+nothing is assigned to the closest match. The tree's names live in the tree.
+
+> **An employee can only live in a LEAF node** —one with no children. If your
+> spreadsheet sends people to an intermediate node, those rows are rejected. It is
+> consistent with what the tree means: a person works in a concrete place, not in a
+> category.
+
+## The two modes
+
+**Add** — Adds whatever is in the file. Leaves anyone not present alone.
+
+**Sync** — Makes the roster match the file. Anyone absent is **marked inactive, never
+deleted**: participation in past studies references those people, and deleting them
+would break the history.
+
+## The three steps
+
+**1. Analyze** — Reads the headers and proposes the mapping. Does not validate data yet.
+
+**2. Preview** — Validates **everything** without writing: valid rows, failing rows and
+why, unmatched locations. This is the point where you can still cancel.
+
+**3. Execute** — Writes. It is **all or nothing**: if a single row is invalid, none are
+persisted.
+
+> **Being transactional is what makes the preview safe.** You cannot end up with half a
+> roster loaded and half not; either the whole file went in, or nothing did and you can
+> fix it and retry.
+
+## Common errors
+
+| What you see | What happened |
+|---|---|
+| «Duplicate headers» | Two columns with the same name. Rename them |
+| «The file is empty» | The header row is missing or blank |
+| Unmatched locations | The node does not exist in the tree yet, or is spelled differently |
+| Rows rejected on the node | They point at a node with children. They have to go to a leaf |
+| Invalid emails | Not email-shaped. If you will not use email mode, leave the column unmapped |
+
+## Before importing
+
+Build the tree first. The importer matches against existing nodes, so uploading the
+roster before the structure exists turns every row into an unresolved location. See
+[The org tree](/en/docs/org-tree).

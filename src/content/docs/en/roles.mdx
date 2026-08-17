@@ -1,0 +1,71 @@
+export const meta = {
+  title: "Roles and permissions",
+  description:
+    "The four roles in Clima, what each one can do, and why a button sometimes is not there.",
+};
+
+Clima has **four roles**. They change two different things: what you can write, and
+which part of the organization you can see.
+
+## The four
+
+| Role | What it does |
+|---|---|
+| **Owner** (`owner`) | Everything. This is the commercial relationship: the only one who contracts the plan and the only one who moves the confidentiality threshold. **There is exactly one**, and it is not assigned from the users screen — it is transferred. |
+| **Admin** (`admin`) | Configures the whole account: tree, roster, questionnaires, studies, users. Everything except what is exclusive to the owner. |
+| **HR** (`rrhh`) | The operational role: loads and maintains the roster, creates and launches studies. **Does not touch the structure or the questionnaires** — the shape of the tree and the instrument are configuration decisions. |
+| **Manager** (`gerente`) | **Reads, does not write.** And reads only their own branch. |
+
+HR and Manager sit at the same level on purpose. They are not a rung above one
+another: they are different axes. One operates and sees no further into configuration;
+the other sees results and writes nothing.
+
+## The two questions, asked separately
+
+### Can you write this?
+
+Depends on the resource:
+
+- **Configuration** (tree, questionnaires, account parameters): owner and admin.
+- **Operation** (roster, studies): owner, admin and HR.
+- **The confidentiality threshold and the plan**: owner only.
+
+### Which part of the organization do you see?
+
+Owner, admin and HR can be left with no branch assigned, in which case they see the
+whole organization. **A manager is assigned a branch and sees that branch**: its
+employees, its studies, its results. The rest of the tree does not appear — not hidden
+behind a notice, simply absent.
+
+> **The scoping is server-side, not a screen decision.** Searching for someone in
+> another branch from the roster does not return «you lack permission»: it returns the
+> same emptiness as searching for someone who does not exist. That is deliberate — a
+> different message would confirm that person exists somewhere.
+
+## Why a button is sometimes not there
+
+When you lack write permission on something, **the action is not drawn**. It is not
+greyed out, and it does not appear and then fail: it is not there.
+
+This is on purpose. A button that can be clicked and returns an error is worse than no
+button: it promises something that will not happen. If you expected «New node» or
+«Import» and they are missing, it is almost always the role.
+
+One case that confuses people and is not a bug: **an account with no structure looks
+exactly like a branch that has not been assigned to you**. If you are a manager and no
+branch has been assigned yet, the Structure screen looks empty even though the
+company's tree is full.
+
+## What no role can do
+
+This is the important part of the page, and it is the one rule in the product with
+**no exception by role**:
+
+**Nobody sees a result hidden by the confidentiality threshold.** Not the manager, not
+the admin, not the owner, not us. Permissions decide which part of the organization
+you look at; anonymity decides what can be published from what you look at, and it
+sits above.
+
+**Nobody sees what an individual answered**, either. It is not a denied permission: the
+link between the person and their response does not exist in the database. See
+[Anonymity and minimum N](/en/docs/anonymity).

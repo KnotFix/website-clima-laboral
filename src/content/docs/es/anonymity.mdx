@@ -1,0 +1,90 @@
+export const meta = {
+  title: "Anonimato y N mínimo",
+  description:
+    "Qué garantiza el producto sobre las respuestas, cómo funciona el umbral de confidencialidad, y por qué a veces un resultado no se puede ver.",
+};
+
+El anonimato de Clima no es una opción de configuración que se pueda apagar. Son dos
+mecanismos distintos, y conviene no confundirlos porque protegen cosas distintas.
+
+## Uno: la respuesta no está atada a la persona
+
+**Quién respondió y qué respondió se guardan sin ninguna relación entre sí.** No es
+un permiso denegado ni un dato oculto detrás de un rol: el vínculo no existe en la
+base.
+
+Eso significa que el producto puede decirte que Juan ya respondió —lo necesitás para
+perseguir la participación— y no puede decirte, ni a vos ni a nosotros, qué contestó.
+La fecha de respuesta se guarda además **sin hora**, para que las dos puntas tampoco
+se puedan volver a unir por el orden en que fueron llegando.
+
+Esto es previo a todo lo demás y no depende del umbral: aunque un estudio tenga
+diez mil respuestas, sigue sin haber forma de recuperar la boleta de una persona.
+
+## Dos: el umbral de confidencialidad
+
+El segundo mecanismo protege los **grupos chicos**. Un resultado de tres personas es
+técnicamente anónimo y prácticamente no lo es: si sabés quiénes son los tres, ya
+sabés bastante.
+
+El **umbral de confidencialidad** (también «N mínimo») es la cantidad de respuestas
+que un grupo necesita para que sus resultados se puedan publicar. Es un número por
+organización.
+
+### Quién lo fija y cuándo empieza a regir
+
+Lo fija el titular de la cuenta, y lo ven todos: hace falta verlo para entender por
+qué algo no se muestra.
+
+**Cada estudio congela el umbral que estaba vigente cuando se creó.** Subirlo o
+bajarlo hoy no reescribe nada hacia atrás — rige para los estudios que se creen de
+acá en adelante. Es lo que hace que un resultado publicado el año pasado no cambie
+de estado por una decisión administrativa de este año.
+
+### Dónde se aplica
+
+En todos los lugares donde un resultado podría quedar expuesto, no solo en el
+principal:
+
+- El resultado de un **nodo** con pocas respuestas.
+- Un **segmento** armado con filtros, aunque el nodo entero sí supere el umbral.
+- Una **categoría** dentro de un resultado que en total sí llega.
+- Un **punto de una serie histórica**, que se dibuja como hueco en vez de unirse
+  con una línea.
+
+> **La regla se aplica también a la tabla completa, no dato por dato.** No alcanza
+> con que cada celda visible supere el umbral: si de restar las que se ven se
+> pudiera deducir una que no llega, esa combinación tampoco se publica. Publicar
+> nueve de diez celdas revela la décima.
+
+### Por qué el aviso es siempre el mismo
+
+Cuando algo se oculta, el producto dice que no se puede mostrar y **no dice cuál de
+los motivos fue**. Es deliberado, y es la parte del diseño que más se malinterpreta
+como un texto perezoso.
+
+El motivo *es* información sobre el grupo escondido. «Este segmento tiene menos de N
+respuestas» y «este segmento se puede deducir del de al lado» dicen cosas distintas
+sobre cuánta gente hay ahí. Un mensaje distinto por causa reconstruye, en la prosa,
+exactamente el canal que el umbral cerró en los datos.
+
+## Está por encima de los permisos
+
+Esta es la única regla del producto que no tiene excepción por rol. **Nadie ve un
+resultado oculto** — ni quien administra la cuenta, ni el titular, ni nosotros.
+
+No es una postura: es la condición de que el instrumento sirva. Una encuesta de
+clima mide lo que la gente se anima a decir, y eso depende por completo de que la
+promesa sea verdad en todos los casos y no en casi todos.
+
+## Qué podés hacer al respecto
+
+Si te aparecen muchos resultados ocultos, casi siempre es una cuestión de **diseño**,
+no un problema técnico:
+
+- **Mirá la forma del árbol.** Ramas de muy poca gente producen resultados que no se
+  van a poder leer. Ver [El árbol organizacional](/es/docs/org-tree).
+- **Segmentá más grueso.** Cruzar nodo × sexo × edad × antigüedad al mismo tiempo
+  parte la muestra en celdas diminutas. Sacá un eje y el mismo dato aparece.
+- **Mirá la participación antes que el umbral.** A veces el grupo es lo bastante
+  grande y lo que falta son respuestas.

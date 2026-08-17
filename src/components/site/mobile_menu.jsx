@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { LangSwitch } from "@/components/site/lang_switch";
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/sheet";
 import { site_config } from "@/lib/site_config";
 
-export function MobileMenu({ lang, dict }) {
+export function MobileMenu({ lang, dict, section_base = "" }) {
   const [is_open, set_is_open] = useState(false);
 
   return (
@@ -37,13 +38,24 @@ export function MobileMenu({ lang, dict }) {
           {dict.nav_links.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={`${section_base}${link.href}`}
               onClick={() => set_is_open(false)}
               className="rounded-md px-2 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
               {link.label}
             </a>
           ))}
+          {/* Las docs van con el resto de la navegacion y no abajo del CTA: en
+              el menu de escritorio estan al mismo nivel que las secciones, y
+              moverlas de lugar segun el tamaño de pantalla obliga a buscarlas
+              dos veces. Es un Link de Next y no un <a> porque es una RUTA. */}
+          <Link
+            href={`/${lang}/docs`}
+            onClick={() => set_is_open(false)}
+            className="rounded-md px-2 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            {dict.nav_docs}
+          </Link>
           <Button asChild className="mt-4">
             <a href={site_config.signup_url}>{dict.nav_cta}</a>
           </Button>

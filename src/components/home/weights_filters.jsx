@@ -63,7 +63,7 @@ export function WeightsFilters({ dict }) {
   return (
     <section
       id="weights"
-      className="scroll-mt-24 border-t border-border py-24 sm:py-32"
+      className="scroll-mt-24 section-seam py-24 sm:py-32"
     >
       <Container>
         <ScrollPass {...HEADING_PASS}>
