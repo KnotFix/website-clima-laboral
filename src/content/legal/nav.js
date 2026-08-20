@@ -15,10 +15,22 @@
  * en silencio. Ademas de aca las lee el registro de aceptacion del producto,
  * que guarda QUE version acepto cada persona — ver `docs/legal.md`.
  *
- * `draft: true` dibuja el aviso de borrador arriba del documento. Se apaga
- * cuando el texto volvio revisado por el abogado, y no antes: un documento
- * legal sin revisar publicado sin marca es peor que no tenerlo, porque parece
- * que rige.
+ * `draft: true` dibuja el aviso de borrador arriba del documento. NO se apaga
+ * "cuando vuelva del abogado" — esa revision no va a existir (decision del
+ * usuario, 2026-08-18). Se apaga cuando no queda ningun [PENDIENTE:] en los
+ * seis .mdx y ninguna clausula promete algo que el producto no haga; eso es lo
+ * que el aviso protege. Ver `docs/legal.md`.
+ *
+ * **APAGADO EN LOS TRES EL 2026-08-18** (decision del usuario): los dos
+ * criterios se cumplen y verificaron. Desde hoy los documentos RIGEN, que es
+ * lo que el producto ya asumia — el alta exige aceptarlos y la pantalla de
+ * re-aceptacion es un gate de sesion, o sea que se hacia aceptar tres textos
+ * cuyo cartel decia "no rige" y "no invocar".
+ *
+ * ⚠️ Apagar el flag NO toca `version`, y no puede: la 1.0 es la que ya
+ * declara `DOCUMENTOS_LEGALES` en el otro repo y la que se guarda en cada
+ * fila de `aceptaciones_legales`. Esto no es una version nueva, asi que no
+ * dispara el preaviso de 30 dias ni la re-aceptacion de nadie.
  */
 export const LEGAL_NAV = [
   {
@@ -29,7 +41,7 @@ export const LEGAL_NAV = [
     },
     version: "1.0",
     updated: "2026-08-17",
-    draft: true,
+    draft: false,
   },
   {
     slug: "terms",
@@ -38,8 +50,8 @@ export const LEGAL_NAV = [
       en: "Terms of service",
     },
     version: "1.0",
-    updated: "2026-08-17",
-    draft: true,
+    updated: "2026-08-20",
+    draft: false,
   },
   {
     slug: "dpa",
@@ -49,7 +61,7 @@ export const LEGAL_NAV = [
     },
     version: "1.0",
     updated: "2026-08-17",
-    draft: true,
+    draft: false,
   },
 ];
 

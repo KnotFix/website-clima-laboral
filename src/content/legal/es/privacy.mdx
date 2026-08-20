@@ -103,11 +103,11 @@ de tratarlos exclusivamente según nuestras instrucciones:
 | Proveedor | Para qué | País |
 |---|---|---|
 | **Hostinger** | Alojamiento de la aplicación (servidor privado) | Estados Unidos |
-| **Supabase** | Base de datos: nómina, respuestas y resultados | Estados Unidos |
+| **PlanetScale** | Base de datos: nómina, respuestas y resultados | Estados Unidos |
 | **Clerk** | Identidad y autenticación de las personas usuarias de la cuenta | Estados Unidos |
 | **Resend** | Envío de los correos del sistema, incluidas las invitaciones a responder | Estados Unidos |
 | **Cloudflare (R2)** | Almacenamiento del logo de la organización | Estados Unidos |
-| **ONVOPay** | Procesamiento del pago con tarjeta | Costa Rica |
+| **Polar** | Procesamiento del pago con tarjeta y facturación de la suscripción como comercio registrado (*merchant of record*) | Estados Unidos |
 | **Allegra** | Emisión y envío de la factura electrónica ante Hacienda | Costa Rica |
 
 También los entregamos cuando lo ordena una autoridad competente por resolución
@@ -128,17 +128,18 @@ avisamos con **30 días** de antelación.
 
 | Dato | Plazo |
 |---|---|
-| Datos de la cuenta | Mientras la cuenta exista. Cerrada la cuenta, hay **30 días** para exportar y se eliminan de forma irreversible dentro de los **90 días** siguientes al cierre |
+| Datos de la cuenta | Mientras la cuenta exista. El titular la puede eliminar cuando quiera desde el producto, y ahí los datos se borran **de inmediato y de forma irreversible** |
 | Datos de la medición | Los define el cliente; se eliminan o devuelven al terminar, según el [Anexo](/es/legal/dpa) |
 | Facturación | El que exige la normativa tributaria costarricense |
-| Bitácoras de seguridad y de consultas de resultados | **12 meses** |
+| Bitácora de consultas de resultados | **12 meses** |
+| Bitácoras de acceso del servidor | Son operativas y efímeras: viven en la infraestructura mientras sirven para diagnosticar un problema y se descartan en cada despliegue. No se archivan ni se usan para ninguna otra finalidad |
 
 Vencido el plazo se eliminan o se anonimizan de forma irreversible.
 
 **Una cuenta que vence y no se cierra no se borra sola.** Cuando termina la prueba o la
 suscripción, la cuenta queda en **solo lectura**: lo que ya se midió se puede seguir
 consultando y ya no se puede escribir nada. Los datos se conservan así hasta que el
-Cliente pida el cierre, y ahí corren los plazos de la tabla.
+titular elimine la cuenta, y ese borrado es inmediato e irreversible.
 
 ## Cómo los protegemos
 
