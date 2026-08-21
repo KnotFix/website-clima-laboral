@@ -1,7 +1,8 @@
-import { Globe } from "@/components/effects/globe";
+import { GlobeLazy } from "@/components/effects/globe_lazy";
+import { PlanetBackdrop } from "@/components/effects/planet_backdrop";
 import { BlurText, BlurTextPiece } from "@/components/motion/blur_text";
 import { RotatingText } from "@/components/motion/rotating_text";
-import { ScrollPass } from "@/components/motion/scroll_pass";
+import { HEADING_PASS, ScrollPass } from "@/components/motion/scroll_pass";
 import { Container } from "@/components/site/container";
 
 /**
@@ -42,8 +43,26 @@ export function WorldReach({ dict }) {
     // Sin padding vertical propio: el alto de la seccion lo pone el planeta,
     // que es cuadrado. El aire con lo que viene antes y despues queda a cargo
     // de las secciones vecinas.
-    <section className="relative">
-      <Container>
+    //
+    // `overflow-x-clip` porque las dos columnas llegan de costado: sin el, la
+    // pieza corrida se sale del ancho del documento y aparece barra horizontal.
+    // Va en la `<section>` y no en la reja: la seccion es de ancho completo, asi
+    // que el recorte cae en el borde de la pantalla y no en el del `Container`.
+    // El resplandor no se toca — vive en el envoltorio de `SectionGlow`, afuera
+    // de esta seccion, y en oscuro esta apagado.
+    <section className="relative overflow-x-clip">
+      {/* El fondo de la seccion, y **solo en tema claro**: en oscuro
+          `.planet-backdrop` esta en `display: none` para que el fondo quede
+          parejo con el resto (ver `--band` en el bloque `.dark`). Antes de esta
+          capa no habia ninguna, y como `.section-band` tampoco pinta, en claro
+          era el blanco pelado.
+
+          > **Se corta antes de llegar al planeta, y no es un capricho de
+            composicion.** El halo del globo es WebGL y esta escrito a mano
+            contra el color que espera encontrar detras; con color ahi, el halo
+            deja de coincidir y aparece el canto del disco. Ver `PlanetBackdrop`. */}
+      <PlanetBackdrop />
+      <Container class_name="relative">
         {/* Apilado queda texto arriba y planeta abajo, el mismo orden que se
             lee de izquierda a derecha en escritorio: el texto explica, el
             planeta ilustra. */}
@@ -56,30 +75,59 @@ export function WorldReach({ dict }) {
           {/* Sin `text-balance`: `BlurText` reparte las palabras en un flex
               para poder animarlas sueltas, y ahi el balanceo no aplica. El
               ancho maximo es lo que decide el corte de linea. */}
-          <BlurText
-            tag="h2"
-            class_name="max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl"
-          >
-            {dict.world_title_segments.map((segment, index) => {
-              const trailing_space =
-                index < dict.world_title_segments.length - 1;
+          {/* El titular entra y sale con el scroll, como todos los del sitio.
+              Sin esto era el unico que se quedaba puesto para siempre despues
+              de la primera vez: bajando se armaba palabra por palabra y
+              volviendo a subir ya estaba ahi.
+              La mezcla de los dos efectos es la misma que ya hace el titular
+              de los pesos: `BlurText` entra una vez y `ScrollPass` es funcion
+              pura del scroll, asi que en la primera entrada las dos opacidades
+              se multiplican. */}
+          <ScrollPass {...HEADING_PASS} enter_from="left">
+            <BlurText
+              tag="h2"
+              class_name="max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl"
+            >
+              {dict.world_title_segments.map((segment, index) => {
+                const trailing_space =
+                  index < dict.world_title_segments.length - 1;
 
-              return (
-                <BlurTextPiece key={index} trailing_space={trailing_space}>
-                  {segment.rotating ? (
-                    <RotatingText texts={dict.world_rotating_words} />
-                  ) : (
-                    segment.text
-                  )}
-                </BlurTextPiece>
-              );
-            })}
-          </BlurText>
+                return (
+                  <BlurTextPiece key={index} trailing_space={trailing_space}>
+                    {segment.rotating ? (
+                      // La palabra que rota va en el color de acento, y es el
+                      // unico tramo coloreado del titular. No es decoracion: esa
+                      // palabra ES el argumento de la seccion —organizacion,
+                      // empresa, negocio: el mismo sistema sirve para las tres— y
+                      // ademas es la unica que cambia sola. Pintarla avisa que hay
+                      // algo que mirar antes de que se mueva.
+                      <span className="text-brand">
+                        <RotatingText texts={dict.world_rotating_words} />
+                      </span>
+                    ) : (
+                      segment.text
+                    )}
+                  </BlurTextPiece>
+                );
+              })}
+            </BlurText>
+          </ScrollPass>
 
           {/* El planeta se acota: a lo ancho de media pantalla grande se vuelve
               una esfera enorme que le gana al texto, y es la ilustracion. */}
-          <ScrollPass class_name="mx-auto w-full max-w-md lg:max-w-lg">
-            <Globe markers={MARKERS} arcs={ARCS} />
+          {/* Entra desde la derecha, que es la columna en la que vive, y se
+              coloca. Antes atravesaba en vertical: derivaba 90px de corrido y
+              nunca estaba en su sitio. Los 90px se quedan como distancia. */}
+          <ScrollPass
+            enter_from="right"
+            class_name="mx-auto w-full max-w-md lg:max-w-lg"
+          >
+            {/* Via `GlobeLazy` y no `Globe` directo: esta seccion es un
+                Server Component, y desde ahi `next/dynamic` no parte el chunk
+                ni admite `ssr: false`. El envoltorio de cliente es lo que saca
+                a `cobe` de la carga inicial — el porque completo esta en
+                `globe_lazy.jsx`. */}
+            <GlobeLazy markers={MARKERS} arcs={ARCS} />
           </ScrollPass>
         </div>
       </Container>

@@ -71,7 +71,18 @@ export async function headings_of(lang, slug) {
   const headings = [];
   let in_fence = false;
 
-  for (const line of raw.split("\n")) {
+  // ⚠️ **Se parte con `/\r?\n/` y NO con `"\n"`, y esto fue un bug de verdad.**
+  // El repositorio guarda los `.mdx` con LF, pero Git los deja en el disco con
+  // CRLF en Windows (`core.autocrlf`). Partiendo solo por `"\n"`, cada linea se
+  // queda con un `\r` pegado al final — y en una expresion regular de
+  // JavaScript el `.` **no** matchea `\r`, asi que `/^(#{2,3})\s+(.*)$/` no
+  // cerraba contra `## Titulo\r` y esta funcion devolvia `[]` **para todas las
+  // paginas**. El indice lateral quedaba vacio, sin un error en ningun lado.
+  //
+  // Es exactamente la clase de fallo silencioso que ya estaba anotada arriba
+  // para los slugs, con otra causa: en Linux —o sea en CI— funcionaba, y en la
+  // maquina de quien escribe las docs, no. Lo encontro `test/docs.test.js`.
+  for (const line of raw.split(/\r?\n/)) {
     // Las vallas de codigo se saltean enteras: un `# comentario` dentro de un
     // bloque de shell no es un encabezado, y sin este corte entraria al indice.
     if (line.trimStart().startsWith("```")) {
@@ -104,8 +115,25 @@ export async function headings_of(lang, slug) {
  * ids se separan y el indice apunta al vacio.
  */
 function strip_inline_markdown(text) {
-  return text
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // enlaces: queda la etiqueta
-    .replace(/[`*_]/g, "")
-    .trim();
+  return (
+    text
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // enlaces: queda la etiqueta
+      .replace(/[`*]/g, "") // codigo en linea y negrita/cursiva con asterisco
+      // ⚠️ **El guion bajo NO se borra siempre, y borrarlo siempre era un bug.**
+      // En Markdown `_` es cursiva solo cuando envuelve texto (`_asi_`); adentro
+      // de una palabra es un caracter comun. Este proyecto escribe
+      // identificadores en snake_case y los mete en los encabezados, asi que un
+      // `.replace(/_/g, "")` a secas convertia `escala_3` en `escala3`.
+      //
+      // Medido contra el HTML construido: el id real de esa pagina es
+      // `why-escala_3-uses-numbers` —`rehype-slug` slugifica el texto YA
+      // renderizado, donde el guion bajo sigue estando— mientras que el indice
+      // apuntaba a `why-escala3-uses-numbers`. El enlace se dibujaba y no
+      // saltaba a ningun lado: el fallo silencioso que advierte `headings_of`.
+      //
+      // Se borra solo el `_` que NO esta flanqueado por alfanumericos de los dos
+      // lados, que es exactamente el que hace de cursiva.
+      .replace(/(?<![A-Za-z0-9])_|_(?![A-Za-z0-9])/g, "")
+      .trim()
+  );
 }

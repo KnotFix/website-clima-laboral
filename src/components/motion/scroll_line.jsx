@@ -31,35 +31,43 @@ export const SEAM_Y = 740;
  * SVG se estira al contenedor (`preserveAspectRatio="none"`), asi que estos
  * numeros son porcentajes: `x` del ancho de la caja, `y` del alto.
  *
- * `STACK` cruza la columna de las fichas de lado a lado y despues **sale por el
+ * `STACK` baja por la izquierda, cruza por detras de la pila y **sale por el
  * borde derecho**. El trazo pasa por detras de las fichas, asi que lo que se ve
- * de el es lo que asoma entre una y otra: si fuera recto y vertical se leeria
- * como un borde de la maqueta. Cruzando, cada tramo visible sale en un angulo
- * distinto y se lee como un hilo que sigue de largo por atras.
+ * de el es donde entra y donde sale: si fuera recto y vertical se leeria como un
+ * borde de la maqueta. Cruzando en diagonal, los dos tramos visibles salen en
+ * angulos distintos y se lee como un hilo que sigue de largo por atras.
  *
- * > **La caja es la diapositiva entera, no la columna de las fichas.** Tiene que
- * > serlo: el trazo termina en `x = 100`, que es el borde de la diapo, y ese
- * > borde es la juntura con el grafico. Con la caja acotada a la columna, `100`
- * > seria el borde de la columna y la linea moriria en el medio de la pantalla.
- * > Por eso la parte que teje entre las fichas vive entre 56 y 78: es donde cae
- * > la columna derecha de la reja en coordenadas de la diapositiva. Medido a
- * > 1920: las fichas ocupan del 52% al 80% del ancho. Tejer mas ancho —se probo
- * > con 58 y 92— no se lee como un hilo entre tarjetas sino como una ese enorme
- * > cruzando el tercio derecho de la pantalla, porque la caja ahora mide una
- * > pantalla entera y no una columna.
+ * > **La caja es la diapositiva entera, no la pila.** Tiene que serlo: el trazo
+ * > termina en `x = 100`, que es el borde de la diapo, y ese borde es la juntura
+ * > con el grafico. Con la caja acotada a la pila, `100` seria el borde de la
+ * > pila y la linea moriria en el medio de la pantalla.
+ *
+ * > **El tramo de arriba baja por `x ≈ 20` para no cruzar el titular.** Antes
+ * > bajaba por 56-78, que era donde caia la columna derecha de las fichas cuando
+ * > la seccion tenia dos columnas. Con la pila centrada debajo del titular, ese
+ * > tercio derecho quedo vacio y el medio lo ocupa el titulo: un trazo por ahi
+ * > le cruzaria el renglon. Medido a 1920 con el titular en `text-5xl`, el texto
+ * > vive entre 37 y 63; 20 lo esquiva con aire de sobra y sigue leyendose como
+ * > una linea de la seccion y no como un borde pegado al costado.
+ *
+ * > **Las fichas ocupan de 30 a 70 y la banda va de 480 a 660** (768px centrados
+ * > en 1920, en una diapositiva de un alto de ventana). El cruce entra ahi por
+ * > abajo a la izquierda y sale por la derecha, que es lo que deja los dos
+ * > extremos a la vista con la pila armada.
  *
  * > **Sin atajos `S`, y esta medido.** La version con curvas encadenadas se
  * > desbordaba por la derecha: `S` refleja el tirador anterior, y con la caja
  * > estirada a una pantalla entera (`preserveAspectRatio="none"`) esa reflexion
  * > mandaba el control mas alla de `x = 100`. El trazo salia de la diapositiva y
  * > volvia, dibujando un rulo. Con cada tirador escrito no hay reflexion que
- * > adivinar.
+ * > adivinar — y en cada juntura los dos tiradores van alineados a mano, que es
+ * > lo que `S` hacia gratis y aca hay que escribir.
  */
 const STACK = [
-  `M 56 0`,
-  `C 56 130, 78 170, 78 310`,
-  `C 78 440, 56 480, 56 610`,
-  `C 56 690, 78 ${SEAM_Y}, 100 ${SEAM_Y}`,
+  `M 30 0`,
+  `C 30 170, 20 250, 20 390`,
+  `C 20 480, 38 500, 50 560`,
+  `C 62 620, 82 ${SEAM_Y}, 100 ${SEAM_Y}`,
 ].join(" ");
 
 /**

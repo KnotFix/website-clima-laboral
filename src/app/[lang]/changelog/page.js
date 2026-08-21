@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/site/container";
-import { Footer } from "@/components/site/footer";
+import { FOOTER_LIFT, FOOTER_SPAN, Footer } from "@/components/site/footer";
+import { ScrollLift } from "@/components/motion/scroll_lift";
 import { Navbar } from "@/components/site/navbar";
 import { changelog_entries } from "@/lib/changelog";
 import { get_dictionary } from "@/lib/dictionaries";
@@ -61,48 +62,64 @@ export default async function ChangelogPage({ params }) {
       {/* `bg-background` opaco por lo mismo que docs y legales: `PageLight` es
           una capa fija detras de toda la pagina y sus destellos diagonales le
           pelean al texto largo. */}
-      <main id="main" className="flex-1 bg-background">
-        {/* `pt-28` despeja la isla del navbar, que es fija. */}
-        <Container class_name="pt-28 pb-16 lg:pt-36 lg:pb-24">
-          <div className="max-w-3xl">
-            <header>
-              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                {dict.changelog_title}
-              </h1>
-              <p className="mt-4 text-lg text-muted-foreground">
-                {dict.changelog_body}
-              </p>
-            </header>
+      {/* > **El mismo destape que la home, y por eso el `<main>` va envuelto.**
+          Aca la tapa no es un CTA: es el `<main>` mismo, que ya lleva
+          `bg-background` opaco —ver el comentario de arriba— asi que no
+          necesita la franja de `HeroCover` que la home si necesita.
 
-            <div className="mt-14 space-y-14">
-              {entries.map(({ slug, Entry, meta }) => (
-                <article key={slug}>
-                  {/* La FECHA va arriba y en chico, el titulo abajo y grande:
+          `inner_class_name` no es decoracion: entre el `<body>`, que es la
+          columna flex, y este `<main>` quedan los dos divs de `ScrollLift`. Sin
+          pasarles el flex, el `flex-1` se corta en el primero y una pagina corta
+          deja al pie flotando a media pantalla. */}
+      <ScrollLift
+        lift={FOOTER_LIFT}
+        span={FOOTER_SPAN}
+        class_name="flex flex-1 flex-col"
+        inner_class_name="flex flex-1 flex-col"
+      >
+        <main id="main" className="flex flex-1 flex-col bg-background">
+          {/* `pt-28` despeja la isla del navbar, que es fija. */}
+          <Container class_name="pt-28 pb-16 lg:pt-36 lg:pb-24">
+            <div className="max-w-3xl">
+              <header>
+                <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                  {dict.changelog_title}
+                </h1>
+                <p className="mt-4 text-lg text-muted-foreground">
+                  {dict.changelog_body}
+                </p>
+              </header>
+
+              <div className="mt-14 space-y-14">
+                {entries.map(({ slug, Entry, meta }) => (
+                  <article key={slug}>
+                    {/* La FECHA va arriba y en chico, el titulo abajo y grande:
                       quien recorre esta pagina busca «que cambio», no «que dia
                       fue». La etiqueta `<time>` la deja legible para un lector
                       de pantalla y para un buscador. */}
-                  <time
-                    dateTime={meta.date ?? slug}
-                    className="text-xs font-medium uppercase tracking-wider text-muted-foreground"
-                  >
-                    {meta.date ?? slug}
-                  </time>
+                    <time
+                      dateTime={meta.date ?? slug}
+                      className="text-xs font-medium uppercase tracking-wider text-muted-foreground"
+                    >
+                      {meta.date ?? slug}
+                    </time>
 
-                  <h2 className="mt-2 text-xl font-semibold tracking-tight">
-                    {meta.title}
-                  </h2>
+                    <h2 className="mt-2 text-xl font-semibold tracking-tight">
+                      {meta.title}
+                    </h2>
 
-                  {/* Sin clase de prosa: el estilo de cada etiqueta lo pone el
+                    {/* Sin clase de prosa: el estilo de cada etiqueta lo pone el
                       mapa de `mdx_components`, igual que en docs y legales. */}
-                  <div className="mt-4">
-                    <Entry />
-                  </div>
-                </article>
-              ))}
+                    <div className="mt-4">
+                      <Entry />
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
-        </Container>
-      </main>
+          </Container>
+        </main>
+      </ScrollLift>
 
       <Footer lang={lang} dict={dict} section_base={`/${lang}`} />
     </>

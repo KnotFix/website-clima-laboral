@@ -17,10 +17,20 @@ src/
   app/
     globals.css                 tokens + @theme inline                  [programmer]
     layout.js                   NO existe: el layout raiz vive en [lang]
+    sitemap.js                sitemap.xml: las 54 URLs con sus hreflang.
+                                Sale de DOCS_NAV y LEGAL_NAV, no de una
+                                lista escrita a mano                    [programmer]
+    robots.js                 robots.txt. Va en la RAIZ y no bajo [lang]:
+                                hay uno por dominio                     [programmer]
     [lang]/
-      layout.js                 <html lang>, fuentes, tema, <PageLight>.
+      layout.js                 <html lang>, fuentes, tema, <PageGrain>.
                                 El title lleva `template`: de ahi sale que las
                                 docs terminen en "— Knotfix Clima"      [programmer]
+      opengraph-image.js        la tarjeta de 1200x630 que se ve al pegar un
+                                enlace. Una por idioma; las rutas hijas la
+                                heredan                                 [programmer]
+      twitter-image.js          reexporta la de arriba, para las etiquetas
+                                twitter:*                               [programmer]
       page.js                   home: compone las secciones. El envoltorio
                                 con bg-background corta la luz bajo el video
                                                                         [programmer]
@@ -42,12 +52,9 @@ src/
       mobile_menu.jsx           Sheet para < md                         [programmer]
       theme_provider.jsx        wrapper cliente de next-themes          [programmer]
       theme_toggle.jsx          claro/oscuro                            [programmer]
-      light_switch.jsx          <LightSwitch>: el sol del hero. Mismo cambio
-                                de tema que theme_toggle, sin etiqueta y
-                                solo en la home. Se ve por `.sun-switch`
-                                                                        [programmer]
       lang_switch.jsx           es/en                                   [programmer]
-      footer.jsx                                                        [programmer]
+      footer.jsx                el pie, que sale desde ABAJO del CTA.
+                                Ver <ScrollLift> en page.js            [programmer]
     home/
       hero.jsx                  titular, copy, CTAs                     [programmer]
       hero_title.jsx            el h1 con la entrada palabra a palabra  [programmer]
@@ -58,28 +65,35 @@ src/
       cycling_tile.jsx          fichas del titular: cara y clima        [programmer]
       problem.jsx               seccion 2                               [programmer]
       how_it_works.jsx          seccion 3 (critica: autoservicio): las
-                                tres fichas en zigzag + StepCard local  [programmer]
-      weights_filters.jsx       seccion 4 (diferenciadora): cuatro
+                                cuatro fichas en zigzag + StepCard
+                                local                                   [programmer]
+      weights_filters.jsx       seccion 4 (diferenciadora): tres
                                 bloques, cada uno con su maqueta        [programmer]
       scale_tree.jsx            escala: 4 organizaciones en pestanas    [programmer]
       org_chart.jsx             organigrama recursivo de un arbol       [programmer]
-      confidentiality.jsx       seccion 6                               [programmer]
-      final_cta.jsx             seccion 7                               [programmer]
+      faq.jsx                   seccion 6: el marco del FAQ             [programmer]
+      faq_list.jsx              el acordeon; la unica parte con estado  [programmer]
+      final_cta.jsx             seccion 7: texto y boton en fila        [programmer]
     motion/
-      parallax.jsx              <Parallax scroll_speed>                 [creative]
-      scroll_zoom.jsx           <ScrollZoom zoom_from zoom_to>          [creative]
+      scroll_zoom.jsx           <ScrollZoom zoom_from zoom_to>. Define
+                                TRAVEL, la unidad de `scroll_speed`     [creative]
       word_pull_up.jsx          <WordPullUp> + <WordPullUpPiece>        [creative]
       blur_text.jsx             <BlurText> + <BlurTextPiece>           [creative]
       rotating_text.jsx         <RotatingText>: palabra que se releva   [creative]
       image_cycle.jsx           <ImageCycle>: capturas que se cruzan    [creative]
       scroll_pass.jsx           <ScrollPass>: entra y sale con scroll   [creative]
-      scroll_lift.jsx           <ScrollLift>: tapa que se levanta       [creative]
+      scroll_lift.jsx           <ScrollLift>: tapa que se levanta.
+                                La usan el hero y el CTA final         [creative]
+      scroll_glide.jsx          <ScrollGlide>: la inercia del scroll.
+                                No dibuja nada; se monta en el layout   [creative]
       reveal.jsx                entrada al viewport                     [creative]
       pinned_chapter.jsx        <PinnedChapter> + <ChapterSlide> +
-                                useChapter(): dos secciones clavadas
-                                que se panean de lado                    [creative]
-      cards_stack.jsx           <CardsStack> + <StackCard>: la pila,
-                                atada al avance del capitulo             [creative]
+                                <ChapterLand> + useChapter(): dos
+                                secciones clavadas que se panean
+                                de lado                                  [creative]
+      cards_stack.jsx           <CardsStack> + <StackCard>: la pila que
+                                sube y se apila, atada al avance
+                                del capitulo                             [creative]
       scroll_line.jsx           <ScrollLine> + SEAM_Y: el trazo y la
                                 altura de la juntura entre diapos        [creative]
       carousel_rail.jsx         <CarouselRail>: el riel que corre y el
@@ -91,33 +105,32 @@ src/
     effects/
       glass_bar.jsx             cascara de vidrio del navbar            [creative]
       grid_backdrop.jsx         fondo de puntos + resplandor            [creative]
+      golden_backdrop.jsx       <GoldenBackdrop>: la geometria dorada
+                                del hero — subdivision, cuadrados
+                                anidados y la espiral de Fibonacci      [creative]
       page_grain.jsx            <PageGrain>: el grano de pelicula de
                                 toda la pagina, corriendose a 12 fps    [creative]
       section_glow.jsx          <SectionGlow>: ENVUELVE una seccion y le
                                 da una direccion de luz. Resuelve el
                                 apilado (`isolate` + `-z-10`) por vos   [creative]
-      god_lights_layer.jsx      <GodLightsLayer>: la maquinaria de una
-                                luz de canvas (godlights) — tema,
-                                resolucion, animacion, medida. No sabe
-                                de composicion                          [creative]
-      page_light.jsx            <PageLight>: la luz FIJA de toda la
-                                pagina + el lavado de `.page-light`     [creative]
-      hero_particles.jsx        <HeroParticles>: el polvo que sube en el
-                                hero, en canvas. Se mide a si mismo, se
-                                para fuera de pantalla, color de `--spark`
-                                                                        [creative]
       hero_cover.jsx            pie opaco del hero + la niebla del pie  [creative]
+      footer_backdrop.jsx       <FooterBackdrop>: el fondo del pie — luz,
+                                esferas, reja de lineas y la palabra   [creative]
+      planet_backdrop.jsx       <PlanetBackdrop>: las manchas detras
+                                de la seccion del planeta             [creative]
       stack_backdrop.jsx        degradado del problema                  [creative]
       ruler_marks.jsx           <RulerMarks>: cota con marcas           [creative]
-      glass_panel.jsx           superficie translucida                  [creative]
       globe.jsx                 <Globe>: planeta cobe (WebGL)           [creative]
+      globe_lazy.jsx            <GlobeLazy>: el planeta en un chunk aparte.
+                                Existe porque el corte tiene que nacer del
+                                lado del cliente — ver mas abajo        [creative]
       chart_line.jsx            <ChartLine>: el grafico que corre por
                                 detras del carrusel de la medicion      [creative]
       steps_trail.jsx           <StepsTrail>: la ruta punteada que une
-                                las fichas de los tres pasos            [creative]
-      system_shots.jsx          las CUATRO maquetas del sistema del
-                                analisis: <CrossShot>, <WeightsShot>,
-                                <CompareShot> y <ThresholdShot>         [creative]
+                                las fichas de los cuatro pasos          [creative]
+      system_shots.jsx          las TRES maquetas del sistema del
+                                analisis: <CrossShot>, <CompareShot> y
+                                <ThresholdShot>                         [creative]
     docs/
       docs_layout.jsx           marco de las docs: navbar, sidebar, contenido,
                                 indice y pie. Es un COMPONENTE y no un
@@ -162,6 +175,18 @@ src/
                                 CRUDO con fs para el indice             [programmer]
     legal.js                    resolve_legal(). Mas corto que docs.js: sin
                                 indice, no hace falta releer el .mdx    [programmer]
+  proxy.js                      elige idioma por Accept-Language y redirige.
+                                Exporta pick_locale() solo para poder
+                                probarla                                [programmer]
+test/
+  stubs/server_only.js          reemplazo vacio de `server-only`        [programmer]
+  content_parity.test.js        es/en con las mismas llaves, cada slug con su
+                                .mdx en los dos idiomas, sin huerfanos  [programmer]
+  proxy.test.js                 el parser de Accept-Language            [programmer]
+  site_config.test.js           swap_locale_in_path() e is_locale()     [programmer]
+  docs.test.js                  is_doc_slug() y headings_of(), con la
+                                invariante de los slugs                 [programmer]
+vitest.config.mjs               alias `@` y `server-only`               [programmer]
 docs/
   architecture.md               este archivo                            [architect]
   legal.md                      los tres documentos legales: que falta
@@ -230,11 +255,12 @@ docs/
 > borde de la superficie aparece como un rectángulo a todo lo ancho antes de
 > que exista la isla, y el efecto se delata.
 | `tilt_strength` | prop number | intensidad de la inclinación por mouse, en grados |
-| `STACK_TOP` | const number | dónde se clava la primera ficha de la pila, en px |
-| `STACK_GAP` | const string | aire entre ficha y ficha, en `vh`: el scroll que hay que recorrer para que llegue la siguiente |
+| `STACK_STEP` | const number | escalón entre ficha y ficha de la pila, en px. **Es lo que asoma de las de atrás**, y su techo lo pone el aire de arriba de la ficha por la escala de profundidad |
+| `DEPTH_SCALE` | const number | cuánto se achica una ficha por cada ficha que le cae encima. Es toda la profundidad de la pila |
 | `index` / `count` | prop number | turno y escalon de una ficha dentro de `CardsStack` |
-| `increment_y` | prop number | cuánto más abajo se clava cada ficha; es lo que asoma de las de abajo |
-| `space_after` | prop string | alto del div vacío que va detrás de la ficha. **Nunca un margen** — ver la pila |
+| `ENTER_MARGIN` | const number | aire entre el borde de abajo de la diapositiva y donde arranca una ficha, en px |
+| `ENTER_DROP_FALLBACK` | const number | caída de emergencia de una ficha mientras la medición no llegó, en px |
+| `stack_context` | contexto | de cuánto más abajo entra cada ficha, en px. Lo mide `CardsStack` contra la diapositiva y lo usa `StackCard` |
 | `READ_LINE` | const number | dónde queda la cabeza del trazo dentro de la ventana, en alto de pantalla |
 | `TICK_STEP` / `TICK_LENGTH` | const number | separación y largo de la marca corta de la regla, en px |
 | `MAJOR_STEP` / `MAJOR_LENGTH` | const number | ídem la marca larga; el ritmo de cuatro en cuatro es lo que la hace regla |
@@ -242,6 +268,22 @@ docs/
 | `drift` | prop number | recorrido vertical de `ScrollPass`, en px: entra desde `+drift` y se va en `−drift` |
 | `fade_in` / `fade_out` | prop number | los dos hitos de la opacidad de `ScrollPass`, en fracciones del cruce. Entre los dos esta a pleno |
 | `fill_height` | prop boolean | `ScrollPass` pasa el alto de la celda a sus dos divs, para que el `h-full` del hijo tenga contra quien medir |
+| `build_index` | prop number | turno de la pieza en el escalonado de `ScrollPass`: corre su tramo **entero** `build_index * build_step` px más abajo |
+| `build_step` | prop number | cuánto se corre el tramo por turno, en px de scroll. Por defecto `BUILD_STEP`, 70 |
+| `EASE` | const number | la única perilla del hielo: cuánto se acerca el scroll a su destino por fotograma. Vive en `scroll_glide.jsx` |
+| `SETTLED` | const number | resto en px abajo del cual el hielo se da por llegado y apaga su bucle |
+| `STUCK_FRAMES` | const number | fotogramas sin movimiento antes de rendirse. Es la salida del bucle infinito contra el tope o el pie |
+| `enter_from` | prop string | `"left"` / `"right"` / `"below"`: de dónde llega la pieza. **Cambia el modelo de movimiento** — con esto aterriza en su sitio en vez de atravesar. Ver los dos modelos |
+| `SETTLE_SCALE` | const number | cuánto se achica la pieza mientras viene en camino. Es lo que la hace leer como flotando y no como empujada |
+| `SIDE_MIN_WIDTH` | const number | desde qué ancho una pieza tiene un lado del que venir. Abajo de eso el aterrizaje cae a vertical |
+| `phase` | prop string | `ChapterLand`: de qué fase del capítulo cuelga la pieza — `"stack"` (diapo 1) o `"pan"` (diapo 2) |
+| `land_at` / `land_span` | prop number | dónde arranca y cuánto dura el aterrizaje de una pieza, **en fracción de su fase**. Adentro del capítulo no hay px de scroll que signifiquen algo |
+| `fade` | prop boolean | si la pieza además aparece. `false` para lo que ya está a la vista durante la aproximación — ver la pantalla de la aproximación |
+| `LAND_SPAN` / `LAND_TURN` / `LAND_MIN` | const number | duración, paso del turno y ventana mínima de un aterrizaje del capítulo, en fracción de la fase |
+| `LAND_DISTANCE` | const number | desde cuán lejos llega una pieza del capítulo, en px, si no se dice otra cosa |
+| `FOOTER_LIFT` / `FOOTER_SPAN` | const number | cuánto del pie queda metido debajo de la sección anterior y cuánto scroll dura el destape. Viven en `footer.jsx` —el número dice cuánto del PIE se esconde— y los consumen las cuatro páginas |
+| `inner_class_name` | prop string | clases para el div que se MUEVE de `ScrollLift`, no para el que se mide. Existe para dejar pasar el `flex-1` cuando lo que se envuelve es un `<main>` |
+| `pan_progress` | contexto | avance del paneo normalizado: 0 = la diapo 2 está afuera, 1 = calzada. De acá cuelga la entrada de su contenido |
 | `lift` | prop number | cuánto se levanta de más `ScrollLift`, en px. Es **exactamente** cuánto de la sección siguiente queda tapado |
 | `span` | prop number | px de scroll que dura el destape. Más largo = la tapa sube más despacio |
 | `HERO_LIFT` / `HERO_SPAN` | const number | los dos valores del hero, en `hero.jsx` |
@@ -267,8 +309,9 @@ docs/
 | `LOOSE` | const object | el estado sin clavado: riel a mano y gráfico entregado dibujado |
 | `reveal` | prop MotionValue 0→1 | fracción del gráfico dibujada. La pone la pista; `ChartLine` no sabe de scroll |
 | `plot_ratio` | prop number | alto de la caja del gráfico sobre su ancho. Sirve para repartir el dibujo entre los vértices |
+| `draw_scale` | number | largo del trazo en pantalla sobre su largo en unidades del `viewBox`. Es por lo que se multiplica el avance para que el dibujo llegue hasta el final |
 | `POINTS` | const array | los vértices del gráfico, en coordenadas del viewBox. El primero es de entrada y no lleva punto |
-| `BASELINE` / `GRID_TOP` | const number | el eje y el techo de la retícula, en por mil del alto del bloque |
+| `BASELINE` / `GRID_TOP` | const number | el eje y el techo de la retícula, en por mil del alto del bloque. **El techo lo decide el pie del texto de la diapositiva**, no el borde del bloque |
 | `DOT_FADE` | const number | cuánto antes de su punto empieza a aparecer un vértice, en fracción del dibujo |
 | `PIECE_STAGGER` | const number | retraso entre pieza y pieza de la parte de arriba de una maqueta (chips, categorías), en segundos |
 | `BAR_DELAY` / `BAR_STAGGER` | const number | cuánto espera la primera barra después de la última pieza de arriba, y cuánto va entre barra y barra. Las barras son la **consecuencia** de lo que se armó arriba: llegando a la vez, la maqueta se mueve de golpe y no se lee que una cosa produce la otra |
@@ -276,11 +319,12 @@ docs/
 | `scale_max` | prop string | el techo de la escala. De dividir cada valor por él sale el largo de su barra |
 | `ratio` / `accent` | prop | fracción de la escala que ocupa una barra, y si va morada (la que la sección promete) o gris (la de referencia) |
 | `SHOTS` | const array | qué maqueta va con qué punto, en el orden de `weights_points`. Vive en `weights_filters.jsx` — ver por qué no puede vivir con las maquetas |
-| `TEXT_DRIFT` / `SHOT_DRIFT` | const number | cuánto deriva cada columna de una fila del análisis. **Distintos a propósito: la diferencia es el parallax** |
-| `TRAIL` | const string | la ruta punteada que une los tres pasos, en coordenadas del viewBox de `StepsTrail` (100 × 1000 = porcentajes) |
+| `TEXT_DRIFT` / `SHOT_DRIFT` | const number | desde cuán lejos llega cada columna de una fila del análisis. **Distintos a propósito: la diferencia es el parallax** |
+| `TRAIL` | const string | la ruta punteada que une los cuatro pasos, en coordenadas del viewBox de `StepsTrail` (100 × 1000 = porcentajes). **Un tramo por par de fichas: agregar un paso es agregar un tramo y volver a medir las alturas** |
 | `DRAW_START` / `DRAW_END` | const number | dónde arranca y dónde termina de dibujarse la ruta, en altos de ventana medidos contra el bloque de las fichas |
-| `STEP_CELLS` | const array | el zigzag: la celda de la reja y el ángulo de cada paso. Vive en `how_it_works.jsx` |
+| `STEP_CELLS` | const array | el zigzag: la celda de la reja y el ángulo de cada paso. Vive en `how_it_works.jsx`. **Tiene que haber una celda por paso**: el índice se toma con `% length`, así que un paso sin celda propia se monta encima del primero |
 | `cell` / `angle` | prop string | las clases de una entrada de `STEP_CELLS`: dónde cae la ficha y cuánto se tuerce |
+| `side` | prop string | el tercer campo de `STEP_CELLS`: de qué lado llega la ficha. Sale del mismo zigzag que `cell` |
 | `zoom_from` | prop number | escala con la que `ScrollZoom` entra: 0.7 = 30% más chico |
 | `zoom_to` | prop number | escala de llegada; 1 = el tamaño real, reservado en el layout |
 | `zoom_origin` | prop `"center"` \| `"top"` | desde donde crece y sobre qué eje se inclina |
@@ -326,17 +370,23 @@ world_title_segments[] { text } | { rotating: true } — como hero_title_segment
 world_rotating_words[] las palabras que se relevan en el titular del planeta
 measurement_title
 measurement_body
-measurement_items[]    { title, body }  — cuatro; el icono NO vive acá
-                       el título dice el dato, no lo insinúa; el cuerpo, un renglón o dos
+measurement_items[]    { title, body }  — tres; el icono NO vive acá, y va por
+                       posición: sacar una ficha es sacar tambien su icono
+                       el título dice el dato, no lo insinúa; el cuerpo entra en
+                       tres renglones — en el riel clavado las fichas van
+                       centradas y no se igualan de alto
 measurement_shots_title  pie de la ultima ficha del carrusel
 measurement_shots[]    { src, alt } — capturas que se van pasando
 problem_title_segments[] { text } | { text, tone: "brand" } — como hero_title_segments
+                   es una PREGUNTA y va sin cortes de renglón: envuelve sola
 problem_items[]    { title, body }  — el título de cada una nombra lo que critica
                    afirma una falla concreta y se entiende sin el cuerpo
+                   el cuerpo va en segunda persona: le pasa a quien lee
 how_title
 how_steps[]        { step_title, step_body }
 weights_title      se parte por espacios para `BlurText`; el punto de una frase
-                   corta el renglon, igual que en el titular del problema
+                   corta el renglon — es el unico titular que lo hace desde que
+                   el del problema paso a ser una sola pregunta
 weights_body
 weights_points[]   { title, body } — el titulo dice que hacés, el cuerpo que ganás
 weights_shots      { scale_max, cross, weights, compare, threshold } — una
@@ -350,19 +400,49 @@ scale_title
 scale_body
 scale_orgs[]      { label, size, tree }  — `size` es la cifra que se despliega
                   bajo la opcion activa; separador de miles por idioma
-confidentiality_title
-confidentiality_body
-confidentiality_points[]
+
+> **La seccion de confidencialidad se retiro y en su lugar va el FAQ.** El
+> argumento no se perdio: era la objecion mas grande que tiene una encuesta de
+> clima, asi que entro como la PRIMERA pregunta —que es donde alguien la busca—
+> junto con el umbral minimo, que era su segundo punto. El ancla cambio de
+> `#confidentiality` a `#faq` y con ella la etiqueta del navbar, que sale de
+> `nav_links` y la comparten navbar y pie.
+>
+> **El FAQ existe porque el producto se vende por autoservicio.** No hay nadie
+> del otro lado para aclarar una duda antes de que alguien cree la cuenta, asi
+> que lo que no este contestado ahi es una persona que se va. Por lo mismo
+> ninguna respuesta afirma nada que el sitio no diga ya en otra parte: precio,
+> duracion de la prueba y plazos concretos quedan afuera a proposito.
+
+faq_title
+faq_body
+faq_items[]       { question, answer } — el orden es el de la pantalla y el
+                  numero 01..06 sale del indice, no del contenido
 final_cta_title
 final_cta_body
 final_cta_button
+
+> **El botón va al lado del texto, no debajo, y el relleno bajó de `py-28
+> sm:py-36` a `py-20 sm:py-24`.** Apilado quedaba tercero en la lectura
+> —titular, cuerpo, y recién ahí el botón—, y en el pie de una página larga eso
+> es un piso más para llegar a lo único que hay que apretar. De ahí que el texto
+> deje de ir centrado: en una fila, un bloque centrado a la izquierda y un botón
+> a la derecha no comparten ningún eje. Abajo de `md` vuelve a ser columna.
+>
+> Aquel relleno alto salía de que el bloque era una columna de tres pisos y
+> necesitaba aire para no leerse apretado. En fila mide casi la mitad —485px
+> pasaron a 317— y el mismo relleno dejaba la sección vacía arriba y abajo.
+>
+> **Y recién ahí el botón pasó a ser el mismo que el primario del hero**, plato
+> incluido. Apilado bajo el cuerpo llevaba el `lg` pelado del registro
+> —`h-9 px-2.5`, 88px de ancho con el rótulo en inglés—, que al costado de un
+> titular a `text-4xl` se leía como un botón secundario. Es el último botón de
+> la página y el mismo destino que el del hero.
+
 footer_tagline
 footer_rights
 
 a11y_toggle_theme
-a11y_light_switch      nombre del sol del hero. Distinto a proposito de
-                       a11y_toggle_theme: el disco no dice "tema", dice de
-                       que hora es la escena
 a11y_open_menu
 a11y_close_menu
 a11y_switch_lang
@@ -399,11 +479,13 @@ Si un detalle tiene que ser morado, usa `--brand` (`text-brand`, `bg-brand`,
 
 ### Tokens y clases propios del navbar
 
-Van aparte de `--surface` porque `--surface` lo comparte `glass_panel.jsx`.
+> **`--surface` ya no existe.** Era la cara translucida generica y su unico
+> consumidor era `glass_panel.jsx`, que se retiro por no tener ninguno. El token
+> y su `--color-surface` se fueron con el.
 
 | Token / clase | Para qué |
 |---|---|
-| `--nav-surface` | vidrio del navbar. Bastante translúcido: el navbar viaja sobre el hueso del hero y sobre las secciones blancas, así que no puede tener color propio |
+| `--nav-surface` | vidrio del navbar. Bastante translúcido: el navbar viaja sobre la seda del hero y sobre las bandas de más abajo, así que no puede tener color propio |
 | `.nav-glass` | el vidrio en sí: `--nav-surface` + `backdrop-filter`. Lo usan la barra del tope y la isla |
 | `.nav-scrim` | franja de vidrio enmascarada que tapa el hueco entre el tope y la isla |
 | `.nav-key` | hover de los links: fondo neutro + sombra difusa abajo. Sin relieve, sin borde y **sin morado** |
@@ -413,7 +495,7 @@ Van aparte de `--surface` porque `--surface` lo comparte `glass_panel.jsx`.
 > razones independientes. El goo necesita formas **opacas** — su rampa de alfa
 > (`18a − 7`) lleva a opaco todo lo que pase de ~0.44, así que un slime
 > translúcido sale sólido igual. Y un `filter` en cualquier ancestro **anula**
-> el `backdrop-filter` de todos sus hijos. Con el hero en hueso, una barra
+> el `backdrop-filter` de todos sus hijos. Sobre la seda del hero, una barra
 > blanca sólida se recortaba como una banda; el vidrio no tiene color propio y
 > se adapta a lo que tenga detrás.
 >
@@ -426,21 +508,26 @@ Van aparte de `--surface` porque `--surface` lo comparte `glass_panel.jsx`.
 
 | Token | Para qué |
 |---|---|
-| `--background` | **blanco hueso `#d6d5d1` en TODA la página**, no solo el hero. Las tarjetas siguen en `--card` blanco y por eso se levantan |
+| `--background` | **blanco puro `#ffffff` en TODA la página**, no solo el hero. Antes era un hueso; ver *El fondo es blanco, y qué se llevó puesto* |
 | `--hero-title-muted` | gris de las palabras apagadas del titular. Texto grande, así que le alcanza 3:1 (AA large) |
 | `--signal-*` | `good` / `warn` / `bad` / `cloud` / `rain`: los colores de las fichas |
-| `<GodLightsLayer>` | la maquinaria: recibe `halos` y `rays`, y resuelve tema, resolución, animación y medida. **No sabe de composición** |
-| `<PageLight>` | la luz de la página: dos abanicos de rayos + dos halos, en **canvas** con `godlights` |
-| `halos` / `rays` | prop array | las capas de una escena. **Tienen que ser constantes de módulo**: un array nuevo por render rearma la escena y redibuja el lienzo |
-| `.page-light` | lo que queda en CSS: **solo** el lavado de arriba abajo, que hace de piso. Cálido, no blanco |
-| `.light-handoff` | el fondo propio de todo lo que va abajo del video. Entra desde transparente: es lo que apaga la luz de a poco |
-| `LIGHT_RAY_COLOR` | const string | el marrón cálido con el que se dibuja la sombra de los rayos en tema claro |
-| `LIGHT_HALO_COLOR` | const string | el dorado del foco en tema claro. En oscuro el foco es `#ffffff` y no hay constante |
-| `<HeroParticles>` | el polvo que sube en el hero. Canvas propio, sin props: se mide a sí mismo |
-| `--spark` | color de una mota de polvo. Dorado en claro, blanco helado en oscuro |
-| `<LightSwitch>` | el sol: cambia el tema al apretarlo. Vive en `site/` con `theme_toggle`, porque es un control y no un adorno |
-| `.sun-switch` | todo su aspecto: disco, núcleo, las tres capas de resplandor y el aura que respira |
-| `--sun` / `--sun-core` / `--sun-glow` | disco, centro caliente y resplandor. **Es un solo objeto con dos horas**: la geometría no cambia entre temas, solo estos tres |
+| `--atmo-start` / `--atmo-end` | los dos extremos de la atmósfera: naranja claro arriba, naranja hondo abajo. **Cambiar el color del sitio es cambiar estas dos líneas**. Se llaman `start`/`end` y no `cool`/`warm` porque hoy los dos son cálidos — el nombre dice posición, no temperatura |
+| `--atmo-strength` | cuánto pesa el tinte. Va por tema y en oscuro **más alto**: sobre el casi negro un translúcido rinde menos |
+| `--atmo-mix` | qué tan avanzada está una sección en el recorrido, en %. Lo publica cada `<SectionGlow>` con su `tint` |
+| `<AtmosphereField>` | las manchas del fondo, en dos profundidades con parallax. Capa `fixed` en `-z-10`, montada en el layout |
+| `.atmo-field` | la opacidad de todo el campo, derivada de `--atmo-strength`. **Es un límite de legibilidad, no un gusto** |
+| `.atmo-blobs` | un plano de manchas: lleva la máscara que despeja la columna de lectura |
+| `.atmo-blob` + `-cool` / `-mid` / `-warm` | una mancha y de qué extremo saca su color. La del medio es `--brand` |
+| `.footer-light` | el haz que baja desde la juntura con el CTA. **Pesa menos en claro que en oscuro**, y está medido: con la misma fuerza el pie en claro dejaba de leerse como panel iluminado y pasaba a ser un panel naranja |
+| `.footer-grid` | la reja de líneas del pie. Reemplazó a los puntos que cubrían el panel; el color sale de `--org-dot`, que se ve en los dos temas |
+| `.footer-word-dots` | los puntos, ahora acotados a la caja de la palabra. Son textura DE la palabra, no del fondo |
+| `<PlanetBackdrop>` + `.planet-backdrop` / `.planet-spot` | las manchas de la sección del planeta. **La máscara que las corta antes de la esfera no es composición**: el halo del globo es WebGL, está escrito a mano contra el color que espera encontrar detrás y no puede leerlo de una variable CSS |
+| `FADE_SECONDS` | const number | cuánto dura ese fundido. Corto: el hero es la **única** pieza de la página que se funde al cambiar de tema |
+| `.light-handoff` | el fondo propio de todo lo que va abajo del video. Entra desde transparente, para que el pie del hero no sea un corte |
+| `<GoldenBackdrop>` | la geometría dorada del hero. Server Component, **sin una línea de JS de cliente**: dos figuras —vertical y horizontal— de las que sólo una se pinta |
+| `.golden-spark` | el tramo de luz que recorre la espiral. `@keyframes` sobre `stroke-dashoffset`, con `pathLength="1"` para poder escribirlo en fracciones de la curva |
+| `PORTRAIT` / `LANDSCAPE` | las dos figuras, en `golden_backdrop.jsx`: `view_box`, `diagonals`, `lines`, `squares` y `spiral` |
+| `<HeroCover>` | el pie opaco del hero + su niebla. Es lo que convierte al hero en una tapa |
 | `<PageGrain>` | grano de película sobre toda la página, **animado**. Capa fija, `z-70` |
 | `.page-grain` | la MEZCLA, en el envoltorio fijo |
 | `.page-grain-texture` | el DIBUJO (`feTurbulence` en data-URI), en el div que se traslada |
@@ -477,16 +564,21 @@ Van aparte de `--surface` porque `--surface` lo comparte `glass_panel.jsx`.
 > contra el contexto de apilado del **padre**. Puesto en el div que se traslada,
 > el contexto sería el envoltorio fijo —que está vacío— y no se mezclaría con la
 > página. O sea, no haría nada.
-| `.section-band` | cambia el valor del fondo de un tramo, con los bordes desvanecidos **y en diagonal** |
-| `--band` | el color de la banda: más oscuro que el fondo en claro, más claro en oscuro |
-| `.section-seam` | la línea que separa una sección de la siguiente. **Reemplaza a `border-t border-border`, que en claro no se ve** |
+| `.section-band` | cambia el valor del fondo de un tramo, con los bordes desvanecidos **y en diagonal**. **Hoy no pinta en ningún tema** — ver *El fondo oscuro va parejo* |
+| `--band` | el color de la banda. `transparent` en los **dos** temas: en claro nunca hubo recorrido de valor que gastar, en oscuro se apagó para que el fondo quede parejo |
+| `--tab-surface` | la cara de la pestaña activa del árbol en columna. **Token propio y no `--muted`, porque el sentido se invierte con el tema**: la pestaña tiene que levantarse de lo que tenga debajo, y eso en claro es `--card` y en oscuro `--muted`. Nació cuando debajo estaba la banda; apagada la banda sigue haciendo falta, y en oscuro rinde más que antes |
 | `<SectionGlow>` | envuelve una sección y le da una dirección de luz. Resuelve el apilado por vos |
 | `side` | prop `"left"` \| `"right"` | de qué costado cae el modelado. **Alterna sección a sección** |
-| `.section-glow` / `--glow` | el dibujo del resplandor y su color: el fondo movido hacia el color del texto |
-| `--panel` / `bg-panel` | la cara de un panel grande. A mitad de camino entre el fondo y `--card` |
+| `.section-glow` / `--glow` | el dibujo del resplandor y su color, mezclado entre los dos extremos de la atmósfera según `--atmo-mix`. **`--glow` se declara en `.section-glow` y NO en `:root`** — ver la trampa de sustitución más abajo |
+| `.dark .section-glow` | apaga el resplandor en oscuro con `background-image: none`, así que **`SectionGlow` hoy solo pinta en claro**. Ver *El fondo oscuro va parejo* |
+| `tint` | prop number | posición de la sección en el recorrido de la atmósfera, 0 arriba y 1 al pie. Se pasa a mano desde `page.js` |
+| `<AccentTitle>` | el `<h2>` de sección con una o dos palabras en color. Consume `*_title_segments` del diccionario |
+| `--panel` / `bg-panel` | la cara de un panel grande. Se arma **bajando** desde el fondo hacia el texto: sobre la página blanca es el único lado con recorrido |
 
-> **El lienzo del organigrama no tenía fondo: era el hueso de la página con un
-> borde.** Se leía como un hueco, no como una superficie. Ahora lleva `bg-panel`.
+> **El lienzo del organigrama no tenía fondo: era el fondo de la página con un
+> borde.** Se leía como un hueco, no como una superficie. Ahora lleva `bg-panel`,
+> que se hunde 10 valores respecto de la página mientras las cajas blancas se
+> levantan esos mismos 10 sobre él.
 >
 > `--panel` va a **mitad de camino** entre el fondo y `--card`, y ninguno de los
 > dos extremos servía: en `--card` pelado sería blanco puro y las cajas del
@@ -508,23 +600,23 @@ Van aparte de `--surface` porque `--surface` lo comparte `glass_panel.jsx`.
 > a las cuatro. El relleno lo pone quien usa la clase; lo común es el relieve.
 
 > **`border-t border-border` no se veía, y era media página.** `--border` vale
-> `#e5e7eb`, más CLARO que el hueso del fondo (`#e4e3df`), así que los cinco
+> `#e5e7eb`, más CLARO que el hueso que había entonces (`#e4e3df`), así que los cinco
 > separadores que había de la sección del planeta para abajo no existían: era un
 > solo bloque sin un corte. Es el mismo defecto que ya obligó a inventar
 > `--org-line` y `--box-edge` — `--border` está pensado para el borde de las
 > tarjetas blancas, no para dibujar sobre el fondo de página.
 >
-> `.section-seam` sale de `--box-edge` y **se desvanece en las puntas** en vez de
-> ir de pared a pared: una línea que toca los dos bordes de la pantalla corta la
-> página en dos, una que nace y muere dentro del ancho del contenido acompaña a
-> la columna. Va como `background-image` y no como `::before` para no obligar a
-> hacer `relative` a cinco secciones que hoy no lo son.
+> **Acá vivía `.section-seam`**, la línea de 1px que separaba una sección de la
+> siguiente. Salía de `--box-edge`, se desvanecía en las puntas en vez de ir de
+> pared a pared —una línea que toca los dos bordes de la pantalla corta la página
+> en dos— y se dibujaba con `background-image` para no obligar a hacer `relative`
+> a cinco secciones. Se retiró en los dos temas.
 
 > **La inclinación va en el FONDO, nunca en una línea.** Las bandas cortan a
 > 176° —cuatro grados fuera de la vertical, unos cien píxeles de corrimiento a
-> lo ancho de la página— y los seams se quedan horizontales. No es inconsistencia:
-> un degradado torcido se lee como luz, una raya de 1px torcida se lee como un
-> error de alineación. Lo que se busca con los cuatro grados no es que se vea una
+> lo ancho de la página—. La regla nació contra los seams, que por esto iban
+> horizontales: un degradado torcido se lee como luz, una raya de 1px torcida se
+> lee como un error de alineación. Sigue valiendo para cualquier línea nueva. Lo que se busca con los cuatro grados no es que se vea una
 > diagonal, es que el borde **no** sea horizontal: con todos los cortes paralelos
 > al borde de la pantalla, la mitad de abajo se lee como una pila de rectángulos.
 > Las dos bandas llevan el mismo ángulo, paralelas entre sí como los rayos del
@@ -539,138 +631,72 @@ Van aparte de `--surface` porque `--surface` lo comparte `glass_panel.jsx`.
 > hero (capa absoluta sin `z-index` + contenido en `relative`), pero eso obliga a
 > tocar el `Container` de cada sección y a acordarse cada vez.
 >
-> `--glow` es siempre "el fondo movido hacia el color del texto": en claro un
-> gris que **oscurece** el hueso, en oscuro un casi blanco que **aclara** el
-> negro. La misma línea de CSS da sombra de un lado y luz del otro, y las dos son
-> modelado. Es la misma asimetría que la de los rayos.
+> `--glow` era "el fondo movido hacia el color del texto": en claro un gris que
+> **oscurece**, en oscuro un casi blanco que **aclara**. Hoy en claro vale
+> `transparent` y esa mitad no se dibuja; la expresión sigue viva en `.dark`.
 
-`<PageLight>` se monta como una capa **fija a pantalla completa** en el layout,
-no como fondo de una sección: así la luz conserva tamaño y ángulo al scrollear
-(como fondo de un elemento de 5000px se estiraría). Es un div fijo y no
-`background-attachment: fixed` porque eso repinta en cada scroll y iOS Safari lo
-trata mal.
+**El hero no tiene fondo propio.** Lo que se ve ahí son las manchas de
+`<AtmosphereField>`, igual que en cualquier otra sección.
 
-| Nombre | Tipo | Significado |
+> **Acá vivió, y se fue, todo lo que alguna vez fue "el fondo del hero".**
+> Primero `<PageLight>` —una luz FIJA a pantalla completa con dos abanicos de
+> rayos y dos halos en canvas (`godlights`)—, más `<HeroParticles>` y
+> `<GodLightsLayer>`, junto con `.page-light`, `.spotlight`, `--spark`,
+> `LIGHT_RAY_COLOR` y `LIGHT_HALO_COLOR`. Después `<SilkBackdrop>`, una tela que
+> ondulaba en canvas, con sus `--silk-*` y su fundido de tema.
+>
+> **La seda salió por una razón dura, no por gusto:** pintaba un lienzo OPACO del
+> color exacto del `--background` sobre todo el hero, así que tapaba cualquier
+> cosa detrás. El día que el fondo pasó a llevar la atmósfera dejó de ser algo
+> que se podía retirar y pasó a ser algo que había que retirar.
+>
+> Lo único que queda de esa familia es `HeroCover`, y **no es decoración**: es lo
+> que tapa la sección del problema que `ScrollLift` mete detrás del hero.
+
+### El fondo es blanco, y qué se llevó puesto
+
+`--background` es **`#ffffff`**. Antes era un blanco hueso (`#e4e3df`), y el
+motivo era la luz fija: sobre blanco puro los destellos no tenían contra qué
+leerse. Retirada la luz, el hueso se quedó sin el problema que resolvía.
+
+**La consecuencia no es cosmética: el hueso no era un color, era una
+referencia.** `--card` también es `#ffffff`, así que las tarjetas dejaron de
+levantarse por valor y su relieve pasa a ser el borde y la sombra —`--box-edge`,
+el ring de `foreground`, `.surface-key`. Cinco piezas estaban calibradas contra
+el 228 del hueso y se apagaban solas al llegar a 255:
+
+| Pieza | Qué pasaba | Cómo se resolvió |
 |---|---|---|
-| `animated` | prop boolean | enciende el bucle de `requestAnimationFrame` de la luz |
-| `ANIMATED` | const boolean | el valor por defecto de `animated`, en `page_light.jsx`. **Encendido** |
-| `is_animated` | boolean | si de verdad se está animando: `animated` menos movimiento reducido, menos móvil |
-| `ANIMATED_MIN_WIDTH` | const number | ancho de ventana abajo del cual la luz se queda quieta |
-| `ANIMATED_MAX_WIDTH` | const number | techo de resolución del lienzo **moviéndose**. Es lo que hace pagable la animación |
-| `STATIC_MAX_WIDTH` | const number | ídem quieto |
-| `opacity` / `intensity` | campo de capa | la intensidad de esa capa **en el tema oscuro**: el valor tal como salió del editor |
-| `light_opacity` / `light_intensity` | campo de capa | la misma capa en el tema claro. Se saca con un rest antes de armar la escena: godlights no lo conoce |
-| `is_dark` | param boolean | cuál de los dos juegos de intensidades usa `build_scene` |
-| `SCENE_WIDTH` | const number | los 1920px con los que se diseñó la escena; `rayWidth` y `blur` se escalan contra esto |
-| `SIZE_STEP` | const number | escalón de la medida de ventana, en px: evita redibujar con la barra de direcciones de móvil |
+| `--panel` | era `color-mix(--card 50%, --background)`: blanco con blanco da blanco, y el token colapsaba contra la página **y** contra las cajas | se arma bajando desde el fondo hacia el texto (96%), que es la forma que `.dark` ya usaba |
+| `.page-grain` | `overlay` sobre base blanca es un no-op matemático: el grano desaparecía en todo el tema claro | `multiply`, que sobre blanco devuelve el ruido tal cual |
+| halo del planeta (`globe.jsx`) | `#e4e3df` escrito a mano — cobe pinta en WebGL y no lee variables CSS | pasó a `#ffffff`. **El planeta va dentro de un `.section-band`**, pero esa banda está apagada, así que detrás hay fondo de página. Es el único punto que apagar la banda rompe de verdad — y desde que también se apagó en oscuro, los dos temas coinciden exacto |
+| ring de las fichas del problema | era `ring-background/60`: blanco sobre blanco | `ring-foreground/10` en claro, `dark:ring-background/60` para no tocar el oscuro |
+| pestaña activa del árbol | se pintaba con `--muted` sobre la banda: quedaba a un valor de distancia | token nuevo `--tab-surface` (`--card` en claro, `--muted` en oscuro) |
 
-> **El fondo de la escena va `transparent`, no negro.** La escena que exporta el
-> editor de godlights trae un fondo negro sólido porque está pensada para un
-> sitio oscuro. Acá el fondo es del sitio —hueso en claro, casi negro en
-> oscuro— y pintarlo desde el canvas rompería el tema claro entero. Con
-> `bgType: "transparent"` el lienzo solo compone las luces y deja pasar el
-> `--background` del `body`, así que **la misma escena sirve para los dos
-> temas**. `drawScene` hace `clearRect` siempre, no solo con fondo sólido, así
-> que tampoco hay arrastre entre cuadros.
+> **La seda se movió con el fondo, después se apagó, y al final se retiró.**
+> `--silk-fold` estaba 21 valores por debajo del hueso; contra el blanco puro el
+> mismo número quedaba 48 abajo y el hero se leía como un panel gris veteado. La
+> regla no era el valor sino **la distancia**. Terminó saliendo entera cuando el
+> fondo pasó a llevar la atmósfera — ver *La atmósfera*.
 
-> **En tema claro los rayos son SOMBRA, no luz.** Sobre el hueso (`#e4e3df` =
-> 228) un rayo blanco tiene 27 valores de recorrido hasta el 255, y
-> `fadeToTransparent` se come una parte a lo largo del haz: en la parte más
-> brillante llega a ~248, diecinueve valores sobre el fondo y repartidos en un
-> borde desenfocado de 15px. Se dibuja y no se ve. **Subirle la opacidad no
-> arregla nada**: el techo no es la opacidad, es que arriba de 255 no hay nada —
-> se probó en 0.95 y seguía sin verse.
->
-> Sobre el casi negro del oscuro (`#0b0a0f` = 11) el mismo rayo tiene 244
-> valores. No son el mismo problema a distinta escala, son dos regímenes
-> opuestos.
->
-> Por eso en claro el abanico se dibuja en un gris neutro (`LIGHT_RAY_COLOR`,
-> de la familia de `--org-line` y `--box-edge`) y lo que queda del fondo entre
-> rayo y rayo es lo que el ojo lee como la luz. Hacia abajo hay 228 valores de
-> recorrido en vez de 27. Los halos se quedan **blancos** en los dos temas: el
-> foco sigue siendo un punto brillante y de él salen las sombras.
->
-> **La luz de canvas es UNA sola, y es la de la página.** Se probó una segunda
-> en la sección de escala —un haz rasante entrando por el canto izquierdo— y se
-> descartó: no gustó. `GodLightsLayer` quedó igual como pieza aparte porque la
-> separación es entre la maquinaria y la composición, y mide su propio elemento
-> en vez de la ventana, así que sirve tanto para una capa fija como para una
-> sección. Si nunca aparece una segunda luz, se puede volver a fusionar con
-> `page_light.jsx` sin perder nada.
+> **`.nav-key:hover` se invirtió de sentido.** Era `--muted` mezclado contra
+> blanco: sobre la barra apoyada en el hueso subía nueve valores, y sobre la
+> barra blanca quedaba tres por **debajo**. Ahora oscurece (`--foreground` al 5%),
+> porque sobre blanco no hay a dónde subir.
 
-> Trampa a tener presente: con el fondo de la escena en `transparent`, el
-> `blendMode` solo mezcla **dentro** del lienzo — el `<canvas>` después se
-> compone sobre la página con alfa común. Lo que oscurece el fondo no es
-> `multiply`, es que el gris se dibuja gris. El `blendMode` importa donde los dos
-> abanicos se cruzan entre sí.
->
-> El lavado de `.page-light` bajó de 0.42 a **0.12** por lo mismo: cae justo
-> arriba, donde los rayos son más fuertes, y dejaba el fondo en 239.
+> **El canto de `.cta-key-soft` pasó de 16% a 22%.** El porcentaje es una
+> distancia desde el fondo, así que el mismo número devolvía un canto 23 valores
+> más claro. Solo se ve en tema claro: `.dark .cta-key-soft` reemplaza las tres
+> sombras por negros literales.
 
-> **La luz respira, y se apaga con `prefers-reduced-motion` y en móvil**
-> (`ANIMATED_MIN_WIDTH`). Cuesta: cada cuadro redibuja 43 rayos y, como los dos
-> abanicos llevan desenfoque, la librería se arma **un `OffscreenCanvas` nuevo
-> por capa y por cuadro** y lo pasa por un `blur()` gaussiano. Lo que lo hace
-> pagable es `ANIMATED_MAX_WIDTH`: moviéndose se dibuja a 1024 de ancho en vez
-> de 1600, que son 2.4 veces menos píxeles por cuadro y 2.4 veces menos memoria
-> descartada. Lo que se pierde es nitidez en una mancha ya desenfocada 17px.
->
-> Perillas si el scroll se siente pesado, en orden: bajar `ANIMATED_MAX_WIDTH`,
-> bajar el `blur` de las capas, y por último `ANIMATED` a `false`. Para medirlo,
-> `<GodLights showFps>` dibuja el contador en pantalla.
+> **Dos cosas aparecieron que antes no se veían**, y son mejoras: la retícula de
+> puntos de `GridBackdrop` en el CTA final y el `border-t` del footer. Las dos
+> dibujan en `--border` (`#e5e7eb`), que sobre el hueso era **más claro** que el
+> fondo y por lo tanto invisible.
 
-> **Las amplitudes de `ANIM_PARAMS` hay que leerlas contra la fórmula.** La
-> primera versión tenía `speed: 0.3` con amplitudes de 12 a 30 buscando algo
-> discreto, y el movimiento salió **invisible**:
->
-> - `widthAmp` es la perilla que se ve: el ancho oscila `±(randomnessWidth /
->   400) * (widthAmp / 50)`. Con `randomnessWidth: 100`, 55 da ±27%.
-> - `lengthAmp` va segundo: misma forma con `randomnessLength`, que es 24, así
->   que hasta 70 da apenas ±8%.
-> - `angleAmp` **casi no hace nada con esta geometría**. El vaivén angular se
->   mide en fracciones del hueco entre rayo y rayo, y con 28 rayos en 70° ese
->   hueco es de 2.6°: aun en 100 el rayo se mueve menos de un cuarto de grado.
->   La palanca real sería `randomnessAngle`, y está en 0 a propósito.
-> - `speed` decide si algo se percibe: el tiempo entra como `sin(t * 0.45)`, así
->   que en 0.3 el ciclo del ancho tardaba **46 segundos**. En 1.1 tarda 13.
->
-> Cada rayo lleva su propia fase (`h * 2.399`, el ángulo áureo), así que no
-> respiran todos juntos y el conjunto no se lee como un ciclo.
-
-> **El `noise` de la escena va en 0: el grano lo pone `.page-grain`.** Tiene que
-> haber uno solo. El de la librería cubre este lienzo y nada más —o sea el
-> hero—, así que dejarlo prendido deja la primera pantalla con más grano que el
-> resto. De paso se ahorra una pasada de `getImageData`/`putImageData` sobre el
-> lienzo entero en cada dibujado, y moviéndose, un segundo lienzo a pantalla
-> completa compuesto con `mix-blend-mode`.
-
-> **La luz se ENTREGA al pie del hero, no se corta.** Como la capa es **fija**,
-> no se puede "terminar" en un punto del documento: lo único que la apaga es que
-> de ahí para abajo haya fondo propio. Ese fondo es el envoltorio de `page.js`,
-> que lleva `.light-handoff`: entra desde transparente y termina de cerrar a las
-> **48rem**, así que el último tramo de luz le sobrevive al pie del hero y se
-> apaga scrolleando. De ahí para abajo la página queda en el hueso pelado,
-> igual que antes — el estado final no cambió, lo que cambió es que llegar a él
-> dejó de ser un evento.
->
-> Las 48rem salen de `ScrollLift`: mete los primeros `HERO_LIFT` px (320) del
-> envoltorio detrás del hero, donde no se ven. Con un degradado corto la parte
-> visible del apagado sería de menos de 100px y volvería a leerse como un corte.
->
-> Va en **un** envoltorio y no sección por sección para que sea una sola
-> decisión y no ocho que se pueden desincronizar. El `<footer>` sigue con
-> `bg-background` opaco: ahí ya no queda luz que entregar.
-
-La luz es **canvas 2D, no WebGL**. Se probó con `SideRays` de React Bits
-(dependencia `ogl`) y se descartó por el peso del contexto WebGL; `ogl` se
-desinstaló. `godlights` no trae runtime propio, solo React, y cae a un dibujado
-de una sola pasada cuando no hay que animar (móvil, movimiento reducido).
-
-Antes eran cuatro `linear-gradient` diagonales. Se fueron al canvas porque un
-gradiente no tiene de dónde nacer: cae en bandas de bordes rectos, con la misma
-opacidad de punta a punta y sin grano. Es lo que hacía que la primera pantalla se
-leyera plana.
+> **El tema oscuro no se tocó.** Todo el cambio vive en `:root` y en variantes
+> `dark:` que preservan el valor anterior. Es la comprobación de la pasada: si
+> algo se ve distinto en oscuro, se escapó.
 
 > **`--muted-foreground` se oscureció a `#4b5563`.** Sobre el hueso el gris
 > anterior (`#6b7280`) daba 3.35:1 y no llegaba al mínimo AA.
@@ -679,22 +705,170 @@ leyera plana.
 > **es** el dato: una cara verde y una roja significan cosas distintas y en gris
 > no se distinguirían. Van sobre la ficha, nunca sobre el fondo de página.
 
-### La luz tiene hora: de noche es blanca, de tarde es dorada
+### La atmósfera: un gradiente naranja, manchas y ruido
 
-El tema claro **no es el tema oscuro con el fondo cambiado**. Es la misma escena
-a otra hora del día, y todo lo que sea luz cambia de color con ella: el polvo
-del hero (`--spark`), el sol que lo enciende (`--sun*`), el foco de `PageLight`
-(`LIGHT_HALO_COLOR`), sus rayos (`LIGHT_RAY_COLOR`) y el lavado de
-`.page-light`. Seis lugares, una sola decisión.
+El fondo del sitio son **tres piezas y tres tokens**:
 
-**Y el dorado no es una preferencia estética: es lo único que se ve.** Sobre el
-hueso (`#e4e3df` = 228) al blanco le quedan 27 valores de recorrido — es la
-misma cuenta que ya estaba escrita para los rayos en `god_lights_layer.jsx`, y
-para una mota de medio píxel de ancho pega todavía más fuerte. El dorado del
-atardecer resuelve las dos cosas al mismo tiempo: es más oscuro que el fondo,
-así que tiene con qué existir, y es el color que de verdad tiene la luz cuando
-entra baja. En oscuro se vuelve blanco frío porque ahí hay 244 valores hacia
-arriba y la luz puede volver a ser luz.
+| Pieza | Qué hace |
+|---|---|
+| `<AtmosphereField>` | las manchas, en dos planos con parallax. Son **la** capa de color del fondo |
+| `<SectionGlow>` | los lóbulos laterales que alternan derecha/izquierda, teñidos según dónde cae la sección |
+| `<PageGrain>` | el ruido, que es lo que convierte las manchas en superficie en vez de degradados lisos de CSS |
+
+> **El `body` no pinta color.** Tuvo un `background-image` con un degradado
+> continuo de arriba abajo, y se retiró: teñía el documento entero y el naranja
+> dejaba de ser una presencia para volverse el fondo. **El color de la atmósfera
+> son manchas, no un lavado.** El razonamiento del degradado quedó anotado en la
+> regla del `body`, por si vuelve.
+
+**El recorrido es de luminancia, no de tono, y no lo dibuja un degradado.** Los
+dos extremos son naranjas, así que lo que cambia al bajar es que el color se
+apaga y se hunde — y quien lo dibuja son las manchas de arriba contra las de
+abajo, más el `tint` de cada lóbulo. Nació como un
+viaje de frío a cálido —violeta arriba, ámbar abajo— apoyado en que el producto
+mide clima; se pasó a un solo hue por decisión, y con eso el recorrido es más
+corto. Es menos de lo que era, y está asumido.
+
+> **Y acá hubo también líneas onduladas**, en dos planos propios, cruzando de
+> lado a lado por encima de los cortes de sección. Se retiraron. El detalle de
+> cómo estaban hechas quedó en `atmosphere_field.jsx`, por si vuelven.
+
+> **El gradiente vive en el `body` y no en una capa propia.** Una capa absoluta a
+> la altura del documento habría necesitado un `position` en el body y pelear el
+> `z-index` contra su propio `background-color`. Y **no lleva
+> `background-attachment: fixed`**: tiene que scrollear con el contenido o el
+> recorrido deja de recorrerse.
+
+> **La conexión entre secciones es la sangría vertical, no un truco de color.**
+> Cada `.section-glow` se pasa un 18% arriba y abajo de su sección, así que el
+> lóbulo de una se superpone con el de la vecina. Medido: entre 183 y 570px de
+> solape. Como los costados alternan, lo que se ve en el solape es una banda
+> cruzando de un lado al otro. **Puede sangrar porque el envoltorio no tiene
+> `overflow-hidden`**; el día que se le agregue, vuelven las manchas sueltas.
+
+> **`--glow` se declara en `.section-glow` y NUNCA en `:root`.** Es una trampa de
+> las variables CSS que ya se pagó: un `var()` dentro del valor de otra custom
+> property **se sustituye donde la property se DECLARA**, no donde se usa.
+> Declarado en `:root`, su `var(--atmo-mix)` resolvía contra el `--atmo-mix` de
+> `:root` (0%) y las seis secciones pintaban el mismo color por más que cada
+> una publicara el suyo. Medido: los seis daban
+> `oklab(0.431971 0.0814853 -0.194179 / 0.09)`. Declarado en el elemento,
+> resuelve donde el número existe.
+
+> **`tint` se pasa a mano en `page.js` y no se calcula sobre el índice.** El
+> orden de las secciones es una decisión editorial; si algún día se reordenan,
+> estos números tienen que revisarse a ojo y no seguirlas en silencio.
+
+> **`PinnedChapter` no se envuelve en `SectionGlow`.** Adentro tiene scroll
+> pinneado, y un envoltorio nuevo le cambia el bloque contenedor a lo que esté en
+> `sticky`. Ese tramo —hero, problema y medición— depende **solo de las
+> manchas**, que son de página y llegan igual. Si alguna vez queda pelado, la
+> salida es mover una mancha y no devolver el lavado del `body`.
+
+> **`--band` se quedó apagada en claro primero, y en oscuro después.** En claro
+> la cadencia del scroll ya la daba la atmósfera y una banda gris encima sería
+> una segunda idea peleando por el mismo plano; en oscuro se apagó porque el
+> fondo tenía que quedar parejo. Ver *El fondo oscuro va parejo*, abajo.
+
+> **Contraste, medido sobre el fondo compuesto** (blanco + gradiente + grano), en
+> el extremo cálido que es el peor caso: texto apagado 6.07:1 (mínimo 4.5),
+> palabra acentuada 7.21:1 (mínimo 3 en texto grande), texto normal 15.84:1. Si
+> se sube `--atmo-strength` o `--grain-opacity`, **estos tres números se vuelven
+> a medir** — son el techo real de cuánto puede pesar la atmósfera.
+
+### El fondo oscuro va parejo
+
+**En oscuro todas las secciones valen lo mismo, y ese valor es el de "Una
+medición".** Es la única sección del scroll que nunca tuvo capa de fondo propia:
+`--background` (`#0b0a0f`) + las manchas de `<AtmosphereField>` + el grano. El
+resto se igualó a ella.
+
+Lo que se apagó, y cuánto sumaba cada uno:
+
+| Capa | Dónde | Qué sumaba en oscuro | Cómo se apagó |
+|---|---|---|---|
+| `.section-band` | planeta+escala, pesos/filtros | subía el fondo a `#121116`: siete valores | `--band: transparent` en `.dark` |
+| `.section-glow` | seis secciones | lóbulos naranjas al 14% (`--atmo-strength`) | `.dark .section-glow { background-image: none }` |
+| `.planet-backdrop` | planeta | dos manchas naranjas con `blur(70px)`, opacidad 0.364 | `.dark .planet-backdrop { display: none }` |
+| `GridBackdrop` | CTA final | reja de `--border` al 50% + halo de `--brand` al 18% | las dos capas a `hidden`, sin variante `dark:` |
+| `StackBackdrop` | problema | `dark:via-foreground/[0.035]` hundiendo el centro | se quitó la variante `dark:` |
+
+> **El color no se fue con esto.** Las manchas de `<AtmosphereField>` son de
+> página, pasan por detrás de todas las secciones —incluida la de referencia— y
+> se quedan enteras. Lo que se apagó es solo lo que **variaba de una sección a la
+> otra**, que era exactamente lo que se leía como cortes.
+
+> **Nada se borró: todo está neutralizado por tema**, la misma convención que ya
+> usaba `--band` en claro. Los `<div className="section-band">` siguen en
+> `page.js` agrupando su bloque —que era lo que decidía dónde iba cada banda—,
+> los `side` y `tint` de cada `<SectionGlow>` siguen gobernando el tema claro, y
+> `GridBackdrop` y `StackBackdrop` siguen montados. Devolver cualquiera de las
+> cinco capas es cambiar un valor.
+
+> **`display: none` / `hidden` y no `opacity: 0`, donde hay blur.**
+> `.planet-spot` lleva `blur(70px)` sobre cajas de 40rem y el halo del CTA es un
+> `blur-3xl` sobre 52rem × 32rem: a opacidad 0 el navegador compone esos blurs
+> igual para no mostrar nada. Es justo lo que `AGENTS.md` manda apagar en móvil.
+> `StackBackdrop` no lo necesita: es un degradado sin filtro.
+
+> **El halo del planeta mejoró de rebote.** `glow_color` oscuro es
+> `[0.043, 0.039, 0.059]` = `#0b0a0f`, o sea `--background` — **nunca siguió a la
+> banda**, así que había siete valores de desajuste desde que la banda existía.
+> Apagarla los cerró sin tocar `PALETTES`; lo que estaba mal era la prosa de
+> `globe.jsx`, y se corrigió.
+
+> **El pie queda afuera a propósito.** Su luz naranja, su reja y su palabra
+> gigante son un panel de cierre, no una sección más del scroll: ahí destacarse
+> es el trabajo.
+
+**Lo que se entrega a cambio**: el scroll pierde su cadencia de valor en los dos
+temas. Está asumido — un fondo parejo antes que unos cortes que se ven. El ritmo
+lo ponen ahora las manchas, que van con parallax y no tienen bordes.
+
+### Las palabras de título en color
+
+`<AccentTitle>` es el `<h2>` de sección con una o dos palabras en `--brand`. Las
+palabras salen del diccionario (`*_title_segments`, con `tone: "brand"`), así que
+mover el acento es mover una bandera en el contenido y **se decide por idioma**:
+la palabra que carga la frase en español no es la misma que en inglés.
+
+> **No absorbe a los otros dos titulares partidos en segmentos.** El del hero
+> incrusta las fichas de ánimo y de clima; el del problema entra palabra por
+> palabra con `BlurTextPiece`. Meterle eso a `AccentTitle` lo convertiría en un
+> componente con tres modos, que es peor que tres componentes.
+
+> **El espacio va DENTRO del segmento**, misma lección que ya estaba anotada en
+> `problem.jsx`: si se dejara entre dos `<span>` hermanos sin escribirlo,
+> `textContent` saldría con las palabras pegadas y un lector de pantalla leería
+> "sistemaEl".
+
+
+### El tema claro no es el oscuro con el fondo cambiado
+
+Es la misma escena a otra hora del día, y la asimetría sigue gobernando lo que
+queda: `--box-edge` (en claro más oscuro que la cara, en oscuro más claro) y
+`--grain-blend` (`multiply` en claro, `normal` en oscuro). **Una sola regla: cada
+tema empuja hacia donde le queda recorrido.**
+
+Con `--band` esa regla llegó a su extremo en el tema claro: **no hay recorrido de
+valor que gastar, así que no se gasta ninguno.** La banda vale `transparent`.
+
+**Y después la página dejó de necesitar esa regla para el fondo**, porque el
+fondo dejó de ser un valor y pasó a ser un color: la atmósfera tiñe los dos temas,
+cada uno con su `--atmo-strength`. Lo que sigue asimétrico es lo que sigue siendo
+valor y no color — `--box-edge` y `--grain-blend`.
+
+`--band` ya no está en esa lista: **se apagó también en oscuro**, así que dejó de
+ser asimétrico y pasó a no existir. Ver *El fondo oscuro va parejo*. El fondo es
+hoy lo más simétrico de la página: los dos temas son un color plano más las
+manchas.
+
+> Acá vivía la tela del hero: de día de un blanco apenas por debajo de la página
+> al blanco puro (21 valores), de noche del casi negro a un gris malva (44). El
+> recorrido era corto de día y largo de noche por el titular que va encima —negro
+> en claro, blanco en oscuro—, y un titular de 7rem sobre una tela con contraste
+> deja de leerse en las crestas. Las ondas se retiraron primero por decisión, y el
+> componente entero después, porque tapaba la atmósfera.
 
 El único que se queda quieto es el morado de marca. La luz cambia de hora; la
 marca no.
@@ -704,21 +878,23 @@ marca no.
 > transiciones de la página quedan apagadas. Es una decisión de sitio — con el
 > fondo, el texto y las ocho secciones cruzándose de color a destiempo, el
 > cambio se ve roto. Si alguna vez se quiere el atardecer animado, hay que sacar
-> esa prop y resolver la página entera, no el bloque de `.sun-switch`.
+> esa prop y resolver la página entera.
 
-### De dónde salió el hero de partículas, y qué NO se trajo
+### El tema se cambia en UN solo lugar: el navbar
 
-El polvo y el sol vienen de un componente de partículas de terceros. Entró
-menos de la mitad, y lo que quedó afuera importa tanto como lo que entró:
+`<ThemeToggle>` vive en el navbar, está en todas las páginas y lleva su icono.
 
-| Del original | Qué pasó |
-|---|---|
-| el campo de partículas | **entró**, reescrito: mide su elemento y no la ventana, va por `devicePixelRatio`, mueve por delta de tiempo y se para fuera de pantalla |
-| el `mid-spot` que encendía un "gold mode" | **entró como control**: es `LightSwitch` y cambia el tema de verdad |
-| los abanicos de `conic-gradient` | **no**. `PageLight` ya los dibuja con godlights, con origen y ancho por rayo. Dos capas de haces no se suman, se ensucian |
-| las líneas de acento | **no**. El hero ya tiene la retícula de `GridBackdrop` |
-| el `gold mode` a fuerza de `filter: invert()` | **no**. Invertir medio hero con un filtro rompe el antialiasing del texto y anula el `backdrop-filter` del navbar. El cambio de hora lo hacen los tokens |
-| su titular, su copy y su `<style jsx>` | **no**. El copy vive en los diccionarios y el estilo en `globals.css` |
+> **Acá había un segundo interruptor y se retiró.** Era `<LightSwitch>`, un disco
+> dorado centrado arriba del hero —el "sol"— que cambiaba el tema al apretarlo.
+> Se fue con todo lo suyo: `.sun-switch`, `@keyframes sun-breathe`, los tokens
+> `--sun` / `--sun-core` / `--sun-glow` y la llave `a11y_light_switch`.
+>
+> El motivo no es que sobrara visualmente: **no tenía etiqueta y solo existía en
+> la home**, o sea que era un hallazgo, no un control. Una preferencia escondida
+> dentro de un adorno que la mitad de las páginas no tiene no es un camino al
+> tema oscuro — es un atajo para quien ya sabe que está ahí. El hueco entre el
+> navbar y el titular se queda vacío a propósito: es el aire del hero.
+
 
 ### Clases de relieve de los CTA
 
@@ -728,8 +904,8 @@ toca**, que es lo que permite seguir actualizando el registro.
 
 | Clase | Dónde | Qué hace |
 |---|---|---|
-| `.cta-plate` | envuelve el CTA primario del hero | el plato: bandeja `--card` con el pie más ancho que el techo |
-| `.cta-key` | CTA primario del hero | cara con textura + canto sólido de 4px; se hunde al presionar |
+| `.cta-plate` | envuelve el CTA primario del hero **y el del cierre** | el plato: bandeja `--card` con el pie más ancho que el techo |
+| `.cta-key` | CTA primario del hero **y del cierre** | cara con textura + canto sólido de 4px; se hunde al presionar |
 | `.cta-key-soft` | CTA secundario del hero | mismo idioma, canto de 3px, sin plato |
 | `.cta-key-flat` | CTA del navbar | solo luz arriba y sombra abajo; sin canto |
 | `.surface-key` | fichas de `Measurement` | el mismo relieve sobre una tarjeta; canto de 4px que se alarga con el hover |
@@ -737,10 +913,11 @@ toca**, que es lo que permite seguir actualizando el registro.
 | `.org-canvas` | el panel del organigrama en `ScaleTree` | trama de puntos, canto de 1px y sombra corta: es lo que encierra el diagrama |
 
 > **El canto de `.org-canvas` sale de `--box-edge`, NO de `--border`.**
-> `--border` vale `#e5e7eb`, **más claro que el hueso del fondo**, así que en
-> claro el borde simplemente no existiría — el mismo problema por el que existe
-> `--org-line`. `--box-edge` (`#c5c3be`) se creó para esto y ya lo usan las
-> cajas del propio organigrama.
+> `--border` (`#e5e7eb`) es el contorno de una tarjeta, y esto es el canto de un
+> panel grande — el mismo problema por el que existe `--org-line`. `--box-edge`
+> (`#c5c3be`) se creó para esto y ya lo usan las cajas del propio organigrama.
+> **Con la página en blanco pesa todavía más**: el panel perdió la diferencia de
+> valor que lo despegaba, así que lo encierra el canto o no lo encierra nada.
 
 > **`.graded-face` y `.surface-key` son dos cosas y por eso son dos clases.**
 > Una es la cara y la otra el relieve. Las tarjetas de la pila del problema
@@ -755,9 +932,10 @@ toca**, que es lo que permite seguir actualizando el registro.
 
 > **`.surface-key` no tiene `:active`.** Una tarjeta no se pulsa, y hundirse sin
 > que pase nada promete una acción que no existe. Su canto sale de `--box-edge`
-> y **nunca de `--border`**: ese vale `#e5e7eb`, más claro que el hueso del
-> fondo, así que el canto desaparecería — el mismo problema por el que existe
-> `--org-line`.
+> y **nunca de `--border`**: ese vale `#e5e7eb` y sería un contorno, no el
+> costado de una pieza — el mismo problema por el que existe `--org-line`. Sobre
+> la página blanca este canto es, junto con la sombra, **todo** el relieve que
+> le queda a la tarjeta.
 
 > **El canto es el costado del botón, no una sombra.** Por eso va sólido y sin
 > desenfoque (`0 4px 0`). Al presionar, el canto baja a 1px y la cara baja 3px:
@@ -776,8 +954,10 @@ toca**, que es lo que permite seguir actualizando el registro.
 > `:hover` pisa el `hover:bg-primary/80` que sobre el plato blanco convertía
 > la cara negra en gris.
 
-El resplandor morado de `GridBackdrop` se apaga en el hero (`show_glow={false}`)
-porque ensucia la esquina donde nace la luz; en el CTA final sigue encendido.
+`GridBackdrop` (retícula de puntos + resplandor morado) está **apagado entero en
+tema claro**, con las dos capas en `opacity-0`. En oscuro el CTA final las
+conserva. `show_glow` sigue existiendo para apagar solo el resplandor, pero hoy
+no lo usa nadie.
 
 ### El titular del hero va partido en piezas
 
@@ -875,6 +1055,101 @@ mismo en los dos idiomas.
 > ancho máximo, así que se volvió a medir el recorrido completo: 926 → 1136px,
 > monótono, sin pasar nunca el ancho de layout. La sección no lo recorta.
 
+### La geometría dorada del hero
+
+**Acá vivía `<SilkBackdrop>`** —una tela que ondulaba en canvas— y se retiró
+porque pintaba un lienzo **opaco** del color exacto del `--background`: tapaba
+cualquier cosa que se pusiera detrás, y el día que el fondo pasó a llevar la
+atmósfera dejó de ser algo que se *podía* retirar y pasó a ser algo que *había*
+que retirar.
+
+En su lugar va `<GoldenBackdrop>`: la subdivisión dorada de la caja, los tres
+cuadrados anidados y la espiral de Fibonacci. **Es lo que la seda no podía ser** —
+no pinta un lienzo, son trazos sobre transparente, así que el gradiente del
+`body` y las manchas de la atmósfera siguen viéndose por detrás.
+
+Sale de un componente de registro (`hero-01`) del que se tomó **sólo la
+geometría**. Lo demás no entró y no por gusto: era TSX en un proyecto sin
+TypeScript, pedía vivir en `components/ui` —que es código del registro shadcn y
+no lo toca nadie—, y traía su propio `Button` cuyo `size="lg"` es `h-11 px-8`
+contra el `h-9 px-2.5` de este sitio. Copiarlo habría roto todos los botones de
+la página.
+
+#### El destello es CSS, y eso es lo que lo deja gratis
+
+La espiral está **dibujada desde el primer fotograma**; lo único que se mueve es
+un tramo de luz que la recorre en bucle. Y se mueve con un `@keyframes` sobre
+`stroke-dashoffset`, no con `motion`.
+
+**El truco es `pathLength="1"`.** Con eso el navegador trata la curva como si
+midiera exactamente 1 unidad, así que el guión y el hueco se escriben en
+FRACCIONES de la curva y **no hay que medirla desde JavaScript** — que es lo que
+obligaría a convertir esto en un componente de cliente para una decoración.
+
+| | Cuánto pesa |
+|---|---|
+| Con CSS | 0 KB de bundle, 0 `requestAnimationFrame` |
+| Con `motion` | el componente entero se vuelve de cliente + un frame de JS por fotograma |
+
+**El bucle cierra sin salto porque el patrón mide lo mismo que la curva**: 0.14 de
+luz más 0.86 de vacío es 1, o sea una vuelta completa; corrido una unidad, el
+dibujo es idéntico al del arranque. Con cualquier otra suma el destello pegaría un
+tirón en cada vuelta.
+
+`stroke-dashoffset` repinta pero **no recalcula layout**, que es lo que la regla de
+`AGENTS.md` prohíbe. Y hay precedente en el mismo `globals.css`: el punteado que
+corre en el organigrama es la misma clase de animación.
+
+> **Con movimiento reducido se apaga entero, no sólo la animación.** Con
+> `animation: none` a secas el tramo de luz queda **congelado** en un punto de la
+> curva, y un segmento más claro parado en medio de una espiral no se lee como una
+> decoración detenida: se lee como un error de dibujo. Apagado queda la espiral
+> neutra.
+
+#### Dos figuras, y ninguna estirada
+
+La caja del hero es alta en teléfono y ancha en escritorio, y la figura tiene que
+seguir siendo dorada en las dos. Por eso hay dos —`PORTRAIT` y `LANDSCAPE`, la
+misma construcción girada un cuarto de vuelta— y **las dos viven en el DOM pero
+sólo una se pinta**: `hidden` es `display: none`, así que el destello anima en una
+sola. Medido: en escritorio la vertical resuelve a `display: none` y su SVG mide
+0×0.
+
+> **`preserveAspectRatio` se queda en el default (`xMidYMid meet`).** Estirarla con
+> `none` para que llene la caja convierte los cuadrados en rectángulos y la espiral
+> en un óvalo: se pierde **exactamente lo que la hace dorada**. Que sobre aire a los
+> costados es el precio, y es el precio correcto. (En la práctica casi no sobra: el
+> hero mide 1732×1070, que es 1.619 — la razón dorada, por casualidad.)
+
+> **`overflow-visible` en el SVG no es un descuido.** Los arcos exteriores de la
+> espiral se dibujan muy afuera del viewBox a propósito —ahí está la sensación de
+> que la curva sigue de largo— y lo que sobra lo recorta el `overflow-hidden` que la
+> `<section>` del hero ya tenía. Sin ese recorte habría barra horizontal. Y cada
+> trazo lleva `vectorEffect="non-scaling-stroke"`, así que el grosor se mide en
+> píxeles de pantalla y la figura no engorda al escalarse.
+
+#### El color, y por qué no hay morado
+
+Todo sale de `currentColor`: el envoltorio va `text-box-edge`, el canto de las
+cajas del sitio, que ya está resuelto por tema —#c5c3be en claro, #2e2a3b en
+oscuro—. El destello es lo único que no: va en `text-foreground/25` y sube a
+`/40` en oscuro, el mismo criterio que `GridBackdrop` (ese fondo tiene menos con
+qué leerse y aguanta más textura).
+
+**Cero morado, y es deliberado.** La regla del sitio es que el morado es acento y
+no relleno; un hilo de luz en movimiento en la misma pantalla que el CTA sería un
+segundo acento, y el ojo va a lo que se mueve. El único acento de la primera
+pantalla sigue siendo *Empezar gratis*.
+
+#### El orden de las capas
+
+`<GoldenBackdrop>` va **antes** de `<HeroCover>` en el JSX, y el orden es lo que
+hace que funcione: la tapa pinta `--background` al pie con su niebla, así que
+tiene que quedar encima de la geometría para apagarla de a poco al acercarse al
+problema. Puesta después, la espiral cruzaría la niebla intacta. El `<Container>`
+del contenido ya es `relative`, así que el texto queda arriba de las dos capas sin
+tocar un `z-index`.
+
 ### El hero es una tapa que se levanta
 
 El problema **arranca metido detrás del hero** y se destapa con el scroll. El
@@ -906,8 +1181,8 @@ tapado **para siempre**, que es perder contenido. Por eso con
 > cargaría con el hero ya levantado sin que nadie lo haya movido.
 
 **`HeroCover` es lo que hace posible todo esto**, y existe por una razón que no
-es obvia: **el sitio no tiene fondos por sección**. Todas dejan ver el hueso del
-`body` y los destellos de `.page-light`, que es una capa **fija** detrás de todo.
+es obvia: **el sitio no tiene fondos por sección**. Todas dejan ver el blanco del
+`body`. En tema claro tampoco hay variación de valor: banda y glow están apagados.
 O sea que el hero es transparente, y algo transparente no tapa nada. Sin la
 franja, el titular del problema se ve a través del hero desde el primer scroll.
 
@@ -925,8 +1200,8 @@ franja, el titular del problema se ve a través del hero desde el primer scroll.
 > una **línea horizontal de lado a lado** —arriba los destellos tapados, abajo
 > de golpe— que barría la pantalla y se leía como un error de dibujo. Con 64px
 > de bajada la línea desaparecía pero aparecía el problema opuesto: **el titular
-> del problema se transparentaba**, y un texto oscuro sobre hueso se lee incluso
-> al 20%. El equilibrio estuvo en 16px, y dejó de hacer falta cuando la luz se
+> del problema se transparentaba**, y un texto oscuro sobre un fondo claro se lee
+> incluso al 20%. El equilibrio estuvo en 16px, y dejó de hacer falta cuando la luz se
 > cortó en el video. **Si algún día vuelve la luz abajo, este borde vuelve a
 > necesitar bajada y con ella vuelve el fantasma del texto: son la misma
 > decisión.**
@@ -1001,9 +1276,9 @@ bloque pasa largo de 23rem y la cuenta no aplica.
 sitio la usa. La entrada palabra por palabra es cara de mirar y pierde efecto si
 se repite en cada sección, así que se reparte: el hero con `WordPullUp`, y
 `BlurText` en **dos** titulares —el del planeta y el del problema, las dos
-secciones que abren un argumento—. El resto entra con `Reveal`, que es una sola
-pieza al cruzar el viewport, salvo el encabezado de `Measurement`, que vive
-dentro del capítulo clavado (ver abajo).
+secciones que abren un argumento—. El resto entra con `ScrollPass`, que no
+dispara nada: sube y aparece mientras cruza, y se va al salir. La excepción es el
+encabezado de `Measurement`, que vive dentro del capítulo clavado (ver abajo).
 
 ### El capítulo clavado: el problema y la medición son un solo tramo
 
@@ -1138,6 +1413,12 @@ lo que crece es el documento.
 arriba: `Reveal` deja el título puesto para siempre después de la primera vez, y
 esto lo devuelve por donde vino.
 
+> **`BlurText` no exime del recorrido.** Los titulares del planeta y de los
+> pesos entran palabra por palabra **y** se van al salir: `BlurText` adentro,
+> `ScrollPass {...HEADING_PASS}` afuera. El del planeta era el único titular que
+> se quedaba puesto para siempre después de la primera vez — bajando se armaba
+> palabra por palabra, y volviendo a subir ya estaba ahí.
+
 `HEADING_PASS` vive en `scroll_pass.jsx` y es un solo objeto para todo el sitio.
 Va más cerrado que los valores por defecto —recorrido de 60px, hitos en 0.18 y
 0.82— para que **nunca haya un título atenuado que alguien esté leyendo**. No son
@@ -1147,10 +1428,13 @@ quiere.
 
 Las excepciones, y cada una por su motivo:
 
-- El hero (`WordPullUp`) y el problema (`BlurText`) ya tienen su propia entrada.
-- `ScaleTree`: su titular vive **dentro** del bloque clavado —se queda a la vista
-  todo el recorrido a propósito— así que un fundido atado al scroll lo haría
-  desaparecer a mitad de la pista.
+- El hero va con `WordPullUp` y su propia línea de tiempo: es lo primero que se
+  ve, así que su entrada es la de la página y no la del scroll.
+- El capítulo clavado va con `ChapterLand` y no con `ScrollPass`, y **no es una
+  excepción sino otro driver**: sus dos titulares entran y se colocan igual que el
+  resto, pero contra el avance del capítulo. Un fundido atado a `scrollY` ahí los
+  apagaría a mitad de la pista, porque durante todo el tramo la página no avanza
+  en vertical. Ver las piezas de las diapositivas.
 - `FinalCta` va con `Reveal`, y esto **hay que respetarlo**: es la última sección
   y no se puede scrollear más allá de ella, así que el tramo de salida cae justo
   donde alguien se queda mirándola. Con `ScrollPass` el CTA quedaba invisible al
@@ -1159,15 +1443,33 @@ Las excepciones, y cada una por su motivo:
 
 El titular del problema vive en `problem_title_segments`, con la misma forma que
 `hero_title_segments`: partido en piezas para poder pintar el remate. **`tone:
-"brand"` es la única aparición del morado en un titular del sitio**, y son dos
-palabras — "sigue igual." / "stayed the same." Es la frase que resume la sección
+"brand"` es la única aparición del acento en un titular del sitio**, y son dos
+palabras — "sigue igual?" / "still the same?" Es la frase que resume la sección
 entera; tres palabras más y deja de ser acento.
 
-`problem.jsx` mete además un bloque vacío de ancho completo entre frase y frase
-para forzar el renglón: son dos frases y el remate tiene que entrar entero, no
-partido con la última palabra colgando sola. Ese bloque es de maquetado y **no
-lleva el espacio del texto**: el espacio va igual dentro de la última palabra de
-cada frase, o `textContent` sale "encuesta.El".
+> **Es una pregunta y antes era una afirmación.** Decía "Se hizo la encuesta. El
+> clima sigue igual." — dos frases que le pedían al lector reconocerse en una
+> situación contada en tercera persona y deducir que hablaba de él. Preguntándole
+> directo —"¿Hiciste la encuesta y tu clima laboral sigue igual?"— no hay nada que
+> deducir: o le pasa o no le pasa. El sujeto sigue nombrado ("tu clima laboral"),
+> que era lo que hacía la segunda frase de la versión vieja.
+
+Con la pregunta se fue **el corte de renglón forzado**. `problem.jsx` insertaba un
+bloque vacío de ancho completo después de cada pieza terminada en `"."`, para que
+las dos frases no se mezclaran en el mismo renglón; con una sola pregunta esa rama
+no se ejecutaba nunca, y forzar un corte adentro de una pregunta la parte donde el
+ancho no lo pide. Lo que sí queda es que **el espacio entre palabras va DENTRO de
+la pieza**: entre dos `<span>` hermanos no existe en el DOM y `textContent` sale
+con las palabras pegadas.
+
+Sin corte forzado, lo único que decide dónde parte el titular es el ancho de la
+caja, y por eso el `max-w` del `<h2>` es **`60rem` (960px) y no una clase de la
+escala**. Medido a 48px, en px acumulados: el español llega a "…clima laboral" en
+894 y suma "sigue" en 1028; el inglés llega a "…climate is" en 919 y suma "still"
+en 1007. La banda que sirve para los dos idiomas es `[919, 1007)` —abajo de 919 el
+inglés corta antes de tiempo, de 1007 para arriba parte "still the same?" al
+medio— y 960 es el centro. `max-w-4xl` (896) se queda corto por fracciones de
+píxel y `max-w-5xl` (1024) se pasa.
 
 Y es el titular más grande de la página después del hero (`text-4xl sm:text-5xl`
 contra el `text-3xl sm:text-4xl` del resto). Es la sección que abre el problema:
@@ -1211,6 +1513,89 @@ remontaría el titular a mitad de la animación.
 > el nombre nuevo— y `motion/react` exporta la misma API. Instalar las dos
 > duplicaría el runtime de animación para no ganar nada.
 
+### El scroll tiene inercia: `<ScrollGlide>`
+
+La página sigue bajando un instante después de soltar la rueda, como algo que se
+desliza sobre hielo. Se monta una vez en `layout.js` y **no dibuja nada**: es un
+componente y no un hook porque el layout es un Server Component y no puede llamar
+hooks — el mismo reparto que `HeroTitle`.
+
+Una sola perilla, `EASE` (0.09). Medido:
+
+| | |
+|---|---|
+| 63% de la distancia | 183 ms |
+| 95% | 533 ms |
+| 99% | 817 ms |
+
+**Y es independiente del refresco de pantalla.** El acercamiento se escala por el
+tiempo del fotograma (`1 − (1 − EASE) ^ (dt / 16.7)`); sin eso, el mismo 0.09 por
+fotograma converge dos veces y media más rápido en un monitor de 144Hz y el efecto
+casi desaparece. Medido: 533 ms a 60Hz, 533 a 120Hz, 535 a 144Hz.
+
+#### Mueve el scroll de verdad, y **eso** es lo que lo hace compatible
+
+Corre `window.scrollY` con `scrollTo`. **No traslada un envoltorio con un
+`transform`**, que es como funcionan varias librerías del género, y acá la
+diferencia no es de gusto sino de vida o muerte:
+
+- Todo el movimiento del sitio se mide contra `scrollY` y contra
+  `rect.top + scrollY`. Con un envoltorio trasladado, **cada medición empieza a
+  mentir** por la cantidad que el envoltorio esté corrido.
+- `PinnedChapter` se apoya en `position: sticky`, que necesita un scroll real
+  contra el que pegarse. Dentro de un envoltorio trasladado no hay ninguno.
+
+Así, `ScrollPass`, `ScrollLift`, `ChapterLand`, `ScrollLine` y el capítulo
+clavado **no se enteran de que esto existe**: reciben el mismo `scrollY` de
+siempre, sólo que llega más parejo.
+
+> **Le hace bien al capítulo clavado, y está medido.** El resorte de
+> `PinnedChapter` está documentado como corto porque "la rueda llega a saltos de
+> ~100px", con un modo de falla conocido: en un salto de ~500px quedaban 370px de
+> riel sin recorrer al soltarse el clavado. Con el hielo, un notch de 100px se
+> convierte en 9px en el primer fotograma, y un scroll agresivo de diez notches
+> seguidos pica en 61px por fotograma contra los 100 del nativo. O sea que el
+> resorte recibe saltos **~10× más chicos**: el modo de falla se reduce, no se
+> agrava. No hubo que retocar `GLIDE`.
+
+#### Sólo la rueda, y por eso no rompe la accesibilidad
+
+Lo único que se intercepta es el `wheel`. El teclado, las anclas del navbar,
+arrastrar la barra, `scrollIntoView` y el enlace de "saltar al contenido" quedan
+**nativos**; cuando la página se mueve por cualquier otra vía, esto sólo
+resincroniza su destino.
+
+Es lo que lo separa de una librería de scroll suave: las que reemplazan el scroll
+entero tienen que reimplementar el teclado y el foco, y ahí es donde se rompe la
+accesibilidad. Acá no hay nada que reimplementar.
+
+#### Dónde no corre
+
+| Caso | Por qué |
+|---|---|
+| `prefers-reduced-motion` | ni se engancha. Tomarle el scroll a alguien que pidió menos movimiento es de lo peor que se puede hacer |
+| Puntero grueso (teléfono, tablet) | el sistema ya trae su propia inercia, y pelearle al gesto de la mano se siente roto |
+| `ctrl` / `cmd` apretado | eso es zoom del navegador, no scroll |
+| Gesto horizontal del trackpad | es de quien tenga un riel debajo — el análisis, la escala y los bloques de código de las docs |
+| Sobre algo que scrollea en vertical por su cuenta | hoy no hay ninguno: **los tres contenedores con scroll propio del sitio son horizontales**. La guarda queda igual, porque el día que aparezca uno el síntoma sería "ese panel no scrollea" y nadie lo buscaría acá |
+
+> **La caminata de esa última guarda termina antes del `<body>`, y no es una
+> optimización.** El `<html>` de una página larga siempre tiene
+> `scrollHeight > clientHeight`, así que si su `overflow-y` computado resolviera a
+> `auto` la guarda daría `true` **siempre** y el hielo no se activaría nunca. El
+> scroll de la página no es un ancestro que absorbe: es el que estamos manejando.
+>
+> Y se verifica `nodeType`: el `target` de un `wheel` puede ser el `document`, y
+> `getComputedStyle` de algo que no es un elemento **tira excepción** — adentro de
+> un listener no pasivo eso deja el evento sin `preventDefault` y el scroll pega un
+> salto.
+
+> **`behavior: "instant"` en cada `scrollTo`, y hace falta.** El `<html>` está en
+> `scroll-behavior: smooth` para las anclas; sin el `instant` explícito, cada
+> fotograma del hielo arrancaría una animación suave del navegador y las dos
+> pelearían. Verificado: con `instant`, un `scrollTo` a 800 deja `scrollY` en 800 en
+> la misma línea.
+
 ### Tres entradas distintas, y cuándo usar cada una
 
 | | Qué hace | Dispara |
@@ -1220,15 +1605,94 @@ remontaría el titular a mitad de la animación.
 | `BlurText` | palabra por palabra, desenfocada | una vez, al cruzar el viewport |
 | `RotatingText` | una palabra se releva por otra | en bucle, por reloj |
 | `Parallax` | deriva vertical mientras cruza | **nunca** — es función del scroll |
-| `ScrollPass` | aparece **y desaparece**, con deriva | **nunca** — es función del scroll |
+| `ScrollPass` | aparece **y desaparece**: atraviesa, o llega de un lado y **aterriza** | **nunca** — es función del scroll |
 | `ScrollLine` | un trazo que se dibuja y se borra | **nunca** — es función del scroll |
 | `ScrollLift` | se levanta y **destapa** lo que tiene detrás | **nunca** — es función del scroll |
 | `PinnedChapter` | clava dos secciones y las panea **de lado** | **nunca** — es función del scroll |
+| `ChapterLand` | llega de un costado y **se coloca**, contra el avance del capítulo | **nunca** — es función del avance |
+| `ScrollGlide` | no mueve contenido: le da **inercia al scroll mismo** | la rueda |
 
 `Parallax`, `ScrollPass`, `ScrollLine`, `ScrollLift` y `PinnedChapter` no tienen
 disparo: la posición se calcula desde `scrollY`, así que volver hacia arriba
 deshace el efecto igual que bajar lo hizo. Los otros tres entran una vez y ahí
 quedan.
+
+> **El escalonado de `ScrollPass` no es un cuarto efecto.** `build_index` es el
+> turno de la pieza dentro de su bloque y corre su tramo `build_index *
+> build_step` px más abajo: la segunda entra cuando la primera ya llegó. Corre
+> los **cuatro** hitos y no sólo la entrada, y ahí está todo el truco — la pieza
+> con más turno también se va después, así que subir deshace el orden del armado
+> sin una sola línea que describa el desarmado. Es la diferencia entre un bloque
+> que se enciende y uno que se arma.
+>
+> El turno lo pasa quien compone, como `index` en `StackCard`. No hay contenedor
+> ni contexto: el contexto se usa una vez en el sitio —`PinnedChapter`— y sumar
+> otro para correr un número no se paga. Hoy llevan turno los puntos de
+> `confidentiality`, las tres fichas de `how_it_works` y la maqueta de cada fila
+> de `weights_filters`.
+>
+> Adentro del capítulo clavado el turno existe igual pero **se mide en fracción de
+> la fase y no en px de scroll** (`LAND_TURN`), porque ahí la página no avanza en
+> vertical: lo llevan las tres fichas de la pila y las cuatro del riel.
+
+> **`ScrollPass` tiene dos modelos de movimiento, y la diferencia no es el eje.**
+>
+> **Sin `enter_from` la pieza ATRAVIESA.** Va de `+drift` a `−drift` de corrido,
+> con **dos** hitos, así que nunca pasa por su posición de layout: siempre está
+> deslizándose. Es un parallax, y es lo que se quiere de una ilustración o de un
+> titular que sólo tiene que dar profundidad.
+>
+> **Con `enter_from` la pieza ATERRIZA.** Los **cuatro** hitos, espejados: el
+> desplazamiento llega a 0 justo cuando la opacidad llega a 1, se queda quieto
+> todo el tramo de lectura, y vuelve al **mismo** lado al salir.
+>
+> ```
+>            asoma    aterriza   se queda   se va
+>  opacidad    0 ─────→ 1 ═══════════ 1 ─────→ 0
+>  x         ∓drift ───→ 0 ═══════════ 0 ─────→ ∓drift
+>  escala   0.97 ─────→ 1 ═══════════ 1 ─────→ 0.97
+> ```
+>
+> Por eso el segundo modelo no se podía expresar cambiando de eje: lo que lo
+> define es que **haya un tramo en el que la pieza está en su sitio**. Y volver al
+> mismo lado tampoco es un detalle: es lo que hace que subir DESARME lo que bajar
+> armó, en vez de seguir empujando la pieza de largo. La distancia sigue saliendo
+> de `drift` — no hay una prop nueva para eso.
+>
+> La escala mínima (`SETTLE_SCALE`, 0.97) es lo que separa "flota hasta su lugar"
+> de "la empujaron de costado": sin ella el desplazamiento se lee en el plano y la
+> pieza patina.
+>
+> **Cada pieza llega desde el lado que ocupa**, y ahí está el alternado sin una
+> tabla nueva: en las filas del análisis el texto viene de la izquierda y su
+> maqueta de la derecha; en el zigzag de los pasos, el `side` de `STEP_CELLS` es
+> el mismo dato que ya decide el `justify-self`. Los puntos de
+> `confidentiality` son la excepción y por buena razón: la lista es de una columna
+> y no tienen "su lado", así que ahí la dirección es la de la lectura.
+
+> **Abajo de `SIDE_MIN_WIDTH` (1024, el `lg`) el aterrizaje cae a vertical.** En
+> una columna la pieza ocupa el ancho entero, y un desplazamiento lateral sobre
+> algo que ya llega a los dos bordes no dice de dónde viene.
+>
+> Los dos ejes se declaran **siempre** en modo aterrizaje, y uno de los dos vale 0.
+> No es redundancia: si el `style` dejara de nombrar un eje al cambiar de
+> breakpoint, la transformada anterior se quedaría pegada en el elemento.
+
+> **Quien deslice de costado va dentro de un `overflow-x-clip`, y es medido.** Un
+> `translateX` **agranda el área desplazable del documento**: la columna izquierda
+> arranca en el borde del `Container`, así que corrida 64px se va 40px más allá de
+> su `padding` y aparece una barra horizontal.
+>
+> El recorte va en la `<section>` y no en el envoltorio de las piezas. Dos razones:
+> la sección es de ancho completo, así que el corte cae en el borde de la pantalla
+> —donde la pieza ya está invisible— y no en el del `Container`; y en el envoltorio
+> del zigzag le comería el canto rotado a las fichas de la izquierda. El
+> resplandor no se toca: vive en el envoltorio de `SectionGlow`, **afuera** de la
+> sección.
+>
+> Y es `clip`, no `hidden`: `clip` no crea contenedor de scroll, así que no le
+> cambia el bloque contenedor a nada de lo que tiene adentro. Lo llevan `how`,
+> `weights`, `confidentiality` y la del planeta.
 
 > **`PinnedChapter` es el único que cambia el eje.** Todo el resto del sitio
 > convierte scroll vertical en movimiento vertical; este lo convierte en
@@ -1364,9 +1828,15 @@ pasa de una a la otra sin salto:
 - **El icono de cada ficha vive en el componente, no en el diccionario**
   (`ITEM_ICONS`, por índice). No se traduce, no cambia por idioma y elegirlo es
   una decisión de interfaz, no de contenido.
-- **Las cinco fichas son del mismo alto** (`items-stretch` en el riel) y la
-  última, la de imágenes, va **más ancha y última**: las cuatro se leen, esta se
-  mira, y al final del recorrido es el premio.
+- **La última, la de imágenes, va más ancha y última**: las tres de texto se
+  leen, esta se mira, y al final del recorrido es el premio. Su `build_index` va
+  escrito a mano porque vive fuera del `map`, así que agregar o sacar una ficha
+  obliga a moverlo.
+- **Se igualan de alto sólo en el caso suelto** (`items-stretch` en el riel).
+  Clavado el riel va `items-center` y cada ficha queda en su alto natural, así
+  que **una ficha con un renglón de más sobresale arriba y abajo de sus
+  vecinas**: por eso el cuerpo del diccionario entra en tres renglones, que a
+  320px y 16px son ~88 caracteres.
 - **El ancho de ficha es fijo, no fluido** (`76vw` en móvil, `292px`, `320px`).
   De ahí sale el ancho del riel, y del ancho del riel sale el recorrido: con
   fichas fluidas el recorrido cambiaría con cada cosa que altere el layout.
@@ -1434,6 +1904,60 @@ pista (alto = ventana + travel)
 > Medido con un salto de ~500px: 370px de riel sin recorrer al soltarse el
 > clavado.
 
+#### Las piezas de las diapositivas llegan y se colocan
+
+**Las dos diapositivas estuvieron mucho tiempo sin entrada propia, y la razón era
+buena**: adentro de un bloque clavado la página no avanza en vertical, así que
+cualquier cosa colgada de `scrollY` se apaga a mitad de la pista. La salida no era
+renunciar al gesto, era **cambiar de qué cuelga**. `ChapterLand` es el
+`enter_from` de `ScrollPass` atado al avance de una fase.
+
+| Pieza | Fase | Llega desde | Ventana |
+|---|---|---|---|
+| Titular del problema | `stack` | izquierda, 56px | `[0, 0.18]` |
+| Fichas de la pila | `stack` | derecha, 140px (con la caída) | el turno de cada una |
+| Encabezado de la medición | `pan` | derecha, 90px | `[0.30, 0.70]` |
+| Fichas del riel | `pan` | derecha, 110px | `[0.24, 0.58]` … `[0.56, 0.90]` |
+
+**En la diapo 2 las piezas entran desde la DERECHA, y es al revés que en el resto
+del sitio.** Afuera, cada pieza llega desde el lado que ocupa. Acá la diapositiva
+entera está viajando hacia la izquierda, así que una pieza corrida a la derecha se
+lee como que **viene atrás y se acomoda**; corrida a la izquierda se adelantaría a
+su propia diapositiva.
+
+**`pan_progress` sale aparte de `pan_x`** y no es duplicación: `pan_x` está en px
+y depende del ancho de la ventana, y una pieza no quiere saber cuánto mide el
+paneo — quiere saber **cuánto falta**.
+
+**No hay salida, y no hace falta.** `ScrollPass` necesita cuatro hitos porque tiene
+que volver a irse; acá la salida de la diapo 1 **es el paneo** y la de las fichas
+del riel **es el riel**. El capítulo ya se las lleva. El desarmado sale igual y
+gratis: el avance es función del scroll, así que subir lo recorre al revés.
+
+> **La pantalla de la aproximación, y por qué existe `fade`.** La diapositiva 1 se
+> ve **una pantalla entera antes** de que el capítulo se clave: la pista entra por
+> abajo como cualquier bloque y recién se pega cuando su borde de arriba llega al
+> de la ventana. En todo ese tramo el avance vale 0.
+>
+> Con el fundido puesto, el titular del problema quedaba invisible justo ahí — y
+> las fichas de la pila también arrancan en cero, así que la pantalla entraba
+> **vacía**. Con `fade={false}` el titular se entrega visible y lo único que se
+> mueve es su posición: de aparecer se encarga `BlurText`. La diapo 2 no lo
+> necesita, porque en ese tramo está afuera de la ventana clavada.
+
+> **Ninguna ventana cierra en 1, y es a propósito.** El avance pasa por un
+> `useSpring`: cuando el scroll llega al tope de la fase, el resorte todavía se
+> está acomodando. Con las ventanas cerrando en 1 la última ficha del riel entraba
+> a la fase siguiente sin haber terminado de aterrizar. El 0.90 del final es el
+> mismo papel que cumple `HOLD_SPAN` al cierre del capítulo.
+
+> **El envoltorio de una ficha del riel va `flex`.** Ahora el ítem del flex es el
+> envoltorio y no la ficha, y en el caso **suelto** —sin capítulo— la reja va
+> `items-stretch` para que las cuatro se igualen. Sin `flex` en el envoltorio, el
+> que se estira es él y la ficha se queda en su alto natural. Medido en su
+> momento con cinco fichas: con `flex`, pasan de 243/243/243/243/261 a 261
+> parejo, y cada ficha llena su envoltorio.
+
 #### El gráfico: la punta se queda quieta y el papel corre
 
 `CHART_SPEED` es 0.55. Todo el parallax es eso: con 1 las dos capas viajarían
@@ -1459,15 +1983,31 @@ no mide lo que mide el riel, mide `PEN_X × visible + CHART_SPEED × travel`.
 > serie, y ver adónde va a llegar el trazo es lo que hace que dibujarse se lea
 > como que se está midiendo algo.
 
-> **Las alturas de la serie están elegidas contra las fichas, no contra el
-> plano.** El carrusel va centrado en el bloque y ocupa la banda del medio (~310
-> a ~690 de los mil), así que un gráfico prolijo entre esos dos valores queda
-> **entero tapado** — se vio en la primera versión, donde de la serie no se veía
-> nada. Los vértices se van a las bandas de arriba y de abajo, y lo que cruza el
-> medio pasa por detrás de las fichas, que es el mismo recurso de la línea del
-> problema. Dos de los ocho caen adentro de la banda a propósito: sin ellos la
-> serie alterna arriba-abajo con demasiada regularidad y se lee como una guarda y
-> no como un dato.
+> **Las alturas de la serie están elegidas contra lo que tapa la diapositiva, no
+> contra el plano.** De los mil de alto, tres bandas están ocupadas y solo dos
+> quedan libres — medido a 945px de alto:
+>
+> | por mil | qué hay | el gráfico |
+> |---|---|---|
+> | 119 – 161 | el titular | prohibido |
+> | 182 – 320 | el párrafo | prohibido |
+> | 350 – 509 | nada (`GRID_TOP` arranca en 350) | **los picos** |
+> | 509 – 785 | las fichas del riel | se pasa por detrás |
+> | 785 – 1000 | nada (`BASELINE` en 900) | **los valles** |
+>
+> Un gráfico prolijo repartido entre 0 y 1000 no se vería: la mitad cae sobre el
+> texto y la otra atrás de las fichas. Tres de los ocho vértices caen adentro de
+> la banda tapada a propósito: sin ellos la serie alterna arriba-abajo con
+> demasiada regularidad y se lee como una guarda y no como un dato.
+
+> **El techo estaba en 100 y el gráfico le cruzaba los renglones al párrafo.**
+> Una décima del alto es más arriba incluso que el titular: el pico del acento
+> caía sobre la primera línea del párrafo y las verticales de la retícula pasaban
+> por el medio de las cuatro. Se bajó el techo a 350 y se reescribieron las ocho
+> alturas **manteniendo el orden entre ellas** —cuál es la más alta, cuál la
+> segunda, cuál el valle más hondo—, así que la silueta es la misma: lo único que
+> cambió es que ya no invade el texto. En inglés el párrafo mide un renglón menos
+> y termina en 283, así que el caso apretado es el español.
 
 > **El pico va último y en morado (`--chart-1`).** Es el único color de la
 > sección y le toca al dato destacado, que es para lo que existe ese token. Y
@@ -1484,6 +2024,18 @@ no mide lo que mide el riel, mide `PEN_X × visible + CHART_SPEED × travel`.
 >
 > Por lo mismo la serie es una **polilínea** y no curvas: con `L` la cuenta del
 > largo de cada tramo es exacta.
+>
+> **Y por lo mismo el avance se multiplica por `draw_scale`.** `pathLength="1"`
+> calibra el guion contra el largo del camino en unidades del `viewBox`, pero
+> `non-scaling-stroke` lo reparte en píxeles de pantalla: un avance de 1 dibuja
+> `largo_en_unidades` **píxeles** de un camino que mide `largo_en_pantalla`. Los
+> dos números no se parecen con la caja estirada —medido a 1920: 2518 unidades
+> contra 3032px—, así que **el trazo terminaba en el 83% y no llegaba nunca al
+> pico del acento**: el remate de la sección quedaba de punto suelto, sin línea.
+> `draw_scale` es el cociente de los dos largos y se calcula con la misma cuenta
+> que los hitos de los vértices, de la que sale gratis. De paso corrige que los
+> puntos se encendieran adelantados: sus hitos siempre estuvieron medidos en
+> pantalla y el trazo no.
 
 > **Los puntos son tramos de largo casi cero con punta redonda**, no `<circle>`.
 > Con `preserveAspectRatio="none"` la caja se estira distinto en cada eje —el
@@ -1545,26 +2097,57 @@ con `scroll-pl-6` y snap. El mismo contenido, manejado por quien lo lee.
 
 ### Las fichas del problema se apilan, no se ponen al lado
 
-Las tres no son una reja: son una **pila**. Cada una es `position: sticky` y se
-clava 16px más abajo que la anterior (`STACK_TOP` + `index × increment_y`), así
-que la que llega tapa a la de antes y le deja asomando el borde. Entre ficha y
-ficha hay `STACK_GAP` de aire —medido en pantallas, porque lo que define es
-**cuánto scroll hay que recorrer** para que llegue la siguiente— y el `pb` del
-contenedor sostiene la pila armada un momento antes de que se vaya.
+Las tres no son una reja: son una **pila**. Todas viven en la misma celda de un
+`grid`, así que se superponen sin salirse del flujo, y cada una descansa
+`STACK_STEP` (20px) más abajo que la anterior: la que llega tapa a la de antes y
+le deja asomando el borde de arriba. El `padding-bottom` del contenedor reserva
+el alto que ese escalón se lleva, porque un `translate` no ocupa alto.
 
-**Van a la par del titular, no debajo.** De `lg` para arriba la sección es una
-reja de dos columnas: el titular se queda quieto a la izquierda (`lg:sticky
-lg:top-28`) mientras la pila le pasa por al lado. Los dos arrancan a la misma
-altura — `STACK_TOP` es el mismo `top-28`.
+**El titular va arriba y la pila abajo, las dos centradas.** La ficha sube desde
+abajo del borde de la diapositiva, se clava en su escalón y ahí se queda mientras
+llega la siguiente. Es el gesto del *scroll stack*: el titular es la cabecera y
+las fichas pasan por debajo.
 
-> **`lg:items-start` no es opcional.** Sin él la columna del titular se estira a
-> la altura de la fila, y un elemento tan alto como su contenedor no tiene por
-> dónde pegarse: el `sticky` queda escrito y no hace nada.
->
-> **La reja recién entra en `lg`.** En tablet la columna queda tan angosta que el
-> titular a `text-5xl` se parte en cuatro renglones. Abajo de ahí van uno debajo
-> del otro, y la ficha se acota a `max-w-2xl` para que la línea no se vaya de
-> medida.
+> **Estuvo en dos columnas y se cambió.** El titular quedaba a la izquierda y la
+> pila a la derecha. Dos problemas: los dos bloques competían por la mirada —no
+> había un orden de lectura— y en una columna angosta cada ficha entraba en
+> diagonal sobre la anterior, de modo que el texto de la de atrás se leía a
+> través de la de adelante. Arriba y centrado, el titular se lee una vez y
+> después pasan las fichas.
+
+#### La profundidad la hace la escala, y de ahí sale el techo del escalón
+
+Que una ficha tape a otra no alcanza: apiladas en el mismo plano se leen como
+papeles sueltos. Lo que las manda para atrás es que **cada ficha se achica
+`DEPTH_SCALE` (0.035) por cada ficha que le cae encima**, con el origen del
+transform arriba (`origin-top`).
+
+El origen no es cosmético. Achicando desde el centro, el borde superior de una
+ficha de atrás *baja* al achicarse y el abanico de asomos se come solo; desde
+arriba, ese borde queda clavado en `index × STACK_STEP` y lo único que se mueve
+es cuánto sobresale a los costados.
+
+> **De ahí sale el techo de `STACK_STEP`, y hay que medirlo contra la escala.**
+> En el asomo no puede aparecer el título de la ficha de atrás: medio renglón
+> cortado se lee como un error de maquetado. El título empieza a `padding-top`
+> del borde, pero la ficha está achicada, así que en pantalla cae a
+> `padding-top × escala`. Con `pt-7` (28px) y la ficha más profunda en 0.93 eso
+> da 26px, y 20 deja 6px de margen. **A 22 el título asomaba** — se vio en
+> pantalla, no se calculó.
+
+> **La cara de la ficha era `bg-card/97` y pasó a opaca.** Ese 3% se eligió
+> cuando las fichas apenas se tocaban: dejaba pasar la línea nítida de atrás y el
+> texto de la ficha vecina no coincidía con el propio. Apiladas coinciden —el
+> título de la de atrás cae justo en el aire de arriba de la de adelante, sobre
+> blanco y sin nada que compita— y al 3% un texto oscuro todavía se lee: quedaban
+> dos títulos superpuestos. Lo que se pierde es la línea nítida por detrás de la
+> cara, y no es el efecto: **el vidrio no lo hace la transparencia de la cara**,
+> lo hace la copia difusa de la línea que cruza por encima.
+
+> **No hay desenfoque de profundidad.** El `ScrollStack` original de React Bits
+> ofrece un `blurAmount` para las fichas de atrás. Acá sería un filtro sobre
+> texto —lo que `AGENTS.md` prohíbe— y además se apagaría en teléfono. La escala
+> sola alcanza.
 
 > **Esto era CSS `sticky` puro y ahora va atado al avance del capítulo.** El
 > cambio no fue por gusto: adentro de un bloque clavado la página no se mueve en
@@ -1593,9 +2176,24 @@ Adentro de cada ficha sigue el relieve, y **cada transform en su propio nodo**:
 
 | Capa | Qué hace |
 |---|---|
-| `StackCard` | el turno y el escalon; el movimiento sale del avance del capitulo |
+| `StackCard` | el turno y el escalón; el movimiento sale del avance del capítulo |
 | `Tilt` | inclinación 3D siguiendo el mouse (`tilt_strength` 8°) |
 | `Card` | la caja, que se levanta 4px con el hover |
+
+> **La ficha sube recta desde abajo del borde y aterriza en su escalón**, con la
+> misma escala de aterrizaje que el resto del sitio —importada de
+> `scroll_pass.jsx`, no repetida—. La entrada diagonal desde la derecha
+> (`ENTER_SLIDE`) se retiró con la columna: existía porque la pila vivía a la
+> derecha y cada pieza llegaba desde el lado que ocupaba. Centrada, no hay lado
+> del que venir.
+>
+> **La caída se mide contra la diapositiva, no contra la ventana.** Es lo que la
+> hace independiente del scroll: `rect.top` sólo valdría lo que se busca en los
+> frames en que el capítulo está clavado, y la medición corre al montar, cuando
+> el capítulo todavía está una pantalla más abajo. `ChapterSlide` es `relative` y
+> `Container` no está posicionado, así que el `offsetParent` de la pila es la
+> diapositiva: `offsetTop` es la distancia desde su borde de arriba y
+> `clientHeight` lo que mide de alto. El resultado viaja por `stack_context`.
 
 > **La sombra en reposo no es decoración.** Apiladas, es lo que dice que una
 > ficha está *arriba* de la otra y no al lado. La del hover, más larga, se
@@ -1611,7 +2209,7 @@ idea: **plano técnico**, no adorno.
 |---|---|---|
 | `ScrollLine` | por detrás de las fichas, dos copias | hilvana la pila; se dibuja bajando y se borra subiendo |
 | `RulerMarks` | dentro de cada ficha, entre título y cuerpo | cota con marcas: delimita sin meter otra caja adentro de la caja |
-| `StackBackdrop` | detrás de toda la sección | degradado vertical que hunde el centro |
+| `StackBackdrop` | detrás de toda la sección | degradado vertical que hunde el centro. **Solo en oscuro**: en claro su paso del medio va `transparent` |
 
 > **Tenía un resplandor morado detrás de la pila y se retiró.** El morado es
 > acento, no relleno: en esta sección ya se lo gastan las dos palabras del remate
@@ -1621,11 +2219,19 @@ idea: **plano técnico**, no adorno.
 
 ### Las fichas son vidrio y la línea les pasa por detrás
 
-La línea dejó de vivir en el hueco entre columnas: ahora es una **curva que
-cruza la columna entera y pasa por detrás de las fichas**, y existe en todos los
-anchos — ya no puede quedar encima del texto, porque el texto está arriba de
-ella. Las fichas son vidrio (`bg-card/88`, sin `backdrop-filter`), así que el
-tramo tapado se ve **desenfocado** a través de cada una.
+La línea dejó de vivir en el hueco entre columnas: ahora es una **curva que baja
+por la izquierda, cruza por detrás de la pila y sale por el borde derecho**, y
+existe en todos los anchos. El tramo tapado se ve **desenfocado**, y eso no lo
+hace la ficha: lo hace la copia difusa de la curva que va encima — ver abajo.
+
+> **El trazo se reapuntó cuando la pila se centró.** Tejía entre `x = 56` y
+> `x = 78`, que era donde caía la columna derecha de las fichas. Con el titular
+> arriba y la pila centrada debajo, ese tercio derecho quedó vacío y el medio lo
+> ocupa el titular: bajar por ahí le cruzaría el renglón. Hoy el tramo de arriba
+> baja por `x ≈ 20` —medido a 1920 el titular a `text-5xl` vive entre 37 y 63—,
+> entra en la banda de las fichas (`x` de 30 a 70, `y` de 480 a 660) y sale por
+> la derecha. Lo que no se movió es dónde termina: `(100, SEAM_Y)`, que es la
+> juntura con el gráfico de la medición.
 
 > **La curva se dibuja con `pathLength`, no con `scaleY`.** El trazo recto
 > crecía escalando un rectángulo, que el compositor resuelve gratis;
@@ -1649,8 +2255,7 @@ tramo tapado se ve **desenfocado** a través de cada una.
 
 > **El desenfoque NO lo pone `backdrop-filter`.** Es lo primero que se intenta y
 > no funciona: sobre estas fichas devuelve siempre un fondo plano. Probado en
-> **siete** configuraciones —en la `Card`, en el `Tilt`, en el `sticky` de
-> `StackCard`, en una capa absoluta adentro de la ficha, moviendo la línea al
+> **siete** configuraciones —en la `Card`, en el `Tilt`, en el `StackCard`, en una capa absoluta adentro de la ficha, moviendo la línea al
 > nivel de la sección, sacando el `isolate`, y aplanando el `preserve-3d`— y en
 > todas muestrea algo que no incluye el contenido de la sección. Un div absoluto
 > hermano de las fichas **sí** desenfoca, así que la propiedad anda; lo que no
@@ -1718,24 +2323,35 @@ tramo tapado se ve **desenfocado** a través de cada una.
 es el hover en CSS, así que el levantado y el `translate-z` llevan
 `motion-reduce:` propio.
 
-### El análisis: cuatro bloques, y cada uno muestra el sistema
+### El análisis: tres bloques, y cada uno muestra el sistema
 
 Es la sección **diferenciadora** —el análisis estadístico es lo que separa a este
 producto de una encuesta de clima cualquiera— y hasta acá no mostraba el
 producto: eran cuatro `GlassPanel` con texto explicándolo.
 
-Hoy es el titular y la bajada arriba, y debajo **cuatro filas: el punto a la
+Hoy es el titular y la bajada arriba, y debajo **tres filas: el punto a la
 izquierda y su maqueta a la derecha**. Cada maqueta muestra al producto haciendo
 exactamente lo que su punto promete.
 
 | | Punto | Maqueta |
 |---|---|---|
 | 01 | Uní filtros entre sí | `CrossShot`: los tres chips del cruce, `n = 214`, y el cruce (`3,4`) contra el general (`2,9`) |
-| 02 | Ponderá por categoría | `WeightsShot`: los pesos por categoría, y el ponderado (`3,1`) contra el simple (`3,4`) |
-| 03 | Compará poblaciones equivalentes | `CompareShot`: Norte contra Sur, y al pie lo que las hace comparables |
-| 04 | Sabé cuándo no alcanza | `ThresholdShot`: un cruce con `n = 6` y la barra **vacía y punteada** |
+| 02 | Compará poblaciones equivalentes | `CompareShot`: Norte contra Sur, y al pie lo que las hace comparables |
+| 03 | Sabé cuándo no alcanza | `ThresholdShot`: un cruce con `n = 6` y la barra **vacía y punteada** |
 
-**Las cuatro filas van igual** —texto a la izquierda, maqueta a la derecha— y no
+> **Eran cuatro y quedaron tres.** Se retiró el punto de la ponderación por
+> pesos —"Ponderá por categoría"— junto con su maqueta `WeightsShot` y su entrada
+> `weights_shots.weights` del diccionario. Las tres cosas salen juntas: `SHOTS`
+> se toma por índice, así que sacando sólo una, cada punto se queda con la
+> maqueta del que sigue.
+>
+> El titular también cambió: decía "Cruzá filtros. Ponderá lo que importa." y
+> ahora dice "Compará lo que importa", porque la mitad de la promesa ya no tenía
+> abajo con qué cumplirse. **El `id` de la sección y las llaves siguen siendo
+> `weights`**: son la dirección del ancla `#weights` del menú, y renombrarlas
+> rompe la navegación sin cambiar nada de lo que se ve.
+
+**Las tres filas van igual** —texto a la izquierda, maqueta a la derecha— y no
 alternadas: con el orden fijo el ojo siempre sabe dónde cae el título, y lo que
 cambia de fila en fila es la maqueta, que es lo que hay que mirar.
 
@@ -1746,26 +2362,37 @@ cambia de fila en fila es la maqueta, que es lo que hay que mirar.
 > lado. A `text-lg` quedaba chico contra la maqueta.
 
 > **El titular lleva el efecto del planeta.** `BlurText` palabra por palabra,
-> envuelto en `ScrollPass` para que además se vaya al salir. Es la única mezcla
-> de los dos en el sitio: `BlurText` entra una vez y `ScrollPass` es función pura
-> del scroll, así que en la primera entrada las dos opacidades se multiplican.
+> envuelto en `ScrollPass` para que además se vaya al salir. Es la mezcla de los
+> dos, y hoy la comparte con el titular del planeta: `BlurText` entra una vez y
+> `ScrollPass` es función pura del scroll, así que en la primera entrada las dos
+> opacidades se multiplican.
 > Se pidió explícitamente y se ve bien; si alguna vez el desenfoque se lee
 > lavado, lo que sale es el `ScrollPass`.
 
 > **Se retiró el `sticky` de la columna izquierda.** Existía porque la izquierda
-> era corta y la derecha larguísima. Con el texto repartido en cuatro filas, cada
-> una al lado de su maqueta, no hay nada que pegar.
+> era corta y la derecha larguísima. Con el texto repartido en filas, cada una al
+> lado de su maqueta, no hay nada que pegar.
 
 #### El parallax sale de la diferencia entre dos números
 
-Las dos columnas de una fila entran con **distinta deriva** —`TEXT_DRIFT` 45 y
-`SHOT_DRIFT` 85—, y esa diferencia es el parallax: dos columnas que entran a
-distinta velocidad se leen a distinta profundidad. Sale gratis, porque es el
-mismo `ScrollPass` que ya hace la entrada y la salida, con otro número.
+Las dos columnas de una fila **llegan cada una desde su lado y se colocan**: el
+texto desde la izquierda, la maqueta desde la derecha, y con **distinta
+distancia** —`TEXT_DRIFT` 64 y `SHOT_DRIFT` 96—. Esa diferencia es el parallax:
+dos piezas que recorren distinta distancia en el mismo tramo entran a distinta
+velocidad y se leen a distinta profundidad. Sale gratis, porque es el mismo
+`ScrollPass` que ya hace la entrada y la salida, con otro número.
+
+> **Los dos números subieron de 45 y 85 al pasar a costado.** 45px sobre una
+> columna de 500px de ancho no se leen como venir de la izquierda, se leen como un
+> temblor. En vertical alcanzaban porque ahí el ojo mide el desplazamiento contra
+> el alto de un renglón, que es mucho menos.
+
+La maqueta además lleva `build_index={1}`, así que entra un turno después de su
+texto: primero se lee qué hace, después se ve hecho.
 
 > **Había un `Parallax` aparte para esto.** Con una sola maqueta se justificaba;
-> con cuatro filas eran cuatro componentes más midiendo el mismo scroll para
-> conseguir el mismo efecto.
+> con una fila por punto era un componente más por fila midiendo el mismo scroll
+> para conseguir el mismo efecto.
 
 #### `SHOTS` no puede vivir con las maquetas
 
@@ -1811,20 +2438,40 @@ como una ilustración de la página de marketing.
 - Con `prefers-reduced-motion` se entregan armadas. Armarse es el efecto; el
   resultado es el contenido.
 
-### Los pasos: tres fichas clavadas en zigzag
+### Los pasos: cuatro fichas clavadas en zigzag
 
 Era una `<ol>` con `Separator` entre ítem e ítem: lo más plano de la página justo
 en la sección que más tiene que convencer, porque el producto se vende por
-autoservicio. Hoy son tres fichas —chinche arriba, número grande, paso— que
-alternan izquierda, derecha, izquierda, con una **ruta punteada** que las une.
+autoservicio. Hoy son cuatro fichas —chinche arriba, número grande, paso— que
+alternan izquierda, derecha, izquierda, derecha, con una **ruta punteada** que
+las une.
 
 El copy también cambió: **una idea por paso**. Los cuerpos tenían tres oraciones
 cada uno y en una ficha de 340px eso es un párrafo, no un paso.
 
+> **Eran tres pasos y ahora son cuatro.** Faltaba el primero: crear la
+> organización. El paso de la nómina daba a entender que el árbol salía del CSV
+> —"arrastrás tu CSV y el sistema arma el árbol"— y es al revés: armás el árbol y
+> el sistema te devuelve la plantilla para completar, que es lo que dice la
+> respuesta 5 del FAQ. Los dos textos se corrigieron juntos.
+>
+> El titular acompañó: decía "Tres pasos, y el primero lo hace el sistema" y
+> quedaba mal por partida doble. Ahora nombra el recorrido entero — "Cuatro
+> pasos, del organigrama al resultado".
+>
+> **Agregar un paso son tres archivos, no uno**: el diccionario, la celda de
+> `STEP_CELLS` y el tramo de `TRAIL`. De los tres, el que rompe callado es
+> `STEP_CELLS`.
+
 #### La reja, y por qué cada ficha declara su fila
 
-El zigzag sale de `STEP_CELLS`: columna, fila y ángulo por paso. Dos cosas que no
-son obvias:
+El zigzag sale de `STEP_CELLS`: columna, fila, ángulo **y lado del que llega** por
+paso. Ese último campo, `side`, no es una tabla nueva que haya que mantener en
+sincronía con la otra: la 01 está clavada a la izquierda y entra desde la
+izquierda, la 02 a la derecha y entra desde la derecha. Es el mismo zigzag dicho
+dos veces, una para el layout y una para el movimiento.
+
+Dos cosas que no son obvias:
 
 - **La fila va declarada.** Con sólo `col-start`, la ficha 2 se mete en el hueco
   que dejó la 1 y las dos terminan en la primera fila: sale una reja de dos
@@ -1839,9 +2486,14 @@ torcidas y apiladas se leen como un error de maquetado y no como un tablero. Va
 en la propiedad `rotate` de Tailwind v4, que **no** es el `transform`, así que
 convive con el `rotateX/rotateY` que `Tilt` pone por `style` en vez de pisarlo.
 
-Medido a 1440: las fichas ocupan del 0 al 30% y del 70 al 100% del ancho de la
-reja, y las filas caen en 157, 500 y 843 por mil del alto. De ahí salen los
-números de `TRAIL`.
+Medido a 1920: las fichas ocupan del 0 al 30% y del 70 al 100% del ancho de la
+reja, y las cuatro filas caen en 110, 349, 609 y 880 por mil del alto. De ahí
+salen los números de `TRAIL`.
+
+**No están repartidas parejo, y no es un error**: las filas no miden lo mismo —la
+tercera es la más alta, porque el paso del estudio es el de texto más largo— y
+eso corre los centros de las de abajo. Por eso los números salen de medir y no de
+dividir mil en cuatro.
 
 #### La ruta es punteada, y la dibuja el scroll
 
@@ -1879,9 +2531,13 @@ Cada una va envuelta en su propio `ScrollPass`, con los hitos abiertos
 está leyendo. Volviendo para arriba se deshace, que es lo que lo separa de
 `Reveal`.
 
+Y cada una lleva su `build_index`: la 02 entra cuando la 01 ya llegó. En
+escritorio el zigzag ya las separa por geometría, pero **en `md` para abajo las
+tres caen en una columna a la misma altura** y sin el turno entrarían juntas.
+
 ### Un ítem se ve igual en toda la página
 
-Las cajas cambian —`Card`, `GlassPanel`, o ninguna— pero **la tipografía de un
+Las cajas cambian —`Card`, un panel propio, o ninguna— pero **la tipografía de un
 ítem es la misma en todas las secciones**. Antes cada una tenía la suya
 (`text-lg` en el problema y la medición, `text-xl` en los pasos, `text-base` en
 los pesos), y el mismo rol se leía de tres tamaños distintos según dónde cayera.
@@ -1889,26 +2545,54 @@ los pesos), y el mismo rol se leía de tres tamaños distintos según dónde cay
 | Rol | Clases |
 |---|---|
 | Título de ítem (`h3`) | `text-lg font-medium tracking-tight sm:text-xl` |
-| Cuerpo gris (ítem y bajada) | `text-sm leading-relaxed text-muted-foreground text-pretty sm:text-[15px]` |
+| Cuerpo de ítem (gris) | `text-base leading-relaxed text-muted-foreground text-pretty` |
+| Bajada de sección (gris) | `text-xl leading-relaxed text-muted-foreground text-pretty` |
 
-Rige en `problem`, `measurement`, `how_it_works`, `confidentiality`, `scale_tree`
-y `final_cta`.
+El cuerpo de ítem rige en `problem`, `measurement`, `how_it_works`, el acordeón
+del `faq` y `weights_filters` — todo lo que vive dentro de una ficha o de una
+lista apretada. La bajada rige en `measurement`, `scale_tree`, `weights_filters` y
+`final_cta`, y el subtítulo del hero la acompaña.
 
-**`weights_filters` es la única excepción, y sólo en el título** (`text-xl
-sm:text-2xl`). Ahí el rol dejó de ser un ítem de una lista apretada: cada punto
-es un bloque que se lleva media pantalla con una maqueta al lado. El cuerpo gris
-sigue siendo el mismo de todos.
+**Una sola excepción, y está registrada acá**: el título de un punto de
+`weights_filters` va `text-xl sm:text-2xl`. Ahí el rol dejó de ser un ítem de una
+lista apretada — cada punto es un bloque que se lleva media pantalla con una
+maqueta al lado — y a `text-lg` quedaba chico contra la maqueta. El cuerpo gris
+sigue siendo el de todos.
 
-> **Todo el texto gris del sitio mide 15px, y 14 en pantalla chica.** Antes era
-> `text-lg`: 18px contra los 20 del título, o sea el mismo peso dos veces y una
-> ficha sin primera línea de lectura. **El cuerpo es el detalle, no el titular**,
-> y el escalón tiene que verse. Los 14px de móvil no son una concesión: 15px en
-> una tarjeta de 76vw deja renglones de tres palabras.
+> **El cuerpo de un ítem mide 16px, sin escalón en `sm`.** Medía 15, y 14 en
+> pantalla chica, con `problem` como excepción a 16: dos tamaños de lo mismo
+> conviviendo, y con el 14 de móvil, tres. Subieron todos al de la excepción.
+>
+> El escalón contra el título —20px— sigue siendo de 4px, que es lo que importa:
+> **el cuerpo es el detalle, no el titular**, y de separarlos se encargan ese
+> escalón y el gris. A 15px el cuerpo se leía como una nota al pie del título en
+> las secciones que pasan rápido, que son casi todas.
+>
+> **Se fue también el paso a 14px de móvil.** Estaba porque 15px en una tarjeta de
+> 76vw dejaba renglones de tres palabras; el copy de una idea por ficha ya no
+> tiene ese problema — medido a 386px, las fichas entran sin apretarse.
 >
 > Y arrastró el tamaño de las tarjetas. El copy se acortó a una idea por ficha
 > —el título afirma, el cuerpo completa— así que las cajas también bajaron: `p-5`
-> en el riel, `p-6` en la pila, y la ficha de capturas de `min-h-64` a `min-h-52`
-> porque es la que le fija el alto a todo el riel.
+> en el riel, `p-6` en la pila, y la ficha de capturas de `min-h-64` a `min-h-52`.
+
+> **La bajada de sección se salió de esa regla: mide 1.25rem (20px).** Estaba en
+> los mismos 15px que la letra chica de una ficha, y no es el mismo rol — es el
+> párrafo que explica de qué va la sección, lo único que se lee entre el titular y
+> el contenido.
+>
+> Va a **un solo tamaño**, sin bajar en móvil, y ahí está la diferencia con el
+> cuerpo de ítem: la bajada no vive dentro de ninguna caja angosta, el ancho se lo
+> pone el `Container`. Por lo mismo el `max-w` de la de `weights_filters` subió de
+> `xl` a `2xl`: a 20px, 36rem deja renglones de cinco palabras.
+>
+> **A 20px empata con el título de ítem** (`text-lg sm:text-xl`) y no molesta,
+> porque nunca caen en la misma caja. Lo que no se puede es llevar este tamaño
+> ADENTRO de una ficha: ahí el `h3` dejaría de mandar sobre su propio cuerpo, que
+> es justo lo que la regla de arriba vino a arreglar.
+>
+> El subtítulo del hero acompaña —estaba en `text-lg`— para que la bajada más
+> importante del sitio no sea la más chica.
 
 ### La escala: cuatro organizaciones en pestañas
 
@@ -2048,9 +2732,10 @@ horizontal que une a los hermanos.
 > contenido (`flex: 0 0 auto`): ya no hace falta que sean iguales.
 
 > **Las líneas usan `--org-line`, no `--border`.** `--border` vale `#e5e7eb`,
-> que es más **claro** que el hueso del fondo (`#d6d5d1`): las líneas
-> desaparecían. Ese token está pensado para el borde de las tarjetas blancas,
-> no para dibujar sobre el fondo de página. `--org-dot` es la trama de puntitos
+> que es el contorno de una tarjeta, no una línea que dibuja estructura sobre el
+> fondo de página: nació porque sobre el hueso `--border` era directamente
+> invisible, y con la página en blanco se ve pero sigue siendo demasiado flojo.
+> Ese token está pensado para el borde de las tarjetas blancas. `--org-dot` es la trama de puntitos
 > del fondo, más tenue: es textura, no dibujo.
 
 > **El punteado corre**, para que se lea que algo circula del padre al hijo. Se
@@ -2085,6 +2770,254 @@ horizontal que une a los hermanos.
 > y su marca de agua solo se quita con suscripción Pro. Encima captura la rueda
 > del mouse para hacer zoom, que dentro de una sección con el scroll tomado
 > dejaría al visitante atrapado. Las tres cosas salen en CSS por 0KB.
+
+### El FAQ: un acordeón sin `motion`
+
+Reemplaza a la sección de confidencialidad, que era una lista de tres puntos con
+un tilde. Seis preguntas, **una abierta por vez**, y ninguna abierta de entrada:
+abrir la primera de fábrica es cómodo en una demo y molesto en un sitio, porque
+mete un bloque de texto entre el titular y el resto del índice que alguien vino a
+leer.
+
+> **No usa `motion`, que es la librería de animación del sitio.** Porque no hay
+> nada que colgar del scroll: `motion` está para lo que avanza con el recorrido
+> —el capítulo clavado, la pila, el riel— y ahí hace falta un `MotionValue` por
+> frame. Esto es un interruptor. Una transición de CSS lo resuelve sin un solo
+> frame de JavaScript, y `prefers-reduced-motion` se apaga con `motion-reduce:`
+> en vez de con una rama del componente. Es el mismo criterio que ya usan los
+> `hover` de las fichas del problema.
+
+> **El panel se abre con `grid-template-rows`, no con `height`.** La regla de
+> `AGENTS.md` es no animar `height` porque fuerza layout en cada frame. Un
+> desplegable **tiene** que cambiar de alto —lo de abajo se corre—, así que la
+> regla no se puede cumplir al pie; lo que sí se puede es elegir la versión más
+> barata y no meter JavaScript en el medio.
+>
+> Una reja de una fila va de `0fr` a `1fr`. Es una transición de CSS pura sobre
+> un contenedor con un único hijo de texto, el navegador la corre en su hilo, y
+> **funciona con alto automático**: no hay que medir el panel ni escribirle una
+> altura fija, que es exactamente lo que obliga a hacer `height`.
+>
+> El hijo lleva `overflow-hidden` y `min-h-0`, y los dos son obligatorios: sin el
+> primero el texto se ve entero con la fila en `0fr`, y sin el segundo la fila
+> nunca baja de la altura mínima del contenido, que es el default de una reja.
+
+> **El `<h3>` va POR FUERA del botón**, no adentro. Un encabezado metido dentro
+> de un botón deja de ser un hito de navegación: quien recorre la página por
+> encabezados se pierde las seis preguntas y solo encuentra el título de la
+> sección. El botón lleva `aria-expanded` y `aria-controls`; el panel, `role="region"`
+> y `aria-labelledby`.
+
+> **El panel cerrado va `inert`, y como booleano.** Queda siempre en el DOM —con
+> `hidden` se perdería la transición— así que hace falta algo que lo saque del
+> tabulador y del árbol de accesibilidad mientras no se ve. Desde React 19 `inert`
+> es un atributo booleano de verdad: `inert=""` se interpreta como `false`, o sea
+> al revés de lo que se quiere, y la consola lo avisa.
+
+> **El más que gira 45° es un `+` dibujado con dos barras, no un icono de
+> `lucide`.** Girar el nodo entero es una sola transformación; con dos iconos
+> distintos habría que fundir uno sobre el otro. Y el subrayado del acento crece
+> con `scaleX` sobre una barra de ancho completo: animar el `width` sería layout.
+
+### El pie sale desde abajo del CTA
+
+Dejó de ser una franja con `border-t` y pasó a ser un **panel que estaba
+debajo**: el CTA lo tapa y, al scrollear, se levanta y lo va descubriendo. El
+gesto lo hace `<ScrollLift>` desde `page.js` y el fondo `<FooterBackdrop>`; el
+contenido del footer —marca, enlaces, ©, idioma, legales— no cambió ni una clase.
+
+> **Es el mismo componente que usa el hero, y por las mismas razones.**
+> `ScrollLift` mete los primeros `FOOTER_LIFT` px del footer debajo del CTA con un
+> `margin-bottom` negativo, le pone `z-10` para ganarle en el orden de pintado, y
+> después lo levanta esos mismos px. El margen y el movimiento son la misma
+> decisión y por eso los escribe el mismo componente: el margen sin el movimiento
+> dejaría el pie tapado para siempre.
+
+> **Estuvo al revés y se cambió.** La primera versión traía el footer hacia
+> arriba con un `<ScrollCover>` —el espejo de `ScrollLift`— para que se apoyara
+> ENCIMA del CTA. Se descartó por pedido: lo que se quería era que el pie
+> apareciera **desde abajo**, con el CTA adelante. `scroll_cover.jsx` se retiró;
+> si alguna vez hace falta el gesto inverso, es `ScrollLift` con el signo dado
+> vuelta y el margen arriba.
+
+> **`HeroCover` adentro de `FinalCta` es lo que hace posible todo esto.** El
+> sitio no pinta un fondo por sección: todas dejan ver el del `body`, o sea que
+> el CTA es transparente — y algo transparente no tapa nada. Sin esa franja el
+> pie se ve entero desde el primer momento y no hay nada que descubrir. Es
+> literalmente el mismo problema que el hero resolvió primero.
+>
+> **Va sólo al pie y no en toda la sección.** Un `bg-background` en el
+> `<section>` sería más corto y taparía el resplandor de `SectionGlow`, que va en
+> `-z-10` dentro de su envoltorio: el CTA perdería el extremo cálido con el que
+> cierra la página.
+>
+> **Y va ANTES del `<Container>`.** Puesta después —probado— la franja opaca le
+> pasa por encima al titular, al cuerpo y al botón, y apaga el CTA entero. El
+> contenedor es `relative`, así que con el orden correcto el contenido queda
+> arriba sin tocar un `z-index`.
+
+> **`CTA_SPAN` tiene un techo que es el alto del pie.** El CTA es lo último antes
+> del final del documento: desde que su borde de abajo llega al pie de la ventana
+> hasta que la página se termina hay exactamente lo que el footer mide (~335px).
+> Con un `span` más largo el destape **no puede terminar** y se llega al final
+> con el pie a medio descubrir. 220 cierra con ~115px de sobra, y deja la tapa
+> subiendo a `1 + lift/span` = 1.55× la velocidad del scroll — la misma
+> proporción que el hero.
+
+> **El envoltorio va por FUERA de `SectionGlow`.** Adentro, el `transform` de
+> `ScrollLift` le crearía bloque contenedor al resplandor y la sangría vertical
+> del ±18% —lo único que conecta esta sección con la anterior— quedaría medida
+> contra otra caja.
+
+> **La sombra del pie va adentro y desde arriba**, no proyectada hacia afuera.
+> Una sombra hacia arriba diría que el pie está encima de lo anterior, que es
+> justo al revés de lo que pasa. Un `inset` en el borde superior se lee como la
+> sombra que el CTA le tira encima al taparlo — o sea, dice quién está adelante.
+
+#### El destape vive en las cuatro páginas, no solo en la home
+
+La forma es la misma en todas —`<Navbar/>`, `<main>`, `<Footer/>` sueltos dentro
+de un fragmento, con la columna flex viniendo del `<body>`— así que el patrón se
+repite. Lo que cambia es **quién hace de tapa**: en la home es el CTA con su
+`HeroCover`; en docs, legales y changelog es el `<main>` mismo, que ya trae
+`bg-background` opaco y no necesita franja.
+
+> **`inner_class_name` existe por una sola razón: dejar pasar el `flex-1`.**
+> Envolviendo un `<main>`, entre el `<body>` y él quedan los dos divs de
+> `ScrollLift`, y `class_name` solo alcanza al de afuera. Sin pasarle el flex al
+> que se mueve, el `flex-1` se corta y una página corta deja al pie flotando a
+> media pantalla.
+
+> **Y si la página no scrollea, no hay destape.** El margen negativo esconde
+> `lift` px y es el movimiento el que los devuelve; en un documento que entra en
+> una pantalla el movimiento nunca corre y esos px quedan tapados para siempre.
+>
+> **La primera versión de esa guarda midió lo que no era.** Comparaba
+> `scrollHeight` contra el alto de la ventana — pero `body` es `min-h-screen`,
+> así que `scrollHeight` **nunca baja del alto de la ventana**: una página de
+> tres renglones y una de una pantalla justa miden exactamente lo mismo. Medido:
+> un legal corto quedaba con la marca y los dos primeros enlaces comidos. Lo que
+> se mide ahora es el **scroll disponible**.
+>
+> **Los dos umbrales son distintos a propósito.** Con uno solo esto oscila: el
+> margen acorta el documento, apagarlo lo alarga, y una página que cae en el
+> medio prende y apaga sin parar. Se apaga cuando no queda nada de recorrido y se
+> vuelve a prender recién cuando sobra más de un `lift`.
+
+#### Las cuatro capas del fondo
+
+El orden del DOM es el orden de pintado y es el efecto: esferas → palabra →
+trama. **La trama va ENCIMA de la palabra**, y eso es lo que la vuelve
+puntillista: los puntos le rompen las letras. Al revés serían dos capas que se
+ignoran. De paso evita estrenar `background-clip: text`, que no se usa en ningún
+lado del repo.
+
+> **Las esferas reúsan `.atmo-blob`**, no un degradado nuevo. Dos motivos: esa
+> clase ya trae el interruptor que apaga el `blur(60px)` abajo de 768px —una
+> decisión ya medida—, y reescribirla acá la perdería en silencio.
+>
+> **Van en `--atmo-start` / `--atmo-end` y NO en `--brand`.** El naranja de marca
+> es acento y no relleno; el único lugar del fondo donde aparece es
+> `.atmo-blob-mid`, y está anotado como tal.
+>
+> **Los tres núcleos caen fuera del cuadro** — verificado: centros en x = −71,
+> 1954 y 1980 sobre un pie de 1905. Es la misma precaución que la máscara
+> horizontal de `.atmo-blobs`, que existe porque con un núcleo debajo del texto
+> el gris apagado se iba a 2.49:1. Acá la máscara no sirve —el pie usa el ancho
+> entero, no una columna central— así que la garantía la da la posición.
+
+> **`.footer-atmo` va a `--atmo-strength × 6` contra el `× 3.4` del fondo de la
+> página, y no es incoherencia.** Aquella opacidad es un límite de legibilidad
+> porque las manchas pasan por debajo de todo el texto del sitio. Acá los núcleos
+> están fuera de cuadro, así que el techo lo pone lo que se ve. **Si alguna vez
+> una esfera se mueve al centro, este número vuelve a ser un límite y hay que
+> volver a medir.**
+
+> **La cuadrícula no reúsa `GridBackdrop`, y hay que decir por qué.** Sus dos
+> capas están en `opacity-0` en tema claro a propósito: ahí competirían con las
+> manchas de la atmósfera. Pero el pie es un panel **apoyado**, con canto y
+> sombra propios: su textura no está sobre el fondo de la página, así que no
+> compite con nada y tiene que verse en los dos temas. De ahí que el color salga
+> de `--org-dot` y no de `--border`, que en claro es casi el fondo — es la misma
+> elección de `.org-canvas::before`, el precedente de trama local del repo. Y va
+> a 18px y no a 28: más cerrada se lee como puntillismo, más abierta como reja.
+
+> **La palabra va en mayúsculas, y el corte es la razón.** En caja baja "Clima"
+> tiene una `l` que sube y una `a` que se apoya en la línea de base: cortada por
+> abajo quedan alturas distintas y se lee como texto mal recortado. En mayúsculas
+> todas arrancan y terminan a la misma altura y el corte se lee como una
+> decisión. **La corta el `overflow-hidden` del `<footer>`**, no un recorte
+> propio. Es la primera tipografía gigante del sitio: hasta acá el tamaño más
+> grande era el `text-6xl` del 404.
+
+> **Las posiciones de las esferas van en `style` y no en clases.** Son geometría
+> y se leen mejor como números, pero además dependen del JIT: comprobado con el
+> servidor reiniciado, `-right-[16%]` se genera y `-right-[14%]` no, y una clase
+> que no compila falla **en silencio** dejando el elemento en su posición
+> estática. Con `style` no hay nada que generar.
+
+> **No entró `gsap`.** El componente de referencia lo pedía junto con
+> `ScrollTrigger` —~120KB— para hacer margen negativo y un `y` atado al scroll,
+> que es exactamente lo que `ScrollLift` ya hacía. Tampoco entró su técnica de
+> `position: fixed` + `clip-path`: no hay un solo `clip-path` en `src/`, las dos
+> propiedades son mutuamente excluyentes, y `AtmosphereField` vive en `fixed
+> -z-10` colgando del `<body>` — muere si aparece un contexto de apilado en el
+> medio. Verificado después del cambio: sigue pintando.
+
+> **La reja reemplazó a los puntos, y eso da vuelta una decisión anterior.** La
+> nota vieja decía que la trama iba a 18px y no a 28 porque "más abierta se lee
+> **como reja**" — o sea que la reja era justamente lo que se había evitado. Se
+> pidió esa reja, así que se hizo y la nota se corrige en vez de quedar
+> mintiendo. Lo que no cambió es el color: sale de `--org-dot` y no de
+> `--border`, que en claro es casi el fondo.
+>
+> **Va derecha, sin inclinar**, y eso sí sigue siendo regla: un degradado torcido
+> se lee como luz, pero una raya de 1px torcida se lee como un error de
+> alineación. La inclinación vive en el fondo y nunca en una línea.
+
+> **La luz entra por el canto de arriba y se abre hacia abajo.** Se apoya en el
+> gesto que ya existe: el pie aparece desde abajo del CTA, así que una luz que
+> baja desde esa juntura se lee como que la sección de arriba lo ilumina mientras
+> lo descubre. Es un `radial-gradient` sin `filter: blur` — un radial ya sale
+> difuso, y ahí no hay nada que apagar en móvil.
+
+### El fondo de la sección del planeta
+
+Hasta acá esa sección **no tenía ninguna capa de fondo**, y como `.section-band`
+tampoco pinta, era el blanco pelado. Ahora lleva dos manchas quietas en los
+naranjas de la atmósfera — **y solo en tema claro**: en oscuro
+`.dark .planet-backdrop` las saca con `display: none`, para que el fondo quede
+parejo con el resto. Ver *El fondo oscuro va parejo*.
+
+> **Lo que manda es el halo del planeta, no el gradiente.** `globe.jsx` pinta en
+> WebGL y su `glowColor` tiene que ser **exactamente** el fondo que hay detrás de
+> la esfera; como es WebGL no puede salir de una variable CSS, está escrito a
+> mano y no se corrige solo. Cualquier color debajo del planeta desalinea ese
+> halo y aparece el canto del disco del canvas.
+>
+> Por eso las manchas **se enmascaran para no pasar por debajo de la esfera**:
+> viven del lado del titular y mueren antes de llegar. Es el mismo recurso que la
+> máscara horizontal de `.atmo-blobs`. Si algún día se quiere color ahí, lo que
+> hay que cambiar es `glowColor`, mirando los dos temas — no esta capa.
+
+> **Y una segunda máscara en vertical.** Las manchas sangran fuera de la sección
+> a propósito, pero el `overflow-x-clip` las corta en el borde y ahí aparece una
+> línea horizontal a todo lo ancho. Es lo mismo que `.section-band` evita
+> desvaneciendo sus dos bordes: un corte recto entre dos valores casi iguales se
+> lee como un error de render.
+
+> **Llevan blur, y se probó sacarlo.** El razonamiento era que un radial ya sale
+> difuso y que estas manchas, al no moverse, no tienen nada que suavizar entre
+> frames. En pantalla no cerró: a esa escala el degradado muestra las bandas de 8
+> bits y el borde se lee como tinta con canto duro. Con el blur vuelve también su
+> interruptor de móvil, por lo mismo que `.atmo-blob`.
+
+> **Quieto, y es la regla del sitio.** `AtmosphereField` ya dejó escrito que un
+> fondo que respira por su cuenta le compite al contenido y además es un bucle
+> permanente. Y son manchas sobre transparente, no un lavado: es la lección del
+> degradado continuo que cubría el documento y de `SilkBackdrop`, que pintaba un
+> lienzo opaco y tapaba todo lo de atrás.
+
 
 ### La palabra que se releva
 
@@ -2137,8 +3070,8 @@ se elige con `resolvedTheme` de next-themes.
 | | claro | oscuro |
 |---|---|---|
 | base | `#ebebee` | `#524f5c` |
-| marcas y arcos | `#5b21b6` | `#8b5cf6` |
-| halo | `#d6d5d1` | `#0b0a0f` |
+| marcas y arcos | `#c2410c` | `#fb923c` | (= `--brand`, a mano: WebGL no lee CSS)
+| halo | `#ffffff` (= `--background`) | `#0b0a0f` |
 | `dark` | `0` | `0.55` |
 | `diffuse` | `1.5` | `1` |
 | `mapBrightness` | `5` | `11` |
@@ -2197,6 +3130,7 @@ se elige con `resolvedTheme` de next-themes.
 
 | `reveal` | chart_line | fracción del gráfico dibujada, como MotionValue |
 | `plot_ratio` | chart_line | alto sobre ancho de la caja del gráfico |
+| `chart_width` | chart_line | ancho de la caja del gráfico en px; con `plot_ratio` da el paso de unidades del `viewBox` a píxeles |
 | `rail_label` | carousel_rail | nombre accesible del riel; solo se usa sin clavado |
 
 > `class_name` es la prop **nuestra**; se pasa al DOM como `className`. La distinción es a propósito: `className` es de React, `class_name` es de nuestra API.
@@ -2216,6 +3150,96 @@ se elige con `resolvedTheme` de next-themes.
 Tokens CSS en kebab-case (`--muted-foreground`): los genera shadcn y renombrarlos rompe las actualizaciones del registro.
 
 ---
+
+## La vuelta de pulido
+
+Una pasada de limpieza, producción y tests. Lo que hay que saber:
+
+### Lo que se retiró
+
+| Qué | Por qué |
+|---|---|
+| `effects/glass_panel.jsx` | sin un solo importador |
+| `motion/parallax.jsx` | idem. Era el dueño de la unidad de `scroll_speed`; esa definición se mudó a `scroll_zoom.jsx`, su único usuario |
+| `--surface` / `--color-surface` | su único consumidor era `glass_panel.jsx` |
+
+Los tres componentes de `ui/` que nadie importa —`dropdown-menu`, `separator`,
+`tooltip`— **se quedan**: `ui/**` es del registro shadcn y no se toca, y en
+runtime cuestan cero porque nada los importa.
+
+### Lo que se agregó para producción
+
+`sitemap.js`, `robots.js`, `opengraph-image.js` y `twitter-image.js`. Las cuatro
+son convenciones de archivo de Next; el detalle está en cada una. Dos notas que
+no viven en ningún archivo:
+
+> **El sitemap sale de `DOCS_NAV` y `LEGAL_NAV`, no de una lista.** Una lista
+> aparte se desincroniza el día que alguien agrega una página, y el modo de fallo
+> es silencioso — la página existe y el buscador no se entera.
+
+> **Los `lastModified` van solo donde hay una fecha de verdad** (legales y
+> changelog). Poner la fecha del build en las 54 URLs le dice al rastreador que
+> el sitio entero cambió en cada despliegue, que es justo el dato que hace que
+> deje de creerle al campo.
+
+### El planeta en un chunk aparte
+
+`<GlobeLazy>` existe por una restricción concreta de Next, no por gusto:
+`world_reach.jsx` es un Server Component, y desde ahí `next/dynamic` **no parte
+el chunk** y **no admite `ssr: false`**. El corte tiene que nacer del lado del
+cliente, y eso pide un archivo con `"use client"`.
+
+Medido: `/es` pasó de **283.4 KB a 278.6 KB** de JS gzip, y las demás rutas
+subieron 0.8 KB por el runtime del cargador. Es poco, y está asumido — el ahorro
+cae en la página de entrada, que es la que importa, y saca WebGL del camino
+crítico.
+
+> **`system_shots.jsx` era el otro candidato y se dejó como estaba.** Con
+> `ssr: false` sus cuatro maquetas —que tienen texto y números de verdad—
+> saldrían del HTML del servidor. En el planeta no se pierde nada: un `<canvas>`
+> de WebGL no dibuja nada en el servidor.
+
+> **Lo que NO se hizo: migrar a `LazyMotion`.** Es viable —no hay animaciones de
+> layout ni `drag` de motion— y ahorraría ~12-15 KB gzip, pero toca 21 archivos
+> de la parte más delicada del sitio. El grueso del bundle es ese: `/es/docs`,
+> que no anima casi nada, igual paga ~246 KB. Ahí está el próximo ahorro real.
+
+### Los dos bugs que encontraron los tests
+
+Los dos eran fallos silenciosos en la documentación, y los dos rompían el índice
+lateral sin tirar un solo error.
+
+> **`headings_of` partía por `"\n"` y los `.mdx` llegan con CRLF.** El repo
+> los guarda con LF, pero Git los deja con CRLF en Windows. Cada línea quedaba
+> con un `\r` pegado, y como en una expresión regular de JavaScript el `.`
+> **no** matchea `\r`, `/^(#{2,3})\s+(.*)$/` no cerraba: la función devolvía
+> `[]` **para todas las páginas** y el índice salía vacío. En Linux —o sea en
+> CI— funcionaba. Arreglado con `/\r?\n/`.
+
+> **`strip_inline_markdown` borraba todos los `_`.** En Markdown el guion bajo es
+> cursiva solo cuando envuelve texto; dentro de una palabra es un carácter común.
+> Este proyecto escribe identificadores en snake_case y los mete en los
+> encabezados, así que `escala_3` se volvía `escala3`. Verificado contra el HTML
+> construido: el id real es `why-escala_3-uses-numbers` y el índice apuntaba a
+> `why-escala3-uses-numbers`. Ahora solo se borra el `_` que no está flanqueado
+> por alfanuméricos.
+
+### La página que existía y el sitio trataba como inexistente
+
+`security-and-data.mdx` estaba escrita y terminada **en los dos idiomas** y no
+estaba en `DOCS_NAV`, así que `is_doc_slug` la rechazaba y la ruta devolvía 404.
+La encontró el test de huérfanos. Se registró en el grupo **Cuenta**: no se lee
+para aprender a usar Clima, la lee el área de seguridad, de TI o de legal que
+tiene que aprobar la herramienta — el mismo momento en que se lee "Cuenta y
+plan". Si el criterio editorial es otro, se mueve.
+
+### Lo que sigue pendiente y no es técnico
+
+- `signup_url` está en `"#"`: el CTA principal no lleva a ningún lado.
+- El video del hero sigue siendo *Big Buck Bunny*, el relleno de Blender.
+- Las tres imágenes de `public/shots/` son placeholders de Unsplash.
+
+Los tres están marcados como TODO en `lib/site_config.js` y `content/es.js`.
 
 ## Zonas de escritura
 

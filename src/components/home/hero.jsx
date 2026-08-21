@@ -1,13 +1,12 @@
 import { ArrowRight } from "lucide-react";
 
+import { GoldenBackdrop } from "@/components/effects/golden_backdrop";
 import { HeroCover } from "@/components/effects/hero_cover";
-import { SilkBackdrop } from "@/components/effects/silk_backdrop";
 import { HeroTitle } from "@/components/home/hero_title";
 import { HeroVideo } from "@/components/home/hero_video";
 import { Reveal } from "@/components/motion/reveal";
 import { ScrollLift } from "@/components/motion/scroll_lift";
 import { Container } from "@/components/site/container";
-import { LightSwitch } from "@/components/site/light_switch";
 import { Button } from "@/components/ui/button";
 import { site_config } from "@/lib/site_config";
 
@@ -62,25 +61,37 @@ export function Hero({ dict }) {
         className="relative overflow-hidden pt-32 sm:pt-[max(8rem,calc(50svh_-_11.5rem))]"
         style={{ paddingBottom: HERO_EDGE }}
       >
-        {/* La seda es el fondo del hero, y por eso aca no hay `GridBackdrop`:
-            la reticula de puntos sobre la tela son dos texturas peleando por el
-            mismo plano. Sigue viva en el CTA final, que no tiene seda. */}
-        <SilkBackdrop />
-        {/* Los fondos se pintan en orden de DOM: la seda, encima el pie opaco
-            que se disuelve en niebla, y arriba de todo el Container. La niebla
-            es ademas lo que entrega la tela al fondo liso de la pagina: sin
-            ella el hero terminaria en un corte recto entre seda y hueso. */}
+        {/* **Aca vivia `<SilkBackdrop>`**, una tela que ondulaba en canvas y era
+            el fondo del hero. Se retiro, y al final no fue por gusto: pintaba un
+            lienzo OPACO a pantalla completa del color exacto del `--background`,
+            asi que tapaba cualquier cosa que se pusiera detras. El dia que el
+            fondo paso a llevar la atmosfera, la seda dejo de ser algo que se
+            podia retirar y paso a ser algo que habia que retirar.
+            En su lugar va `<GoldenBackdrop>`: la subdivision dorada de la caja,
+            los cuadrados anidados y la espiral de Fibonacci. Lo que la seda no
+            podia ser, esto si es — no pinta un lienzo opaco, son trazos sobre
+            transparente, asi que el gradiente del `body` y la atmosfera siguen
+            viendose por detras.
+            **Va ANTES de `<HeroCover>` y el orden es lo que hace que funcione:**
+            la tapa pinta `--background` al pie con su niebla, asi que tiene que
+            quedar encima de la geometria para apagarla de a poco al acercarse al
+            problema. Puesta despues, la espiral cruzaria la niebla intacta.
+            El `<Container>` de abajo ya es `relative`, asi que el contenido queda
+            arriba de las dos capas sin tocar un `z-index`. */}
+        <GoldenBackdrop />
+        {/* El pie opaco que se disuelve en niebla. **No es decoracion**: es lo
+            que tapa la seccion del problema, que `ScrollLift` mete detras del
+            hero. Sin el, el titular del problema se ve a traves desde el primer
+            scroll. Pinta con `--background`, asi que sigue entregando al fondo
+            de la pagina sin cortarlo. */}
         <HeroCover height={HERO_LIFT * 2} fog={HERO_EDGE} />
 
-        {/* El interruptor de la luz. Va centrado y arriba, en el hueco que
-            queda entre el pie del navbar (72px con su `pt-2`) y el arranque del
-            titular, que en movil es `pt-32` (128px) y en escritorio mucho mas
-            abajo. Es el unico tramo del hero donde un objeto no le pisa nada a
-            nadie. */}
-        <LightSwitch
-          dict={dict}
-          class_name="absolute left-1/2 top-[5.5rem] size-8 -translate-x-1/2 sm:size-10"
-        />
+        {/* **Aca vivia el sol**, un disco centrado arriba que cambiaba el tema
+            al apretarlo. Se retiro: duplicaba el interruptor del navbar, que
+            esta en todas las paginas y con su icono, mientras que el disco no
+            tenia etiqueta y solo existia en la home — o sea, una preferencia
+            escondida adentro de un adorno. El hueco entre el navbar y el
+            titular se queda vacio a proposito: es el aire del hero. */}
         <Container class_name="relative">
           <div className="mx-auto max-w-6xl text-center">
             {/* El titular entra palabra por palabra; el subtitulo y los CTA
@@ -92,7 +103,7 @@ export function Hero({ dict }) {
             <HeroTitle dict={dict} />
 
             <Reveal reveal_delay={0.65}>
-              <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
+              <p className="mx-auto mt-6 max-w-xl text-xl leading-relaxed text-muted-foreground text-pretty">
                 {dict.hero_subtitle}
               </p>
             </Reveal>

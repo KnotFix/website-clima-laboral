@@ -26,24 +26,51 @@
  * en `relative`— pero eso obliga a tocar el `Container` de cada seccion y a
  * acordarse cada vez. Aca no hay nada que acordarse.
  *
- * ## Sombra en claro, luz en oscuro, y una sola expresion
+ * ## El color sale de la atmosfera, y depende de DONDE esta la seccion
  *
- * `--glow` es siempre "el fondo movido hacia el color del texto". En tema claro
- * eso es un gris que **oscurece** el hueso; en oscuro es un casi blanco que
- * **aclara** el negro. La misma linea de CSS da sombra de un lado y luz del
- * otro, y las dos son modelado. Es la misma asimetria que la de los rayos: sobre
- * el hueso no hay recorrido hacia el blanco, asi que en claro se resta.
+ * `--glow` era "el fondo movido hacia el color del texto" —un gris que restaba
+ * en claro y sumaba en oscuro—. Hoy sale de mezclar los dos extremos de la
+ * atmosfera (`--atmo-start` y `--atmo-end`), y `tint` es la posicion de esta
+ * seccion en ese recorrido: 0 arriba de todo, 1 al pie de la pagina.
+ *
+ * Con eso los lobulos van en el mismo recorrido que las manchas de
+ * `<AtmosphereField>`: los de arriba tiran al naranja claro, los de abajo al
+ * hondo. **Es lo que los ata entre si** — sin el tinte serian cinco manchas del
+ * mismo color puestas a los costados.
+ *
+ * Antes tambien acompañaban a un degradado que cubria el `body` entero; ese se
+ * retiro para que el naranja fueran manchas y no un lavado. El `tint` no
+ * dependia de el y sigue igual.
+ *
+ * `tint` se publica al CSS ya convertido a porcentaje. Se hace la cuenta aca y
+ * no en `calc()` adentro del `color-mix` porque un numero sin unidad
+ * multiplicado por `100%` dentro de una funcion de color es justo el terreno
+ * donde los navegadores se portan distinto.
+ *
+ * ## Sangra en vertical, y esa es toda la conexion
+ *
+ * El resplandor NO se recorta al alto de su seccion: se pasa un 18% arriba y
+ * abajo para que el lobulo de una se superponga con el de la vecina. Como los
+ * costados alternan, lo que se ve en el solape es una banda que cruza de un
+ * lado al otro — la seccion no termina, se entrega.
+ *
+ * Puede sangrar porque el envoltorio es `relative isolate` **sin**
+ * `overflow-hidden`. Si algun dia se le agrega, la conexion se corta y vuelven
+ * las cinco manchas sueltas.
  */
-export function SectionGlow({ side = "left", children }) {
+export function SectionGlow({ side = "left", tint = 0, children }) {
   return (
     <div className="relative isolate">
       <div
         aria-hidden="true"
-        className="section-glow pointer-events-none absolute inset-0 -z-10"
-        // El centro de la elipse cae FUERA de la seccion a proposito: lo que
-        // entra en cuadro es la caida del resplandor, no su nucleo. Con el
-        // centro adentro se ve el punto y se lee como una mancha.
-        style={{ "--glow-x": side === "right" ? "106%" : "-6%" }}
+        className="section-glow pointer-events-none absolute -inset-y-[18%] inset-x-0 -z-10"
+        style={{
+          // El centro de la elipse cae FUERA de la seccion a proposito: lo que
+          // entra en cuadro es la caida del resplandor, no su nucleo. Con el
+          // centro adentro se ve el punto y se lee como una mancha.
+          "--glow-x": side === "right" ? "106%" : "-6%",
+          "--atmo-mix": `${Math.round(tint * 100)}%`,
+        }}
       />
       {children}
     </div>

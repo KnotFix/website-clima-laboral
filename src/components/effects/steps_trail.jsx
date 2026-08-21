@@ -8,19 +8,30 @@ import { useRemeasure } from "@/components/motion/use_remeasure";
 import { cn } from "@/lib/utils";
 
 /**
- * La ruta que une los tres pasos, en coordenadas del viewBox. El ancho es 100 y
- * el alto 1000, y el SVG se estira al contenedor (`preserveAspectRatio="none"`),
- * asi que estos numeros son porcentajes: `x` del ancho de la reja, `y` del alto.
+ * La ruta que une los cuatro pasos, en coordenadas del viewBox. El ancho es 100
+ * y el alto 1000, y el SVG se estira al contenedor
+ * (`preserveAspectRatio="none"`), asi que estos numeros son porcentajes: `x` del
+ * ancho de la reja, `y` del alto.
  *
  * Sale del **borde derecho** de la ficha 1, cruza a la 2 —que va pegada a la
- * derecha— y vuelve a la izquierda para la 3. Las fichas miden ~30 del ancho,
- * asi que la columna izquierda termina cerca de 30 y la derecha arranca cerca de
- * 70: por eso los extremos caen ahi y no en 0 y 100.
+ * derecha—, vuelve a la izquierda para la 3 y cruza otra vez para la 4. Las
+ * fichas miden ~30 del ancho, asi que la columna izquierda termina cerca de 30 y
+ * la derecha arranca cerca de 70: por eso los extremos caen ahi y no en 0 y 100.
  *
- * Las alturas son los centros de las tres filas, medidos en el navegador: 157,
- * 500 y 843 por mil con las fichas parejas. Van redondeadas, porque el alto de
- * una ficha cambia con el largo del texto y con el idioma; los extremos se meten
- * abajo de la ficha, asi que un par de puntos de corrimiento no se ven.
+ * Las alturas son los centros de las cuatro filas, medidos en el navegador: 110,
+ * 349, 609 y 880 por mil. Van redondeadas, porque el alto de una ficha cambia
+ * con el largo del texto y con el idioma; los extremos se meten abajo de la
+ * ficha, asi que un par de puntos de corrimiento no se ven.
+ *
+ * **No estan repartidas parejo, y no es un error.** Las filas no miden lo mismo:
+ * la tercera es la mas alta —el paso del estudio es el de texto mas largo— y eso
+ * corre los centros de las de abajo. Por eso los numeros salen de medir y no de
+ * dividir mil en cuatro.
+ *
+ * > **Un tramo por par de fichas, y agregar un paso es agregar un tramo.** Con
+ * > la seccion en tres pasos esto eran dos curvas entre 160, 500 y 840; con el
+ * > cuarto paso son tres, y las alturas se recalcularon todas — no alcanza con
+ * > pegarle una curva al final, porque las filas se corrieron para arriba.
  *
  * > **Sin atajos `S`, por lo mismo que anota `scroll_line.jsx`.** `S` refleja el
  * > tirador anterior, y con la caja estirada (`preserveAspectRatio="none"`) esa
@@ -28,9 +39,10 @@ import { cn } from "@/lib/utils";
  * > un costado y vuelve. Con cada tirador escrito no hay nada que adivinar.
  */
 const TRAIL = [
-  `M 30 160`,
-  `C 52 160, 54 500, 70 500`,
-  `C 46 500, 48 840, 30 840`,
+  `M 30 110`,
+  `C 52 110, 54 350, 70 350`,
+  `C 46 350, 48 610, 30 610`,
+  `C 52 610, 54 880, 70 880`,
 ].join(" ");
 
 /**

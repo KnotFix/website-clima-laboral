@@ -6,7 +6,13 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useReducedMotionSafe } from "@/components/motion/use_reduced_motion";
 import { cn } from "@/lib/utils";
 
-/** Recorrido en px por unidad de scroll_speed. El mismo que usa Parallax. */
+/**
+ * Recorrido en px por unidad de `scroll_speed`.
+ *
+ * **Aca vivia "el mismo que usa Parallax".** `Parallax` era el dueño de esta
+ * unidad y se retiro por no tener un solo consumidor; el numero se queda porque
+ * `scroll_speed` sigue existiendo, y este archivo pasa a ser donde se define.
+ */
 const TRAVEL = 120;
 
 /**
@@ -58,8 +64,8 @@ const useIsomorphicLayoutEffect =
  * cuando termina de crecer, para que sea un solo gesto y no dos animaciones
  * sueltas compitiendo.
  *
- * `scroll_speed` agrega el desplazamiento vertical del parallax, con la misma
- * unidad que `Parallax`. En 0 el elemento solo crece.
+ * `scroll_speed` agrega el desplazamiento vertical del parallax. La unidad la
+ * define `TRAVEL`, aca arriba. En 0 el elemento solo crece.
  */
 export function ScrollZoom({
   children,

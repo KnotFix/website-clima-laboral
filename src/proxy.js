@@ -6,8 +6,14 @@ import { DEFAULT_LOCALE, LOCALES } from "@/lib/site_config";
  * Elige el idioma leyendo Accept-Language.
  * Se parsea a mano a proposito: negotiator + intl-localematcher son dos
  * dependencias para resolver algo que aca son seis lineas.
+ *
+ * **Se exporta solo para poder probarla** (`test/proxy.test.js`), y esa es toda
+ * la razon: nadie mas la llama. Un parser escrito a mano que decide en que
+ * idioma entra cada visitante nuevo es exactamente la clase de codigo que hay
+ * que poder ejercitar con headers raros, y hacerlo a traves de `proxy()`
+ * obligaria a fabricar un `NextRequest` entero para mirar un string.
  */
-function pick_locale(request) {
+export function pick_locale(request) {
   const header = request.headers.get("accept-language");
   if (!header) return DEFAULT_LOCALE;
 

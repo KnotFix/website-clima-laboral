@@ -133,6 +133,20 @@ export const DOCS_NAV = [
         slug: "account-and-plan",
         title: { es: "Cuenta y plan", en: "Account and plan" },
       },
+      {
+        // **Estaba escrita en los dos idiomas y NO estaba en esta lista**, o
+        // sea que `is_doc_slug` la rechazaba y la ruta devolvia 404. La
+        // encontro `test/content_parity.test.js`, que justamente busca .mdx
+        // huerfanos: es el fallo silencioso de este manifiesto — lo que no se
+        // anota no existe, y nadie se entera.
+        //
+        // Va en "Cuenta" y no en "Conceptos" porque no se lee para aprender a
+        // usar Clima: la lee el area de seguridad, de TI o de legal que tiene
+        // que aprobar la herramienta, que es el mismo momento en que se lee
+        // "Cuenta y plan". Si el criterio editorial es otro, se mueve.
+        slug: "security-and-data",
+        title: { es: "Seguridad y datos", en: "Security and data" },
+      },
     ],
   },
   {

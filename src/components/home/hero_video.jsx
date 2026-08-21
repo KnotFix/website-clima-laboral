@@ -71,6 +71,14 @@ export function HeroVideo({ dict }) {
               fill
               // El video nunca pasa del ancho del Container.
               sizes="(max-width: 1200px) 100vw, 1200px"
+              // **Es la imagen mas grande arriba del pliegue, o sea la
+              // candidata a LCP.** Sin `priority` next/image le pone
+              // `loading="lazy"` y no emite el `<link rel="preload">`: el
+              // navegador recien la descubre cuando termina de armar el layout,
+              // y ademas sale de otro dominio (`i.ytimg.com`), asi que antes de
+              // pedirla hay que resolver DNS y abrir TLS. `priority` adelanta
+              // toda esa cadena al head del documento.
+              priority
               className="object-cover"
               onError={() => set_poster_quality("hqdefault")}
             />

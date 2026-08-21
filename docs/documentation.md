@@ -415,11 +415,13 @@ Ya existen y cuelgan del mismo mapa: `src/content/changelog/{es,en}/*.mdx` (una 
   y la barra lateral otra. De paso, todos los `##` del archivo son secciones y no títulos de página.
 - **Las docs no tienen `layout.js`**, y la razón está anotada en `architecture.md`: un layout no
   conoce el `slug` de la catch-all, así que no podría marcar la página activa.
-- **Las líneas sobre el fondo de página van en `border-box-edge`, nunca en `border-border`.** Es el
-  defecto ya anotado para `.section-seam`: `--border` (#e5e7eb) es más claro que el hueso (#e4e3df)
-  y no se ve. La prosa de las docs dibuja muchas —separadores de `h2`, borde de cita, filas de
-  tabla—, y por eso `--color-box-edge` se registró en el `@theme` de `globals.css`: el token existía
-  y la utilidad no.
+- **Las líneas sobre el fondo de página van en `border-box-edge`, nunca en `border-border`.**
+  `--border` (#e5e7eb) es el contorno de una tarjeta: demasiado flojo para una línea que tiene que
+  leerse como estructura de la prosa. La regla nació cuando el fondo era un hueso (#e4e3df) y
+  `--border`, más claro que él, directamente no se veía; con la página en blanco ya se ve, pero
+  sigue sin alcanzar. La prosa de las docs dibuja muchas —separadores de `h2`, borde de cita, filas
+  de tabla—, y por eso `--color-box-edge` se registró en el `@theme` de `globals.css`: el token
+  existía y la utilidad no. El mismo criterio lo usa `.org-canvas` para su canto.
 
 > **La ruta catch-all resuelve con un import dinámico:**
 > `` await import(`@/content/docs/${lang}/${slug}.mdx`) ``, que es el patrón que documenta Next para

@@ -1,7 +1,8 @@
 import { DocsSidebar } from "@/components/docs/docs_sidebar";
 import { DocsToc } from "@/components/docs/docs_toc";
 import { Container } from "@/components/site/container";
-import { Footer } from "@/components/site/footer";
+import { FOOTER_LIFT, FOOTER_SPAN, Footer } from "@/components/site/footer";
+import { ScrollLift } from "@/components/motion/scroll_lift";
 import { Navbar } from "@/components/site/navbar";
 
 /**
@@ -28,19 +29,29 @@ export function DocsLayout({
           En la home son anclas crudas ("#how") y aca no sirven: apuntarian a un
           id que esta en OTRA pagina, asi que el link no haria nada. Con la base
           pasan a ser "/es#how" y se van a la home, a la seccion. */}
-      <Navbar
-        lang={lang}
-        dict={dict}
-        section_base={`/${lang}`}
-        docs_active
-      />
+      <Navbar lang={lang} dict={dict} section_base={`/${lang}`} docs_active />
 
       {/* `bg-background` opaco por lo mismo que el pie de la home: `PageLight`
           es una capa FIJA detras de toda la pagina y aca no se la quiere. Los
           destellos diagonales son la firma de la primera pantalla; detras de
           cuarenta parrafos de prosa son ruido que le pelea al texto. */}
-      <main id="main" className="flex-1 bg-background">
-        {/* **El padding de arriba tiene que despejar la isla del navbar, que es
+      {/* > **El mismo destape que la home, y por eso el `<main>` va envuelto.**
+          Aca la tapa no es un CTA: es el `<main>` mismo, que ya lleva
+          `bg-background` opaco —ver el comentario de arriba— asi que no
+          necesita la franja de `HeroCover` que la home si necesita.
+
+          `inner_class_name` no es decoracion: entre el `<body>`, que es la
+          columna flex, y este `<main>` quedan los dos divs de `ScrollLift`. Sin
+          pasarles el flex, el `flex-1` se corta en el primero y una pagina corta
+          deja al pie flotando a media pantalla. */}
+      <ScrollLift
+        lift={FOOTER_LIFT}
+        span={FOOTER_SPAN}
+        class_name="flex flex-1 flex-col"
+        inner_class_name="flex flex-1 flex-col"
+      >
+        <main id="main" className="flex flex-1 flex-col bg-background">
+          {/* **El padding de arriba tiene que despejar la isla del navbar, que es
             FIJA.** La cuenta: `pt-2` (8px) + `h-16` (64px), y al scrollear baja
             `DETACH_OFFSET` (10px) mientras se achica a 0.92 desde `origin-top`,
             asi que su borde de abajo cae en ~77px. Con `py-10`/`lg:py-16` —40 y
@@ -51,53 +62,54 @@ export function DocsLayout({
             que el `top-28` de las dos columnas pegadas: los tres responden a la
             misma pregunta —cuanto mide el navbar— y desincronizarlos deja el
             salto por ancla cayendo en otro lado que el titulo. */}
-        <Container class_name="pt-28 pb-16 lg:pt-36 lg:pb-24">
-          {/* Debajo de lg la barra lateral va PLEGADA, en un <details>: es el
+          <Container class_name="pt-28 pb-16 lg:pt-36 lg:pb-24">
+            {/* Debajo de lg la barra lateral va PLEGADA, en un <details>: es el
               indice del sitio entero y desplegado empuja el contenido una
               pantalla hacia abajo en cada visita. `<details>` y no un Sheet
               para no volver cliente el arbol de navegacion por un desplegable
               que el navegador ya sabe hacer. */}
-          <details className="mb-8 rounded-lg border border-box-edge bg-card p-4 lg:hidden">
-            <summary className="cursor-pointer text-sm font-medium">
-              {dict.docs_all_pages}
-            </summary>
-            <div className="mt-4">
-              <DocsSidebar
-                lang={lang}
-                active_slug={active_slug}
-                label={dict.a11y_docs_nav_mobile}
-              />
-            </div>
-          </details>
+            <details className="mb-8 rounded-lg border border-box-edge bg-card p-4 lg:hidden">
+              <summary className="cursor-pointer text-sm font-medium">
+                {dict.docs_all_pages}
+              </summary>
+              <div className="mt-4">
+                <DocsSidebar
+                  lang={lang}
+                  active_slug={active_slug}
+                  label={dict.a11y_docs_nav_mobile}
+                />
+              </div>
+            </details>
 
-          <div className="lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[13rem_minmax(0,1fr)_12rem]">
-            {/* `top-28` deja la isla del navbar libre; `self-start` es lo que
+            <div className="lg:grid lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[13rem_minmax(0,1fr)_12rem]">
+              {/* `top-28` deja la isla del navbar libre; `self-start` es lo que
                 hace que `sticky` funcione dentro de un grid — sin el, la celda
                 se estira a lo alto de la fila y no hay nada que pegar. */}
-            <div className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
-              <DocsSidebar
-                lang={lang}
-                active_slug={active_slug}
-                label={dict.a11y_docs_nav}
-              />
-            </div>
+              <div className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
+                <DocsSidebar
+                  lang={lang}
+                  active_slug={active_slug}
+                  label={dict.a11y_docs_nav}
+                />
+              </div>
 
-            <div className="min-w-0">{children}</div>
+              <div className="min-w-0">{children}</div>
 
-            {/* El indice aparece recien en xl. Entre lg y xl la pagina ya tiene
+              {/* El indice aparece recien en xl. Entre lg y xl la pagina ya tiene
                 sidebar y columna de texto: meter una tercera columna ahi deja
                 la prosa en ~45 caracteres por linea, que es peor que no tener
                 indice. */}
-            <div className="hidden xl:sticky xl:top-28 xl:block xl:self-start">
-              <DocsToc
-                headings={headings}
-                title={dict.docs_on_this_page}
-                label={dict.a11y_docs_toc}
-              />
+              <div className="hidden xl:sticky xl:top-28 xl:block xl:self-start">
+                <DocsToc
+                  headings={headings}
+                  title={dict.docs_on_this_page}
+                  label={dict.a11y_docs_toc}
+                />
+              </div>
             </div>
-          </div>
-        </Container>
-      </main>
+          </Container>
+        </main>
+      </ScrollLift>
 
       <Footer lang={lang} dict={dict} section_base={`/${lang}`} />
     </>

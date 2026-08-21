@@ -1,7 +1,9 @@
 import { Elms_Sans, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 
+import { AtmosphereField } from "@/components/effects/atmosphere_field";
 import { PageGrain } from "@/components/effects/page_grain";
+import { ScrollGlide } from "@/components/motion/scroll_glide";
 import { ThemeProvider } from "@/components/site/theme_provider";
 import { get_dictionary } from "@/lib/dictionaries";
 import { LOCALES, is_locale, site_config } from "@/lib/site_config";
@@ -60,6 +62,20 @@ export async function generateMetadata({ params }) {
       locale: lang,
       type: "website",
     },
+    // La imagen NO se declara aca: la pone el archivo `opengraph-image.js` de
+    // este mismo segmento, y Next la inyecta en `og:image` solo. Escribirla
+    // ademas en `openGraph.images` seria declararla dos veces y en dos lugares
+    // que se desincronizan.
+    //
+    // **Lo que si hay que declarar es la tarjeta**, porque `opengraph-image` no
+    // emite ni una etiqueta `twitter:*` — eso lo hace `twitter-image.js`, que
+    // esta al lado y reexporta esta misma imagen. Sin `card`, X muestra la
+    // miniatura chica al costado del texto en vez de la tarjeta grande.
+    twitter: {
+      card: "summary_large_image",
+      title: dict.meta_title,
+      description: dict.meta_description,
+    },
   };
 }
 
@@ -83,10 +99,19 @@ export default async function RootLayout({ children, params }) {
           enableSystem
           disableTransitionOnChange
         >
-          {/* Aca vivia `PageLight`, la luz fija de toda la pagina. Se retiro
-              junto con el haz: hoy la atmosfera la pone la seda del hero, que
-              es del hero y no de la pagina. El resto del sitio va sobre el
-              fondo pelado. */}
+          {/* Las manchas y las ondas del fondo, DETRAS de todo. Van aca y no en
+              `page.js` porque son de la pagina entera y no del home: alcanzan
+              tambien a las docs y a los legales, que sin esto quedaban sobre el
+              fondo pelado.
+              Va antes de `{children}` en el DOM por claridad, pero quien decide
+              que quede atras es su `-z-10` — ver `.atmo-field`. */}
+          <AtmosphereField />
+          {/* El hielo del scroll. No dibuja nada: engancha la rueda y deja que
+              la pagina siga bajando un instante despues del gesto.
+              Va en el layout porque es de la navegacion y no de una seccion, y
+              tiene que existir una sola vez. Solo la rueda se intercepta: el
+              teclado, las anclas y el foco quedan nativos. */}
+          <ScrollGlide />
           {children}
           {/* El grano va ULTIMO y por encima de todo: es una propiedad de la
               lente, no del fondo. */}

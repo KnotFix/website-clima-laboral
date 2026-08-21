@@ -1,13 +1,13 @@
 const en = {
   meta_title: "Knotfix Clima — Workplace climate measured by segment",
   meta_description:
-    "Measure workplace climate by segment, not by average. Combine filters, weight what matters, and compare results across teams and over time.",
+    "Measure workplace climate and job satisfaction by segment, not by average. Combine filters and compare results across teams and over time.",
 
   // Navigation
   nav_links: [
     { label: "How it works", href: "#how" },
     { label: "Analysis", href: "#weights" },
-    { label: "Confidentiality", href: "#confidentiality" },
+    { label: "FAQ", href: "#faq" },
   ],
   nav_cta: "Start",
   // Kept OUT of `nav_links`: the items in that list are anchors on the home
@@ -30,7 +30,7 @@ const en = {
     { text: "results" },
   ],
   hero_subtitle:
-    "Measure workplace climate by segment, not by average. Combine filters and compare teams against each other.",
+    "Measure workplace climate and job satisfaction by segment.",
   hero_cta_primary: "Start free",
   hero_cta_secondary: "See how it works",
 
@@ -54,25 +54,38 @@ const en = {
   world_rotating_words: ["organization", "company", "business"],
 
   // Why the numbers mean something: scale, model and breakdown
-  measurement_title: "A measurement, not a survey",
+  measurement_title_segments: [
+    { text: "A" },
+    { text: "measurement,", tone: "brand" },
+    { text: "not" },
+    { text: "a" },
+    { text: "survey" },
+  ],
   measurement_body:
-    "Most climate surveys end up as a file of loose opinions that can't be compared against anything. Here every answer adds up to a number, and that number rests on a model.",
+    "Most climate and job-satisfaction surveys end up as a file that can't be compared against anything. Here every answer adds up to a number, and that number rests on a model.",
   // Same rule as `problem_items`: the title states the fact — how many options,
-  // which three dimensions, how results are stored — instead of hinting at it.
+  // how many models, where the charts come from — instead of hinting at it.
   // "Ready to present" and "A model behind it" went for that reason: they read
   // like brochure promises and you had to finish the body to learn the point.
+  //
+  // **The body fits in three lines, and that is a limit, not a style.** In the
+  // pinned rail the cards are centred (`items-center`), so they do not match
+  // heights: one with an extra line sticks out above and below its neighbours.
+  // At 320px wide and a 16px body that is ~88 characters.
+  //
+  // **THREE, not four.** "Results are stored per segment" was pulled: the
+  // per-segment breakdown is what the whole section says — the headline, the
+  // body, the filters that follow — and as its own card it repeated without
+  // adding. Pulling it also drops its icon from `ITEM_ICONS`, which goes by
+  // position.
   measurement_items: [
     {
       title: "A four-point scale, no middle option",
       body: "No “neither agree nor disagree” to hide in: everyone commits.",
     },
     {
-      title: "Three dimensions: existence, relationships, conditions",
-      body: "Questions live in a model, not in a loose list. Everyone answers the same core.",
-    },
-    {
-      title: "Results are stored per segment",
-      body: "Not one global average: each segment with its count. It can't be rebuilt later.",
+      title: "Several models, one per dimension",
+      body: "There isn't one model: there are several, and each one gives a number you can compare.",
     },
     {
       title: "Charts come out of the system ready",
@@ -104,23 +117,29 @@ const en = {
   ],
 
   // Section 2 — the problem.
-  // The title is short and split in two sentences on purpose: it comes in word
-  // by word with `BlurText`, and a long line takes too long to finish building.
-  // The second sentence names WHAT does not change. Without the explicit
-  // subject — "nothing changed" — the reader is left asking changed about what.
+  // **It asks, it doesn't assert.** Asserted — "The survey ran. The climate
+  // stayed the same." — the reader had to recognize themselves in someone
+  // else's sentence and work out that it was about them. Asked straight, there
+  // is nothing to work out: either it happened to them or it didn't.
+  // Still short: it comes in word by word with `BlurText`, and a long line takes
+  // too long to finish building. It names the subject — "your climate" —
+  // because without it the question never says what was supposed to change.
   //
   // Split into pieces like `hero_title_segments`, so the payoff can be painted.
   // `tone: "brand"` is the purple, and it goes ONLY there — those are the words
   // that sum up the whole section.
   problem_title_segments: [
-    { text: "The" },
+    { text: "You" },
+    { text: "ran" },
+    { text: "the" },
     { text: "survey" },
-    { text: "ran." },
-    { text: "The" },
+    { text: "and" },
+    { text: "your" },
     { text: "climate" },
-    { text: "stayed", tone: "brand" },
+    { text: "is" },
+    { text: "still", tone: "brand" },
     { text: "the", tone: "brand" },
-    { text: "same.", tone: "brand" },
+    { text: "same?", tone: "brand" },
   ],
   // **The title asserts; the body fills in.** Each one names ONE concrete
   // failure — the average, the format that keeps changing, the delay — and holds
@@ -128,14 +147,17 @@ const en = {
   //
   // The body sticks to a single idea, one or two lines. Three was tried and goes
   // unread: this is a stack going by with the scroll, not a documentation page.
+  //
+  // Second person throughout: the problem belongs to whoever is reading, not to
+  // some abstract company.
   problem_items: [
     {
       title: "The average hides the sinking team",
-      body: "The company-wide number looks fine while one team falls apart. You find out once they've quit.",
+      body: "The result looks fine while the team falls apart. You find out once they've quit.",
     },
     {
       title: "Change the format and there's nothing to compare",
-      body: "Different questions each year leave two results that can't be lined up.",
+      body: "You ask different questions each year, and then the results don't line up.",
     },
     {
       title: "The report lands weeks late",
@@ -144,17 +166,35 @@ const en = {
   ],
 
   // Section 3 — how it works
-  how_title: "Three steps, and the system does the first one",
+  // **FOUR steps, and there used to be three.** The first one was missing:
+  // building the organization. The roster step implied the tree came out of the
+  // CSV, and it is the other way around — you build the tree and the system
+  // hands you the template to fill in. With that step in place the headline
+  // can't claim the system does the first one either: it names the whole run.
+  how_title_segments: [
+    { text: "Four" },
+    { text: "steps," },
+    { text: "from" },
+    { text: "org" },
+    { text: "chart" },
+    { text: "to", tone: "brand" },
+    { text: "result", tone: "brand" },
+  ],
   how_steps: [
+    {
+      step_title: "Create your organization",
+      step_body:
+        "You build your company tree: branches, departments and areas, however they stand today.",
+    },
     {
       step_title: "Upload your roster",
       step_body:
-        "Drag in your CSV. The system builds your org tree and shows it to you before you confirm.",
+        "The system hands you a template of the tree you just built. You fill it in with your people and upload it.",
     },
     {
       step_title: "Launch the study",
       step_body:
-        "Pick who to measure. Each questionnaire assembles itself: the common core plus the branch's own questions.",
+        "Pick whether to measure one department or the whole company. Each questionnaire assembles itself: the model's questions plus the ones you added.",
     },
     {
       step_title: "Read the results",
@@ -163,8 +203,14 @@ const en = {
     },
   ],
 
-  // Section 4 — weights and filters (the differentiator)
-  weights_title: "Combine filters. Weight what matters.",
+  // Section 4 — combining filters and comparing (the differentiator)
+  //
+  // > **The weighting point was pulled**, and its mockup with it. The key and
+  // > the section `id` still say `weights` because they are the address of a menu
+  // > anchor: renaming them breaks `#weights` without changing anything visible.
+  // > The HEADLINE did change: it announced "Weight what matters" and there was
+  // > nothing below it to deliver on that.
+  weights_title: "Combine filters. Compare what matters.",
   weights_body:
     "Analysis isn't a bigger average. It's being able to ask your data specific questions and get an answer.",
   // Titles say what you do, bodies say what you get. The bodies used to describe
@@ -174,10 +220,6 @@ const en = {
     {
       title: "Stack filters together",
       body: "North region, night shift and over five years, all at once. You stop arguing about averages and see the exact group you care about.",
-    },
-    {
-      title: "Weight by category",
-      body: "If production weighs more than back office, the number says so. Compare weighted against flat and see what moves.",
     },
     {
       title: "Compare like with like",
@@ -208,19 +250,6 @@ const en = {
         { label: "Company-wide", value: "2.9" },
       ],
     },
-    weights: {
-      a11y: "Product mock: weights by category and the weighted result",
-      title: "Weights by category",
-      categories: [
-        { label: "Production", weight: "×2.0" },
-        { label: "Back office", weight: "×1.0" },
-        { label: "Sales", weight: "×1.5" },
-      ],
-      bars: [
-        { label: "Weighted result", value: "3.1" },
-        { label: "Flat average", value: "3.4" },
-      ],
-    },
     compare: {
       a11y: "Product mock: two regions compared over the same period",
       title: "North against South",
@@ -244,9 +273,23 @@ const en = {
   },
 
   // Section 5 — scale
-  scale_title: "From 20 employees to 50,000, the same system",
+  scale_title_segments: [
+    { text: "From" },
+    { text: "20" },
+    { text: "employees" },
+    { text: "to" },
+    { text: "50,000," },
+    { text: "in" },
+    { text: "the", tone: "brand" },
+    { text: "same", tone: "brand" },
+    { text: "system", tone: "brand" },
+  ],
+  // The point is that it adapts, not the tree. The previous version explained the
+  // data structure — "you declare it as a tree", "a one-level tree" — and that is
+  // how we do it, not what the reader gets. The four charts below already show
+  // the tree; the copy has to say what it is good for.
   scale_body:
-    "Your organization doesn't fit into fixed columns, so we don't force it. You declare it as a tree: a flat company is a one-level tree, and a group with regions, companies, and sites is that same tree, deeper. Adding a site means hanging a branch, and the history of what you already measured stays intact.",
+    "You don't adapt to our system: the system adapts to your company. Company, branches, departments, and areas, however they are set up today. Open a branch tomorrow and you just add it — the history of what you already measured stays intact.",
   // Four organizations, smallest to largest. Each chart is drawn from `tree`:
   // a node with children, recursive.
   scale_orgs: [
@@ -317,20 +360,70 @@ const en = {
     },
   ],
 
-  // Section 6 — confidentiality
-  confidentiality_title: "If it isn't confidential, it doesn't work",
-  confidentiality_body:
-    "People answer honestly only when they know they can't be identified. That isn't a promise. It's how the system is built.",
-  confidentiality_points: [
-    "Responses are detached from identity. Tokens are issued per segment, never per name.",
-    "No segment shows results below the minimum number of responses you set.",
-    "That minimum applies when filters are combined too, which is exactly where groups shrink without anyone noticing.",
+  // Section 6 — FAQ
+  // > **The confidentiality section used to live here.** It was dropped as a
+  // > section of its own, but the argument was NOT lost: it is the single
+  // > biggest objection a climate survey faces, so it became the first FAQ
+  // > entry — which is where someone goes looking for it — together with the
+  // > minimum threshold, which was its second point.
+  //
+  // **No answer claims anything the site does not already state elsewhere.**
+  // These sell on their own through self-service: there is nobody on the other
+  // side to walk back an over-promise. Pricing, trial length and concrete
+  // timelines are deliberately left out, because they are not in the documented
+  // product.
+  faq_title_segments: [
+    { text: "Before" },
+    { text: "you" },
+    { text: "start," },
+    { text: "what", tone: "brand" },
+    { text: "everyone", tone: "brand" },
+    { text: "asks", tone: "brand" },
+  ],
+  faq_body:
+    "The questions that come up before launching a first study, answered straight.",
+  faq_items: [
+    {
+      question: "Can anyone see what I answered?",
+      answer:
+        "No. Responses are detached from identity: tokens are issued per segment, never per name. People answer honestly only when they know they can't be identified, and that isn't a promise — it's how the system is built.",
+    },
+    {
+      question: "What if my team is very small?",
+      answer:
+        "No segment shows results below the minimum number of responses you set. That minimum applies when filters are combined too, which is exactly where groups shrink without anyone noticing.",
+    },
+    {
+      question: "What questions does it include?",
+      answer:
+        "A universal core everyone answers the same way, plus the questions you add attached to a branch of your organization. The scale has four options and no middle point: everyone commits.",
+    },
+    {
+      question: "Can I compare against the previous study?",
+      answer:
+        "Yes, as long as the question core and the scale are the same. That is why the core does not change between studies: it is what lets two results sit on the same line.",
+    },
+    {
+      question: "How long does it take to get running?",
+      answer:
+        "The system gives you a template of your company tree. You fill in the roster and upload it in the roster section. Then you pick who to measure and launch the study. There is no implementation project.",
+    },
+    {
+      question: "Do I have to talk to someone to try it?",
+      answer: "No. You create the account and start.",
+    },
   ],
 
   // Section 7 — final CTA
-  final_cta_title: "Launch your first study this week",
-  final_cta_body:
-    "Create your account, upload your roster, and measure. No implementation project, no sales call.",
+  final_cta_title_segments: [
+    { text: "Launch" },
+    { text: "your" },
+    { text: "first" },
+    { text: "study" },
+    { text: "this", tone: "brand" },
+    { text: "week", tone: "brand" },
+  ],
+  final_cta_body: "Create your account, upload your roster, and measure.",
   final_cta_button: "Start free",
 
   // Docs. Only the chrome lives here: the titles and prose of each page live
@@ -345,7 +438,7 @@ const en = {
   docs_next: "Next",
 
   // Footer
-  footer_tagline: "Workplace climate measured by segment.",
+  footer_tagline: "Workplace climate and job satisfaction.",
   footer_rights: "All rights reserved.",
 
   // Legal. Only the chrome lives here, same as docs: the text of each document
@@ -368,7 +461,6 @@ const en = {
 
   // Accessibility
   a11y_toggle_theme: "Toggle theme",
-  a11y_light_switch: "Switch the site between day and night",
   a11y_open_menu: "Open menu",
   a11y_close_menu: "Close menu",
   a11y_switch_lang: "Change language",

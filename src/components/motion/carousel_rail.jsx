@@ -55,7 +55,11 @@ export function CarouselRail({ children, rail_label }) {
           x: is_pinned ? chart_x : undefined,
         }}
       >
-        <ChartLine reveal={reveal} plot_ratio={plot_ratio} />
+        <ChartLine
+          reveal={reveal}
+          plot_ratio={plot_ratio}
+          chart_width={chart_width}
+        />
       </motion.div>
 
       <div

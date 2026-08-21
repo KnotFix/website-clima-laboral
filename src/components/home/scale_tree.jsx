@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Tabs as TabsPrimitive } from "radix-ui";
 
+import { AccentTitle } from "@/components/home/accent_title";
 import { OrgChart } from "@/components/home/org_chart";
 import { HEADING_PASS, ScrollPass } from "@/components/motion/scroll_pass";
 import { useReducedMotionSafe } from "@/components/motion/use_reduced_motion";
@@ -66,14 +67,12 @@ export function ScaleTree({ dict }) {
   }, []);
 
   return (
-    <section className="section-seam py-24 sm:py-32">
+    <section className="py-24 sm:py-32">
       <Container>
         <ScrollPass {...HEADING_PASS}>
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              {dict.scale_title}
-            </h2>
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground text-pretty sm:text-[15px]">
+            <AccentTitle segments={dict.scale_title_segments} />
+            <p className="mt-5 text-xl leading-relaxed text-muted-foreground text-pretty">
               {dict.scale_body}
             </p>
           </div>
@@ -87,144 +86,172 @@ export function ScaleTree({ dict }) {
             mismo atributo por su cuenta, asi que las clases del registro
             —`group-data-vertical/tabs:*`— siguen funcionando igual.
             Las otras tres piezas si salen de `ui/tabs.jsx` sin tocar. */}
-        <TabsPrimitive.Root
-          value={active}
-          onValueChange={set_active}
-          orientation={is_column ? "vertical" : "horizontal"}
-          className="group/tabs mt-12 flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_1.25fr] lg:items-center lg:gap-14"
-        >
-          {/* En telefono la lista se recorre de lado: cuatro etiquetas largas
-              no entran en 390px, y cortarlas o apilarlas en cuatro renglones
-              come toda la pantalla antes de llegar al organigrama.
-              > **`justify-start` pisa al `justify-center` del registro, y hace
-              falta.** Con el centrado, un flex que desborda reparte el sobrante
-              a los DOS lados y lo que se va por la izquierda **no se alcanza
-              scrolleando**: medido a 390px, la primera pestaña quedaba en
-              `left: -176` con `scrollLeft` en 0. */}
-          {/* > **El alto de la lista se pisa con la MISMA cadena de
-              modificadores del registro**, `group-data-horizontal/tabs:h-auto`
-              contra su `group-data-horizontal/tabs:h-8`. Un `h-auto` pelado no
-              alcanza: el del registro lleva un `group-data-*` y gana por
-              especificidad. Medido: la lista se quedaba en 32px con la pestaña
-              activa midiendo 76 — el tamaño desplegado quedaba recortado.
-              `items-start` va aparte: sin el, las etiquetas de un renglon
-              quedan centradas contra la activa, que ahora es mas alta. */}
-          <TabsList
-            variant="line"
-            className="-mx-6 w-auto max-w-none snap-x snap-mandatory items-start justify-start gap-2 overflow-x-auto px-6 pb-1.5 group-data-horizontal/tabs:h-auto lg:mx-0 lg:w-full lg:snap-none lg:overflow-visible lg:px-0"
+        {/* Las pestanas y el organigrama entran y salen con el bloque: eran
+            lo unico de la seccion que no se movia nunca, con el titular
+            entrando y saliendo justo encima.
+            Los hitos van MUY abiertos y el recorrido corto, y aca no es una
+            preferencia: esto es un control que se clickea, y uno atenuado
+            mientras todavia sirve es peor que uno quieto. Con 0.26 y 0.82
+            llega a pleno apenas asoma y no empieza a irse hasta que ya cruzo
+            el borde de arriba. */}
+        <ScrollPass drift={50} fade_in={0.26} fade_out={0.82}>
+          <TabsPrimitive.Root
+            value={active}
+            onValueChange={set_active}
+            orientation={is_column ? "vertical" : "horizontal"}
+            className="group/tabs mt-12 flex flex-col gap-8 lg:grid lg:grid-cols-[1fr_1.25fr] lg:items-center lg:gap-14"
           >
-            {orgs.map((org, index) => {
-              const is_active = active === String(index);
+            {/* En telefono la lista se recorre de lado: cuatro etiquetas largas
+                no entran en 390px, y cortarlas o apilarlas en cuatro renglones
+                come toda la pantalla antes de llegar al organigrama.
+                > **`justify-start` pisa al `justify-center` del registro, y hace
+                falta.** Con el centrado, un flex que desborda reparte el sobrante
+                a los DOS lados y lo que se va por la izquierda **no se alcanza
+                scrolleando**: medido a 390px, la primera pestaña quedaba en
+                `left: -176` con `scrollLeft` en 0. */}
+            {/* > **El alto de la lista se pisa con la MISMA cadena de
+                modificadores del registro**, `group-data-horizontal/tabs:h-auto`
+                contra su `group-data-horizontal/tabs:h-8`. Un `h-auto` pelado no
+                alcanza: el del registro lleva un `group-data-*` y gana por
+                especificidad. Medido: la lista se quedaba en 32px con la pestaña
+                activa midiendo 76 — el tamaño desplegado quedaba recortado.
+                `items-start` va aparte: sin el, las etiquetas de un renglon
+                quedan centradas contra la activa, que ahora es mas alta. */}
+            <TabsList
+              variant="line"
+              className="-mx-6 w-auto max-w-none snap-x snap-mandatory items-start justify-start gap-2 overflow-x-auto px-6 pb-1.5 group-data-horizontal/tabs:h-auto lg:mx-0 lg:w-full lg:snap-none lg:overflow-visible lg:px-0"
+            >
+              {orgs.map((org, index) => {
+                const is_active = active === String(index);
 
-              return (
-              <TabsTrigger
-                key={org.label}
-                value={String(index)}
-                // > **El indicador del registro se muda a la izquierda, no se
-                // reemplaza.** En columna la pestaña ocupa el ancho entero de
-                // su celda, asi que el `after:` de `variant="line"` —anclado al
-                // canto derecho— terminaba a 250px del texto, flotando contra
-                // el organigrama.
-                // >
-                // > Se probo antes con `border-l-2` y **no sirve**: el registro
-                // trae `dark:data-active:border-input`, que pinta los cuatro
-                // bordes. Como los modificadores no coinciden, `tailwind-merge`
-                // no puede deduplicar y decide el orden del stylesheet — en
-                // claro se veia el morado y en oscuro no. Reusando `after:*`
-                // con los MISMOS modificadores, la deduplicacion funciona.
-                // Y en fila el subrayado se mete ADENTRO de la caja. El
-                // registro lo cuelga en `bottom-[-5px]`, pero la lista lleva
-                // `overflow-x-auto` para poder recorrerse en telefono y eso
-                // recorta tambien en vertical: medido, la barra caia entre 485
-                // y 487 con la lista terminando en 484. Invisible.
-                //
-                // > **En columna el subrayado se apaga: ahi manda la tarjeta.**
-                // Con el fondo relleno y el texto en negrita, una barra pegada
-                // al canto redondeado sobra. En fila se queda, porque ahi no
-                // hay tarjeta que la reemplace.
-                //
-                // > **El fondo activo se declara con los MISMOS modificadores
-                // que el del registro** (`data-active:` y `dark:data-active:`).
-                // Es la leccion de la ronda pasada: con modificadores distintos
-                // `tailwind-merge` no puede deduplicar, decide el orden del
-                // stylesheet, y sale bien en un tema y mal en el otro.
-                className={cn(
-                  "h-auto shrink-0 cursor-pointer snap-start flex-col items-start gap-0 py-3 text-base font-semibold tracking-tight after:bg-brand group-data-horizontal/tabs:after:bottom-0 group-data-vertical/tabs:rounded-xl group-data-vertical/tabs:px-5 group-data-vertical/tabs:py-4 group-data-vertical/tabs:after:hidden lg:text-xl",
-                  is_active && "font-bold text-foreground",
-                )}
-                // > **El fondo de la tarjeta va en `style` y no en una clase.**
-                // No es pereza: `variant="line"` trae
-                // `group-data-[variant=line]/tabs-list:data-active:bg-transparent`,
-                // que empata en especificidad con cualquier
-                // `group-data-vertical/tabs:bg-*` que se le ponga encima — y
-                // ahi decide el orden del stylesheet, no el nuestro. Medido: el
-                // fondo salia `rgba(0,0,0,0)`. Un estilo en linea gana siempre,
-                // y el color sigue saliendo del token.
-                style={
-                  is_active && is_column
-                    ? { backgroundColor: "var(--muted)" }
-                    : undefined
-                }
-              >
-                <span>{org.label}</span>
-
-                {/* > **El despliegue va con `grid-template-rows: 0fr → 1fr`, y
-                    es una excepcion consciente a "solo `transform` y
-                    `opacity`".** Esa regla existe por las animaciones atadas al
-                    scroll, que recalculan layout EN CADA FRAME. Esto es una
-                    transicion de 200ms sobre un elemento, disparada por un
-                    clic. Empujar a los hermanos hacia abajo con `transform` no
-                    se puede, y reservar el hueco siempre —cuatro espacios
-                    vacios— mata la idea de que se despliega. */}
-                <span
-                  aria-hidden={is_active ? undefined : "true"}
+                return (
+                <TabsTrigger
+                  key={org.label}
+                  value={String(index)}
+                  // > **El indicador del registro se muda a la izquierda, no se
+                  // reemplaza.** En columna la pestaña ocupa el ancho entero de
+                  // su celda, asi que el `after:` de `variant="line"` —anclado al
+                  // canto derecho— terminaba a 250px del texto, flotando contra
+                  // el organigrama.
+                  // >
+                  // > Se probo antes con `border-l-2` y **no sirve**: el registro
+                  // trae `dark:data-active:border-input`, que pinta los cuatro
+                  // bordes. Como los modificadores no coinciden, `tailwind-merge`
+                  // no puede deduplicar y decide el orden del stylesheet — en
+                  // claro se veia el acento y en oscuro no. Reusando `after:*`
+                  // con los MISMOS modificadores, la deduplicacion funciona.
+                  // Y en fila el subrayado se mete ADENTRO de la caja. El
+                  // registro lo cuelga en `bottom-[-5px]`, pero la lista lleva
+                  // `overflow-x-auto` para poder recorrerse en telefono y eso
+                  // recorta tambien en vertical: medido, la barra caia entre 485
+                  // y 487 con la lista terminando en 484. Invisible.
+                  //
+                  // > **En columna el subrayado se apaga: ahi manda la tarjeta.**
+                  // Con el fondo relleno y el texto en negrita, una barra pegada
+                  // al canto redondeado sobra. En fila se queda, porque ahi no
+                  // hay tarjeta que la reemplace.
+                  //
+                  // > **El fondo activo se declara con los MISMOS modificadores
+                  // que el del registro** (`data-active:` y `dark:data-active:`).
+                  // Es la leccion de la ronda pasada: con modificadores distintos
+                  // `tailwind-merge` no puede deduplicar, decide el orden del
+                  // stylesheet, y sale bien en un tema y mal en el otro.
                   className={cn(
-                    "grid overflow-hidden text-sm font-normal text-muted-foreground transition-[grid-template-rows,opacity] duration-200 ease-out motion-reduce:transition-none",
-                    is_active
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0",
+                    "h-auto shrink-0 cursor-pointer snap-start flex-col items-start gap-0 py-3 text-base font-semibold tracking-tight after:bg-brand group-data-horizontal/tabs:after:bottom-0 group-data-vertical/tabs:rounded-xl group-data-vertical/tabs:px-5 group-data-vertical/tabs:py-4 group-data-vertical/tabs:after:hidden lg:text-xl",
+                    is_active && "font-bold text-foreground",
+                    // El ring acompaña al relleno y solo en columna, que es donde
+                    // hay tarjeta. Con la pagina en blanco la cara de la activa
+                    // esta a doce valores de la banda: alcanza para verla, pero
+                    // no para darle un canto. Eso lo pone el ring.
+                    // Va apagado en oscuro: alla la cara tiene el recorrido que
+                    // le falta aca, y este canto es una correccion del tema claro.
+                    is_active && is_column && "ring-1 ring-foreground/10 dark:ring-0",
                   )}
-                >
-                  {/* El `min-h-0` es lo que hace funcionar el truco: sin el, el
-                      hijo de la reja se planta en su alto de contenido y la
-                      fila de `0fr` no lo puede achicar. */}
-                  <span className="min-h-0">
-                    <span className="block pt-1.5">{org.size}</span>
-                  </span>
-                </span>
-              </TabsTrigger>
-              );
-            })}
-          </TabsList>
-
-          {orgs.map((org, index) => (
-            <TabsContent key={org.label} value={String(index)}>
-              {/* El panel se recorre de lado en pantalla chica: `OrgChart`
-                  pinta cajas con `whitespace-nowrap` y el arbol de cuatro
-                  niveles no entra en un telefono. */}
-              <div
-                // `bg-panel` y no `bg-card`: el blanco puro es el de las cajas
-                // del organigrama, y un lienzo del mismo color se las traga.
-                // Ver `--panel`.
-                className="org-canvas flex items-center justify-center overflow-x-auto rounded-2xl bg-panel px-4 py-8 lg:overflow-visible lg:px-0"
-                style={{ minHeight: CHART_MIN_HEIGHT }}
-              >
-                {/* Radix desmonta el panel inactivo, asi que la entrada corre
-                    sola en cada cambio: no hace falta `key`. */}
-                <motion.div
-                  className="w-full"
-                  initial={
-                    reduced_motion ? false : { opacity: 0, y: 18, scale: 0.97 }
+                  // > **El fondo de la tarjeta va en `style` y no en una clase.**
+                  // No es pereza: `variant="line"` trae
+                  // `group-data-[variant=line]/tabs-list:data-active:bg-transparent`,
+                  // que empata en especificidad con cualquier
+                  // `group-data-vertical/tabs:bg-*` que se le ponga encima — y
+                  // ahi decide el orden del stylesheet, no el nuestro. Medido: el
+                  // fondo salia `rgba(0,0,0,0)`. Un estilo en linea gana siempre,
+                  // y el color sigue saliendo del token.
+                  //
+                  // > **`--tab-surface` y no `--muted`, porque el sentido se
+                  // invierte con el tema.** La pestaña vivia sobre
+                  // `.section-band` y tenia que levantarse de ella. Hoy la banda
+                  // no pinta en ningun tema (ver `--band`) y debajo hay fondo de
+                  // pagina, pero el token hace falta por el mismo motivo: en
+                  // claro levantar es `--card`, y en oscuro `--card` (#14121a)
+                  // apenas se despega, asi que ahi es `--muted` (#1f1c28) — que
+                  // ahora rinde MAS que cuando habia banda debajo. Con `--muted`
+                  // fijo, sobre la pagina blanca la activa quedaba a un valor del
+                  // fondo.
+                  style={
+                    is_active && is_column
+                      ? { backgroundColor: "var(--tab-surface)" }
+                      : undefined
                   }
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <OrgChart tree={org.tree} />
-                </motion.div>
-              </div>
-            </TabsContent>
-          ))}
-        </TabsPrimitive.Root>
+                  <span>{org.label}</span>
+
+                  {/* > **El despliegue va con `grid-template-rows: 0fr → 1fr`, y
+                      es una excepcion consciente a "solo `transform` y
+                      `opacity`".** Esa regla existe por las animaciones atadas al
+                      scroll, que recalculan layout EN CADA FRAME. Esto es una
+                      transicion de 200ms sobre un elemento, disparada por un
+                      clic. Empujar a los hermanos hacia abajo con `transform` no
+                      se puede, y reservar el hueco siempre —cuatro espacios
+                      vacios— mata la idea de que se despliega. */}
+                  <span
+                    aria-hidden={is_active ? undefined : "true"}
+                    className={cn(
+                      "grid overflow-hidden text-sm font-normal text-muted-foreground transition-[grid-template-rows,opacity] duration-200 ease-out motion-reduce:transition-none",
+                      is_active
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0",
+                    )}
+                  >
+                    {/* El `min-h-0` es lo que hace funcionar el truco: sin el, el
+                        hijo de la reja se planta en su alto de contenido y la
+                        fila de `0fr` no lo puede achicar. */}
+                    <span className="min-h-0">
+                      <span className="block pt-1.5">{org.size}</span>
+                    </span>
+                  </span>
+                </TabsTrigger>
+                );
+              })}
+            </TabsList>
+
+            {orgs.map((org, index) => (
+              <TabsContent key={org.label} value={String(index)}>
+                {/* El panel se recorre de lado en pantalla chica: `OrgChart`
+                    pinta cajas con `whitespace-nowrap` y el arbol de cuatro
+                    niveles no entra en un telefono. */}
+                <div
+                  // `bg-panel` y no `bg-card`: el blanco puro es el de las cajas
+                  // del organigrama, y un lienzo del mismo color se las traga.
+                  // Ver `--panel`.
+                  className="org-canvas flex items-center justify-center overflow-x-auto rounded-2xl bg-panel px-4 py-8 lg:overflow-visible lg:px-0"
+                  style={{ minHeight: CHART_MIN_HEIGHT }}
+                >
+                  {/* Radix desmonta el panel inactivo, asi que la entrada corre
+                      sola en cada cambio: no hace falta `key`. */}
+                  <motion.div
+                    className="w-full"
+                    initial={
+                      reduced_motion ? false : { opacity: 0, y: 18, scale: 0.97 }
+                    }
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <OrgChart tree={org.tree} />
+                  </motion.div>
+                </div>
+              </TabsContent>
+            ))}
+          </TabsPrimitive.Root>
+        </ScrollPass>
       </Container>
     </section>
   );

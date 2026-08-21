@@ -14,11 +14,30 @@ import { cn } from "@/lib/utils";
  * de las variables CSS: no hay nada que las lea del otro lado. Son los mismos
  * valores del sistema, escritos en la unidad que entiende el shader.
  *
- *   claro   base #ebebee   marca #5b21b6   halo #e4e3df (el hueso del fondo)
- *   oscuro  base #292630   marca #8b5cf6   halo #0b0a0f
+ *   claro   base #ebebee   marca #c2410c   halo #ffffff (el fondo de pagina)
+ *   oscuro  base #292630   marca #fb923c   halo #0b0a0f
  *
- * El halo tiene que ser EXACTAMENTE el fondo de la pagina: es el resplandor que
- * rodea la esfera, y si no coincide se ve el disco cuadrado del canvas.
+ * Las marcas y los arcos son el color de MARCA, asi que siguieron a `--brand`
+ * cuando paso de morado a naranja. Aca hay que moverlos a mano: cobe pinta en
+ * WebGL y no lee variables CSS.
+ *
+ * El halo tiene que ser EXACTAMENTE el fondo que hay detras: es el resplandor
+ * que rodea la esfera, y si no coincide se ve el disco cuadrado del canvas.
+ *
+ * **Y ese fondo es `--background` pelado en los dos temas**, porque
+ * `.section-band` ya no pinta en ninguno: #ffffff en claro y #0b0a0f en oscuro.
+ * Los dos `glow_color` de abajo coinciden exacto.
+ *
+ * > **Aca decia que en oscuro detras del planeta estaba la banda, pero el numero
+ * > nunca la siguio.** `glow_color` oscuro es `[0.043, 0.039, 0.059]`, o sea
+ * > #0b0a0f — el fondo, no la banda (#121116). Habia siete valores de desajuste
+ * > desde que la banda existia; apagarla los cerro sola. **No se toco
+ * > `PALETTES`**: lo unico equivocado era esta prosa.
+ *
+ * Este numero sigue siendo lo unico que se rompe de verdad si la banda vuelve:
+ * cobe pinta en WebGL y los colores NO pueden salir de las variables CSS, asi
+ * que no se corrige solo. Si se enciende en cualquiera de los dos temas, este
+ * valor tiene que moverse con ella.
  */
 const PALETTES = {
   light: {
@@ -26,9 +45,9 @@ const PALETTES = {
     diffuse: 1.5,
     map_brightness: 5,
     base_color: [0.922, 0.922, 0.933],
-    marker_color: [0.357, 0.129, 0.714],
-    arc_color: [0.357, 0.129, 0.714],
-    glow_color: [0.894, 0.89, 0.875],
+    marker_color: [0.761, 0.255, 0.047],
+    arc_color: [0.761, 0.255, 0.047],
+    glow_color: [1, 1, 1],
   },
   dark: {
     // La esfera va bastante mas clara que el fondo (#4a4655 contra #0b0a0f).
@@ -40,8 +59,8 @@ const PALETTES = {
     diffuse: 1,
     map_brightness: 11,
     base_color: [0.32, 0.31, 0.36],
-    marker_color: [0.545, 0.361, 0.965],
-    arc_color: [0.545, 0.361, 0.965],
+    marker_color: [0.984, 0.573, 0.235],
+    arc_color: [0.984, 0.573, 0.235],
     glow_color: [0.043, 0.039, 0.059],
   },
 };

@@ -14,9 +14,9 @@ import { Shot } from "@/components/docs/doc_shot";
  * mas.
  *
  * Las lineas que se dibujan sobre el fondo de pagina van en `border-box-edge` y
- * NUNCA en `border-border`: ese token es mas claro que el hueso del fondo y
- * simplemente no se ve. Es el mismo defecto anotado en `architecture.md` para
- * `.section-seam` y `.org-canvas`.
+ * NUNCA en `border-border`: `--border` es el contorno de una tarjeta, demasiado
+ * flojo para una linea que tiene que leerse como estructura de la prosa. Es el
+ * mismo motivo por el que `.org-canvas` saca de ahi su canto.
  */
 export const mdx_components = {
   // Componentes propios que un .mdx puede usar SIN importarlos. Van acá y no
@@ -119,7 +119,7 @@ export const mdx_components = {
   ),
 
   // La cita es el recurso para "esto es una regla del producto, no un consejo".
-  // El canto morado es de los pocos usos de `--brand`: acento, nunca relleno.
+  // El canto de acento es de los pocos usos de `--brand`: acento, no relleno.
   blockquote: ({ children, ...props }) => (
     <blockquote
       {...props}

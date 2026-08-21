@@ -9,6 +9,7 @@ import {
   useTransform,
 } from "motion/react";
 
+import { SETTLE_SCALE } from "@/components/motion/scroll_pass";
 import { useReducedMotionSafe } from "@/components/motion/use_reduced_motion";
 import { useRemeasure } from "@/components/motion/use_remeasure";
 import { Container } from "@/components/site/container";
@@ -80,6 +81,39 @@ const PEN_X = 0.9;
 const GLIDE = { stiffness: 150, damping: 28, mass: 0.5 };
 
 /**
+ * Cuanto tarda una pieza en llegar y colocarse, en fraccion de SU fase.
+ *
+ * Va en fraccion y no en px de scroll —como el `BUILD_STEP` de `ScrollPass`—
+ * porque adentro del capitulo **no hay px de scroll que signifiquen algo**: la
+ * pagina no avanza en vertical, y lo que corre es un avance normalizado de 0 a 1.
+ * Un tercio de la fase es lo que deja ver el recorrido sin que la pieza llegue
+ * cuando la fase ya termino.
+ */
+const LAND_SPAN = 0.34;
+
+/**
+ * Cuanto se corre la ventana por cada turno del escalonado, en fraccion de la
+ * fase.
+ *
+ * Con 0.08 las cinco fichas del riel —turnos 0 a 4— arrancan entre 0.24 y 0.56 y
+ * terminan de llegar en 0.90. **El margen del final no es de sobra**: el avance
+ * pasa por un `useSpring`, asi que cuando el scroll llega al tope de la fase el
+ * resorte todavia se esta acomodando. Con las ventanas cerrando en 1 la ultima
+ * ficha entraba al riel sin haber terminado de aterrizar.
+ */
+const LAND_TURN = 0.08;
+
+/**
+ * Ventana minima de un aterrizaje. `useTransform` necesita un rango
+ * estrictamente creciente: con los dos topes iguales devuelve `NaN` y el estilo
+ * queda roto. Es la misma trampa que ya tienen los tres hitos de las fases.
+ */
+const LAND_MIN = 0.04;
+
+/** Desde cuan lejos llega una pieza del capitulo, en px, si no se dice otra cosa. */
+const LAND_DISTANCE = 90;
+
+/**
  * Abajo de estos limites no se clava nada. El ancho, porque un capitulo
  * horizontal tomado del scroll vertical en un telefono le pelea al gesto de la
  * mano. El alto, porque cada diapositiva mide una pantalla y el contenido tiene
@@ -113,6 +147,7 @@ const LOOSE = {
 const chapter_context = createContext({
   is_pinned: false,
   stack_progress: motionValue(1),
+  pan_progress: motionValue(1),
   rail_x: motionValue(0),
   chart_x: motionValue(0),
   reveal: motionValue(1),
@@ -271,6 +306,15 @@ export function PinnedChapter({ children, stack_steps = 0 }) {
   const pan_x = useTransform(glide, [stack_end, pan_end], [0, -track.pan], {
     clamp: true,
   });
+
+  // **El avance del paneo, normalizado.** Es de lo que cuelga la entrada del
+  // contenido de la diapo 2: 0 = todavia esta afuera por la derecha, 1 = calzada
+  // en la ventana. Sale aparte de `pan_x` porque `pan_x` esta en px y depende del
+  // ancho de la ventana, y una pieza no quiere saber cuanto mide el paneo — quiere
+  // saber **cuanto falta**.
+  const pan_progress = useTransform(glide, [stack_end, pan_end], [0, 1], {
+    clamp: true,
+  });
   const rail_x = useTransform(glide, [pan_end, rail_end], [0, -travel], {
     clamp: true,
   });
@@ -298,6 +342,7 @@ export function PinnedChapter({ children, stack_steps = 0 }) {
   const value = {
     is_pinned,
     stack_progress,
+    pan_progress,
     rail_x,
     chart_x,
     reveal,
@@ -338,6 +383,103 @@ export function PinnedChapter({ children, stack_steps = 0 }) {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Una pieza de una diapositiva que llega desde un costado y se coloca.
+ *
+ * **Es el `enter_from` de `ScrollPass`, pero colgado del avance del capitulo.**
+ * Adentro de un bloque clavado la pagina no se mueve en vertical, asi que un
+ * fundido atado a `scrollY` apaga la pieza a mitad de la pista — es la razon por
+ * la que estas dos diapositivas estuvieron mucho tiempo sin entrada. Lo que si
+ * avanza es la fase, y de ahi cuelga esto.
+ *
+ * ## Que fase, y por que importa
+ *
+ * - `phase="stack"` — la fase 1, mientras la pila se arma con el titular quieto
+ *   al lado. Es la de las piezas de la diapo 1.
+ * - `phase="pan"` — la fase 2, mientras la diapo 1 se va por la izquierda y la 2
+ *   entra por la derecha. Es la de las piezas de la diapo 2.
+ *
+ * **En la diapo 2 las piezas entran desde la DERECHA, y no es lo mismo que en el
+ * resto del sitio.** Afuera, cada pieza llega desde el lado que ocupa. Aca la
+ * diapositiva entera esta viajando hacia la izquierda, asi que una pieza corrida
+ * a la derecha se lee como que **viene atras y se acomoda**; corrida a la
+ * izquierda se leeria como que se adelanta a su propia diapositiva.
+ *
+ * ## No hay salida, y no hace falta
+ *
+ * `ScrollPass` necesita cuatro hitos porque tiene que volver a irse. Aca la
+ * salida de la diapo 1 **es el paneo** y la de las fichas del riel **es el riel**:
+ * el capitulo ya se las lleva. Lo unico que hace esto es traerlas.
+ *
+ * El desarmado sale igual, y gratis: el avance es funcion del scroll, asi que
+ * subir lo recorre al reves y la pieza se va por donde vino.
+ *
+ * ## `fade`, y la pantalla de la aproximacion
+ *
+ * **La diapositiva 1 se ve una pantalla entera ANTES de que el capitulo se
+ * clave**, y en todo ese tramo el avance vale 0: la pista entra por abajo como
+ * cualquier bloque y recien se pega cuando su borde de arriba llega al de la
+ * ventana. Una pieza que arranca en opacidad 0 deja esa pantalla **vacia**.
+ *
+ * Por eso `fade={false}`: la pieza se entrega visible y lo unico que se mueve es
+ * su posicion. Sirve para lo que ya esta a la vista durante la aproximacion —el
+ * titular del problema— y no para la diapositiva 2, que en ese tramo esta afuera
+ * de la ventana clavada y no se ve.
+ *
+ * ## Suelto no hace nada
+ *
+ * Sin clavado —telefono, pantalla baja, movimiento reducido— no hay fases que
+ * seguir: la pieza se entrega quieta, opaca y en su sitio. Es el mismo corte que
+ * hace `StackCard`.
+ */
+export function ChapterLand({
+  children,
+  phase = "stack",
+  enter_from = "below",
+  distance = LAND_DISTANCE,
+  land_at = 0,
+  land_span = LAND_SPAN,
+  build_index = 0,
+  fade = true,
+  class_name,
+}) {
+  const { is_pinned, stack_progress, pan_progress } = useChapter();
+  const reduced_motion = useReducedMotionSafe();
+
+  const progress = phase === "pan" ? pan_progress : stack_progress;
+
+  // La ventana de la pieza dentro de su fase. Los dos topes se acotan a 1: mas
+  // alla de ahi la fase no avanza, y una pieza con la ventana afuera se quedaria
+  // para siempre sin aterrizar.
+  const start = Math.min(land_at + build_index * LAND_TURN, 1 - LAND_MIN);
+  const end = Math.min(Math.max(start + land_span, start + LAND_MIN), 1);
+
+  const x_offset =
+    enter_from === "left" ? -distance : enter_from === "right" ? distance : 0;
+  const y_offset = enter_from === "below" ? distance : 0;
+
+  // Los hooks no pueden ser condicionales: los cuatro valores se arman siempre y
+  // lo que se decide despues es si se usan.
+  const x = useTransform(progress, [start, end], [x_offset, 0], { clamp: true });
+  const y = useTransform(progress, [start, end], [y_offset, 0], { clamp: true });
+  const opacity = useTransform(progress, [start, end], [fade ? 0 : 1, 1], {
+    clamp: true,
+  });
+  const scale = useTransform(progress, [start, end], [SETTLE_SCALE, 1], {
+    clamp: true,
+  });
+
+  if (!is_pinned || reduced_motion) {
+    return <div className={cn(class_name)}>{children}</div>;
+  }
+
+  return (
+    <motion.div className={cn(class_name)} style={{ x, y, opacity, scale }}>
+      {children}
+    </motion.div>
   );
 }
 

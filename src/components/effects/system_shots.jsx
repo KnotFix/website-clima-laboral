@@ -139,7 +139,7 @@ function ScoreBar({ label, value, ratio, accent, delay, reduced_motion }) {
       <span className="mt-1.5 block h-2 overflow-hidden rounded-full bg-muted">
         <motion.span
           className="block h-full w-full origin-left rounded-full"
-          // El morado va SOLO en la barra que la seccion promete; la de
+          // El acento va SOLO en la barra que la seccion promete; la de
           // referencia queda gris, que es exactamente su papel.
           style={{ background: accent ? "var(--chart-1)" : "var(--chart-3)" }}
           initial={reduced_motion ? false : { scaleX: 0 }}
@@ -214,56 +214,17 @@ export function CrossShot({ shot, scale_max, class_name }) {
   );
 }
 
-/**
- * 02 — Ponderá por categoria: los pesos puestos, y el ponderado contra el simple.
- *
- * El peso va en su propia pastilla a la derecha del nombre. Es lo que hace leer
- * la fila como un control con un valor y no como un item de una lista.
- */
-export function WeightsShot({ shot, scale_max, class_name }) {
-  const reduced_motion = useReducedMotionSafe();
-
-  return (
-    <ShotFrame
-      title={shot.title}
-      a11y_label={shot.a11y}
-      class_name={class_name}
-    >
-      <motion.ul
-        className="mt-4 flex flex-col gap-2"
-        variants={reduced_motion ? undefined : list_variants}
-        initial={reduced_motion ? false : "hidden"}
-        whileInView="shown"
-        viewport={{ once: true, amount: "some" }}
-      >
-        {shot.categories.map((category) => (
-          <motion.li
-            key={category.label}
-            className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted px-3 py-2"
-            variants={reduced_motion ? undefined : piece_variants}
-          >
-            <span className="text-xs text-foreground/80">{category.label}</span>
-            <span className="text-xs font-medium tabular-nums text-brand">
-              {category.weight}
-            </span>
-          </motion.li>
-        ))}
-      </motion.ul>
-
-      <div className={DIVIDER}>
-        <ScoreBars
-          bars={shot.bars}
-          scale_max={scale_max}
-          lead={shot.categories.length}
-          reduced_motion={reduced_motion}
-        />
-      </div>
-    </ShotFrame>
-  );
-}
+// > **Acá vivía `WeightsShot`**, la maqueta de los pesos por categoría: una
+// > pastilla con el multiplicador por categoría y abajo el resultado ponderado
+// > contra el promedio simple. Se retiró junto con su punto de la sección de
+// > análisis y con su entrada `weights_shots.weights` del diccionario — sin
+// > consumidor, era código muerto con `"use client"` encima.
+// >
+// > No se llevó nada de lo compartido: `ShotFrame`, `ScoreBars`, `DIVIDER` y las
+// > variantes las siguen usando las tres maquetas que quedaron.
 
 /**
- * 03 — Compará poblaciones equivalentes: dos segmentos, y al pie lo que los hace
+ * 02 — Compará poblaciones equivalentes: dos segmentos, y al pie lo que los hace
  * comparables.
  *
  * El pie no es letra chica de relleno: es la razon por la que la comparacion
@@ -297,13 +258,13 @@ export function CompareShot({ shot, scale_max, class_name }) {
 }
 
 /**
- * 04 — Sabé cuándo no alcanza: un cruce que se quedo sin muestra.
+ * 03 — Sabé cuándo no alcanza: un cruce que se quedo sin muestra.
  *
  * **La barra va vacia y punteada, y el valor es una raya.** Es el remate de la
- * maqueta: donde las otras tres muestran un numero, esta muestra que no lo hay.
+ * maqueta: donde las otras dos muestran un numero, esta muestra que no lo hay.
  * Dibujar una barra corta seria justo lo contrario de lo que dice el punto.
  *
- * Sin rojo: la paleta del sitio es blanco y negro con el morado de acento, y
+ * Sin rojo: la paleta del sitio es blanco y negro con el naranja de acento, y
  * ademas esto no es un error — es el sistema haciendo lo que tiene que hacer.
  */
 export function ThresholdShot({ shot, class_name }) {

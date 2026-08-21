@@ -40,13 +40,13 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-surface: var(--surface);
   --color-panel: var(--panel);
   /* `--box-edge` ya existia como token pero no como utilidad, y la prosa de las
      docs dibuja lineas SOBRE el fondo de pagina: separadores, borde de cita,
-     lineas de tabla. Ahi `border-border` no se ve — `--border` (#e5e7eb) es mas
-     CLARO que el hueso (#e4e3df), que es el mismo defecto que ya obligo a
-     inventar `--org-line`. `border-box-edge` es lo que hace que se vean. */
+     lineas de tabla. Con el fondo en blanco `border-border` (#e5e7eb) ya se ve
+     —26 valores—, pero apenas: `--box-edge` (#c5c3be) esta 58 abajo y es el que
+     sostiene una linea que tiene que leerse como estructura y no como un borde
+     de tarjeta. Es el mismo motivo por el que existe `--org-line`. */
   --color-box-edge: var(--box-edge);
   --color-nav-surface: var(--nav-surface);
   --color-hero-title-muted: var(--hero-title-muted);
@@ -65,81 +65,186 @@
 }
 
 /* Paleta heredada del sistema administrativo de Knotfix
-   (../administrativo Knotfix/src/index.css) para que el sitio y el producto
-   se lean como la misma familia. El morado es acento, nunca relleno. */
+   (../administrativo Knotfix/src/index.css). **El acento ya no es el morado del
+   producto: este sitio va en naranja** — ver `--brand`. Lo heredado sigue siendo
+   la estructura de tokens y los neutros; el color de acento es propio.
+   La regla no cambio: el acento es acento, nunca relleno. */
 :root {
   --radius: 0.625rem;
   --container-max: 1200px;
 
-  /* Blanco hueso en TODA la pagina, no solo en el hero. Tiene que ser mas
-     oscuro que el blanco puro o los destellos de luz no tendrian contra que
-     leerse. Las tarjetas siguen en blanco (--card) y por eso se levantan. */
-  --background: #e4e3df;
+  /* Blanco puro en TODA la pagina.
+     **Aca vivia un blanco hueso (#e4e3df)**, y el motivo era la luz fija de la
+     pagina: sobre blanco puro los destellos no tenian contra que leerse. Esa
+     luz —`PageLight`, `.page-light`, el haz— se retiro, asi que el hueso se
+     quedo sin el problema que resolvia y solo aportaba lo suyo: leerse sucio
+     contra las tarjetas blancas.
+     **Consecuencia directa: las tarjetas ya NO se levantan por valor.** Son
+     blancas sobre blanco, asi que su relieve pasa a ser el borde y la sombra
+     —`--box-edge`, el ring de `foreground`, `.surface-key`— y no la diferencia
+     de color. Todo lo que dependia de los 27 valores del hueso esta anotado
+     donde vive. */
+  --background: #ffffff;
   --foreground: #0b0a0f;
   --card: #ffffff;
   --card-foreground: #0b0a0f;
   --popover: #ffffff;
   --popover-foreground: #0b0a0f;
-  /* Los botones son negros, no morados. El morado quedo reservado para
-     gradientes y detalles: vive en --brand y en --ring. */
+  /* Los botones son negros, no del color de acento. El acento quedo reservado
+     para texto y detalles: vive en --brand y en --ring. */
   --primary: #0b0a0f;
   --primary-foreground: #ffffff;
 
-  /* Morado de marca: resplandores, gradientes y acentos puntuales.
-     NO se usa como relleno de botones. */
-  --brand: #5b21b6;
+  /* Naranja de marca: palabras acentuadas de los titulares, la palabra que
+     rota en el planeta, los numeros de los pasos, los checks, el foco.
+     NO se usa como relleno de botones — los botones son negros.
+
+     **Aca vivia el morado `#5b21b6`**, heredado del sistema administrativo. El
+     naranja es una decision de este sitio; si algun dia hay que volver a
+     emparentarlo con el producto, se cambia aca y en `--ring`, `--chart-1` y
+     `--sidebar-primary`, que son el mismo color repetido.
+
+     **`#c2410c` y no un naranja mas vivo, por dos motivos.** Uno: da 5.9:1
+     sobre blanco, asi que sirve tambien en texto chico —`system_shots` lo usa en
+     `text-xs`— y no solo en titulares. Dos: `--signal-warn` (`#f59e0b`) es un
+     ambar claro que significa DATO en las caras de animo y las fichas de clima;
+     este naranja es bastante mas oscuro y rojizo, asi que marca y dato no se
+     confunden. Si alguna vez se aclara, hay que mirar esas fichas. */
+  --brand: #c2410c;
 
   --secondary: #f4f4f5;
   --secondary-foreground: #0b0a0f;
   --muted: #f4f4f5;
-  /* Sobre el hueso, el gris de antes (#6b7280) no llegaba al minimo AA. Este
-     da 6.0:1 contra el fondo de pagina y 7.5:1 dentro de las tarjetas
-     blancas. */
+  /* El gris de antes (#6b7280) no llegaba al minimo AA sobre el hueso. Este da
+     7.5:1, y ahora que la pagina es blanca ese numero vale en todos lados: el
+     fondo y la cara de las tarjetas son el mismo blanco. */
   --muted-foreground: #4b5563;
   --accent: #f4f4f5;
   --accent-foreground: #0b0a0f;
   --destructive: #dc2626;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #5b21b6;
+  --ring: #c2410c;
 
-  /* Banda de seccion: el fondo de las secciones que llevan `.section-band`.
-     Va un punto MAS OSCURO que el hueso, no mas claro. Aclarar acercaria el
-     fondo al blanco de `--card` y las tarjetas dejarian de levantarse; con la
-     banda mas oscura, las tarjetas contrastan mas justo donde hay mas. Se queda
-     igual por encima de `--box-edge` (#c5c3be) para no borrar los cantos. */
-  --band: color-mix(in srgb, var(--background) 95%, var(--foreground));
+  /* ---- La atmosfera: naranja, de claro arriba a hondo abajo --------------
+     Los dos extremos del recorrido de la atmosfera, y cuanto pesa.
+     **Estos tres tokens son toda la paleta de la atmosfera**: cambiar el color
+     del sitio es cambiar estas dos lineas y nada mas.
 
-  /* El modelado de `SectionGlow`: el fondo movido hacia el color del texto.
-     En claro eso es un gris que OSCURECE el hueso — sobre el hueso no hay
-     recorrido hacia el blanco, la misma leccion que la de los rayos. */
-  --glow: color-mix(in srgb, var(--foreground) 7%, transparent);
+     **El recorrido ya no lo dibuja un degradado, lo dibujan las manchas.** Habia
+     un `background-image` en el `body` que tenia la pagina entera; se retiro
+     porque tenia el fondo. Hoy `start` y `end` los consumen las manchas de
+     `<AtmosphereField>` —las de arriba salen de una, las de abajo de la otra— y
+     los lobulos de `<SectionGlow>`, que interpolan entre los dos segun su
+     `tint`. El recorrido sigue existiendo; lo que no existe es el lavado.
+
+     **Los nombres son `start` y `end` y no `cool` y `warm`.** Antes el recorrido
+     iba de un violeta a un ambar y los nombres decian la temperatura; hoy los dos
+     extremos son naranjas, asi que un token llamado `cool` con un naranja adentro
+     seria una mentira que el proximo que lea el archivo se cree. Dicen posicion
+     en el recorrido, que es lo unico que va a seguir siendo cierto si el color
+     cambia otra vez.
+
+     **El recorrido ya no es de tono, es de luminancia.** Con un solo hue no hay
+     viaje de color posible: lo que cambia al bajar es que el naranja se apaga y
+     se hunde, de `#f97316` a `#b4530f`. Es menos recorrido que antes —eso esta
+     asumido— pero sigue habiendo diferencia entre el arriba y el abajo, que es
+     lo que evita que el fondo se lea como un tinte parejo.
+
+     **`--atmo-end` va apagado y NO saturado**: es fondo, y ademas los
+     `--signal-*` usan naranjas saturados como DATO en las fichas del titular.
+     Dos naranjas con dos significados se pisan.
+
+     `--atmo-strength` va por tema y en oscuro va MAS ALTO. No es incoherencia:
+     un tinte translucido sobre blanco se ve enseguida, sobre el casi negro casi
+     no rinde. Es la misma asimetria que ya gobierna `--grain-blend` y
+     `--box-edge` mas abajo. */
+  --atmo-start: #f97316;
+  --atmo-end: #b4530f;
+  --atmo-strength: 0.09;
+
+  /* ---- Las dos capas de seccion -----------------------------------------
+     `--band` es el fondo de las secciones con `.section-band` y `--glow` el
+     modelado de `SectionGlow`.
+
+     **`--glow` ya no es un gris, es la atmosfera.** Era "el fondo movido hacia
+     el color del texto" —sombra en claro, luz en oscuro— y despues quedo en
+     `transparent` cuando la pagina se aplano. Ahora sale de mezclar los dos
+     extremos de la atmosfera segun `--atmo-mix`, que cada `SectionGlow` publica
+     con su posicion en la pagina: las de arriba tiran al naranja claro, las de
+     abajo al hondo. Asi el recorrido no lo hace solo el fondo del body sino
+     tambien los lobulos laterales, que es lo que los ata entre si.
+
+     **La expresion de `--glow` NO vive aca, vive en `.section-glow`.** Es una
+     trampa de las variables CSS que ya se pago una vez: un `var()` adentro del
+     valor de otra custom property **se sustituye donde la property se DECLARA**,
+     no donde se usa. Declarada en `:root`, su `var(--atmo-mix)` resolvia contra
+     el `--atmo-mix` de `:root` y las seis secciones salian del mismo color por
+     mas que cada una publicara el suyo. Medido: los seis glows daban
+     `oklab(0.431971 0.0814853 -0.194179 / 0.09)`, o sea violeta puro en todas.
+
+     `--atmo-mix` queda aca solo como respaldo, para que un consumidor que no lo
+     declare no rompa la expresion.
+
+     `--band` esta en `transparent` **en los dos temas**, asi que `.section-band`
+     no pinta en ninguno. En claro la cadencia del scroll ya la daba la
+     atmosfera; en oscuro se apago para que el fondo quede parejo — el porque
+     entero esta en el token del bloque `.dark`. */
+  --atmo-mix: 0%;
+  --band: transparent;
 
   /* Cuanto pesa el grano de `.page-grain`, y con que se mezcla. Los dos van
-     juntos porque el numero solo tiene sentido con su modo: `overlay` rinde
-     mucho mas que la mezcla comun, asi que el 0.11 de aca pesa parecido al
-     0.085 del tema oscuro. Ver `.page-grain`. */
-  --grain-opacity: 0.11;
-  --grain-blend: overlay;
+     juntos porque el numero solo tiene sentido con su modo. Ver `.page-grain`.
+
+     **`multiply` y no `overlay`, y con la pagina blanca es obligatorio.** La
+     formula de `overlay` para una base clara es `1 - 2*(1-base)*(1-mezcla)`:
+     con la base en 1 el primer factor es cero y el resultado es 1 pase lo que
+     pase. O sea que sobre blanco puro `overlay` no es "un grano sutil", es
+     literalmente nada — el mismo callejon sin salida que ya esta anotado abajo
+     para el tema oscuro, visto desde el otro extremo. `multiply` sobre blanco
+     devuelve el ruido tal cual, que es exactamente lo que se quiere.
+     El numero acompaña a la atmosfera: con el fondo en blanco pelado alcanzaba
+     0.06, pero sobre un gradiente de color el grano es lo que lo convierte en
+     una superficie —el ruido de una imagen— en vez de una transicion lisa de
+     CSS. `multiply` ademas lo oscurece conservando el tono, asi que el violeta
+     y el ambar siguen siendo violeta y ambar. */
+  --grain-opacity: 0.1;
+  --grain-blend: multiply;
 
   /* La cara de un panel grande: el lienzo del organigrama.
-     Va a MITAD de camino entre el fondo y el blanco de `--card`, y ninguno de
-     los dos extremos servia. Sin fondo —como estaba— el panel es el hueso de la
-     pagina con un borde: se lee como un hueco, no como una superficie. En
-     `--card` pelado seria blanco puro y las cajas del organigrama, que TAMBIEN
-     son `--card`, desaparecerian dentro de el. En el medio el panel se levanta
-     del fondo (228 -> 242, y contra la banda de la seccion son 25 valores) y a
-     las cajas todavia les quedan 13 para levantarse de el, mas su canto solido
-     y su sombra. */
-  --panel: color-mix(in srgb, var(--card) 50%, var(--background));
 
-  /* Superficie translucida generica (glass_panel). */
-  --surface: #fffffff5;
+     **Se arma bajando desde el fondo hacia el texto, no subiendo hacia
+     `--card`.** Antes era `color-mix(--card 50%, --background)`, que sobre el
+     hueso caia justo a mitad de camino entre los dos. Con la pagina en blanco
+     esa expresion mezcla blanco con blanco y da blanco: el panel colapsa contra
+     la pagina Y contra las cajas al mismo tiempo — que son exactamente los dos
+     extremos que la version anterior ya habia descartado por separado (sin
+     fondo se lee como un hueco; en `--card` pelado las cajas, que TAMBIEN son
+     `--card`, desaparecen dentro de el).
+     Bajando desde el fondo da #f5f5f5: el lienzo se hunde 10 valores respecto
+     de la pagina, y las cajas blancas se levantan esos mismos 10 sobre el, mas
+     su canto solido y su sombra. Es la misma relacion de antes —lienzo abajo,
+     cajas arriba— con el signo dado vuelta, y es ademas la forma que `.dark` ya
+     usaba por el motivo simetrico. */
+  --panel: color-mix(in srgb, var(--background) 96%, var(--foreground));
+
+  /* La cara de la pestaña activa del arbol, cuando la lista va en columna.
+     **Token propio y no `--muted`, porque el sentido se invierte con el tema.**
+     En oscuro la pestaña vive sobre la banda y tiene que LEVANTARSE, y ahi
+     levantar es ir a `--muted`: `--card` (#14121a) es mas oscuro que la banda y
+     la hundiria. En claro va en `--card`. Lo consume `scale_tree` por `style` en
+     linea — el porque de eso esta anotado ahi.
+
+     **En claro este token hoy no pinta**: la banda esta apagada, asi que es
+     blanco sobre blanco y a la pestaña activa la marcan su `ring-foreground/10`
+     y la negrita. Se sigue leyendo, pero mas flojo que cuando habia banda. El
+     token se queda porque el dia que la banda vuelva, vuelve a hacer falta. */
+  --tab-surface: var(--card);
 
   /* Vidrio del navbar. Bastante translucido a proposito: el navbar viaja por
-     encima del hueso del hero y de las secciones blancas de mas abajo, asi que
-     no puede tener un color propio — tiene que tomar el de atras. Un blanco
-     casi opaco se recortaria como una banda sobre el hero.
+     encima de la seda del hero y de las bandas de mas abajo, asi que no puede
+     tener un color propio — tiene que tomar el de atras. Un blanco casi opaco
+     se recortaria como una banda sobre el hero.
      El texto igual se lee: lo de atras va desenfocado. */
   --nav-surface: #ffffff8c;
 
@@ -155,39 +260,11 @@
      mejor y no pasaria. */
   --hero-title-muted: #767676;
 
-  /* ---- La seda del hero -------------------------------------------------
-     Los dos extremos de la tela: el fondo del pliegue y el brillo de la cresta.
-     `silk_backdrop.jsx` mezcla entre los dos segun la intensidad de la trama,
-     asi que **estos dos valores son toda la paleta del hero**.
-
-     Van como TRIPLETA `r g b` y sin envolver en `rgb()` a proposito: los lee un
-     lienzo, y parsear tres numeros separados por espacios es un `split`
-     mientras que parsear un `#rrggbb` es un intérprete de color. En CSS se usan
-     igual, con `rgb(var(--silk-fold))`.
-
-     En claro la seda es BLANCA: la cresta es blanco puro y el pliegue queda un
-     punto por debajo del hueso de la pagina. Es poco recorrido a proposito —21
-     valores— porque encima de esta tela va texto negro y un titular de 7rem
-     sobre una tela con mucho contraste deja de leerse en las crestas. */
-  --silk-fold: 207 205 199;
-  --silk-sheen: 255 255 255;
-
-  /* El viñeteado que cierra los bordes de la tela. En claro apenas existe: el
-     hueso no tiene recorrido hacia abajo que gastar en un adorno. */
-  --silk-vignette: rgb(0 0 0 / 0.07);
-
-  /* El disco del interruptor de la luz, su centro caliente y el resplandor que
-     tira. **Es un solo objeto con dos horas**: la geometria de `.sun-switch` no
-     cambia entre temas, solo estos tres. De dia es un sol dorado sobre la seda
-     blanca; de noche, una lampara fria. */
-  --sun: #d98a1f;
-  --sun-core: #ffe3a3;
-  --sun-glow: #e0a63a;
-
-  /* Lineas del organigrama. Token propio y NO `--border`: ese vale #e5e7eb,
-     que es mas CLARO que el hueso del fondo (#e4e3df), asi que las lineas
-     desaparecian. `--border` esta pensado para el borde de las tarjetas
-     blancas, no para dibujar sobre el fondo de pagina. */
+  /* Lineas del organigrama. Token propio y NO `--border`: ese vale #e5e7eb, un
+     borde de tarjeta, y una linea que dibuja estructura sobre el fondo de
+     pagina necesita mucho mas peso. Nacio porque sobre el hueso `--border` era
+     directamente invisible; con la pagina en blanco ya se ve, pero la razon de
+     fondo no cambio — son dos trabajos distintos. */
   --org-line: #a4a29c;
   /* Trama de puntitos del fondo del organigrama. Mas tenue que la linea: es
      textura, no dibujo. */
@@ -195,8 +272,12 @@
   /* Canto de una caja: el costado de la pieza. Lo comparten el organigrama y
      `.surface-key`. Va por tema y no con un `color-mix` hacia negro, porque en
      oscuro la tarjeta ya es casi negra y oscurecerla mas la funde con el fondo.
-     Y NO puede ser `--border` (#e5e7eb): es mas CLARO que el hueso del fondo,
-     asi que el canto desapareceria — el mismo problema que `--org-line`. */
+     Y NO puede ser `--border` (#e5e7eb): un canto es el COSTADO de una pieza y
+     tiene que leerse como sombra propia, no como una linea de contorno — el
+     mismo problema que `--org-line`.
+     **Con la pagina en blanco este token es el que sostiene las tarjetas.** Ya
+     no hay diferencia de valor entre la cara y el fondo: lo que queda es esto
+     y la sombra. */
   --box-edge: #c5c3be;
 
   /* Colores de senal de las fichas del titular. Son la UNICA excepcion a la
@@ -209,9 +290,9 @@
   --signal-cloud: #94a3b8;
   --signal-rain: #60a5fa;
 
-  /* Grafico del hero: escala de grises + un solo morado para el segmento
-     destacado. Nunca dos colores compitiendo. */
-  --chart-1: #5b21b6;
+  /* Grafico del hero: escala de grises + un solo color de acento para el
+     segmento destacado. Nunca dos colores compitiendo. */
+  --chart-1: #c2410c;
   --chart-2: #52525b;
   --chart-3: #71717a;
   --chart-4: #a1a1aa;
@@ -219,7 +300,7 @@
 
   --sidebar: #fafafa;
   --sidebar-foreground: #0b0a0f;
-  --sidebar-primary: #5b21b6;
+  --sidebar-primary: #c2410c;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f4f4f5;
   --sidebar-accent-foreground: #0b0a0f;
@@ -239,7 +320,7 @@
   --primary: #f4f3f6;
   --primary-foreground: #0b0a0f;
 
-  --brand: #8b5cf6;
+  --brand: #fb923c;
 
   --secondary: #1f1c28;
   --secondary-foreground: #f4f3f6;
@@ -250,18 +331,37 @@
   --destructive: #f87171;
   --border: #2a2733;
   --input: #2a2733;
-  --ring: #8b5cf6;
+  --ring: #fb923c;
 
-  /* En oscuro la banda va mas CLARA que el fondo —oscurecer #0b0a0f no lleva a
-     ningun lado— pero tiene que quedarse por DEBAJO de `--card` (#14121a) o las
-     tarjetas se hundirian en la banda en vez de levantarse. Por eso 97% y no el
-     95% del tema claro: el margen entre fondo y tarjeta es mucho mas angosto. */
-  --band: color-mix(in srgb, var(--background) 97%, var(--foreground));
+  /* **Apagada, igual que en claro: en oscuro el fondo va PAREJO.**
 
-  /* Misma expresion, efecto contrario: aca `--foreground` es casi blanco, asi
-     que el modelado ACLARA el casi negro. Un punto mas alto porque sobre un
-     fondo tan oscuro el mismo porcentaje se nota menos. */
-  --glow: color-mix(in srgb, var(--foreground) 8%, transparent);
+     Aca vivia `color-mix(in srgb, var(--background) 97%, var(--foreground))`, o
+     sea #121116 — siete valores por encima del fondo. Era poco y se veia igual:
+     los dos tramos con banda —planeta+escala y pesos/filtros— se leian mas
+     claros que sus vecinos y cada juntura se notaba como un corte.
+
+     **La referencia del fondo oscuro es la seccion "Una medicion"**, la unica del
+     scroll sin capa propia: `--background` pelado + las manchas de
+     `<AtmosphereField>` + el grano. Todas las demas se igualaron a ella, y por el
+     mismo motivo se apagaron en oscuro `.section-glow`, `.planet-backdrop`,
+     `GridBackdrop` y `StackBackdrop`.
+
+     Lo que se entrega a cambio esta anotado en `.section-band`: el scroll pierde
+     su cadencia de valor. Devolverla es cambiar esta linea sola — la banda, con
+     su desvanecido de 8rem y su diagonal, sigue escrita entera. Si vuelve, tiene
+     que quedarse por DEBAJO de `--card` (#14121a) o las tarjetas se hundirian en
+     ella en vez de levantarse: de ahi el 97% y no el 95%. */
+  --band: transparent;
+
+  /* La atmosfera de noche. Los dos extremos suben de luminancia —contra el casi
+     negro, el naranja del tema claro se apaga— y la fuerza sube bastante mas:
+     sobre un fondo de 11 valores, un tinte al 9% no existe. Ver el bloque de
+     `:root`.
+     `--glow` NO se redefine aca: la expresion de `:root` ya sale de estos tres,
+     asi que cambiar los extremos cambia el resplandor solo. */
+  --atmo-start: #fb923c;
+  --atmo-end: #c2701a;
+  --atmo-strength: 0.14;
 
   /* `overlay` sobre el casi negro daria `2 * 0.04 * ruido`, o sea nada: aca el
      grano va con mezcla comun, que levanta el ruido en vez de multiplicarlo por
@@ -278,30 +378,14 @@
      `--box-edge`, que es mas claro que la cara. */
   --panel: color-mix(in srgb, var(--background) 94%, var(--foreground));
 
-  --surface: #14121af5;
   --nav-surface: #181521a6;
   --nav-surface-island: #181521e0;
 
   --hero-title-muted: #6d6879;
 
-  /* De noche la seda es la del componente original: pliegue casi negro y
-     cresta en gris malva. Aca el recorrido SI puede ser largo —44 valores
-     contra los 21 del tema claro— porque sobre el negro el texto va blanco, y
-     una cresta gris no le saca legibilidad a un titular blanco como si le
-     sacaria a uno negro.
-     La cresta va mas apagada que el `123 116 129` del original: aquel hero
-     pintaba su titular con `mix-blend-difference`, que se lleva bien con
-     cualquier fondo. El nuestro es texto comun y necesita el suyo tranquilo. */
-  --silk-fold: 11 10 15;
-  --silk-sheen: 79 74 92;
-
-  /* De noche el viñeteado hace fuerza: es lo que hunde los bordes del hero y
-     evita que la tela llegue plana hasta el borde de la pantalla. */
-  --silk-vignette: rgb(0 0 0 / 0.45);
-
-  --sun: #cfe2ff;
-  --sun-core: #ffffff;
-  --sun-glow: #98c0ef;
+  /* Ver el token en `:root`: en oscuro levantarse de la banda es ir a `--muted`,
+     no a `--card`, que aca es mas oscuro que la banda. */
+  --tab-surface: var(--muted);
 
   --org-line: #423e52;
   --org-dot: #2b2836;
@@ -317,7 +401,7 @@
   --signal-cloud: #cbd5e1;
   --signal-rain: #93c5fd;
 
-  --chart-1: #8b5cf6;
+  --chart-1: #fb923c;
   --chart-2: #a1a1aa;
   --chart-3: #71717a;
   --chart-4: #52525b;
@@ -325,7 +409,7 @@
 
   --sidebar: #14121a;
   --sidebar-foreground: #f4f3f6;
-  --sidebar-primary: #8b5cf6;
+  --sidebar-primary: #fb923c;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #1f1c28;
   --sidebar-accent-foreground: #f4f3f6;
@@ -339,6 +423,28 @@
   }
   body {
     @apply bg-background text-foreground;
+
+    /* ---- Aca vivia la atmosfera continua --------------------------------
+       Un `background-image` con un degradado de arriba abajo que cubria **todo
+       el documento**. Se retiro: el color de la atmosfera tiene que ser
+       **manchas y no un lavado**. Con el puesto, la pagina entera quedaba
+       tenida y el naranja dejaba de ser una presencia para volverse el fondo.
+
+       Hoy el color lo ponen dos capas localizadas: `<AtmosphereField>` con sus
+       manchas y `<SectionGlow>` con sus lobulos. El `body` no pinta nada mas que
+       su `background-color`.
+
+       Lo que sigue valiendo si alguna vez vuelve, para no volver a deducirlo:
+
+       - **Iba en el `body` y no en una capa propia.** Una capa absoluta a la
+         altura del documento necesita ademas un `position` en el body y pelear
+         el `z-index` contra su propio `background-color`.
+       - **No llevaba `background-attachment: fixed`.** Tiene que scrollear con
+         el contenido: fijo, el recorrido se ve igual en todas las pantallas y
+         deja de ser un recorrido.
+       - **Tres paradas y no dos.** La del medio evita que los dos extremos se
+         crucen por el barro que hay entre ellos. Interpolar en oklab ayuda, pero
+         la parada lo hace explicito. */
   }
   html {
     @apply font-sans;
@@ -375,8 +481,8 @@
 
 /* Hover de los links del navbar: fondo neutro y una sombra difusa por debajo.
    Sin relieve — nada de luz interior, borde ni desplazamiento, que era lo que
-   lo hacia leer como tecla 3D. El morado tampoco entra aca: quedo para
-   resplandores y acentos, no para el hover de un link.
+   lo hacia leer como tecla 3D. El acento tampoco entra aca: es para texto y
+   detalles, no para el hover de un link.
    Vive en CSS y no en clases utilitarias porque la sombra cambia por tema. */
 .nav-key {
   transition:
@@ -386,10 +492,14 @@
 }
 
 .nav-key:hover {
-  /* Casi blanco, no gris: `--muted` (#f4f4f5) se lee sucio sobre la barra
-     blanca, asi que se mezcla contra blanco y queda solo el tono justo para
-     separarse. El realce lo hace la sombra, no el relleno. */
-  background-color: color-mix(in srgb, var(--muted) 30%, #ffffff);
+  /* **Se OSCURECE, no se aclara.** Antes esto era `--muted` mezclado contra
+     blanco: un #fcfcfc que sobre la barra apoyada en el hueso (≈243) subia
+     nueve valores. Con la pagina en blanco la barra llega a 255 y ese mismo
+     color quedaba tres valores por DEBAJO — el realce se invertia de sentido y
+     el hover pasaba a ser un hundimiento apenas perceptible.
+     Sobre blanco no hay a donde subir, asi que el relleno baja. Sigue siendo
+     poquisimo: el realce lo hace la sombra, no el relleno. */
+  background-color: color-mix(in srgb, var(--foreground) 5%, transparent);
   box-shadow: 0 6px 14px -6px rgb(0 0 0 / 0.28);
 }
 
@@ -409,184 +519,336 @@
   box-shadow: 0 4px 10px -8px rgb(0 0 0 / 0.8);
 }
 
-/* ---- La seda del hero -------------------------------------------------
-   La tela la dibuja `silk_backdrop.jsx` en un lienzo; lo unico que queda en
-   CSS es el viñeteado que le cierra los bordes, y queda aca por dos razones.
+/* ---- Campo de atmosfera -----------------------------------------------
+   Las manchas que van detras de toda la pagina. El movimiento y las dos
+   profundidades viven en `atmosphere_field.jsx`; aca esta como se ven.
 
-   Primero, porque cambia con el tema y esa es la regla del sitio. Y segundo,
-   porque en el lienzo costaria: seria un `createRadialGradient` mas un relleno
-   a pantalla completa en cada cuadro, para pintar algo que NO se mueve. Como
-   capa de CSS se compone una vez y no se vuelve a tocar mientras la tela
-   ondula debajo.
+   **La capa va en `-z-10` y es hija del `<body>`.** En el orden de pintado, un
+   descendiente con z-index negativo va DESPUES del fondo de su padre y ANTES del
+   contenido en flujo: o sea justo donde tiene que estar. Depende de que nadie
+   entre medio cree un contexto de apilado — si algun dia el `<body>` se lleva un
+   `transform`, un `filter` o un `isolation`, esta capa se va detras de su propio
+   fondo y desaparece.
 
-   El centro esta al 42% y no al medio: el peso visual del hero esta arriba
-   —titular, subtitulo, botones— y un viñeteado centrado le come justo el
-   renglon del subtitulo.
-
-   **Aca vivian `.page-light` y `.spotlight`**, el lavado y el haz de la luz
-   fija de toda la pagina. Se fueron juntos, y con ellos `page_light.jsx`. Hoy
-   la atmosfera la pone la seda, que es del hero y no de la pagina: de la
-   entrega al fondo liso se encarga `HeroCover` con su niebla. */
-.silk-backdrop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at 50% 42%,
-    transparent 0%,
-    var(--silk-vignette) 100%
-  );
+   **Todo se apoya en `--atmo-strength`**, el mismo token que gobierna los
+   lobulos de `SectionGlow`: subir la atmosfera es subir un numero y no tocar dos
+   lugares. */
+.atmo-field {
+  /* La opacidad de la capa entera sale de la fuerza de la atmosfera, escalada.
+     El multiplicador **es un limite de legibilidad, no un gusto**: con 7 el
+     centro de una mancha dejaba el gris apagado en 2.49:1 sobre un minimo de
+     4.5. Con 3.4 mas la mascara de `.atmo-blobs`, el peor punto donde puede caer
+     texto se queda del lado bueno. Si se sube, hay que volver a medir. */
+  opacity: calc(var(--atmo-strength) * 3.4);
 }
 
-/* ---- El sol: el interruptor de la luz ---------------------------------
-   El disco del hero que cambia el tema. El comportamiento vive en
-   `light_switch.jsx`; aca esta como se ve, por la misma razon que `.cta-plate`
-   y `.nav-key` viven aca: el relieve es del sistema de diseño.
+/* **La columna de lectura queda despejada.** La mascara apaga el plano de las
+   manchas en el centro y lo deja entero en los costados, que es justo donde
+   viven sus nucleos. Sin esto, la unica salida era bajar la opacidad hasta que
+   la atmosfera dejara de verse.
 
-   **Es un solo objeto con dos horas, no dos objetos.** La geometria —disco,
-   centro caliente, tres capas de resplandor— es identica en los dos temas y lo
-   unico que cambia son `--sun`, `--sun-core` y `--sun-glow`. Por eso el cambio
-   de tema se lee como que el sol se pone o sale, y no como que un elemento se
-   reemplaza por otro.
+   La llevan los DOS planos de manchas. Cuando existian las ondas iban sin
+   mascara a proposito —son lineas finas, no mueven el contraste, y cortarlas al
+   medio les sacaba lo unico que hacian—; si vuelven, vuelven sin ella. */
+.atmo-blobs {
+  --atmo-clear: linear-gradient(
+    to right,
+    #000 0%,
+    transparent 30%,
+    transparent 70%,
+    #000 100%
+  );
+  -webkit-mask-image: var(--atmo-clear);
+  mask-image: var(--atmo-clear);
+}
 
-   El resplandor va en TRES capas de `box-shadow` y no en una: una sola sombra
-   difusa no tiene nucleo, y sin nucleo el disco se ve pegado sobre el fondo en
-   vez de emitir. El anillo de 1px sostiene el borde, la de 1.4rem es el halo
-   cercano y la de 4rem es lo que llega al aire.
-
-   Todo va por `box-shadow` y no por `filter: blur()`: un filtro en este
-   elemento anularia el `backdrop-filter` de cualquier hijo, y ademas obliga al
-   navegador a rasterizar aparte una pieza que esta encima del hero.
-
-   **No declara `position`, y es obligatorio que no lo haga.** Esta clase va SIN
-   capa (`@layer`), asi que en la cascada le gana a todo Tailwind: un
-   `position: relative` aca anularia el `absolute` con el que el hero lo
-   coloca — la misma trampa que ya esta anotada en `.cta-plate` y `.nav-key`.
-   La posicion la pone quien lo usa, y el aura de abajo se cuelga de ella. */
-.sun-switch {
+.atmo-blob {
   border-radius: 9999px;
-  background: radial-gradient(circle at 50% 42%, var(--sun-core), var(--sun) 72%);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--sun-glow) 45%, transparent),
-    0 0 1.4rem 0.1rem color-mix(in srgb, var(--sun-glow) 55%, transparent),
-    0 0 4rem 0.6rem color-mix(in srgb, var(--sun-glow) 26%, transparent);
-  /* La transicion es SOLO del hover. El cambio de tema no se desvanece —y no
-     es un olvido—: `ThemeProvider` va con `disableTransitionOnChange`, que
-     apaga todas las transiciones de la pagina durante el cambio de clase. Es
-     una decision de sitio, no de este boton: con el fondo, el texto y las ocho
-     secciones cruzandose de color a destiempo, el cambio de tema se ve roto.
-     Si alguna vez se quiere el atardecer animado, hay que sacar esa prop y
-     resolver la pagina entera, no este bloque. */
-  transition:
-    box-shadow 700ms ease,
-    scale 400ms ease;
+  /* `closest-side` y no el default: sin el, el degradado se mide contra la
+     esquina mas lejana y la mancha termina con un borde duro adentro de su caja.
+     Con `closest-side` muere justo en el canto y se lee redonda. */
+  background: radial-gradient(closest-side, var(--atmo-blob), transparent);
+  filter: blur(60px);
 }
 
-/* **`scale` y no `transform: scale()`, y es obligatorio.** El sol se centra con
-   `-translate-x-1/2`, que en Tailwind v4 escribe la propiedad `translate`. Un
-   `transform` aca es una propiedad DISTINTA que se compone despues, asi que
-   convive; pero si el hover escribiera `transform: scale()` y algun dia el
-   centrado volviera a `transform`, el hover se comeria el centrado y el disco
-   saltaria media pantalla al pasarle el mouse. Con las propiedades
-   individuales las dos cosas se componen y ninguna puede pisar a la otra. */
-.sun-switch:hover {
-  scale: 1.08;
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--sun-glow) 60%, transparent),
-    0 0 2rem 0.2rem color-mix(in srgb, var(--sun-glow) 70%, transparent),
-    0 0 6rem 1rem color-mix(in srgb, var(--sun-glow) 34%, transparent);
+.atmo-blob-start {
+  --atmo-blob: var(--atmo-start);
 }
 
-.sun-switch:active {
-  scale: 0.94;
+.atmo-blob-end {
+  --atmo-blob: var(--atmo-end);
 }
 
-.sun-switch:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 6px;
+/* La mancha del medio es el naranja de marca, y es el unico lugar del fondo
+   donde aparece: marca el cruce entre el tramo frio y el calido. */
+.atmo-blob-mid {
+  --atmo-blob: var(--brand);
 }
 
-/* El aura que respira. Va en un pseudo-elemento y no en el disco porque el
-   disco tiene su propio `transform` en el hover: dos animaciones sobre la misma
-   propiedad del mismo elemento se pisan. Solo `transform` y `opacity`.
+/* **En movil los blurs se apagan.** Un `blur(60px)` sobre cinco cajas de media
+   pantalla es de lo mas caro que puede pintar un telefono, y ahi la atmosfera se
+   ve menos igual porque hay menos pantalla. Las manchas quedan con su degradado
+   radial, que ya es suave por si mismo, y la capa entera baja de opacidad para
+   compensar que sin blur los cantos se notan mas. */
+@media (max-width: 767px) {
+  .atmo-blob {
+    filter: none;
+  }
 
-   Se cuelga de la posicion que le puso el llamador — ver arriba. Si el disco
-   quedara estatico, el aura se iria a buscar al primer ancestro posicionado y
-   aparecerian dos manchas en la esquina de la seccion. */
-.sun-switch::after {
-  content: "";
-  position: absolute;
-  inset: -0.8rem;
-  border-radius: inherit;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--sun-glow) 30%, transparent),
-    transparent 70%
+  .atmo-field {
+    opacity: calc(var(--atmo-strength) * 5);
+  }
+}
+
+/* ---- El fondo del pie --------------------------------------------------
+   Las tres capas de `footer_backdrop.jsx`. El orden del DOM es el orden de
+   pintado y es el efecto: esferas, palabra, y la trama ENCIMA de la palabra.
+   -------------------------------------------------------------------- */
+
+/* Las esferas reusan `.atmo-blob`, asi que heredan su `blur(60px)` y el
+   interruptor que lo apaga en movil. Lo unico propio es cuanto pesan.
+
+   **Van mas fuertes que las del fondo de la pagina** —`* 3.4` alla contra `* 6`
+   aca— y no es incoherencia: aquella opacidad es un limite de legibilidad porque
+   las manchas pasan por DEBAJO de todo el texto del sitio. En el pie los tres
+   nucleos estan fuera de cuadro y ninguno cae bajo la columna de enlaces, asi
+   que el techo lo pone lo que se ve y no lo que se lee. Si algun dia una esfera
+   se mueve al centro, este numero vuelve a ser un limite y hay que volver a
+   medir el contraste del gris apagado. */
+.footer-atmo {
+  opacity: calc(var(--atmo-strength) * 6);
+}
+
+/* La palabra del producto, gigante. El degradado la apaga hacia abajo, que es lo
+   que la deja leerse como marca de agua y no como un titulo que alguien olvido
+   achicar. Se recorta contra el pie del `<footer>`.
+
+   `color: transparent` con `background-clip: text` seria lo mismo en una linea
+   menos, pero mete al texto adentro de una pintura y le cambia el antialiasing;
+   con un `mask` el texto sigue siendo texto. */
+.footer-word {
+  color: var(--foreground);
+  opacity: 0.06;
+  -webkit-mask-image: linear-gradient(to bottom, #000 15%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 15%, transparent 92%);
+}
+
+.dark .footer-word {
+  opacity: 0.09;
+}
+
+/* La luz que baja desde la juntura con la seccion de arriba.
+
+   > **Nace en el canto y se abre.** El pie aparece DESDE ABAJO del CTA —lo
+   > descubre `ScrollLift`—, asi que una luz que entra por esa juntura se lee
+   > como que la seccion de arriba lo ilumina mientras lo destapa. Anclada al
+   > 50% 0% y con la elipse mas alta que ancha, el radial hace el cono solo.
+
+   Sin `filter: blur`: un radial ya sale difuso, y un blur sobre una caja de este
+   tamano es lo que `AGENTS.md` manda apagar en telefono. Aca no hay nada que
+   apagar porque no hay blur. */
+.footer-light {
+  background-image: radial-gradient(
+    ellipse 44% 116% at 50% 0%,
+    color-mix(in srgb, var(--atmo-start) 62%, transparent),
+    transparent 74%
   );
-  animation: sun-breathe 7s ease-in-out infinite;
-  pointer-events: none;
+  /* > **El claro aguanta menos que el oscuro, y se midio en pantalla.** Con la
+     misma fuerza en los dos, el pie en claro dejaba de leerse como un panel con
+     una luz encima y pasaba a ser un panel naranja: el color tapaba la
+     superficie en vez de iluminarla, y los enlaces quedaban sobre un fondo
+     saturado. En oscuro pasa al reves — el fondo tiene mucho menos con que
+     leerse y la luz tiene que pesar mas para existir. Es el mismo criterio por
+     el que `--atmo-strength` ya va mas alto en oscuro. */
+  opacity: calc(var(--atmo-strength) * 2.6);
 }
 
-@keyframes sun-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.65;
-  }
-  50% {
-    transform: scale(1.16);
-    opacity: 1;
-  }
+.dark .footer-light {
+  opacity: calc(var(--atmo-strength) * 5.4);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sun-switch {
-    transition: none;
-  }
+/* La reja del panel: dos franjas repetidas cruzadas.
 
-  .sun-switch:hover,
-  .sun-switch:active {
-    scale: none;
-  }
+   > **Antes esto eran puntos a 18px, y la nota decia que a 28 "se leia como
+   > reja".** La reja es ahora justamente lo que se pidio, asi que la decision se
+   > dio vuelta y esta nota la reemplaza. Lo que NO cambio es el color: sale de
+   > `--org-dot` (#bcbab4 claro / #2b2836 oscuro) y no de `--border`, que en
+   > claro es casi el fondo y dejaria la reja invisible en la mitad de los casos.
 
-  .sun-switch::after {
-    animation: none;
-  }
+   **Va derecha, sin inclinar**, y eso es regla del sitio: un degradado torcido se
+   lee como luz, pero una raya de 1px torcida se lee como un error de alineacion.
+   La inclinacion vive en el fondo y nunca en una linea.
+
+   La mascara la mata contra los bordes: sin ella la reja termina en un corte
+   recto y se lee como una imagen pegada encima del pie. */
+.footer-grid {
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--org-dot) 0 1px,
+      transparent 1px 44px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--org-dot) 0 1px,
+      transparent 1px 44px
+    );
+  background-position: center;
+  opacity: 0.45;
+  -webkit-mask-image: radial-gradient(
+    ellipse 82% 92% at 50% 34%,
+    #000 30%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 82% 92% at 50% 34%,
+    #000 30%,
+    transparent 100%
+  );
 }
 
-/* ---- Entrega de la luz ------------------------------------------------
-   El fondo propio de todo lo que va abajo del video, y lo que apaga la luz.
+/* Los puntos, ahora acotados a la caja de la palabra y no al panel entero.
 
-   La capa de luz es **fija**, asi que no se puede "terminar" en un punto del
-   documento: lo unico que la puede apagar es que de ahi para abajo haya fondo
-   propio. Antes ese fondo era `bg-background`, opaco de entrada, y el resultado
-   era que la luz existia hasta un pixel y desaparecia en el siguiente. El corte
-   quedaba justo al pie del hero, que es el lugar de la pagina donde mas se
-   mira.
+   Son textura DE la palabra: es lo que le rompe las letras y la vuelve
+   puntillista. Sueltos sobre todo el pie competian con la reja — dos tramas del
+   mismo peso en el mismo plano se pisan. */
+.footer-word-dots {
+  background-image: radial-gradient(var(--org-dot) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: center;
+  opacity: 0.55;
+}
 
-   Ahora el fondo entra desde transparente y termina de cerrar a las 48rem. El
-   ultimo tramo de luz sobrevive al pie del hero, se apaga mientras se scrollea y
-   de ahi para abajo la pagina queda en el hueso pelado igual que antes. El
-   estado final es identico: lo que cambia es que llegar a el deja de ser un
-   evento.
+/* ---- El fondo de la seccion del planeta --------------------------------
+   Manchas quietas en los naranjas de la atmosfera. El porque de cada decision
+   vive en `planet_backdrop.jsx`; aca van los numeros.
+   -------------------------------------------------------------------- */
 
-   **48rem y no 26rem** porque `ScrollLift` mete los primeros `HERO_LIFT` px
-   (320) de este bloque detras del hero, donde no se ven: si el degradado durara
-   26rem, la parte visible del apagado seria de menos de 100px y volveria a
-   leerse como un corte.
+/* > **La mascara es lo unico que no se puede tocar sin mirar el planeta.**
+   Corta el fondo antes de llegar a la esfera: `globe.jsx` pinta en WebGL con un
+   `glowColor` escrito a mano que TIENE que ser el color que hay detras, y no
+   puede leerlo de una variable CSS. Con color debajo del planeta, ese halo deja
+   de coincidir y se ve el canto del disco del canvas.
 
-   Un solo envoltorio y no seccion por seccion, por lo mismo que antes: es una
-   decision, no ocho que se pueden desincronizar.
-
-   No lleva `background-color`: el color tapado por el degradado dejaria el tope
-   opaco y no habria nada que entregar. El degradado extiende su ultimo color
-   hasta el pie del bloque, asi que las 4000px restantes quedan solidas igual. */
-.light-handoff {
-  background-image: linear-gradient(
+   El corte cae en el 52% porque de ahi para la derecha empieza la columna del
+   planeta (la reja es `1.3fr 1fr`). El desvanecido de 20 puntos es para que el
+   fondo no termine en una linea recta vertical, que se leeria como un borde. */
+.planet-backdrop {
+  --planet-clear: linear-gradient(
+    to right,
+    #000 0%,
+    #000 18%,
+    transparent 54%
+  );
+  /* > **Y una segunda mascara en vertical, que apaga arriba y abajo.** Las
+     manchas sangran fuera de la seccion a proposito —para que no se lea donde
+     nacen— pero el `overflow-x-clip` las corta en el borde y ahi aparece una
+     linea horizontal a todo lo ancho. Es exactamente lo que `.section-band`
+     evita desvaneciendo sus dos bordes: un corte recto entre dos valores casi
+     iguales se lee como un error de render, no como una decision.
+     Las dos mascaras se cruzan con `intersect`: donde cualquiera de las dos
+     apaga, no se pinta. */
+  --planet-fade: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--background) 0%, transparent) 0,
-    var(--background) 48rem
+    transparent 0%,
+    #000 14%,
+    #000 78%,
+    transparent 100%
   );
+  -webkit-mask-image: var(--planet-clear), var(--planet-fade);
+  mask-image: var(--planet-clear), var(--planet-fade);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  opacity: calc(var(--atmo-strength) * 3);
+}
+
+/* En oscuro no se pinta: el fondo va parejo en todas las secciones, al valor de
+   "Una medicion". Ver `--band` en el bloque `.dark`.
+
+   **`display: none` y no `opacity: 0`**, y la diferencia es real: es no pintar
+   contra pintar invisible. `.planet-spot` lleva `filter: blur(70px)` sobre cajas
+   de 40rem, y a opacidad 0 el navegador paga ese blur igual en cada
+   composicion. Dejar dos blurs de ese tamano corriendo para no mostrar nada es
+   exactamente lo que `AGENTS.md` manda apagar en telefono.
+
+   El halo del planeta no solo no se rompe: MEJORA. La mascara de arriba ya
+   cortaba estas manchas antes de llegar a la esfera, y con la banda apagada el
+   fondo que hay detras vuelve a ser exactamente el #0b0a0f que `globe.jsx` tiene
+   escrito a mano en su `glow_color`. Ver la nota de ese archivo. */
+.dark .planet-backdrop {
+  display: none;
+}
+
+/* Misma construccion que `.atmo-blob`: radial con `closest-side` para que muera
+   en el canto y se lea redonda, mas el blur.
+
+   > **El blur se probo sacar y hubo que devolverlo.** El razonamiento era que un
+   > radial ya sale difuso y que estas manchas no se mueven, asi que no habria
+   > nada que suavizar. En pantalla no: a esta escala el degradado muestra las
+   > bandas del banding de 8 bits y el borde se lee como una mancha de tinta con
+   > canto duro. El blur es lo que las funde.
+
+   Y con el blur vuelve su interruptor de movil, por lo mismo que `.atmo-blob`:
+   un blur de este tamano sobre una caja de media pantalla es de lo mas caro que
+   puede pintar un telefono. */
+.planet-spot {
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, var(--planet-tone), transparent);
+  filter: blur(70px);
+}
+
+@media (max-width: 767px) {
+  .planet-spot {
+    filter: none;
+  }
+}
+
+.planet-spot-start {
+  --planet-tone: var(--atmo-start);
+}
+
+.planet-spot-end {
+  --planet-tone: var(--atmo-end);
+}
+
+/* ---- La espiral dorada del hero ---------------------------------------
+   La figura entera la dibuja `golden_backdrop.jsx`. Aca vive lo unico que se
+   mueve: un tramo de luz que recorre la curva sin parar.
+
+   **El truco es `pathLength="1"` en el path.** Con eso el navegador trata la
+   curva como si midiera exactamente 1 unidad, asi que el guion y el hueco se
+   escriben en FRACCIONES de la curva y no hay que medirla desde JavaScript —que
+   ademas obligaria a montar un componente de cliente para una decoracion.
+
+   **El bucle cierra sin salto porque el patron mide lo mismo que la curva**:
+   0.14 de luz mas 0.86 de vacio es 1, o sea una vuelta completa. Corrido una
+   unidad, el dibujo es identico al del arranque. Con cualquier otra suma el
+   destello pegaria un tiron en cada vuelta.
+
+   `stroke-dashoffset` repinta pero **no recalcula layout**, que es lo que la
+   regla del proyecto prohibe. Y hay precedente: el punteado que corre en el
+   organigrama, mas abajo, es la misma clase de animacion. */
+@keyframes golden-spark {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+.golden-spark {
+  stroke-dasharray: 0.14 0.86;
+  animation: golden-spark 12s linear infinite;
+}
+
+/* **Se apaga entero, no solo la animacion.** Con `animation: none` a secas el
+   tramo de luz se queda CONGELADO en un punto de la curva, y un segmento mas
+   claro parado en medio de una espiral no se lee como una decoracion detenida:
+   se lee como un error de dibujo. Apagado queda la espiral neutra, que es lo que
+   corresponde entregarle a quien pidio menos movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  .golden-spark {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* ---- Grano ------------------------------------------------------------
@@ -629,11 +891,20 @@
 /* ---- Banda de seccion -------------------------------------------------
    Cambia el valor del fondo de un tramo de la pagina.
 
-   El problema que resuelve: abajo del video la pagina son SIETE secciones
+   **HOY NO PINTA EN NINGUN TEMA.** `--band` vale `transparent` en los dos, asi
+   que esta clase no dibuja nada y los dos `<div className="section-band">` de
+   `page.js` quedan solo agrupando su bloque. El porque de cada apagado vive en
+   el token — el de oscuro, entero, en el bloque `.dark`. Lo de abajo describe la
+   banda cuando si pinta, que es lo que hay que leer el dia que vuelva.
+
+   El problema que resolvia: abajo del hero la pagina son SIETE secciones
    seguidas con exactamente el mismo relleno, ~5000px de scroll sin que el fondo
    cambie una sola vez. Un fondo se nota plano sobre todo cuando nunca cambia.
    Con tres cambios de valor el scroll pasa a tener cadencia, y no hace falta
-   nada mas que un color.
+   nada mas que un color. **Ese problema esta de vuelta en los dos temas, y es
+   una decision tomada**: un fondo parejo antes que una cadencia que se leia como
+   cortes entre secciones. El ritmo lo ponen ahora las manchas de
+   `<AtmosphereField>`, que van con parallax y no tienen bordes que se noten.
 
    **Los bordes van desvanecidos, no rectos.** Una linea horizontal a todo lo
    ancho separando dos grises casi iguales se lee como un error de render, no
@@ -651,8 +922,10 @@
    los rayos del hero. Dos diagonales cruzadas serian dos ideas.
 
    La inclinacion va en el FONDO y nunca en una linea. Un degradado torcido se
-   lee como luz; una raya de 1px torcida se lee como un error de alineacion.
-   Por eso los seams (`.section-seam`) se quedan horizontales.
+   lee como luz; una raya de 1px torcida se lee como un error de alineacion. Esa
+   regla se escribio cuando existian los seams —la linea de 1px entre secciones,
+   que por eso iba horizontal—; se retiraron, pero la regla vale igual para
+   cualquier linea que se quiera agregar sobre el fondo.
 
    Es `background-image` y no `background-color` porque un color no se puede
    desvanecer; y el degradado no cae a `transparent` pelado sino al mismo color
@@ -667,53 +940,57 @@
   );
 }
 
-/* ---- Seam de seccion --------------------------------------------------
-   La linea que separa una seccion de la siguiente.
-
-   **Reemplaza a `border-t border-border`, que en tema claro NO SE VE.**
-   `--border` vale #e5e7eb, que es mas CLARO que el hueso del fondo (#e4e3df):
-   de la seccion del planeta para abajo habia cinco separadores y ninguno
-   existia, o sea que media pagina era un solo bloque sin cortes. Es el mismo
-   defecto que ya obligo a inventar `--org-line` y `--box-edge`, y esta anotado
-   dos veces mas arriba en este archivo. `--border` esta pensado para el borde de
-   las tarjetas blancas, no para dibujar sobre el fondo de pagina.
-
-   **Se desvanece en las puntas en vez de ir de pared a pared.** Una linea que
-   toca los dos bordes de la pantalla corta la pagina en dos; una que nace y
-   muere dentro del ancho del contenido acompaña a la columna de texto. Los
-   cortes caen cerca de donde empieza y termina el `Container`, asi que el seam
-   se lee como parte de la grilla y no como una regla encima de ella.
-
-   Va como `background-image` y no como `::before` para no tener que hacer
-   `relative` a cinco secciones que hoy no lo son: un borde no deberia obligar a
-   cambiarle el posicionamiento a nadie. */
-.section-seam {
-  background-image: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--box-edge) 0%, transparent),
-    var(--box-edge) 15%,
-    var(--box-edge) 85%,
-    color-mix(in srgb, var(--box-edge) 0%, transparent)
-  );
-  background-size: 100% 1px;
-  background-position: top;
-  background-repeat: no-repeat;
-}
-
 /* ---- Modelado de seccion ----------------------------------------------
    El resplandor lateral de `SectionGlow`. El por que y el contrato de apilado
    viven en `section_glow.jsx`; aca esta el dibujo.
+
+   **SOLO PINTA EN TEMA CLARO**, que es justo al reves de lo que decia esta nota
+   hasta hoy. Aquello —"solo pinta en oscuro, en claro `--glow` vale
+   `transparent`"— dejo de ser cierto cuando `--glow` paso a calcularse desde
+   `--atmo-*`: desde entonces pintaba en los DOS temas. Ahora se apaga en oscuro
+   a mano —ver `.dark .section-glow`, abajo— porque los seis lobulos naranjas
+   eran, junto con la banda, lo que hacia que unas secciones se leyeran mas
+   claras que otras.
 
    La elipse es ancha y baja —55% del ancho por 80% del alto— y su centro cae
    FUERA de la seccion (`--glow-x` en -6% o 106%). Lo que entra en cuadro es la
    caida, no el nucleo: con el centro adentro se ve el punto y deja de ser una
    direccion de luz para pasar a ser una mancha. */
 .section-glow {
+  /* **`--glow` se declara ACA y no en `:root`, y es obligatorio.** Un `var()`
+     adentro del valor de otra custom property se sustituye donde esa property se
+     DECLARA. Declarado en `:root`, este `var(--atmo-mix)` resolvia contra el 0%
+     de `:root` y las seis secciones pintaban el mismo violeta, por mas que cada
+     una publicara su propio `--atmo-mix` por `style`. Declarado aca resuelve en
+     el elemento que lo publica, que es el unico lugar donde el numero existe. */
+  --glow: color-mix(
+    in oklab,
+    color-mix(in oklab, var(--atmo-end) var(--atmo-mix), var(--atmo-start))
+      calc(var(--atmo-strength) * 100%),
+    transparent
+  );
   background-image: radial-gradient(
     ellipse 55% 80% at var(--glow-x) 50%,
     var(--glow),
     color-mix(in srgb, var(--glow) 0%, transparent) 70%
   );
+}
+
+/* En oscuro el fondo va parejo: todas las secciones al valor de "Una medicion",
+   que no tiene capa propia. El porque completo esta en `--band` del bloque
+   `.dark`.
+
+   **Es `background-image: none` y no un `--glow-strength` en cero.** Un token
+   nuevo habria que registrarlo en `docs/architecture.md`, y ademas bajar la
+   fuerza a cero deja el `radial-gradient` pintandose transparente en seis
+   secciones para no mostrar nada. Asi directamente no se pinta.
+
+   **El color de la atmosfera no se va con esto.** Las manchas de
+   `<AtmosphereField>` son de pagina, pasan por detras de TODAS las secciones
+   —incluida la de referencia— y se quedan. Lo que se apaga es lo unico que
+   variaba de una seccion a la otra. */
+.dark .section-glow {
+  background-image: none;
 }
 
 /* Franja superior que impide que el contenido de la pagina pase crudo por el
@@ -892,10 +1169,12 @@
    despega del fondo.
 
    > **El borde sale de `--box-edge` y NO de `--border`.** Está anotado más
-   > arriba en este mismo archivo: `--border` vale `#e5e7eb`, **más claro que el
-   > hueso del fondo**, así que en claro el canto simplemente no existiría — el
-   > mismo problema por el que existe `--org-line`. `--box-edge` se creó para
-   > esto y ya lo usan las cajas del propio organigrama.
+   > arriba en este mismo archivo: `--border` (`#e5e7eb`) es el contorno de una
+   > tarjeta, y esto es el canto de un panel grande — el mismo motivo por el que
+   > existe `--org-line`. `--box-edge` se creó para esto y ya lo usan las cajas
+   > del propio organigrama. Con la página en blanco pesa todavía más: el panel
+   > perdió la diferencia de valor que lo despegaba, así que lo encierra el
+   > canto o no lo encierra nada.
 
    La sombra va corta y baja: el panel se apoya, no flota. */
 /* > **La CARA no se declara aca, y es a proposito.** Esta clase la comparten el
@@ -1058,7 +1337,14 @@
 
 /* Version simple: mismo idioma, la mitad del cuerpo y sin plato. El canto no
    puede salir de `--primary` porque la cara es la del boton `outline`; se
-   arma oscureciendo el fondo de la pagina. */
+   arma oscureciendo el fondo de la pagina.
+
+   **22% y no el 16% de antes.** El porcentaje es una distancia desde el fondo,
+   asi que al pasar la pagina de hueso a blanco el mismo numero devolvia un
+   canto 23 valores mas claro — y este boton se apoya sobre la seda del hero,
+   que tambien subio. Con 22% el canto vuelve a estar donde estaba.
+   Solo se ve en tema claro: `.dark .cta-key-soft` reemplaza las tres sombras
+   por negros literales. */
 .cta-key-soft {
   background-image: linear-gradient(
     to bottom,
@@ -1068,7 +1354,7 @@
   );
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.6),
-    0 3px 0 -1px color-mix(in srgb, var(--foreground) 16%, var(--background)),
+    0 3px 0 -1px color-mix(in srgb, var(--foreground) 22%, var(--background)),
     0 7px 12px -6px rgb(0 0 0 / 0.35);
 }
 
@@ -1076,7 +1362,7 @@
   translate: 0 -1px;
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.6),
-    0 4px 0 -1px color-mix(in srgb, var(--foreground) 16%, var(--background)),
+    0 4px 0 -1px color-mix(in srgb, var(--foreground) 22%, var(--background)),
     0 10px 16px -7px rgb(0 0 0 / 0.4);
 }
 
@@ -1084,7 +1370,7 @@
   translate: 0 2px;
   box-shadow:
     inset 0 2px 3px rgb(0 0 0 / 0.16),
-    0 1px 0 -1px color-mix(in srgb, var(--foreground) 16%, var(--background)),
+    0 1px 0 -1px color-mix(in srgb, var(--foreground) 22%, var(--background)),
     0 2px 5px -4px rgb(0 0 0 / 0.35);
 }
 
@@ -1160,9 +1446,9 @@
 
    EL CANTO sale de `--box-edge`, el mismo token que usan las cajas del
    organigrama, y NO de `--primary` ni de `--border`. De `--primary` seria un
-   canto morado abajo de cada una de las cinco, o sea acento convertido en
-   relleno. De `--border` seria invisible: vale #e5e7eb, mas claro que el hueso
-   del fondo. */
+   canto naranja abajo de cada una de las cinco, o sea acento convertido en
+   relleno. De `--border` (#e5e7eb) seria un contorno de tarjeta, no un canto:
+   demasiado flojo para leerse como el costado de una pieza. */
 /* La cara de una tarjeta: gris arriba, limpia abajo.
 
    Va como clase propia y NO adentro de `.surface-key` porque son dos cosas

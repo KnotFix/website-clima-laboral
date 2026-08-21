@@ -1,13 +1,13 @@
 const es = {
   meta_title: "Knotfix Clima — Evaluación de clima laboral por segmento",
   meta_description:
-    "Medí el clima laboral por segmento, no por promedio. Cruzá filtros, ponderá lo que importa y compará resultados entre áreas y en el tiempo.",
+    "Medí el clima y la satisfacción laboral por segmento, no por promedio. Cruzá filtros y compará resultados entre áreas y en el tiempo.",
 
   // Navegación
   nav_links: [
     { label: "Cómo funciona", href: "#how" },
     { label: "Análisis", href: "#weights" },
-    { label: "Confidencialidad", href: "#confidentiality" },
+    { label: "Preguntas", href: "#faq" },
   ],
   nav_cta: "Empezar",
   // Va SUELTA y no dentro de `nav_links`: los items de esa lista son anclas de
@@ -29,8 +29,7 @@ const es = {
     { weather: true },
     { text: "extraordinarios", tone: "muted" },
   ],
-  hero_subtitle:
-    "Medí el clima laboral por segmento, no por promedio. Cruzá filtros y compará áreas entre sí.",
+  hero_subtitle: "Medí el clima y satisfacción laboral por segmento.",
   hero_cta_primary: "Empezar gratis",
   hero_cta_secondary: "Ver cómo funciona",
 
@@ -55,25 +54,39 @@ const es = {
   world_rotating_words: ["organización", "empresa", "negocio"],
 
   // Por qué los números significan algo: escala, modelo y desglose
-  measurement_title: "Una medición, no una encuesta",
+  measurement_title_segments: [
+    { text: "Una" },
+    { text: "medición,", tone: "brand" },
+    { text: "no" },
+    { text: "una" },
+    { text: "encuesta" },
+  ],
   measurement_body:
-    "La mayoría de las encuestas de clima terminan en un archivo de opiniones sueltas que no se puede comparar contra nada. Acá cada respuesta suma a un número, y ese número se sostiene sobre un modelo.",
+    "La mayoría de las encuestas de clima y satisfacción laboral terminan en un archivo que no se puede comparar con nada. Acá cada respuesta suma a un número, y ese número se sostiene sobre un modelo.",
   // Mismo criterio que `problem_items`: el título dice el dato —cuántas
-  // opciones, qué tres dimensiones, cómo se guarda— y no lo insinúa. "Listo para
-  // presentar" y "Un modelo detrás" se cambiaron por eso: sonaban a promesa de
-  // folleto y había que leer el cuerpo entero para saber de qué hablaban.
+  // opciones, cuántos modelos, de dónde salen los gráficos— y no lo insinúa.
+  // "Listo para presentar" y "Un modelo detrás" se cambiaron por eso: sonaban a
+  // promesa de folleto y había que leer el cuerpo entero para saber de qué
+  // hablaban.
+  //
+  // **El cuerpo entra en tres renglones y eso es un límite, no un estilo.** En
+  // el riel clavado las fichas van centradas (`items-center`), así que no se
+  // igualan de alto: una con un renglón de más sobresale arriba y abajo de sus
+  // vecinas. A 320px de ancho y 16px de cuerpo son ~88 caracteres.
+  //
+  // **Son TRES y no cuatro.** Se retiró "El resultado se guarda por segmento":
+  // el desglose por segmento es lo que dice la sección entera —el titular, la
+  // bajada, los pesos y filtros que vienen después— y como ficha suelta repetía
+  // sin agregar. Al sacarla también sale su icono de `ITEM_ICONS`, que va por
+  // posición.
   measurement_items: [
     {
       title: "Escala de cuatro, sin punto medio",
       body: "No hay “ni de acuerdo ni en desacuerdo” donde esconderse: cada persona se define.",
     },
     {
-      title: "Tres dimensiones: existencia, relaciones y condiciones",
-      body: "Las preguntas viven en un modelo, no en una lista suelta. El núcleo lo responden todos igual.",
-    },
-    {
-      title: "El resultado se guarda por segmento",
-      body: "No un promedio global: cada segmento con su conteo. Después no se puede reconstruir.",
+      title: "Varios modelos, uno por dimensión",
+      body: "No hay un solo modelo: hay varios, y cada uno da un peso numérico para comparar.",
     },
     {
       title: "Los gráficos salen listos del sistema",
@@ -105,23 +118,27 @@ const es = {
   ],
 
   // Sección 2 — el problema.
-  // El título va corto y en dos frases a propósito: entra palabra por palabra
-  // con `BlurText`, y una frase larga tarda demasiado en terminar de armarse.
-  // La segunda frase nombra QUÉ es lo que no cambia. Sin el sujeto explícito
-  // —"nada cambió"— el lector se queda preguntando qué era lo que iba a cambiar.
+  // **Es una pregunta, no una afirmación.** Afirmando —"Se hizo la encuesta. El
+  // clima sigue igual."— el lector tenía que reconocerse en una frase ajena y
+  // deducir que hablaba de él. Preguntándole directo no hay nada que deducir: o
+  // le pasa o no le pasa.
+  // Va corto igual: entra palabra por palabra con `BlurText` y una frase larga
+  // tarda demasiado en terminar de armarse. Nombra el sujeto —"tu clima
+  // laboral"— porque sin él la pregunta no dice qué era lo que iba a cambiar.
   //
   // Partido en piezas como `hero_title_segments`, para poder pintar el remate.
-  // `tone: "brand"` es el morado, y va SOLO ahí: son las dos palabras que
+  // `tone: "brand"` es el acento, y va SOLO ahí: son las dos palabras que
   // resumen la sección entera.
   problem_title_segments: [
-    { text: "Se" },
-    { text: "hizo" },
+    { text: "¿Hiciste" },
     { text: "la" },
-    { text: "encuesta." },
-    { text: "El" },
+    { text: "encuesta" },
+    { text: "y" },
+    { text: "tu" },
     { text: "clima" },
+    { text: "laboral" },
     { text: "sigue", tone: "brand" },
-    { text: "igual.", tone: "brand" },
+    { text: "igual?", tone: "brand" },
   ],
   // **El título afirma; el cuerpo da el detalle.** Cada uno nombra UNA falla
   // concreta —el promedio, el formato que cambia, la demora— y se entiende solo,
@@ -129,14 +146,17 @@ const es = {
   //
   // El cuerpo va a una sola idea y a un renglón o dos. Se probó con tres y no se
   // leen: es una pila que pasa con el scroll, no una página de documentación.
+  //
+  // Va en segunda persona y en voseo, como el resto del sitio: el problema es
+  // del que lee, no de una empresa abstracta.
   problem_items: [
     {
       title: "El promedio tapa al área hundida",
-      body: "El número general da bien mientras un equipo se cae. Te enterás cuando ya renunciaron.",
+      body: "El resultado sale bien pero el equipo se está cayendo. Te enterás cuando ya renunciaron.",
     },
     {
       title: "Si cambia el formato, no hay con qué comparar",
-      body: "Otras preguntas cada año dejan dos resultados que no se pueden cruzar.",
+      body: "Hacés preguntas diferentes cada año y después no podés comparar los resultados.",
     },
     {
       title: "El informe llega semanas tarde",
@@ -145,17 +165,34 @@ const es = {
   ],
 
   // Sección 3 — cómo funciona
-  how_title: "Tres pasos, y el primero lo hace el sistema",
+  // **Son CUATRO pasos y antes eran tres.** Faltaba el primero: armar la
+  // organización. El paso de la nómina daba a entender que el árbol salía del
+  // CSV, y es al revés — armás el árbol y el sistema te devuelve la plantilla
+  // para completar. Con el paso puesto, el titular tampoco puede decir que el
+  // primero lo hace el sistema: ahora nombra el recorrido de punta a punta.
+  how_title_segments: [
+    { text: "Cuatro" },
+    { text: "pasos," },
+    { text: "del" },
+    { text: "organigrama" },
+    { text: "al", tone: "brand" },
+    { text: "resultado", tone: "brand" },
+  ],
   how_steps: [
+    {
+      step_title: "Creá tu organización",
+      step_body:
+        "Armás el árbol de tu empresa: sucursales, departamentos y áreas, como estén hoy.",
+    },
     {
       step_title: "Subí tu nómina",
       step_body:
-        "Arrastrás tu CSV. El sistema arma el árbol de la organización y te lo muestra para que lo confirmes.",
+        "El sistema te da la plantilla del árbol que armaste. La completás con tu gente y la subís.",
     },
     {
       step_title: "Lanzá el estudio",
       step_body:
-        "Elegís a quién medir. Cada boleta se compone sola: el núcleo común más las preguntas de su rama.",
+        "Elegís si medir a un departamento o a toda la empresa. Cada boleta se compone sola: las preguntas del modelo más tus preguntas personalizadas.",
     },
     {
       step_title: "Leé los resultados",
@@ -164,8 +201,14 @@ const es = {
     },
   ],
 
-  // Sección 4 — pesos y filtros (la diferenciadora)
-  weights_title: "Cruzá filtros. Ponderá lo que importa.",
+  // Sección 4 — cruce de filtros y comparación (la diferenciadora)
+  //
+  // > **Se retiró el punto de la ponderación por pesos**, y con él su maqueta.
+  // > La llave y el `id` de la sección siguen diciendo `weights` porque son la
+  // > dirección de un ancla del menú: renombrarlos rompe `#weights` sin cambiar
+  // > nada de lo que se ve. El TITULAR sí se cambió: anunciaba "Ponderá lo que
+  // > importa" y abajo ya no había con qué cumplirlo.
+  weights_title: "Cruzá filtros. Compará lo que importa.",
   weights_body:
     "El análisis no es un promedio más grande. Es poder hacerle preguntas específicas a los datos y que respondan.",
   // Los títulos dicen qué hacés y los cuerpos qué ganás. Antes los cuerpos
@@ -175,10 +218,6 @@ const es = {
     {
       title: "Uní filtros entre sí",
       body: "Región Norte, turno noche y más de cinco años, todo junto. Dejás de discutir promedios y ves el grupo exacto que te preocupa.",
-    },
-    {
-      title: "Ponderá por categoría",
-      body: "Si producción pesa más que administración, el número lo refleja. Comparás el ponderado contra el simple y ves qué cambia.",
     },
     {
       title: "Compará poblaciones equivalentes",
@@ -209,19 +248,6 @@ const es = {
         { label: "General de la empresa", value: "2,9" },
       ],
     },
-    weights: {
-      a11y: "Maqueta del sistema: pesos por categoría y el resultado ponderado",
-      title: "Pesos por categoría",
-      categories: [
-        { label: "Producción", weight: "×2,0" },
-        { label: "Administración", weight: "×1,0" },
-        { label: "Ventas", weight: "×1,5" },
-      ],
-      bars: [
-        { label: "Resultado ponderado", value: "3,1" },
-        { label: "Promedio simple", value: "3,4" },
-      ],
-    },
     compare: {
       a11y: "Maqueta del sistema: dos regiones comparadas en el mismo período",
       title: "Norte contra Sur",
@@ -245,9 +271,23 @@ const es = {
   },
 
   // Sección 5 — escala
-  scale_title: "De 20 empleados a 50.000, el mismo sistema",
+  scale_title_segments: [
+    { text: "De" },
+    { text: "20" },
+    { text: "empleados" },
+    { text: "a" },
+    { text: "50.000," },
+    { text: "en" },
+    { text: "el", tone: "brand" },
+    { text: "mismo", tone: "brand" },
+    { text: "sistema", tone: "brand" },
+  ],
+  // El punto es la adaptabilidad, no el arbol. La version anterior explicaba la
+  // estructura de datos —"se declara como un arbol", "un arbol de un nivel"— y
+  // eso es como lo hacemos, no que gana quien lee. Los cuatro organigramas de
+  // abajo ya muestran el arbol; el texto tiene que decir de que sirve.
   scale_body:
-    "Tu organización no entra en columnas fijas, así que no la obligamos. Se declara como un árbol: la empresa plana es un árbol de un nivel, y el grupo con regiones, empresas y sucursales es el mismo árbol, más profundo. Agregar una sucursal es colgar una rama, y el historial de lo que ya medías queda intacto.",
+    "No te adaptás a nuestro sistema: el sistema se adapta a tu empresa. Empresa, sucursales, departamentos y áreas, como estén armados hoy. Si mañana abrís una sucursal, la agregás y el historial de lo que ya medías queda intacto.",
   // Cuatro organizaciones, de la más chica a la más grande. El organigrama de
   // cada una se dibuja desde `tree`: un nodo con hijos, recursivo.
   scale_orgs: [
@@ -320,20 +360,70 @@ const es = {
     },
   ],
 
-  // Sección 6 — confidencialidad
-  confidentiality_title: "Si no es confidencial, no sirve",
-  confidentiality_body:
-    "La gente responde con honestidad solo cuando sabe que no la pueden identificar. Eso no es una promesa: es cómo está construido el sistema.",
-  confidentiality_points: [
-    "Las respuestas se desligan de la identidad. El token es por segmento, nunca por nombre.",
-    "Ningún segmento muestra resultados por debajo del mínimo de respuestas que definas.",
-    "Ese mínimo también se aplica al cruzar filtros, que es justo donde los grupos se achican sin que nadie lo note.",
+  // Sección 6 — preguntas frecuentes
+  // > **Acá vivía la sección de confidencialidad.** Se retiró como sección
+  // > propia, pero el argumento NO se perdió: era la objeción más grande que
+  // > tiene una encuesta de clima, así que entró como la primera pregunta del
+  // > FAQ —que es donde alguien la busca— junto con el umbral mínimo, que era
+  // > su segundo punto.
+  //
+  // **Ninguna respuesta afirma nada que el sitio no diga ya en otra parte.** Se
+  // venden solas por autoservicio: acá no hay nadie del otro lado para aclarar
+  // una promesa de más. Precio, duración de la prueba y plazos concretos quedan
+  // afuera a propósito, porque no están en el producto documentado.
+  faq_title_segments: [
+    { text: "Antes" },
+    { text: "de" },
+    { text: "empezar," },
+    { text: "lo", tone: "brand" },
+    { text: "que", tone: "brand" },
+    { text: "todos", tone: "brand" },
+    { text: "preguntan", tone: "brand" },
+  ],
+  faq_body:
+    "Las dudas que aparecen antes de lanzar el primer estudio, respondidas sin vueltas.",
+  faq_items: [
+    {
+      question: "¿Alguien puede saber qué respondí?",
+      answer:
+        "No. Las respuestas se desligan de la identidad: el token es por segmento, nunca por nombre. La gente responde con honestidad solo cuando sabe que no la pueden identificar, y eso no es una promesa: es cómo está construido el sistema.",
+    },
+    {
+      question: "¿Y si mi equipo es muy chico?",
+      answer:
+        "Ningún segmento muestra resultados por debajo del mínimo de respuestas que definas. Ese mínimo también se aplica al cruzar filtros, que es justo donde los grupos se achican sin que nadie lo note.",
+    },
+    {
+      question: "¿Qué preguntas incluye?",
+      answer:
+        "Un núcleo universal que responden todos igual, más las preguntas que agregues pegadas a una rama de tu organización. La escala es de cuatro opciones y no tiene punto medio: cada persona se define.",
+    },
+    {
+      question: "¿Puedo comparar contra la medición anterior?",
+      answer:
+        "Sí, mientras el núcleo de preguntas y la escala sean los mismos. Por eso el núcleo no cambia entre estudios: es lo que hace que dos resultados se puedan poner en la misma línea.",
+    },
+    {
+      question: "¿Cuánto lleva ponerlo en marcha?",
+      answer:
+        "El sistema te da una plantilla del árbol de tu empresa. Completás la nómina y la subís en la sección de nómina. Después elegís a quién medir y lanzás el estudio. No hay proyecto de implementación.",
+    },
+    {
+      question: "¿Tengo que hablar con alguien para probarlo?",
+      answer: "No. Creás la cuenta y empezás.",
+    },
   ],
 
   // Sección 7 — CTA final
-  final_cta_title: "Lanzá tu primer estudio esta semana",
-  final_cta_body:
-    "Creá tu cuenta, subí la nómina y medí. Sin proyecto de implementación y sin llamada de ventas.",
+  final_cta_title_segments: [
+    { text: "Lanzá" },
+    { text: "tu" },
+    { text: "primer" },
+    { text: "estudio" },
+    { text: "esta", tone: "brand" },
+    { text: "semana", tone: "brand" },
+  ],
+  final_cta_body: "Creá tu cuenta, subí la nómina y medí.",
   final_cta_button: "Empezar gratis",
 
   // Documentación. Acá va SOLO el chrome: los títulos y la prosa de cada
@@ -348,7 +438,7 @@ const es = {
   docs_next: "Siguiente",
 
   // Footer
-  footer_tagline: "Evaluación de clima laboral por segmento.",
+  footer_tagline: "Evaluación de clima y satisfacción laboral.",
   footer_rights: "Todos los derechos reservados.",
 
   // Legales. Acá va SOLO el chrome, igual que en docs: el texto de cada
@@ -371,7 +461,6 @@ const es = {
 
   // Accesibilidad
   a11y_toggle_theme: "Cambiar tema",
-  a11y_light_switch: "Cambiar entre el día y la noche del sitio",
   a11y_open_menu: "Abrir menú",
   a11y_close_menu: "Cerrar menú",
   a11y_switch_lang: "Cambiar idioma",
