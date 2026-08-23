@@ -134,16 +134,19 @@ export const DOCS_NAV = [
         title: { es: "Cuenta y plan", en: "Account and plan" },
       },
       {
-        // **Estaba escrita en los dos idiomas y NO estaba en esta lista**, o
-        // sea que `is_doc_slug` la rechazaba y la ruta devolvia 404. La
-        // encontro `test/content_parity.test.js`, que justamente busca .mdx
-        // huerfanos: es el fallo silencioso de este manifiesto — lo que no se
-        // anota no existe, y nadie se entera.
+        // La pagina de CONFIANZA: no la lee el usuario del producto sino el
+        // area de seguridad, TI o legal que tiene que aprobar la herramienta
+        // antes de que la compren. Por eso va en "Cuenta" y no en "Conceptos":
+        // se lee en el mismo momento que "Cuenta y plan", no para aprender a
+        // usar Clima.
         //
-        // Va en "Cuenta" y no en "Conceptos" porque no se lee para aprender a
-        // usar Clima: la lee el area de seguridad, de TI o de legal que tiene
-        // que aprobar la herramienta, que es el mismo momento en que se lee
-        // "Cuenta y plan". Si el criterio editorial es otro, se mueve.
+        // Estuvo escrita en los dos idiomas y FUERA de esta lista hasta el
+        // 2026-08-18, sin rutear (`dynamicParams = false` responde 404) y sin
+        // enlazar, porque le faltaba "Continuidad y respaldos", y una pagina de
+        // seguridad sin respuesta sobre respaldos es la que no conviene
+        // publicar a medias. Ese es el fallo silencioso de este manifiesto: lo
+        // que no se anota no existe y nadie se entera. Hoy esa clase de huerfano
+        // la caza `test/content_parity.test.js`.
         slug: "security-and-data",
         title: { es: "Seguridad y datos", en: "Security and data" },
       },
