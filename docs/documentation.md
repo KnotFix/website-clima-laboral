@@ -4,11 +4,11 @@ Documento de referencia de la sección de docs. **Se lee antes de escribir la pr
 Dueño: `architect`. Extiende a `architecture.md`: los nombres que se inventen acá se registran acá,
 pero el mapa de archivos y las reglas de diseño del sitio siguen siendo de aquel.
 
-Estado: **esqueleto en pie, 20 páginas escritas** en los dos idiomas (40 archivos) y **las seis
+Estado: **esqueleto en pie, 21 páginas publicadas** en los dos idiomas (42 archivos) y **las seis
 capturas puestas** (2026-08-17): «Empezar», «Conceptos», «Interpretar», «Para tu gente», «Cuenta» y
-«Referencia», más el **changelog con 9 entradas**. Falta lo marcado abajo: cerrar «Seguridad y
-datos» (escrita, fuera de `nav.js` hasta resolver los respaldos) y las capturas de la HOME (que
-siguen siendo fotos de Unsplash).
+«Referencia», más el **changelog con 9 entradas**. La última en entrar fue **«Seguridad y datos»**,
+publicada el 2026-08-18 tras cerrarse el hueco de los respaldos. Falta lo marcado abajo: las
+capturas de la HOME, que siguen siendo fotos de Unsplash.
 
 **`anonymity` se publica** (decisión del usuario, 2026-08-17) — ver «Lo que necesita verificación».
 
@@ -312,8 +312,7 @@ Guías                                            ← DIFERIDAS a propósito, ve
 
 Cuenta
 ✓ Cuenta y plan                                  account-and-plan
-~ Seguridad y datos                              security-and-data  ← escrita, FUERA de nav.js
-                                                   (falta «Continuidad y respaldos»)
+✓ Seguridad y datos                              security-and-data
 
 ✓ Changelog                                      /[lang]/changelog — ruta aparte, fuera del sidebar
 ```
@@ -344,12 +343,21 @@ Cuenta
 > escriben cuando el producto se quede quieto, y con capturas — que es cuando de
 > verdad sirven.
 
-> **«Seguridad y datos»: ESCRITA el 2026-08-17, y NO registrada en `nav.js` todavía.**
-> Existe como `security-and-data.mdx` en los dos idiomas, así que **no se rutea y no se
-> enlaza** —el mecanismo que este mismo documento fija: un `.mdx` fuera de `nav.js` no
-> existe—. Es deliberado: le falta **una** sección, «Continuidad y respaldos», y una
-> página de seguridad sin respuesta sobre respaldos es justo la que no conviene publicar
-> a medias.
+> **«Seguridad y datos»: PUBLICADA el 2026-08-18.** Estuvo escrita y FUERA de `nav.js`
+> —o sea sin rutear y sin enlazar, que es el mecanismo que este documento fija— porque le
+> faltaba «Continuidad y respaldos», y una página de seguridad sin respuesta sobre
+> respaldos es la que no conviene publicar a medias. Lo que la destrabó fueron datos
+> reales: la base ya migró a **PlanetScale**, con respaldos automáticos **diarios** y **2
+> días de retención**.
+>
+> ⚠️ **La sección dice el número Y su contracara**, y eso es lo que la hace servir: 2 días
+> es excelente para la privacidad (las copias de una cuenta eliminada desaparecen en 48
+> horas) y corto para recuperar (un problema detectado al tercer día ya no tiene respaldo).
+> Un área de seguridad evalúa su propio riesgo con el segundo dato, no con el primero.
+>
+> ⚠️ Al publicarla se descubrió que la tabla de subprocesadores —en esta página y en
+> `privacy`— **seguía diciendo Supabase** después de la migración. Ver `legal.md`: esa fila
+> no se entera sola.
 >
 > Lo que la destrabó fue que dejó de ser un dictado: los tres documentos legales
 > (2026-08-17) ya fijaron los subprocesadores, los plazos de retención, el aviso de

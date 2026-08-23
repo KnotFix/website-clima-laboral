@@ -11,6 +11,11 @@ Estado: **los tres documentos RIGEN desde el 2026-08-18.** Están escritos en lo
 cumplen los dos criterios de abajo y el flag `draft` quedó apagado en los tres (decisión del
 usuario). Antes de esa fecha estaban publicados con el aviso de borrador.
 
+⚠️ **El 2026-08-20 se INTERNACIONALIZARON** (`terms` 1.1, `privacy` 1.1, `dpa` 2.0), porque
+estaban escritos para vender en Costa Rica y el producto se vende afuera. Lo que cambió, lo que
+se decidió no hacer y lo que queda abierto está en «La internacionalización» al final de este
+documento. **Leelo antes de tocar cualquiera de los seis `.mdx`.**
+
 ---
 
 ## Los tres documentos
@@ -279,7 +284,7 @@ como pendiente**: si algo de esto cambia en el producto, cambia acá y en los se
 | Periodicidad | **Anual adelantada**, un solo SKU | `Plan.precio_anual_centavos` |
 | Cobro fallido | 14 días naturales de gracia con servicio completo | `services.DIAS_GRACIA` |
 | Reembolsos | **No hay**; la cancelación corre hasta el fin del período pagado | decisión del usuario + `estado_efectivo` |
-| Excedente de nómina | Se cobra por cabeza, **facturado por fuera** de la pasarela | `cargo_extra_estimado_centavos` |
+| Excedente de nómina | Se cobra por cabeza, **por la pasarela** (precio medido) y sobre el **PICO** del período | `cobro.publicar_tarifa_excedente`, `manage.py reportar_excedentes` |
 | Tarjeta | **Nunca toca nuestros servidores** (checkout del proveedor, en el navegador) | `apps/facturacion/pasarelas/` — alcance PCI |
 | Exportar al terminar | Las herramientas del producto (.xlsx/.pdf), **sin límite de tiempo**; NO hay volcado completo de la base | decisión del usuario, 2026-08-18 |
 | Eliminar la cuenta | **Inmediato e irreversible**, lo ejecuta el OWNER; sin ventana de gracia | `organizaciones/purga.py` |
@@ -566,6 +571,14 @@ documento genérico que promete cosas que el producto no hace —que es el defec
 2026-08-18 vino a cerrar—. Estas son las respuestas, sacadas de este documento y de los `.mdx`
 vigentes:
 
+⚠️ **Tres filas se CORRIGIERON el 2026-08-21** —normativa, base legal y transferencia
+internacional—. Estaban escritas contra el texto costarricense y quedaron desfasadas el mismo día
+que se escribieron, porque la internacionalización (ver el final de este documento) las derogó unas
+horas después. Contestarle a Termly lo que decían antes **regenera exactamente el bloqueo que la
+2.0 del `dpa` vino a cerrar**: consentimiento como base de licitud del servicio y el artículo 14
+como base de transferencia hacia la Unión. Si alguna de estas tres respuestas vuelve a sonar
+«simple», es señal de que se está contestando de memoria.
+
 | Lo que pregunta Termly | Qué contestar |
 |---|---|
 | Tipo de entidad | **Persona física**, no sociedad. Nombre comercial «Knotfix» |
@@ -573,14 +586,14 @@ vigentes:
 | Domicilio | Guanacaste, Liberia, Liberia, La Cruz, CP 50101, Costa Rica |
 | Contacto de privacidad | `knotfixservice@knotfix.com` · +506 8791 7066 (identificación, **no** tramitación) |
 | Jurisdicción y ley aplicable | Costa Rica; tribunales de **Liberia, Guanacaste** — no San José |
-| Normativa que aplica | **Ley 8968** y su reglamento. GDPR/CCPA solo si Termly los agrega por defecto: **no** son la base del texto |
+| Normativa que aplica | **Ley 8968** y su reglamento **Y el RGPD** (más UK GDPR y la LPD suiza), con el lenguaje de *service provider* de **CCPA/CPRA**. No es «la 8968 con extras opcionales»: los dos marcos rigen a la vez desde el 2026-08-20 |
 | Público | B2B. Organizaciones; el titular de los datos que importan es la persona empleada, que **nunca pasa por el registro** |
 | Menores | No dirigido a menores; personas trabajadoras mayores de edad |
 | Datos que se recolectan | Identificación de cuenta · credenciales (viven en Clerk, la contraseña **nunca** se ve) · facturación · medio de pago (**nunca toca nuestros servidores**) · bitácoras de acceso e IP · bitácora de consultas de resultados · comunicaciones de soporte · logo · nómina y respuestas |
 | Datos sensibles | **No se piden.** El cliente se obliga por contrato a no usar las preguntas propias para recabarlos |
-| Base legal | Consentimiento **expreso** del artículo 5, revocable, más ejecución del contrato; facturación por obligación tributaria |
+| Base legal | **Una tabla por base**, no una sola: ejecución del contrato, interés legítimo, obligación legal (facturación) y consentimiento **solo para lo opcional** —que hoy es nada—. En Costa Rica, además, el consentimiento expreso del artículo 5, revocable. ⚠️ **La casilla del registro NO es la base de licitud del servicio**, es la constancia de que se firmó un contrato: acoplarlas viola el artículo 7.4 del RGPD |
 | Con quién se comparte | Hostinger · PlanetScale · Clerk · Resend · Cloudflare R2 · Polar · Allegra. **La fila de la pasarela la decide `PASARELA`, no una preferencia** |
-| Transferencia internacional | Sí, artículo 14, autorizada al aceptar la política. Todos en EE. UU. salvo Allegra (Costa Rica) |
+| Transferencia internacional | Sí; todos en EE. UU. salvo Allegra (Costa Rica). **Desde Costa Rica**, artículo 14. **Desde el EEE, el Reino Unido y Suiza, Cláusulas Contractuales Tipo** de la Decisión (UE) 2021/914 con Anexos I–III completos, *Addendum* del ICO y adaptaciones suizas. ⚠️ **Nunca «autorizada al aceptar la política»**: el consentimiento como base de transferencia es la derogación del artículo 49, pensada para casos ocasionales, y no vale para infraestructura permanente |
 | Venta de datos / publicidad / entrenamiento de modelos | **Ninguna de las tres** |
 | Analítica y rastreo | **No hay**, ni en el sitio ni en la app |
 | Cookies | Solo indispensables: sesión, idioma y tema |
@@ -725,3 +738,127 @@ tuya.
 cobra por cabeza y por separado, y lleva el impuesto que corresponda a esa factura. Quedó dicho en
 `terms` en los dos idiomas. Sin esa frase, «impuestos incluidos» prometía algo sobre un cargo que
 Polar ni siquiera ve.
+
+---
+
+## La internacionalización — 2026-08-20
+
+Los documentos estaban escritos sobre la Ley 8968 y para un cliente costarricense. El producto
+se vende en ocho idiomas, cobra en dólares por un *merchant of record* estadounidense y aloja
+en Estados Unidos, así que **el texto describía un negocio que no es el que se está haciendo**.
+
+Versiones: `terms` **1.1**, `privacy` **1.1**, `dpa` **2.0**. El `dpa` sube de mayor porque no
+es el mismo documento con retoques: pasa a regir bajo dos marcos e incorpora las Cláusulas
+Contractuales Tipo con sus tres anexos.
+
+### El bloqueo que se cerró, y por qué era un bloqueo
+
+Costa Rica **no está en la lista de adecuación de la Comisión Europea**. Un cliente europeo que
+manda la nómina de su plantilla a un encargado costarricense necesita garantías del artículo 46
+del RGPD, y el `dpa` resolvía la transferencia así:
+
+> «al amparo del artículo 14 de la Ley 8968, con la autorización que el Cliente otorga»
+
+⚠️ **Eso no vale bajo el RGPD**, y no es un matiz de redacción: el consentimiento como base de
+transferencia es una derogación del artículo 49, pensada para casos ocasionales, no para
+infraestructura permanente. Es el punto exacto donde el trámite de compras de un cliente europeo
+se detiene. Hoy la transferencia se apoya en las **Cláusulas Contractuales Tipo** de la Decisión
+(UE) 2021/914, incorporadas por referencia con las elecciones hechas (módulo, cláusula 7,
+cláusula 9(a) opción 2, cláusula 11(a), ley y fuero) y con los **Anexos I, II y III completos**,
+más el *Addendum* del ICO para el Reino Unido y las adaptaciones suizas.
+
+⚠️ **Incorporar por referencia es lo correcto y no un atajo**: una cláusula tipo MODIFICADA deja
+de ser una cláusula tipo y con ella se cae la base de la transferencia. Por eso el `dpa` dice
+expresamente que ante una contradicción **mandan las cláusulas**. Si alguien "mejora" una
+cláusula copiándola al texto, rompe justo lo que la hace servir.
+
+### Lo demás que se corrigió
+
+- **La base de licitud de `privacy` estaba MAL para la UE.** Decía consentimiento y remataba con
+  «revocarlo implica que no podemos seguir prestando el servicio»: exactamente el acoplamiento
+  que el artículo 7.4 del RGPD prohíbe —un consentimiento que no se puede retirar sin perder el
+  servicio no es libre—. Hoy es una tabla por base (contrato, interés legítimo, obligación legal,
+  consentimiento solo para lo opcional, que hoy es nada) y dice explícitamente que **la casilla
+  del registro no es la base de licitud del servicio** sino la constancia de que se firmó un
+  contrato.
+- **Faltaban derechos.** Solo estaban acceso, rectificación y eliminación. Se agregaron
+  portabilidad, limitación, oposición, retiro del consentimiento y no ser objeto de decisiones
+  automatizadas, más la autoridad de control **del país de cada quien** (antes solo PRODHAB).
+- **`terms` no tenía el paquete que un comprador de afuera busca primero**: garantías y su
+  exclusión, indemnidad de propiedad intelectual, fuerza mayor, sanciones y control de
+  exportaciones, cesión, integridad y divisibilidad, e idioma prevalente (rige el español).
+- **Se declaró que no se vende a consumidores**, con la salvedad de las normas imperativas. Sin
+  eso, el «no hay reembolsos» y la renovación automática chocan con el derecho de desistimiento
+  europeo el día que compre un autónomo.
+- **Lenguaje de *service provider* de la CCPA/CPRA** en `privacy` y en el `dpa`: «no vendemos ni
+  compartimos» como compromiso contractual y no solo como afirmación.
+- **`terms` dejó de decir que el excedente se factura por fuera**, porque dejó de ser cierto — y
+  ese cambio empezó siendo un problema fiscal, no de redacción. Ver abajo.
+
+### El excedente: era un agujero fiscal, no una tarea pendiente
+
+`terms` decía que los cargos por personas de más «se facturan por separado y **fuera** de la
+pasarela». Facturar por fuera es emitirle una factura transfronteriza al cliente, o sea salirse
+del *merchant of record* y quedar expuesto a registrarse al IVA de su país — justamente de lo
+que se estaba escapando el proyecto al elegir Polar. **La obligación de registrarse se activa por
+vender ahí, no por cuánto**, así que cobrar el 95 % por el MoR y el 5 % por fuera deja las mismas
+obligaciones que cobrar todo por fuera.
+
+Se cerró **construyendo el cobro**, no reescribiendo la cláusula: precio medido sobre el producto
+del plan, alimentado por `manage.py reportar_excedentes` (cuarto cron). Detalle en el `CLAUDE.md`
+del producto, «La oferta comercial».
+
+⚠️ **La cláusula ahora declara CÓMO se calcula, y eso ata el texto al código**: se cobra el
+**máximo del período** y no la nómina del día de la renovación, porque el medidor agrega con
+`max`. Si alguien cambia esa agregación, `terms` es parte del cambio en los dos idiomas. Y la
+cláusula promete además que los dos números —hoy y el pico— **están a la vista en la pantalla del
+plan**; por eso el front muestra los dos (`resumen-suscripcion.tsx`, clave `excedente_pico` en
+los ocho catálogos).
+
+### Las versiones subieron SIN el preaviso de 30 días
+
+Los propios Términos prometen avisar por correo con 30 días antes de que rija una versión nueva,
+y el orden documentado es avisar → esperar → subir `LEGAL_NAV` y `DOCUMENTOS_LEGALES` el mismo día.
+**Acá se subieron directo**, y se sostiene por un solo motivo: **no hay ningún cliente que haya
+aceptado la 1.0 en producción**. El preaviso protege a quien ya aceptó una versión; sin nadie a
+quien avisar, no se le está imponiendo nada a nadie.
+
+⚠️ **El día que exista el primer cliente, esa excusa deja de existir.** No es una relajación de la
+regla: es el único caso en el que la regla no tiene a quién proteger. La próxima subida va con
+`manage.py avisar_version_legal` primero.
+
+### LO QUE NO SE HIZO, y es una decisión tomada
+
+**No hay representante en la UE ni en el Reino Unido** (artículo 27 del RGPD), y **no se constituyó
+sociedad**. Decisión explícita del usuario, 2026-08-20. **No lo vuelvas a proponer como pendiente
+de redacción**: no es algo que se arregle escribiendo un párrafo.
+
+Qué significa exactamente, para que nadie crea que está cubierto:
+
+- **Para el CLIENTE europeo, la transferencia ya es lícita.** Las Cláusulas Contractuales Tipo son
+  lo que él necesita para poder mandarnos datos, y están. El representante es una obligación
+  NUESTRA y separada.
+- **La exposición es de Knotfix, no del cliente**: el artículo 27 alcanza a quien ofrece servicios
+  a interesados en la Unión sin estar establecido ahí, y su incumplimiento es del artículo 83.4
+  (hasta 10 M € o el 2 %). Discutible para el papel de ENCARGADO —las directrices 3/2018 del CEPD
+  dicen que un encargado fuera de la Unión que trabaja para un responsable europeo no queda
+  atrapado por el artículo 3.2 solo por eso—, y bastante menos discutible para el papel de
+  RESPONSABLE de los datos de la cuenta.
+- **Los documentos publicados NO mencionan el hueco**, y es a propósito: una política que declara
+  que no designó representante se autoincrimina sin darle nada a nadie. Queda anotado acá, que es
+  donde tiene que estar.
+- **Si algún día se designa** (proveedores tipo Prighter, del orden de 200–500 €/año), el cambio
+  es una fila en «Quién trata tus datos» de `privacy`, en los dos idiomas, y una versión nueva.
+
+Sigue abierta también, del relevamiento del mismo día y sin decidir:
+
+- **La jurisdicción exclusiva de Liberia** no la va a aceptar sin discutir ningún comprador de
+  afuera. La salida habitual es arbitraje en sede neutral. **No se tocó**: es una decisión
+  comercial, no un defecto del texto.
+- **El precio con impuesto INCLUIDO** cobrando en todo el mundo hace que el neto varíe por país
+  (un comprador con 25 % de IVA deja bastante menos que uno con 0 %), y un cliente europeo con
+  número de IVA va por *reverse charge* y paga 0 — momento en el cual «el impuesto ya está
+  incluido» le suena a que se le cobró de más. El estándar B2B es publicar sin impuesto y
+  agregarlo en el checkout. **Es un cambio de modelo de precios, no de redacción.**
+- **Sin SOC 2 ni ISO 27001**, y el `dpa` lo dice explícitamente en su Anexo II en vez de dejarlo
+  en el aire. Para pymes el derecho de auditoría anual sustituye bien; para *enterprise* no.

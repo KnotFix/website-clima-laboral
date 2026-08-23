@@ -33,11 +33,11 @@ is the authoritative one—; this is the summary:
 | Provider | What for | Country |
 |---|---|---|
 | Hostinger | The server the application runs on | United States |
-| Supabase | The database: roster, answers and results | United States |
+| PlanetScale | The database: roster, answers and results | United States |
 | Clerk | Identity: email, password and second factor | United States |
 | Resend | Sending the invitations to answer | United States |
 | Cloudflare R2 | Your organization's logo | United States |
-| ONVOPay | Payments | Costa Rica |
+| Polar | Payments | United States |
 | Allegra | Electronic invoicing before the tax authority | Costa Rica |
 
 > **Changing a provider on that list comes with notice**, not silently: the terms set 30
@@ -96,15 +96,44 @@ they authenticate.
 
 **An expired account is not deleted on its own.** When the trial or the subscription ends,
 the account becomes **read-only**: what was already measured can still be consulted and
-downloaded, and nothing new can be written. It stays that way until you ask for closure.
+downloaded, and nothing new can be written. It stays that way, with no time limit, until
+you decide to close it.
 
-When you do, two clocks start: **30 days to export** your information in a commonly used
-format, and **irreversible deletion within the 90 days** following closure, backups
-included, except for what a legal obligation requires us to keep (invoicing has its own
-tax-law period).
+**Exporting has no deadline.** For as long as the account exists —including once it has
+lapsed— you can download your results with the product's export tools, in Excel and PDF.
+There is no 30-day window that closes.
+
+**Closing is done by you, and it is immediate.** The account owner deletes it from
+Settings, typing the organisation's name to confirm. On confirmation the data is **erased
+on the spot and irreversibly**: the org tree, the roster, the questionnaires, the studies,
+the results and the whole team's sign-in accounts. There is no grace period and no copy we
+can restore afterwards, except for what a legal obligation requires us to keep (invoicing
+has its own tax-law period).
+
+⚠️ **Export anything worth keeping first.** After closure there is nowhere to get it from,
+not even for us.
 
 The details and the exceptions are in the
 [Data processing addendum](/en/legal/dpa).
+
+## Continuity and backups
+
+The database has **automatic daily backups**, managed by the provider (PlanetScale) and
+encrypted like the rest of the database. They do not depend on anyone remembering to run
+them.
+
+**The retention window is 2 days**, and that number cuts both ways. It is worth knowing
+how:
+
+- **In favour of your privacy.** When you delete your account the data is erased from the
+  database on the spot; any copies left in a backup are gone **within 48 hours**. There
+  are no copies of yours sitting in an archive for months just in case.
+- **Against recovery.** If a data problem is spotted **after** those two days, the backup
+  is no longer there to fix it. It is a short window, and we say so because it is what a
+  security team needs in order to assess its own risk.
+
+Within that window, restoration is to a **point in time**, not just to last night's
+backup.
 
 ## Incidents
 

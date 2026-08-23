@@ -31,6 +31,25 @@
  * declara `DOCUMENTOS_LEGALES` en el otro repo y la que se guarda en cada
  * fila de `aceptaciones_legales`. Esto no es una version nueva, asi que no
  * dispara el preaviso de 30 dias ni la re-aceptacion de nadie.
+ *
+ * ## 2026-08-20: internacionalizacion legal (terms 1.1, privacy 1.1, dpa 2.0)
+ *
+ * Los tres subieron el MISMO dia que `DOCUMENTOS_LEGALES` del otro repo, que
+ * es la unica forma de que la version que se hace aceptar exista en el texto
+ * publicado.
+ *
+ * ⚠️ **Se subieron SIN el preaviso de 30 dias, y eso es legitimo solo por un
+ * motivo: no hay ningun cliente que haya aceptado la 1.0 en produccion.** El
+ * preaviso protege a quien ya acepto una version; sin nadie a quien avisar, no
+ * hay a quien imponerle nada. **El dia que exista el primer cliente, esta
+ * excusa deja de existir** y el orden vuelve a ser el de siempre: avisar con
+ * `manage.py avisar_version_legal`, esperar los 30 dias, y recien ahi tocar
+ * estas dos constantes.
+ *
+ * El `dpa` va a 2.0 y no a 1.1 porque no es el mismo documento con retoques:
+ * pasa a regir bajo dos marcos (Ley 8968 y RGPD/UK/Suiza) e incorpora las
+ * Clausulas Contractuales Tipo con sus tres anexos. `terms` y `privacy`
+ * cambian secciones pero siguen siendo el mismo texto.
  */
 export const LEGAL_NAV = [
   {
@@ -39,8 +58,8 @@ export const LEGAL_NAV = [
       es: "Política de privacidad",
       en: "Privacy policy",
     },
-    version: "1.0",
-    updated: "2026-08-17",
+    version: "1.1",
+    updated: "2026-08-20",
     draft: false,
   },
   {
@@ -49,7 +68,7 @@ export const LEGAL_NAV = [
       es: "Términos del servicio",
       en: "Terms of service",
     },
-    version: "1.0",
+    version: "1.1",
     updated: "2026-08-20",
     draft: false,
   },
@@ -59,8 +78,8 @@ export const LEGAL_NAV = [
       es: "Anexo de tratamiento de datos",
       en: "Data processing addendum",
     },
-    version: "1.0",
-    updated: "2026-08-17",
+    version: "2.0",
+    updated: "2026-08-20",
     draft: false,
   },
 ];

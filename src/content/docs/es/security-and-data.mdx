@@ -34,11 +34,11 @@ la que manda—; esto es el resumen:
 | Proveedor | Para qué | País |
 |---|---|---|
 | Hostinger | El servidor donde corre la aplicación | Estados Unidos |
-| Supabase | La base de datos: nómina, respuestas y resultados | Estados Unidos |
+| PlanetScale | La base de datos: nómina, respuestas y resultados | Estados Unidos |
 | Clerk | Identidad: correo, contraseña y segundo factor | Estados Unidos |
 | Resend | El envío de las invitaciones a responder | Estados Unidos |
 | Cloudflare R2 | El logo de tu organización | Estados Unidos |
-| ONVOPay | El cobro | Costa Rica |
+| Polar | El cobro | Estados Unidos |
 | Allegra | La factura electrónica ante Hacienda | Costa Rica |
 
 > **Cambiar un proveedor de esa lista es un cambio con aviso**, no algo que pase en
@@ -98,15 +98,44 @@ rol, no cómo se autentica.
 
 **Una cuenta que vence no se borra sola.** Cuando termina la prueba o la suscripción, la
 cuenta queda en **solo lectura**: lo que ya se midió se puede seguir consultando y
-descargando, y no se puede escribir nada nuevo. Se queda así hasta que pidas el cierre.
+descargando, y no se puede escribir nada nuevo. Se queda así, sin límite de tiempo, hasta
+que decidas cerrarla.
 
-Cuando lo pedís, corren dos plazos: **30 días para exportar** tu información en un formato
-de uso común, y el **borrado irreversible dentro de los 90 días** siguientes al cierre,
-respaldos incluidos, salvo lo que una obligación legal nos exija conservar (la facturación
-tiene su propio plazo tributario).
+**Exportar no tiene plazo.** Mientras la cuenta exista —incluso vencida— podés bajar tus
+resultados con las herramientas de exportación del producto, en Excel y en PDF. No hay una
+ventana de 30 días que se cierre.
+
+**El cierre lo hacés vos, y es inmediato.** El titular de la cuenta la elimina desde
+Configuración, escribiendo el nombre de la organización para confirmar. Al confirmarlo los
+datos se **borran en el acto y de forma irreversible**: la estructura, la nómina, las
+boletas, los estudios, los resultados y las cuentas de acceso de todo el equipo. No hay
+período de gracia ni copia que podamos restaurar después, salvo lo que una obligación legal
+nos exija conservar (la facturación tiene su propio plazo tributario).
+
+⚠️ **Exportá antes lo que quieras conservar.** Después del cierre no hay de dónde sacarlo,
+tampoco para nosotros.
 
 Los detalles y las excepciones están en el
 [Anexo de tratamiento de datos](/es/legal/dpa).
+
+## Continuidad y respaldos
+
+La base de datos tiene **respaldos automáticos diarios**, gestionados por el proveedor
+(PlanetScale) y cifrados como el resto de la base. No dependen de que alguien se acuerde de
+correrlos.
+
+**La ventana de retención es de 2 días**, y ese número corta para los dos lados. Conviene
+saber cómo:
+
+- **A favor de tu privacidad.** Cuando eliminás tu cuenta, los datos se borran de la base
+  en el acto; las copias que quedaran en un respaldo desaparecen **dentro de las 48 horas**.
+  No hay copias tuyas viviendo meses en un archivo por si acaso.
+- **En contra de la recuperación.** Si un problema de datos se detecta **después** de esos
+  dos días, el respaldo ya no está para arreglarlo. Es una ventana corta, y la decimos
+  porque es lo que un área de seguridad necesita saber para evaluar su propio riesgo.
+
+Dentro de esa ventana la restauración es a un **momento puntual**, no solo al respaldo de
+la noche anterior.
 
 ## Incidentes
 
