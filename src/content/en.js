@@ -277,6 +277,57 @@ const en = {
   // **The numbers are content**: Spanish writes the decimal with a comma and
   // English with a period, so they can't live in the component. The length of
   // each bar comes from dividing them by `scale_max`.
+  // The MOVING captures, per point. They replace the drawn mockup of that same
+  // point: `weights_filters.jsx` uses the clip when a row declares one, and
+  // falls back to `weights_shots` when it does not.
+  //
+  // They come out of demo mode, like the ones under `/shots/`, and ship without
+  // audio: they play on their own, on a loop, and a video that makes noise by
+  // itself is nobody's friend.
+  //
+  // **They come in a light/dark pair, like the still captures.** The light one
+  // on the dark site is a white panel that glares, and each is its own
+  // recording, not a filter over the other. `SystemClip` only downloads the one
+  // for the active theme, and only once the row gets close.
+  weights_clips: {
+    cross: {
+      light: {
+        src: "/clips/filtros_cruzados.mp4",
+        poster: "/clips/filtros_cruzados-poster.webp",
+      },
+      dark: {
+        src: "/clips/filtros_cruzados-dark.mp4",
+        poster: "/clips/filtros_cruzados-dark-poster.webp",
+      },
+      title: "The cross, being built",
+      a11y: "Video of the system: a branch and a role are picked in the filter panel and the group's result recalculates",
+    },
+    compare: {
+      light: {
+        src: "/clips/poblaciones_comparadas.mp4",
+        poster: "/clips/poblaciones_comparadas-poster.webp",
+      },
+      dark: {
+        src: "/clips/poblaciones_comparadas-dark.mp4",
+        poster: "/clips/poblaciones_comparadas-dark-poster.webp",
+      },
+      title: "Branch against branch",
+      a11y: "Video of the system: a segment's branches set against each other and against the overall result, across the radar, the ranking, the gap and the per-category table",
+    },
+    threshold: {
+      light: {
+        src: "/clips/umbral_muestra.mp4",
+        poster: "/clips/umbral_muestra-poster.webp",
+      },
+      dark: {
+        src: "/clips/umbral_muestra-dark.mp4",
+        poster: "/clips/umbral_muestra-dark-poster.webp",
+      },
+      title: "A cross that can't hold",
+      a11y: "Video of the system: role, sex and age-range filters are added until the group is down to very few people, and the panel warns that the segment can't be shown without compromising anonymity",
+    },
+  },
+
   weights_shots: {
     scale_max: "4",
     cross: {

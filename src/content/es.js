@@ -275,6 +275,56 @@ const es = {
   // **Los números son parte del contenido**: en español el decimal es coma y en
   // inglés punto, así que no pueden vivir en el componente. De dividirlos por
   // `scale_max` sale el largo de cada barra.
+  // Las capturas EN MOVIMIENTO, por punto. Reemplazan a la maqueta dibujada del
+  // mismo punto: `weights_filters.jsx` usa el clip cuando la fila declara uno, y
+  // cae a `weights_shots` cuando no.
+  //
+  // Salen del modo demo, como las de `/shots/`, y van sin audio: se reproducen
+  // solas y en loop, y un video que suena solo no se le hace a nadie.
+  //
+  // **Van en par claro/oscuro, como las capturas fijas.** La clara sobre el sitio
+  // en oscuro es un panel blanco que encandila, y cada una es su propia
+  // grabacion, no un filtro sobre la otra. `SystemClip` baja solo la del tema
+  // activo, y recien cuando la fila se acerca.
+  weights_clips: {
+    cross: {
+      light: {
+        src: "/clips/filtros_cruzados.mp4",
+        poster: "/clips/filtros_cruzados-poster.webp",
+      },
+      dark: {
+        src: "/clips/filtros_cruzados-dark.mp4",
+        poster: "/clips/filtros_cruzados-dark-poster.webp",
+      },
+      title: "El cruce, armándose",
+      a11y: "Video del sistema: se eligen una rama y un puesto en el panel de filtros y el resultado del grupo se recalcula",
+    },
+    compare: {
+      light: {
+        src: "/clips/poblaciones_comparadas.mp4",
+        poster: "/clips/poblaciones_comparadas-poster.webp",
+      },
+      dark: {
+        src: "/clips/poblaciones_comparadas-dark.mp4",
+        poster: "/clips/poblaciones_comparadas-dark-poster.webp",
+      },
+      title: "Rama contra rama",
+      a11y: "Video del sistema: las ramas de un segmento puestas una contra otra y contra el general, en el radar, el ranking, la brecha y la tabla por categoría",
+    },
+    threshold: {
+      light: {
+        src: "/clips/umbral_muestra.mp4",
+        poster: "/clips/umbral_muestra-poster.webp",
+      },
+      dark: {
+        src: "/clips/umbral_muestra-dark.mp4",
+        poster: "/clips/umbral_muestra-dark-poster.webp",
+      },
+      title: "El cruce que no se sostiene",
+      a11y: "Video del sistema: se suman filtros de puesto, sexo y rango de edad hasta que el grupo queda con muy pocas personas, y el panel avisa que ese segmento no se puede mostrar sin comprometer el anonimato",
+    },
+  },
+
   weights_shots: {
     scale_max: "4",
     cross: {

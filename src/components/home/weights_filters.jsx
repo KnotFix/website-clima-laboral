@@ -1,3 +1,4 @@
+import { SystemClip } from "@/components/effects/system_clip";
 import {
   CompareShot,
   CrossShot,
@@ -23,10 +24,19 @@ import { Container } from "@/components/site/container";
  * como el dato — se probo, y `SHOTS[index]` salia `undefined`.
  */
 const SHOTS = [
-  { key: "cross", Shot: CrossShot },
-  { key: "compare", Shot: CompareShot },
-  { key: "threshold", Shot: ThresholdShot },
+  { key: "cross", Shot: CrossShot, clip: "cross" },
+  { key: "compare", Shot: CompareShot, clip: "compare" },
+  { key: "threshold", Shot: ThresholdShot, clip: "threshold" },
 ];
+
+/**
+ * **`clip` gana cuando esta.** La fila que lo declara muestra la captura en
+ * movimiento de `weights_clips` en vez de la maqueta dibujada; la maqueta se
+ * queda en `Shot` como respaldo mientras se prueba cual explica mejor el punto.
+ *
+ * Cuando el video quede, la maqueta y su entrada del diccionario salen: aca ya
+ * se retiro una por dejarla sin consumidor, y no hace falta repetirlo.
+ */
 
 /**
  * Desde cuan lejos llega cada columna, en px.
@@ -125,7 +135,7 @@ export function WeightsFilters({ dict }) {
 
         <ul className="mt-20 flex flex-col gap-20 lg:gap-24">
           {dict.weights_points.map((point, index) => {
-            const { key, Shot } = SHOTS[index];
+            const { key, Shot, clip } = SHOTS[index];
 
             return (
               <li
@@ -172,10 +182,14 @@ export function WeightsFilters({ dict }) {
                   fade_in={0.3}
                   fade_out={0.78}
                 >
-                  <Shot
-                    shot={dict.weights_shots[key]}
-                    scale_max={dict.weights_shots.scale_max}
-                  />
+                  {clip ? (
+                    <SystemClip clip={dict.weights_clips[clip]} />
+                  ) : (
+                    <Shot
+                      shot={dict.weights_shots[key]}
+                      scale_max={dict.weights_shots.scale_max}
+                    />
+                  )}
                 </ScrollPass>
               </li>
             );
