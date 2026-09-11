@@ -58,7 +58,8 @@ src/
     home/
       hero.jsx                  titular, copy, CTAs                     [programmer]
       hero_title.jsx            el h1 con la entrada palabra a palabra  [programmer]
-      hero_video.jsx            video de YouTube con fachada + zoom     [programmer]
+      hero_showcase.jsx         el panel bajo los CTA: captura en marco
+                                de ventana + tres tarjetas flotando     [programmer]
       world_reach.jsx           texto izquierda + planeta derecha       [programmer]
       measurement.jsx           por que los numeros significan algo:
                                 encabezado con el empalme + carrusel    [programmer]
@@ -82,6 +83,8 @@ src/
       rotating_text.jsx         <RotatingText>: palabra que se releva   [creative]
       image_cycle.jsx           <ImageCycle>: capturas que se cruzan    [creative]
       scroll_pass.jsx           <ScrollPass>: entra y sale con scroll   [creative]
+      scroll_float.jsx          <ScrollFloat depth>: parallax por capas.
+                                Define FLOAT_RANGE                      [creative]
       scroll_lift.jsx           <ScrollLift>: tapa que se levanta.
                                 La usan el hero y el CTA final         [creative]
       scroll_glide.jsx          <ScrollGlide>: la inercia del scroll.
@@ -206,6 +209,7 @@ docs/
 
 - El layout raíz vive en `app/[lang]/layout.js`, no en `app/layout.js`. Es lo que permite `<html lang>` correcto por idioma.
 - `hero_visual.jsx` **se retiró**. Las tres tarjetas de gráficos eran una maqueta dibujada a mano, y el hero ahora muestra el producto en video. Con ella se fueron las llaves `hero_visual_*` del diccionario y el primer uso de `Tilt`; hoy la primitiva la consumen **las tarjetas de `problem.jsx`**.
+- `hero_video.jsx` **se retiró** a su vez. El video de YouTube nunca pasó de *Big Buck Bunny*, y un video de presentación no se tenía. Lo reemplaza `hero_showcase.jsx`: una captura real del modo demo con tres tarjetas encima. Con él se fueron `site_config.hero_video_id`, las llaves `hero_video_title` / `hero_video_play` y el `images.remotePatterns` de `i.ytimg.com` — el sitio ya no tiene host externo de imágenes.
 - El ancho de 1200px existe **únicamente** en `container.jsx`. Un `max-w-[1200px]` en cualquier otro archivo es un error.
 - `src/components/ui/**` se deja tal como vino del registro shadcn.
 - **Las docs no tienen `layout.js`, y es a propósito.** Un layout de App Router recibe los params de
@@ -331,9 +335,11 @@ docs/
 | `tilt_from` | prop number | grados de `rotateX` con los que entra inclinado; llega a 0 |
 | `PERSPECTIVE` | const number | distancia del ojo al plano para `tilt_from`, en px |
 | `ORIGINS` | const object | mapa de `zoom_origin` a `transform-origin` |
-| `is_playing` | boolean | el iframe de YouTube ya se montó |
-| `poster_quality` | string | archivo de miniatura pedido: `maxresdefault` o `hqdefault` |
-| `hero_video_id` | const string | id de 11 caracteres del video, en `site_config` |
+| `depth` | prop number | px que `ScrollFloat` sube su contenido a lo largo de `FLOAT_RANGE`. Más = más cerca del ojo |
+| `FLOAT_RANGE` | const number | tramo de scroll, en px, sobre el que `depth` se recorre entero. En `scroll_float.jsx` |
+| `SPARK_FLOOR` / `SPARK_CEIL` | const number | piso y techo del eje de la línea de tendencia del hero, en puntos del índice |
+| `SPARK_HEIGHT` | const number | alto del `viewBox` de esa línea; el ancho es 100, así x queda en % |
+| `sizes` / `fetch_priority` | prop | de `ThemedShot`: el `sizes` de next/image y su `fetchPriority`. Nunca `preload`: bajaría los dos temas |
 
 ### Idioma y contenido
 
@@ -364,8 +370,14 @@ hero_title_segments[]  { text, tone } | { face: true } | { weather: true }
 hero_subtitle
 hero_cta_primary
 hero_cta_secondary
-hero_video_title       title del iframe: no se pinta, lo lee el lector de pantalla
-hero_video_play        aria-label del boton de play
+hero_showcase          { shot, trend, goal, anonymity } — el panel bajo los CTA
+  .shot                { light, dark, alt } — como measurement_shots
+  .trend               { label, value, delta, span, series[] } — series solo
+                       dibuja la linea, no se imprime
+  .goal                { label, status, target_label, target, target_value,
+                       result_label, result, result_value } — *_value de 0 a 100
+  .anonymity           { title, body }
+                       los numeros son del MISMO estudio demo que la captura
 world_title_segments[] { text } | { rotating: true } — como hero_title_segments
 world_rotating_words[] las palabras que se relevan en el titular del planeta
 measurement_title
@@ -976,25 +988,36 @@ propósito: con el mismo ritmo cambiarían siempre juntos y se leería como un
 reloj. Tampoco conviene alejarlos mucho — a 2300ms el ciclo del clima tardaba
 casi 7 segundos y era fácil no llegar a ver la lluvia.
 
-### El video del hero: fachada primero, iframe al click
+### El panel del hero: captura y tarjetas que flotan
 
-`hero_video.jsx` no monta el `<iframe>` de YouTube hasta que alguien da play.
-Hasta entonces hay una sola imagen —la miniatura de YouTube— y un botón. El
-embed son cientos de kB repartidos en varias conexiones de terceros, y puesto en
-el hero lo pagan **todas** las visitas, también las que nunca miran el video.
+`hero_showcase.jsx` pone bajo los CTA la captura `resumen_estudio` en un marco
+de ventana —tres puntos y el nombre del producto, **sin URL**: una dirección
+inventada es un dato falso— y tres tarjetas encima: la tendencia del clima con
+su línea, la meta contra el resultado, y el anonimato.
 
-El segundo motivo es el zoom: escalar una imagen es trabajo del compositor;
-escalar un iframe obliga a re-rasterizar un documento entero en cada frame del
-scroll. La fachada convierte el efecto en un `transform` sobre un bitmap.
+**Reemplazó al video de YouTube**, que nunca pasó de *Big Buck Bunny*. Una
+captura del modo demo se puede tener hoy; un video de presentación no.
 
-La miniatura se pide como `maxresdefault.jpg` (1280×720), que YouTube solo
-genera para videos subidos en HD. Si devuelve 404, `poster_quality` cae a
-`hqdefault.jpg`, que existe siempre: es 4:3 con bandas negras, y `object-cover`
-las recorta contra el marco 16:9. `i.ytimg.com` es el **único** host externo del
-sitio y por eso está en `images.remotePatterns` de `next.config.mjs`.
+- **Los números de las tarjetas son del mismo estudio demo que la captura.** Una
+  tarjeta que contradice al panel que tiene abajo se lee como inventada. Si
+  cambia la captura, se revisan en `hero_showcase` del diccionario.
+- **Marco y tarjetas van dentro de UN `ScrollZoom`**, así que crecen y se
+  enderezan como una pieza. Encima cada tarjeta tiene su `ScrollFloat` con otra
+  `depth` (50, 90, 140): se separan del panel al scrollear, y esa diferencia es
+  lo que le da volumen.
+- **Las tarjetas no existen en móvil** (`hidden md:block`). El marco mide lo
+  que la pantalla y tres tarjetas encima taparían la captura. Los costados
+  salen hacia afuera recién en `xl`: antes el Container toca la ventana y el
+  `overflow-hidden` del hero las cortaría.
+- **La captura es la candidata a LCP** y va con `fetchPriority="high"`, no con
+  `preload`. Son dos imágenes —una por tema— y `preload` bajaría las dos; con el
+  `lazy` por defecto la que está en `display: none` no se pide. Es lo que
+  recomienda la doc de next/image para imágenes por tema.
+- 16:10 y no la proporción de la captura (~4:3): entera mediría más de 900px de
+  alto. `object-top` recorta por abajo, y arriba están los indicadores.
 
-El id vive en `site_config.hero_video_id`, no en el diccionario: el video es el
-mismo en los dos idiomas.
+> **`resumen_estudio` salió del carrusel de `measurement_shots`**: la misma
+> pantalla dos veces en el mismo scroll.
 
 > **`ScrollZoom` escala, no ensancha.** El marco reserva su tamaño final desde
 > el primer render (`aspect-video` fija la altura por proporción) y `scale` lo
@@ -1840,21 +1863,33 @@ pasa de una a la otra sin salto:
 - **El ancho de ficha es fijo, no fluido** (`76vw` en móvil, `292px`, `320px`).
   De ahí sale el ancho del riel, y del ancho del riel sale el recorrido: con
   fichas fluidas el recorrido cambiaría con cada cosa que altere el layout.
-- **Las imágenes de `/public/shots/` son de relleno.** Están para que el bloque
-  tenga proporciones y ritmo reales. Hoy son **fotos de Unsplash** en JPG
-  (`unsplash_*.jpg`), que reemplazaron a los SVG dibujados para ver cómo se
-  comporta la ficha con imágenes de verdad: una foto llena el marco, tiene grano
-  y contraste propios y se recorta con `object-cover`, cosa que un dibujo plano
-  no ponía a prueba. Se reemplazan por capturas del producto dejando las mismas
-  llaves de `measurement_shots`, y el `alt` se reescribe con ellas.
+- **Las imágenes de `/public/shots/` son capturas del producto**, en PNG y
+  sacadas del modo demo —datos sembrados, solo lectura—, nunca de una cuenta de
+  un cliente. Reemplazaron a las fotos de Unsplash, que a su vez habían
+  reemplazado a los SVG dibujados: el sitio vendía el producto sin mostrarlo.
+- **Cada captura viene en sus dos temas**, `-light.png` y `-dark.png`, y las
+  entradas de `measurement_shots` traen las dos llaves —`light` y `dark`— más un
+  `alt` solo. Es obligatorio y no hay caída a una sola: una captura clara sobre
+  el fondo oscuro es un rectángulo que encandila, y la oscura sobre el claro se
+  recorta como un agujero.
+- **El tema NO se lee con JavaScript.** `ThemedShot` pone las dos en el DOM y
+  deja que `dark:hidden` / `hidden dark:block` decidan cuál se ve, porque el
+  navegador ya tiene la clase `.dark` en el `html` cuando pinta el primer frame.
+  Con un hook habría que esperar a que el cliente monte, y hasta ahí la ficha
+  muestra la captura equivocada y parpadea al corregirse. El precio es que se
+  bajan las dos: son ~110 KB cada una y van `lazy`.
+- El `alt` va en la clara y la oscura queda `aria-hidden`: son la misma pantalla,
+  y anunciarla dos veces le repite la misma frase a quien la escucha.
 - **`ImageCycle` corre por reloj**, como `RotatingText`, y por eso se apaga
   entera con `prefers-reduced-motion`: algo que se mueve solo, sin que el usuario
   haya hecho nada, es exactamente lo que esa preferencia pide que no pase.
   Apagada muestra la primera y se queda ahí.
-- `unoptimized` sale de la extensión del archivo: los SVG de relleno no pasan por
-  el optimizador de Next salvo que se abra `dangerouslyAllowSVG`, y eso no se
-  toca por un placeholder. Las capturas reales van a ser PNG o JPG y se optimizan
-  como corresponde.
+- **`object-top` y no el centro.** Lo que cuenta de un panel está arriba —el
+  título del bloque y el primer gráfico—, y la ficha es más ancha que alta, así
+  que `object-cover` recorta justo por abajo.
+- Se fue el `unoptimized`, que existía por los SVG dibujados: el optimizador de
+  Next los rechaza salvo que se abra `dangerouslyAllowSVG`, y eso no se tocaba
+  por un placeholder. Los PNG pasan por el optimizador como corresponde.
 
 **El movimiento vertical que le queda a la sección es el del encabezado**, con
 `ScrollPass` y un `drift` corto (56, contra los 72 de antes). Va corto a
@@ -3238,10 +3273,9 @@ plan". Si el criterio editorial es otro, se mueve.
 ### Lo que sigue pendiente y no es técnico
 
 - `signup_url` está en `"#"`: el CTA principal no lleva a ningún lado.
-- El video del hero sigue siendo *Big Buck Bunny*, el relleno de Blender.
 - Las tres imágenes de `public/shots/` son placeholders de Unsplash.
 
-Los tres están marcados como TODO en `lib/site_config.js` y `content/es.js`.
+Están marcados como TODO en `lib/site_config.js` y `content/es.js`.
 
 ## Zonas de escritura
 

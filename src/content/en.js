@@ -34,10 +34,42 @@ const en = {
   hero_cta_primary: "Start free",
   hero_cta_secondary: "See how it works",
 
-  // Hero video. `hero_video_title` is the iframe title: never rendered, but it
-  // is what a screen reader announces when it enters the frame.
-  hero_video_title: "Knotfix Clima in two minutes",
-  hero_video_play: "Play the product video",
+  // The panel under the CTAs: one capture and three cards floating over it.
+  // **The numbers come from the SAME demo study as the capture** — Clima
+  // Laboral 2026, 324 responses — and must keep matching it: a card that
+  // contradicts the panel underneath reads as made up. If the capture changes,
+  // check them here.
+  // `series` is the climate index study by study, 2017 to 2026, read off
+  // `indices_evolucion`; it only draws the line, it is never printed. The
+  // `*_value` fields are the goal bar lengths, 0 to 100.
+  hero_showcase: {
+    shot: {
+      light: "/shots/resumen_estudio-light.png",
+      dark: "/shots/resumen_estudio-dark.png",
+      alt: "A workplace climate study summary: 324 respondents, 75.03% job satisfaction, 75.41% workplace climate, and every category with its percentage",
+    },
+    trend: {
+      label: "Workplace climate",
+      value: "75.41%",
+      delta: "+15.1 pts",
+      span: "10 studies, 2017 to 2026",
+      series: [60.31, 64.0, 65.7, 65.4, 65.4, 70.0, 71.7, 70.7, 71.7, 75.41],
+    },
+    goal: {
+      label: "Job satisfaction 2026",
+      status: "Target met",
+      target_label: "Target",
+      target: "73.13%",
+      target_value: 73.13,
+      result_label: "Result",
+      result: "75.03%",
+      result_value: 75.03,
+    },
+    anonymity: {
+      title: "Anonymous by design",
+      body: "No segment is shown below the minimum N.",
+    },
+  },
 
   // Reach: text on the left, globe on the right.
   // The heading is split into pieces so the rotating word can be embedded, the
@@ -94,25 +126,33 @@ const en = {
   ],
 
   // The last card in the carousel: product shots cycling.
-  // **The files under `/shots/` are placeholders**, there so the block has real
-  // proportions and rhythm. They are Unsplash photos for now, to see how the
-  // block behaves with real images instead of the drawn SVGs. Swap them for
-  // actual product captures keeping the same keys; the `alt` describes what is
-  // shown — today the photo, tomorrow the capture — since it is all that
-  // reaches anyone who cannot see the image.
+  // These are real captures of the panel, taken from DEMO MODE — seeded data,
+  // read only — never from a customer account.
+  // **Each one ships in both themes.** The site renders light or dark depending
+  // on who is looking, and a light capture on the dark background is a slab that
+  // glares; `ImageCycle` keeps the matching one visible. Both keys are required:
+  // there is no fallback to a single file.
+  // The `alt` describes what is shown, since it is all that reaches anyone who
+  // cannot see the image; it is written once per pair — the theme does not
+  // change what the screen says.
+  // **`resumen_estudio` is not here**: it is the hero capture, and repeating it
+  // in the carousel shows the same screen twice in one scroll.
   measurement_shots_title: "Inside the result",
   measurement_shots: [
     {
-      src: "/shots/unsplash_segments.jpg",
-      alt: "A screen with several result charts open at once",
+      light: "/shots/indices_evolucion-light.png",
+      dark: "/shots/indices_evolucion-dark.png",
+      alt: "The climate index study by study, 2017 to 2026, with one point opened to its value",
     },
     {
-      src: "/shots/unsplash_compare.jpg",
-      alt: "A results dashboard open on a laptop",
+      light: "/shots/pregunta_serie-light.png",
+      dark: "/shots/pregunta_serie-dark.png",
+      alt: "A single question across the years, with how each study's answers split shown underneath",
     },
     {
-      src: "/shots/unsplash_team.jpg",
-      alt: "A team gathered around a presentation of results",
+      light: "/shots/metas_resultado-light.png",
+      dark: "/shots/metas_resultado-dark.png",
+      alt: "Target against result per period, each study marked as met or missed",
     },
   ],
 

@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { GoldenBackdrop } from "@/components/effects/golden_backdrop";
 import { HeroCover } from "@/components/effects/hero_cover";
 import { HeroTitle } from "@/components/home/hero_title";
-import { HeroVideo } from "@/components/home/hero_video";
+import { HeroShowcase } from "@/components/home/hero_showcase";
 import { Reveal } from "@/components/motion/reveal";
 import { ScrollLift } from "@/components/motion/scroll_lift";
 import { Container } from "@/components/site/container";
@@ -145,16 +145,18 @@ export function Hero({ dict }) {
             </Reveal>
           </div>
 
-          {/* El video va a lo ancho completo del Container, sin `max-w` propio:
+          {/* El panel va a lo ancho completo del Container, sin `max-w` propio:
             es la pieza que tiene que ganar la pantalla cuando termina de
-            crecer. El margen de arriba es el del bloque, no del video, para
+            crecer. El margen de arriba es el del bloque, no del panel, para
             que el zoom no tenga que compensarlo.
-            El hueco es corto a proposito: el video tiene que leerse como la
+            El hueco es corto a proposito: el panel tiene que leerse como la
             continuacion de los CTA, no como otra seccion. Con
-            `zoom_origin="top"` este margen es TODO el aire que se ve: el video
-            crece anclado a su borde de arriba, asi que no se despega solo. */}
+            `zoom_origin="top"` este margen es TODO el aire que se ve: el panel
+            crece anclado a su borde de arriba, asi que no se despega solo.
+            **Aca vivia `<HeroVideo>`**, un video de YouTube que nunca paso del
+            relleno. Ver `hero_showcase.jsx`. */}
           <div className="mt-16 sm:mt-20">
-            <HeroVideo dict={dict} />
+            <HeroShowcase dict={dict} />
           </div>
         </Container>
       </section>

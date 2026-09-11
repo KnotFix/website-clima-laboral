@@ -55,9 +55,10 @@ datos son inventados.
 > si algún día se linkea la demo desde cada página («probá esto en la demo», decisión abierta #3),
 > conviene rehacerlas ahí.
 
-> **A la HOME le siguen faltando.** `public/shots/` son tres fotos de Unsplash
-> (`unsplash_compare`, `unsplash_segments`, `unsplash_team`) alimentando el carrusel de la medición:
-> el sitio vende el producto sin mostrarlo. Es un problema aparte del de las docs y sigue abierto.
+> **A la HOME ya no le faltan.** `public/shots/` son cuatro capturas del panel en sus dos temas
+> (`resumen_estudio`, `indices_evolucion`, `pregunta_serie`, `metas_resultado`, cada una `-light` y
+> `-dark`) alimentando el carrusel de la medición. Salen del mismo modo demo que las de las docs, así
+> que valen la misma promesa: ningún dato ahí es de nadie.
 
 ---
 

@@ -33,10 +33,42 @@ const es = {
   hero_cta_primary: "Empezar gratis",
   hero_cta_secondary: "Ver cómo funciona",
 
-  // Video del hero. `hero_video_title` es el title del iframe: no se ve en
-  // pantalla, pero es lo que anuncia el lector de pantalla al entrar.
-  hero_video_title: "Knotfix Clima en dos minutos",
-  hero_video_play: "Reproducir el video de presentación",
+  // El panel bajo los CTA: una captura y tres tarjetas que flotan encima.
+  // **Los números son del MISMO estudio demo que la captura** —Clima Laboral
+  // 2026, 324 respuestas— y tienen que seguir coincidiendo con ella: una
+  // tarjeta que contradice al panel de abajo se lee como inventada. Si cambia
+  // la captura, se revisan acá.
+  // `series` es el índice de clima estudio por estudio, 2017 a 2026, leído de
+  // `indices_evolucion`; solo dibuja la línea, no se imprime. `*_value` son
+  // los largos de la barra de la meta, de 0 a 100.
+  hero_showcase: {
+    shot: {
+      light: "/shots/resumen_estudio-light.png",
+      dark: "/shots/resumen_estudio-dark.png",
+      alt: "Resumen de un estudio de clima laboral: 324 encuestados, satisfacción laboral de 75,03 %, clima laboral de 75,41 % y cada categoría con su porcentaje",
+    },
+    trend: {
+      label: "Clima laboral",
+      value: "75,41 %",
+      delta: "+15,1 pts",
+      span: "10 estudios, de 2017 a 2026",
+      series: [60.31, 64.0, 65.7, 65.4, 65.4, 70.0, 71.7, 70.7, 71.7, 75.41],
+    },
+    goal: {
+      label: "Satisfacción laboral 2026",
+      status: "Meta cumplida",
+      target_label: "Meta",
+      target: "73,13 %",
+      target_value: 73.13,
+      result_label: "Resultado",
+      result: "75,03 %",
+      result_value: 75.03,
+    },
+    anonymity: {
+      title: "Anónimo por diseño",
+      body: "Ningún segmento se muestra por debajo del N mínimo.",
+    },
+  },
 
   // Alcance: texto a la izquierda, planeta a la derecha.
   // El titular va partido en piezas para poder incrustar la palabra que rota,
@@ -95,25 +127,33 @@ const es = {
   ],
 
   // La última ficha del carrusel: capturas del producto pasando.
-  // **Los archivos de `/shots/` son de relleno** y están para que el bloque
-  // tenga medidas y ritmo reales. Hoy son fotos de Unsplash, para ver cómo se
-  // comporta el bloque con imágenes de verdad en vez de los SVG dibujados.
-  // Se reemplazan por capturas del producto dejando las mismas llaves; el `alt`
-  // describe lo que se ve —hoy la foto, mañana la captura—, porque es lo único
-  // que le llega a quien no puede ver la imagen.
+  // Son capturas de verdad del panel, sacadas del MODO DEMO —datos sembrados,
+  // solo lectura—, nunca de una cuenta de un cliente.
+  // **Cada una viene en sus dos temas.** El sitio se ve claro u oscuro según
+  // quien mire, y una captura clara sobre el fondo oscuro es un rectángulo que
+  // encandila; `ImageCycle` deja visible la que corresponde. Las dos llaves son
+  // obligatorias: no hay caída a una sola.
+  // El `alt` describe lo que se ve, porque es lo único que le llega a quien no
+  // puede ver la imagen; va una sola vez por par —el tema no cambia lo que la
+  // pantalla muestra.
+  // **`resumen_estudio` no va acá**: es la captura del hero, y repetirla en el
+  // carrusel es mostrar dos veces la misma pantalla en el mismo scroll.
   measurement_shots_title: "El resultado, por dentro",
   measurement_shots: [
     {
-      src: "/shots/unsplash_segments.jpg",
-      alt: "Pantalla con varios gráficos de resultados abiertos a la vez",
+      light: "/shots/indices_evolucion-light.png",
+      dark: "/shots/indices_evolucion-dark.png",
+      alt: "La evolución del índice de clima estudio por estudio, de 2017 a 2026, con el valor de un punto abierto",
     },
     {
-      src: "/shots/unsplash_compare.jpg",
-      alt: "Un tablero de resultados abierto en una notebook",
+      light: "/shots/pregunta_serie-light.png",
+      dark: "/shots/pregunta_serie-dark.png",
+      alt: "Una pregunta sola a lo largo de los años, con la repartición de las respuestas de cada estudio abajo",
     },
     {
-      src: "/shots/unsplash_team.jpg",
-      alt: "Un equipo reunido mirando una presentación de resultados",
+      light: "/shots/metas_resultado-light.png",
+      dark: "/shots/metas_resultado-dark.png",
+      alt: "Meta contra resultado por período, con cada estudio marcado como cumplida o no cumplida",
     },
   ],
 

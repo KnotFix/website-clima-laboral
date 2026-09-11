@@ -9,15 +9,6 @@ export const site_config = {
   domain: "https://knotfix.com",
   // TODO: apuntar al registro real del SaaS cuando exista.
   signup_url: "#",
-  // Los 11 caracteres que identifican el video en la URL de YouTube:
-  // https://youtu.be/AQUI o https://youtube.com/watch?v=AQUI.
-  //
-  // TODO: ESTE ES UN VIDEO DE EJEMPLO, hay que reemplazarlo por el de Knotfix.
-  // Es "Big Buck Bunny", el corto libre de la Blender Foundation: se eligio a
-  // proposito uno que se nota de lejos que es de relleno, para que nadie lo
-  // confunda con contenido real ni se publique asi por descuido.
-  // Vacio tambien es valido: el hero muestra el marco sin miniatura ni play.
-  hero_video_id: "aqz-KE-bpKQ",
 };
 
 export function is_locale(value) {

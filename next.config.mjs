@@ -3,11 +3,10 @@ import createMDX from "@next/mdx";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
-  images: {
-    // Miniatura del video del hero. Es el unico host externo del sitio: sin
-    // esta entrada, next/image responde 400 a cualquier URL remota.
-    remotePatterns: [new URL("https://i.ytimg.com/vi/**")],
-  },
+  // **Aca vivia `images.remotePatterns`** con `i.ytimg.com`, la miniatura del
+  // video del hero. El video se retiro y el sitio no tiene host externo de
+  // imagenes: next/image responde 400 a cualquier URL remota, y es lo que se
+  // quiere.
 };
 
 // `pageExtensions` NO se toca a proposito. Agregarle "mdx" convierte en RUTA a
