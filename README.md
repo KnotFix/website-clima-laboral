@@ -1,6 +1,6 @@
-# Knotfix Clima — sitio web
+# Censuma — sitio web
 
-Sitio público del SaaS de evaluación de clima laboral de Knotfix. **No es el
+Sitio público de Censuma, el SaaS de evaluación de clima laboral de Knotfix. **No es el
 producto**: es la página que lo vende, la documentación que lo explica y los tres
 documentos legales que lo rigen.
 

@@ -38,12 +38,9 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
       <GlassBar>
         <Link
           href={`/${lang}`}
-          className="flex items-baseline gap-1.5 rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-baseline rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          {site_config.brand}
-          <span className="text-muted-foreground font-normal">
-            {site_config.product}
-          </span>
+          {site_config.product}
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">

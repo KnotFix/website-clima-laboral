@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 import { get_dictionary } from "@/lib/dictionaries";
 import { LOCALES, site_config } from "@/lib/site_config";
 
-export const alt = "Knotfix Clima";
+export const alt = site_config.product;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -75,10 +75,7 @@ export default async function Image({ params }) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", fontSize: 34 }}>
-          <span style={{ fontWeight: 700 }}>{site_config.brand}</span>
-          <span style={{ marginLeft: 12, color: "#9491a0" }}>
-            {site_config.product}
-          </span>
+          <span style={{ fontWeight: 700 }}>{site_config.product}</span>
         </div>
 
         <div

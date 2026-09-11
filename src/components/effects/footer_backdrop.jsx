@@ -123,17 +123,19 @@ export function FooterBackdrop({ class_name }) {
           normal abre agujeros entre las letras y el interlineado reserva un
           renglon de aire que no existe.
 
-          **Va en mayusculas, y el corte es la razon.** En caja baja "Clima"
-          tiene una `l` que sube y una `a` que se apoya en la linea de base: al
+          **Va en mayusculas, y el corte es la razon.** En caja baja "Censuma"
+          arranca con una `C` de alto de mayuscula y sigue en alto de x: al
           cortarla por abajo quedan alturas distintas y se lee como texto mal
           recortado. En mayusculas todas arrancan y terminan a la misma altura,
           asi que el corte se lee como una decision.
 
-          Es la tipografia mas grande del sitio: el segundo puesto es el
-          `text-6xl` del 404. */}
+          `16vw` sale del largo de la palabra: son siete letras, y a los `20vw`
+          que tenia "Clima" (cinco) se comia casi todo el ancho de un telefono.
+          El minimo de `4rem` (64px) la deja por encima del `text-6xl` (60px)
+          del 404, asi que sigue siendo la tipografia mas grande del sitio. */}
       <div className="absolute inset-x-0 -bottom-[0.3em] overflow-hidden">
         <div className="relative">
-          <p className="footer-word text-center text-[clamp(5rem,20vw,15rem)] leading-none font-black tracking-tighter uppercase select-none">
+          <p className="footer-word text-center text-[clamp(4rem,16vw,15rem)] leading-none font-black tracking-tighter uppercase select-none">
             {site_config.product}
           </p>
           {/* Los puntos, encima de las letras y solo sobre ellas. */}

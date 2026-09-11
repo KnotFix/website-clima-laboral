@@ -42,11 +42,11 @@ export async function generateMetadata({ params }) {
   return {
     // `template` es lo que le pone la marca al <title> de las paginas hijas:
     // una doc exporta "Satisfaccion y Clima" y sale "Satisfaccion y Clima —
-    // Knotfix Clima". `default` es el de la home, que no declara titulo propio
+    // Censuma". `default` es el de la home, que no declara titulo propio
     // y por eso NO pasa por la plantilla (si no, diria la marca dos veces).
     title: {
       default: dict.meta_title,
-      template: `%s — ${site_config.brand} ${site_config.product}`,
+      template: `%s — ${site_config.product}`,
     },
     description: dict.meta_description,
     metadataBase: new URL(site_config.domain),

@@ -2,8 +2,10 @@ export const LOCALES = ["es", "en"];
 export const DEFAULT_LOCALE = "es";
 
 export const site_config = {
+  // `brand` es el nombre comercial del titular: solo va en el ©. El nombre que
+  // se muestra en navbar, pie, titulos y tarjeta es `product`.
   brand: "Knotfix",
-  product: "Clima",
+  product: "Censuma",
   domain: "https://knotfix.com",
   // TODO: apuntar al registro real del SaaS cuando exista.
   signup_url: "#",

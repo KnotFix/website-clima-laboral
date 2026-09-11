@@ -8,9 +8,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Sitio web del SaaS de Clima Laboral — Knotfix
+# Sitio web de Censuma — SaaS de clima laboral de Knotfix
 
-Sitio web público (marketing) del SaaS de evaluación de clima laboral de Knotfix. **No** es el producto: es la página que lo vende.
+Sitio web público (marketing) de Censuma, el SaaS de evaluación de clima laboral de Knotfix. **No** es el producto: es la página que lo vende.
 
 El producto mide clima laboral con un núcleo universal de preguntas + preguntas personalizadas pegadas a nodos de un árbol organizacional. Su diferenciador es el **análisis estadístico**: resultados desglosados por segmento, ponderación por pesos, y comparar/unir filtros entre resultados. El flujo completo está en `../Clima laboral/flujo_completo_saas_clima.md` — esa es la fuente del copy.
 

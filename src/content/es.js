@@ -1,5 +1,5 @@
 const es = {
-  meta_title: "Knotfix Clima — Evaluación de clima laboral por segmento",
+  meta_title: "Censuma — Evaluación de clima laboral por segmento",
   meta_description:
     "Medí el clima y la satisfacción laboral por segmento, no por promedio. Cruzá filtros y compará resultados entre áreas y en el tiempo.",
 
@@ -431,7 +431,7 @@ const es = {
   // largo en el diccionario lo vuelve inmanejable a la décima página.
   docs_index_title: "Documentación",
   docs_index_body:
-    "Cómo funciona Clima por dentro: los conceptos que hay que tener claros para leer un resultado, y las guías de cada módulo.",
+    "Cómo funciona Censuma por dentro: los conceptos que hay que tener claros para leer un resultado, y las guías de cada módulo.",
   docs_all_pages: "Todas las páginas",
   docs_on_this_page: "En esta página",
   docs_prev: "Anterior",
@@ -450,7 +450,7 @@ const es = {
   // ofrece desde el índice de la documentación.
   changelog_title: "Novedades",
   changelog_body:
-    "Qué cambió en Clima y cuándo. Lo más nuevo arriba; las entradas viejas no se corrigen.",
+    "Qué cambió en Censuma y cuándo. Lo más nuevo arriba; las entradas viejas no se corrigen.",
   changelog_hint: "¿Buscás qué cambió y cuándo?",
 
   legal_version: "Versión",

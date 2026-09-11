@@ -69,11 +69,8 @@ export function Footer({ lang, dict, section_base = "" }) {
       <Container class_name="relative">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="flex items-baseline gap-1.5 text-base font-semibold tracking-tight">
-              {site_config.brand}
-              <span className="font-normal text-muted-foreground">
-                {site_config.product}
-              </span>
+            <p className="text-base font-semibold tracking-tight">
+              {site_config.product}
             </p>
             <p className="mt-2 max-w-xs text-sm text-muted-foreground">
               {dict.footer_tagline}

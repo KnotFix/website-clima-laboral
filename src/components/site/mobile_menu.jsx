@@ -27,7 +27,7 @@ export function MobileMenu({ lang, dict, section_base = "" }) {
       </SheetTrigger>
       <SheetContent side="right" className="w-72">
         <SheetHeader>
-          <SheetTitle className="text-left">{site_config.brand}</SheetTitle>
+          <SheetTitle className="text-left">{site_config.product}</SheetTitle>
         </SheetHeader>
         {/* Etiqueta propia: si este nav y el de escritorio comparten nombre
             accesible, un lector de pantalla lista dos landmarks identicos. */}

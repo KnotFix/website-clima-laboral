@@ -1,5 +1,5 @@
 const en = {
-  meta_title: "Knotfix Clima — Workplace climate measured by segment",
+  meta_title: "Censuma — Workplace climate measured by segment",
   meta_description:
     "Measure workplace climate and job satisfaction by segment, not by average. Combine filters and compare results across teams and over time.",
 
@@ -431,7 +431,7 @@ const en = {
   // in the dictionary becomes unmanageable by the tenth page.
   docs_index_title: "Documentation",
   docs_index_body:
-    "How Clima works underneath: the concepts you need to read a result correctly, and the guides for each module.",
+    "How Censuma works underneath: the concepts you need to read a result correctly, and the guides for each module.",
   docs_all_pages: "All pages",
   docs_on_this_page: "On this page",
   docs_prev: "Previous",
@@ -450,7 +450,7 @@ const en = {
   // docs index live here.
   changelog_title: "What's new",
   changelog_body:
-    "What changed in Clima and when. Newest first; older entries are not rewritten.",
+    "What changed in Censuma and when. Newest first; older entries are not rewritten.",
   changelog_hint: "Looking for what changed, and when?",
 
   legal_version: "Version",

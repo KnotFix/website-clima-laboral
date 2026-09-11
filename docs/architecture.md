@@ -25,7 +25,7 @@ src/
     [lang]/
       layout.js                 <html lang>, fuentes, tema, <PageGrain>.
                                 El title lleva `template`: de ahi sale que las
-                                docs terminen en "— Knotfix Clima"      [programmer]
+                                docs terminen en "— Censuma"            [programmer]
       opengraph-image.js        la tarjeta de 1200x630 que se ve al pegar un
                                 enlace. Una por idioma; las rutas hijas la
                                 heredan                                 [programmer]
@@ -2942,13 +2942,15 @@ lado del repo.
 > elección de `.org-canvas::before`, el precedente de trama local del repo. Y va
 > a 18px y no a 28: más cerrada se lee como puntillismo, más abierta como reja.
 
-> **La palabra va en mayúsculas, y el corte es la razón.** En caja baja "Clima"
-> tiene una `l` que sube y una `a` que se apoya en la línea de base: cortada por
+> **La palabra va en mayúsculas, y el corte es la razón.** En caja baja "Censuma"
+> arranca con una `C` de alto de mayúscula y sigue en alto de x: cortada por
 > abajo quedan alturas distintas y se lee como texto mal recortado. En mayúsculas
 > todas arrancan y terminan a la misma altura y el corte se lee como una
 > decisión. **La corta el `overflow-hidden` del `<footer>`**, no un recorte
 > propio. Es la primera tipografía gigante del sitio: hasta acá el tamaño más
-> grande era el `text-6xl` del 404.
+> grande era el `text-6xl` del 404. Con el cambio a "Censuma" (siete letras en
+> vez de las cinco de "Clima") pasó de `clamp(5rem,20vw,15rem)` a
+> `clamp(4rem,16vw,15rem)`, para no comerse el ancho de un teléfono.
 
 > **Las posiciones de las esferas van en `style` y no en clases.** Son geometría
 > y se leen mejor como números, pero además dependen del JIT: comprobado con el
@@ -3229,7 +3231,7 @@ lateral sin tirar un solo error.
 `security-and-data.mdx` estaba escrita y terminada **en los dos idiomas** y no
 estaba en `DOCS_NAV`, así que `is_doc_slug` la rechazaba y la ruta devolvía 404.
 La encontró el test de huérfanos. Se registró en el grupo **Cuenta**: no se lee
-para aprender a usar Clima, la lee el área de seguridad, de TI o de legal que
+para aprender a usar Censuma, la lee el área de seguridad, de TI o de legal que
 tiene que aprobar la herramienta — el mismo momento en que se lee "Cuenta y
 plan". Si el criterio editorial es otro, se mueve.
 

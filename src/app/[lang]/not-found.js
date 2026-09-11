@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/site/container";
 import { Button } from "@/components/ui/button";
-import { DEFAULT_LOCALE } from "@/lib/site_config";
+import { DEFAULT_LOCALE, site_config } from "@/lib/site_config";
 
 export default function NotFound() {
   return (
@@ -13,7 +13,7 @@ export default function NotFound() {
             404
           </p>
           <Button asChild className="mt-8">
-            <Link href={`/${DEFAULT_LOCALE}`}>Knotfix</Link>
+            <Link href={`/${DEFAULT_LOCALE}`}>{site_config.product}</Link>
           </Button>
         </div>
       </Container>

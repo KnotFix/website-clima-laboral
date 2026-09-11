@@ -28,8 +28,8 @@ export const DOCS_NAV = [
     title: { es: "Empezar", en: "Getting started" },
     items: [
       {
-        slug: "what-is-clima",
-        title: { es: "Qué es Clima", en: "What Clima is" },
+        slug: "what-is-censuma",
+        title: { es: "Qué es Censuma", en: "What Censuma is" },
       },
       {
         slug: "first-study",
@@ -125,7 +125,7 @@ export const DOCS_NAV = [
   },
   {
     // Administracion, no producto. Va casi al final porque nadie la lee para
-    // aprender a usar Clima — se llega cuando hay que contratar, cuando un tope
+    // aprender a usar Censuma — se llega cuando hay que contratar, cuando un tope
     // frena algo, o cuando el area de compras pregunta.
     title: { es: "Cuenta", en: "Account" },
     items: [
@@ -138,7 +138,7 @@ export const DOCS_NAV = [
         // area de seguridad, TI o legal que tiene que aprobar la herramienta
         // antes de que la compren. Por eso va en "Cuenta" y no en "Conceptos":
         // se lee en el mismo momento que "Cuenta y plan", no para aprender a
-        // usar Clima.
+        // usar Censuma.
         //
         // Estuvo escrita en los dos idiomas y FUERA de esta lista hasta el
         // 2026-08-18, sin rutear (`dynamicParams = false` responde 404) y sin

@@ -278,7 +278,7 @@ Dos reglas de contenido que valen para toda entrada futura:
 
 ```
 Empezar
-✓ Qué es Clima y qué mide                        what-is-clima
+✓ Qué es Censuma y qué mide                        what-is-censuma
 ✓ Tu primer estudio                              first-study
 ✓ Aplicar la encuesta: el kiosco                 kiosk
 ✓ Roles y permisos: quién puede hacer qué        roles
