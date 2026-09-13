@@ -27,6 +27,14 @@ export const site_config = {
 // hero y final_cta; el destino es la raiz de la app (ver arriba).
 site_config.signup_url = `${site_config.app_url}/`;
 
+// El enlace «Precios» del navbar. El sitio NO publica una tabla de precios
+// (decision del 2026-09-13: se probo una seccion con las cuatro fichas y se
+// descarto): los planes se ven en la pantalla de registro del producto, que es
+// la que manda el dia que alguien contrata, y tener dos copias es tener una
+// desactualizada. Es la unica salida del sitio que va a `/registro` y no a la
+// raiz de la app: quien busca precios todavia no tiene cuenta.
+site_config.register_url = `${site_config.app_url}/registro`;
+
 export function is_locale(value) {
   return LOCALES.includes(value);
 }

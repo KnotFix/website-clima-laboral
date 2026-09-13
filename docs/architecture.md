@@ -370,6 +370,10 @@ nav_cta            "Empezar"
 nav_docs           el link a la documentacion. SUELTO y no dentro de
                    nav_links: esa lista son anclas y NavLinks les saca el id
                    cortando el "#". Ver documentation.md
+nav_pricing        «Precios». Tambien SUELTO: no es un ancla sino el registro
+                   del producto (site_config.register_url), que es donde se
+                   ven los planes. El sitio NO publica tabla de precios
+                   (2026-09-13): dos copias es una desactualizada
 docs_*             el chrome de la seccion de docs (indice, plegado de movil,
                    "En esta pagina", anterior/siguiente). La PROSA vive en
                    src/content/docs/**.mdx, nunca aca

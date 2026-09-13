@@ -51,6 +51,24 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
               vuelven a ser inline y el gap no aplica. */}
           <NavLinks dict={dict} section_base={section_base} class_name="flex" />
 
+          {/* **«Precios» no es una seccion del sitio: es el registro del
+              producto**, que es donde se ven los planes (ver
+              `site_config.register_url`). Por eso es un <a> y no un Link, va
+              fuera de `nav_links` como las docs, y no lleva el subrayado de
+              activo: nunca puede estarlo. Va entre las anclas y las docs
+              porque sigue siendo parte de "que es esto", antes de "como se
+              usa". */}
+          <a
+            href={site_config.register_url}
+            className={cn(
+              "nav-key relative rounded-md px-3 py-2 text-sm",
+              "text-muted-foreground hover:text-foreground",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            )}
+          >
+            {dict.nav_pricing}
+          </a>
+
           {/* **El enlace a las docs NO entra a `nav_links`, y no es una
               cuestion de orden.** Todos los items de esa lista son anclas, y
               `NavLinks` les saca el id con `section_id_of`, que corta el "#".

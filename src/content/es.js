@@ -13,6 +13,9 @@ const es = {
   // Va SUELTA y no dentro de `nav_links`: los items de esa lista son anclas de
   // la home y `NavLinks` les saca el id cortando el "#". Ver `navbar.jsx`.
   nav_docs: "Documentación",
+  // También SUELTA, y por lo mismo: no es un ancla, es el registro del
+  // producto, que es donde se ven los planes. Ver `site_config.register_url`.
+  nav_pricing: "Precios",
 
   // Hero
   hero_title: "El clima de tu empresa, medido por quienes lo viven",

@@ -13,6 +13,10 @@ const en = {
   // Kept OUT of `nav_links`: the items in that list are anchors on the home
   // page and `NavLinks` derives their id by cutting the "#". See `navbar.jsx`.
   nav_docs: "Docs",
+  // Also kept OUT, for the same reason: it is not an anchor but the product's
+  // sign-up screen, which is where the plans are shown. See
+  // `site_config.register_url`.
+  nav_pricing: "Pricing",
 
   // Hero
   hero_title: "Your company's climate, measured by the people who live it",
