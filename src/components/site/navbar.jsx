@@ -3,6 +3,7 @@ import Link from "next/link";
 import { GlassBar } from "@/components/effects/glass_bar";
 import { BrandLink } from "@/components/site/brand_link";
 import { LangSwitch } from "@/components/site/lang_switch";
+import { Marca } from "@/components/site/marca";
 import { MobileMenu } from "@/components/site/mobile_menu";
 import { NavLinks } from "@/components/site/nav_links";
 import { ThemeToggle } from "@/components/site/theme_toggle";
@@ -40,8 +41,9 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
         {/* Sube al tope aunque ya estemos en la home: ver brand_link.jsx. */}
         <BrandLink
           lang={lang}
-          class_name="flex items-baseline rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          class_name="flex items-center gap-2 rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
+          <Marca class_name="size-6" />
           {site_config.product}
         </BrandLink>
 
