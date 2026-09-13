@@ -96,15 +96,35 @@ export function Hero({ dict }) {
           <div className="mx-auto max-w-6xl text-center">
             {/* El titular entra palabra por palabra; el subtitulo y los CTA
               siguen la misma linea de tiempo. Los retrasos continuan la del
-              titular en vez de arrancar de cero: con 8 piezas cada 0.075s, la
-              ultima sale a los 0.525s, asi que el subtitulo entra despues y
+              titular en vez de arrancar de cero: con 12 piezas cada 0.075s, la
+              ultima sale a los 0.825s, asi que el subtitulo entra despues y
               los CTA al final. Si aparecieran de golpe mientras el titular
-              todavia se esta armando, se leerian como otro bloque. */}
+              todavia se esta armando, se leerian como otro bloque. Si cambia
+              la cantidad de piezas del titular, estos retrasos se corren con
+              ella. */}
             <HeroTitle dict={dict} />
 
-            <Reveal reveal_delay={0.65}>
+            {/* El subtitulo va en gris y las palabras con `tone: "strong"`
+              suben al color del texto con un punto mas de peso: resaltan sin
+              competir con el titular, que es semibold y mas grande. El espacio
+              va DENTRO de cada pieza, como en `AccentTitle`. */}
+            <Reveal reveal_delay={0.95}>
               <p className="mx-auto mt-6 max-w-xl text-xl leading-relaxed text-muted-foreground text-pretty">
-                {dict.hero_subtitle}
+                {dict.hero_subtitle_segments.map((segment, index) => (
+                  <span
+                    key={index}
+                    className={
+                      segment.tone === "strong"
+                        ? "font-medium text-foreground"
+                        : undefined
+                    }
+                  >
+                    {segment.text}
+                    {index < dict.hero_subtitle_segments.length - 1
+                      ? " "
+                      : null}
+                  </span>
+                ))}
               </p>
             </Reveal>
 
@@ -113,7 +133,7 @@ export function Hero({ dict }) {
               mas de alto que el secundario porque lleva el plato, y los dos
               tienen que quedar centrados entre si, no alineados por el pie. */}
             <Reveal
-              reveal_delay={0.8}
+              reveal_delay={1.1}
               class_name="mt-9 flex flex-col justify-center gap-3 sm:flex-row sm:items-center"
             >
               {/* El plato es un envoltorio y no un ::before del boton: tiene que

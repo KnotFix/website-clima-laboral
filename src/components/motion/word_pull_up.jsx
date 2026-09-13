@@ -97,7 +97,7 @@ export function WordPullUp({
  * **`trailing_space` mete un espacio duro DENTRO de la pieza**, y esa es la
  * separacion entre palabras — no un `gap` del contenedor. Con `gap` el hueco
  * existe en el layout pero no en el texto: `textContent` sale
- * "Equiposcomprometidosalcanzan" y un lector de pantalla lo lee como una sola
+ * "Elclimadetuempresa" y un lector de pantalla lo lee como una sola
  * palabra. Con el espacio adentro, la frase se lee y se copia bien.
  *
  * Va afuera del contenido y no adentro, asi que en las fichas (`MoodFace`,

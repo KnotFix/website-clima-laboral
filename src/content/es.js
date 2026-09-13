@@ -15,21 +15,36 @@ const es = {
   nav_docs: "Documentación",
 
   // Hero
-  hero_title: "Equipos comprometidos alcanzan siempre resultados extraordinarios",
-  // El titular partido en piezas, para poder apagar una palabra y meter las
-  // fichas en medio. Seis palabras y UNA sola gris. `hero_title` se conserva
-  // porque es la version plana que usan los metadatos.
+  hero_title: "El clima de tu empresa, medido por quienes lo viven",
+  // El titular partido en piezas, para poder apagar palabras y meter las
+  // fichas en medio. Cada ficha va pegada a lo que muestra: el clima junto a
+  // "El clima" y las caras junto a "quienes lo viven". Gris solo el nexo
+  // ("medido por"), que las dos mitades con peso se lean solas. `hero_title`
+  // se conserva porque es la version plana que usan los metadatos.
   hero_title_segments: [
-    { text: "Equipos" },
-    { face: true },
-    { text: "comprometidos" },
-    { text: "alcanzan" },
-    { text: "siempre", tone: "muted" },
-    { text: "resultados" },
+    { text: "El" },
+    { text: "clima" },
     { weather: true },
-    { text: "extraordinarios", tone: "muted" },
+    { text: "de" },
+    { text: "tu" },
+    { text: "empresa," },
+    { text: "medido", tone: "muted" },
+    { text: "por", tone: "muted" },
+    { face: true },
+    { text: "quienes" },
+    { text: "lo" },
+    { text: "viven." },
   ],
-  hero_subtitle: "Medí el clima y satisfacción laboral por segmento.",
+  // En piezas como el titular: `tone: "strong"` sube la palabra al color del
+  // texto sobre el gris del resto. Son las dos cosas que se miden; mas palabras
+  // resaltadas y el subtitulo deja de tener fondo contra el cual resaltar.
+  hero_subtitle_segments: [
+    { text: "Medí el" },
+    { text: "clima", tone: "strong" },
+    { text: "y" },
+    { text: "satisfacción", tone: "strong" },
+    { text: "laboral por segmento." },
+  ],
   hero_cta_primary: "Empezar gratis",
   hero_cta_secondary: "Ver cómo funciona",
 
@@ -360,6 +375,71 @@ const es = {
     },
   },
 
+  // Sección 4b — los reportes que salen del análisis
+  //
+  // Va pegada al análisis y en su misma banda: es su consecuencia. Primero se
+  // cruza y se compara, y recién ahí tiene sentido decir en qué formato te
+  // llevás eso.
+  reports_title_segments: [
+    { text: "Todo" },
+    { text: "lo" },
+    { text: "que" },
+    { text: "cruzás," },
+    { text: "en" },
+    { text: "un", tone: "brand" },
+    { text: "reporte", tone: "brand" },
+  ],
+  reports_body:
+    "El informe sale con los cruces que hiciste: los filtros aplicados, el resultado de cada segmento y las comparaciones. Lo descargás en XLSX, PDF o HTML, según qué vayas a hacer con él.",
+  // Los tres formatos, en el orden en que se muestran. El cuerpo dice para qué
+  // sirve cada uno, no qué es un XLSX. El icono va por posición en
+  // `reports.jsx`: sacar un formato es sacar también su icono.
+  reports_formats: [
+    {
+      name: "XLSX",
+      body: "La tabla completa, para seguir cruzando en tu planilla.",
+    },
+    {
+      name: "PDF",
+      body: "El informe armado, listo para imprimir o presentar a dirección.",
+    },
+    {
+      name: "HTML",
+      body: "El reporte navegable, con los gráficos y los filtros que aplicaste.",
+    },
+  ],
+  // Las capturas del entregable, en el MISMO orden que `reports_formats`: la
+  // planilla, una página del PDF y el reporte abierto en el navegador.
+  //
+  // **Van con UNA sola imagen y no en par claro/oscuro**, que es la única
+  // excepción del sitio: un export no tiene tema — un PDF es blanco en las dos
+  // pantallas—, así que no hay versión oscura que sacar. `reports.jsx` le baja
+  // apenas el brillo en oscuro para que el papel no encandile.
+  //
+  // Las dos primeras muestran además **un segmento oculto por no llegar al
+  // mínimo de respuestas** ("Distribución", con rayas en vez de números). Es la
+  // promesa del umbral que el sitio hace en el análisis y en el FAQ, cumplida
+  // dentro del entregable — por eso ninguna de las dos se recorta.
+  //
+  // El `alt` describe lo que se ve; el `caption` es el pie bajo la imagen.
+  reports_shots: [
+    {
+      src: "/shots/reporte_xlsx.png",
+      alt: "El reporte abierto en una planilla de cálculo: una tabla por pregunta, con las respuestas de cada segmento repartidas entre Nada, Algo, Mucho y Completamente, y su porcentaje aceptable",
+      caption: "La planilla, pregunta por pregunta",
+    },
+    {
+      src: "/shots/reporte_pdf.png",
+      alt: "Una página del informe en PDF: la repartición de respuestas de una pregunta por segmento, con la cantidad de respuestas de cada uno, la tabla de conteos y un segmento que queda oculto por no llegar al mínimo",
+      caption: "El informe, listo para presentar",
+    },
+    {
+      src: "/shots/reporte_html.png",
+      alt: "El reporte en HTML abierto en el navegador: el índice de satisfacción laboral en 87.64 sobre 100 con 324 respuestas, y el resultado de cada categoría",
+      caption: "El reporte navegable",
+    },
+  ],
+
   // Sección 5 — escala
   scale_title_segments: [
     { text: "De" },
@@ -461,6 +541,9 @@ const es = {
   // venden solas por autoservicio: acá no hay nadie del otro lado para aclarar
   // una promesa de más. Precio, duración de la prueba y plazos concretos quedan
   // afuera a propósito, porque no están en el producto documentado.
+  // La capacitación al contratar es la excepción: no sale del producto sino de
+  // una decisión comercial (2026-09-11), y se repite en el CTA final. Si el
+  // compromiso cambia, cambia en los dos lugares.
   faq_title_segments: [
     { text: "Antes" },
     { text: "de" },
@@ -499,6 +582,11 @@ const es = {
         "El sistema te da una plantilla del árbol de tu empresa. Completás la nómina y la subís en la sección de nómina. Después elegís a quién medir y lanzás el estudio. No hay proyecto de implementación.",
     },
     {
+      question: "¿Nos capacitan para usarlo?",
+      answer:
+        "Sí. Al contratarnos te damos la capacitación incluida, de una: cómo armar la nómina, lanzar el estudio y leer los resultados por segmento.",
+    },
+    {
       question: "¿Tengo que hablar con alguien para probarlo?",
       answer: "No. Creás la cuenta y empezás.",
     },
@@ -513,7 +601,8 @@ const es = {
     { text: "esta", tone: "brand" },
     { text: "semana", tone: "brand" },
   ],
-  final_cta_body: "Creá tu cuenta, subí la nómina y medí.",
+  final_cta_body:
+    "Creá tu cuenta, subí la nómina y medí. Al contratarnos, la capacitación va incluida.",
   final_cta_button: "Empezar gratis",
 
   // Documentación. Acá va SOLO el chrome: los títulos y la prosa de cada

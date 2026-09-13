@@ -367,7 +367,7 @@ docs_*             el chrome de la seccion de docs (indice, plegado de movil,
                    src/content/docs/**.mdx, nunca aca
 hero_title             version PLANA, la que usan los metadatos
 hero_title_segments[]  { text, tone } | { face: true } | { weather: true }
-hero_subtitle
+hero_subtitle_segments[]  { text } | { text, tone: "strong" } — resalta clima y satisfaccion
 hero_cta_primary
 hero_cta_secondary
 hero_showcase          { shot, trend, goal, anonymity } — el panel bajo los CTA
@@ -401,6 +401,14 @@ weights_title      se parte por espacios para `BlurText`; el punto de una frase
                    el del problema paso a ser una sola pregunta
 weights_body
 weights_points[]   { title, body } — el titulo dice que hacés, el cuerpo que ganás
+reports_title_segments[] { text } | { text, tone: "brand" } — como los demás
+                   titulares de sección; lo pinta `AccentTitle`
+reports_body
+reports_formats[]  { name, body } — XLSX, PDF y HTML, en ese orden. El icono
+                   NO vive acá y va por posición, como los de la medición
+reports_shots[]    { src, alt, caption } — UNA sola imagen, no el par
+                   claro/oscuro del resto del sitio: un export no tiene tema.
+                   Es la única excepción, y está anotada en `reports.jsx`
 weights_shots      { scale_max, cross, weights, compare, threshold } — una
                    maqueta por punto, en el mismo orden. Cada una lleva su
                    propio `a11y`: son cuatro y describen cosas distintas, asi
@@ -1771,8 +1779,13 @@ entrando `0.44 / +63px`, dentro `1.0 / −28px`, saliendo `0 / −90px`.
 
 ```
 Hero → Problema → Medición → Planeta → Escala
-     → Cómo funciona → Análisis → Confidencialidad → CTA final
+     → Cómo funciona → Análisis → Reportes → FAQ → CTA final
 ```
+
+**Los reportes van pegados al análisis y comparten su banda**: son su
+consecuencia. Primero se cruza y se compara, y recién ahí tiene sentido decir en
+qué formato te llevás eso. Puestos antes serían una lista de formatos de un
+informe del que todavía no se sabe qué trae.
 
 El **problema va segundo**: primero se plantea que las encuestas de clima no
 cambian nada y recién después se afirma la solución. Planeta y escala van
@@ -2472,6 +2485,49 @@ como una ilustración de la página de marketing.
   las dos columnas, que es función del scroll y se deshace al subir.
 - Con `prefers-reduced-motion` se entregan armadas. Armarse es el efecto; el
   resultado es el contenido.
+
+### Los reportes: lo que sale del sistema
+
+Va **después del análisis y en su misma banda**, porque es su consecuencia: el
+cruce ya está hecho y esto dice en qué te lo llevás. El porqué del orden está
+arriba, en "El orden de la página".
+
+Son dos bloques bajo el titular:
+
+- **Los tres formatos, en una fila sin cajas** — XLSX, PDF y HTML, cada uno con
+  su icono hundido y una línea. Sin caja a propósito: abajo hay tres capturas
+  enmarcadas, y enmarcar también esto daría seis rectángulos iguales en la misma
+  pantalla.
+- **Tres capturas del entregable**, enmarcadas con el mismo relieve de tecla que
+  el resto del sitio (`.surface-key`), cada una con su pie. Entran de a una, de
+  izquierda a derecha, con `build_index`.
+
+Es lo único de la página que pone **capturas del entregable una al lado de la
+otra**. El análisis enfrenta texto y maqueta; la medición las pasa en un riel;
+acá el peso está en las imágenes, que es lo que la sección tiene para mostrar.
+
+> **Las capturas van con UNA imagen, y es la única excepción del sitio.** El
+> resto de las capturas viajan en par claro/oscuro porque son del producto, que
+> tiene los dos temas; un export no: la planilla, el PDF y el reporte en el
+> navegador son blancos en las dos pantallas y no hay versión oscura que sacar.
+> Lo único que cambia con el tema es el brillo, bajado un punto en oscuro para
+> que el papel no encandile.
+>
+> **Las tres salen del mismo estudio** —324 respuestas y los mismos segmentos en
+> las tres— y las dos primeras muestran además un
+> segmento oculto por no llegar al mínimo de respuestas. Eso no es un descarte:
+> es la promesa del umbral —la que hacen el análisis y el FAQ— cumplida dentro
+> del entregable, así que esas filas no se recortan al encuadrar.
+
+> **`id="reports"`, pero todavía no está en el menú.** El ancla existe y funciona;
+> sumarla al navbar es tocar `nav_links` en los dos idiomas y ahí el menú pasa a
+> cuatro entradas. Queda como decisión aparte.
+
+> **Esta sección corrió el costado del resplandor de las dos de abajo.** El lado
+> de `SectionGlow` alterna sección a sección —es lo que hace que los lóbulos se
+> crucen en el solape— así que meter una en el medio invierte a todas las que
+> siguen: el FAQ pasó a `left` y el CTA final a `right`. El `tint` de los
+> reportes es `0.85`, el escalón que quedaba libre entre el análisis y el FAQ.
 
 ### Los pasos: cuatro fichas clavadas en zigzag
 

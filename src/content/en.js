@@ -15,22 +15,36 @@ const en = {
   nav_docs: "Docs",
 
   // Hero
-  hero_title: "Engaged teams always achieve extraordinary results",
-  // The headline split into pieces, so one word can be dimmed and the tiles can
-  // sit in the middle. Six words and ONE grey. `hero_title` stays as the flat
-  // version metadata uses.
+  hero_title: "Your company's climate, measured by the people who live it",
+  // The headline split into pieces, so words can be dimmed and the tiles can
+  // sit in the middle. Each tile sits next to what it shows: the weather by
+  // "climate" and the faces by "the people who live it". Only the link
+  // ("measured by") is grey, so the two weighted halves read on their own.
+  // `hero_title` stays as the flat version metadata uses.
   hero_title_segments: [
-    { text: "Engaged" },
-    { face: true },
-    { text: "teams" },
-    { text: "always", tone: "muted" },
-    { text: "achieve" },
+    { text: "Your" },
+    { text: "company's" },
+    { text: "climate," },
     { weather: true },
-    { text: "extraordinary", tone: "muted" },
-    { text: "results" },
+    { text: "measured", tone: "muted" },
+    { text: "by", tone: "muted" },
+    { face: true },
+    { text: "the" },
+    { text: "people" },
+    { text: "who" },
+    { text: "live" },
+    { text: "it." },
   ],
-  hero_subtitle:
-    "Measure workplace climate and job satisfaction by segment.",
+  // In pieces like the headline: `tone: "strong"` lifts the word to the text
+  // colour over the grey of the rest. They are the two things being measured;
+  // highlight more and the subtitle has nothing left to stand out against.
+  hero_subtitle_segments: [
+    { text: "Measure workplace" },
+    { text: "climate", tone: "strong" },
+    { text: "and job" },
+    { text: "satisfaction", tone: "strong" },
+    { text: "by segment." },
+  ],
   hero_cta_primary: "Start free",
   hero_cta_secondary: "See how it works",
 
@@ -363,6 +377,70 @@ const en = {
     },
   },
 
+  // Section 4b — the reports that come out of the analysis
+  //
+  // It sits right after the analysis and shares its band: it is its
+  // consequence. First you cross and compare, and only then does it make sense
+  // to say what format you take that away in.
+  reports_title_segments: [
+    { text: "Everything" },
+    { text: "you" },
+    { text: "cross," },
+    { text: "in" },
+    { text: "one", tone: "brand" },
+    { text: "report", tone: "brand" },
+  ],
+  reports_body:
+    "The report comes out with the cross-sections you built: the filters applied, the result for each segment and the comparisons. Download it as XLSX, PDF or HTML, depending on what you'll do with it.",
+  // The three formats, in the order they are shown. The body says what each one
+  // is good for, not what an XLSX is. The icon goes by position in
+  // `reports.jsx`: dropping a format means dropping its icon too.
+  reports_formats: [
+    {
+      name: "XLSX",
+      body: "The full table, to keep slicing it in your spreadsheet.",
+    },
+    {
+      name: "PDF",
+      body: "The finished report, ready to print or present to leadership.",
+    },
+    {
+      name: "HTML",
+      body: "The report as a page, with the charts and the filters you applied.",
+    },
+  ],
+  // The captures of the deliverable, in the SAME order as `reports_formats`:
+  // the spreadsheet, a page of the PDF, and the report open in a browser.
+  //
+  // **They ship as ONE image, not as a light/dark pair** — the only exception on
+  // the site: an export has no theme, a PDF is white on both screens, so there
+  // is no dark version to ship. `reports.jsx` dims them slightly in dark so the
+  // paper doesn't glare.
+  //
+  // The first two also show **a segment hidden for falling below the minimum
+  // number of responses** ("Distribución", dashes instead of numbers). It is the
+  // threshold promise the site makes in the analysis and the FAQ, kept inside
+  // the deliverable — which is why neither one is cropped out.
+  //
+  // The `alt` describes what is on screen; the `caption` is the line under it.
+  reports_shots: [
+    {
+      src: "/shots/reporte_xlsx.png",
+      alt: "The report open in a spreadsheet: one table per question, with each segment's responses split across Nada, Algo, Mucho and Completamente, and its acceptable percentage",
+      caption: "The spreadsheet, question by question",
+    },
+    {
+      src: "/shots/reporte_pdf.png",
+      alt: "A page of the PDF report: how one question's answers break down per segment, with each segment's response count, the counts table, and one segment hidden for falling below the minimum",
+      caption: "The report, ready to present",
+    },
+    {
+      src: "/shots/reporte_html.png",
+      alt: "The HTML report open in a browser: the job satisfaction index at 87.64 out of 100 from 324 responses, and the result for each category",
+      caption: "The report as a page",
+    },
+  ],
+
   // Section 5 — scale
   scale_title_segments: [
     { text: "From" },
@@ -463,6 +541,9 @@ const en = {
   // side to walk back an over-promise. Pricing, trial length and concrete
   // timelines are deliberately left out, because they are not in the documented
   // product.
+  // Training on hiring is the exception: it comes from a business decision
+  // (2026-09-11), not from the product, and it is repeated in the final CTA.
+  // If the commitment changes, it changes in both places.
   faq_title_segments: [
     { text: "Before" },
     { text: "you" },
@@ -500,6 +581,11 @@ const en = {
         "The system gives you a template of your company tree. You fill in the roster and upload it in the roster section. Then you pick who to measure and launch the study. There is no implementation project.",
     },
     {
+      question: "Do you train us to use it?",
+      answer:
+        "Yes. When you hire us, training is included from the start: how to build the roster, launch the study, and read results by segment.",
+    },
+    {
       question: "Do I have to talk to someone to try it?",
       answer: "No. You create the account and start.",
     },
@@ -514,7 +600,8 @@ const en = {
     { text: "this", tone: "brand" },
     { text: "week", tone: "brand" },
   ],
-  final_cta_body: "Create your account, upload your roster, and measure.",
+  final_cta_body:
+    "Create your account, upload your roster, and measure. Training is included when you hire us.",
   final_cta_button: "Start free",
 
   // Docs. Only the chrome lives here: the titles and prose of each page live

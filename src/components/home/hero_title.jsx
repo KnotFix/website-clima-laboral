@@ -19,8 +19,8 @@ import { WordPullUp, WordPullUpPiece } from "@/components/motion/word_pull_up";
  *
  * La medida es mas angosta que el bloque: a lo ancho del contenedor las lineas
  * se hacen tan largas que el ojo pierde el renglon. El wrap lo decide este
- * max-w, no el tamano de letra. Y seis palabras largas mas dos fichas no
- * entran en dos lineas a text-7xl: el tamano es lo que cede, no el copy, que
+ * max-w, no el tamano de letra. Y la frase entera mas dos fichas no
+ * entra en dos lineas a text-7xl: el tamano es lo que cede, no el copy, que
  * un titular de tres lineas empuja los CTA fuera de la primera pantalla.
  */
 export function HeroTitle({ dict }) {
@@ -30,9 +30,9 @@ export function HeroTitle({ dict }) {
     // en el texto, y el titular sale pegado al leerlo o copiarlo. `gap-y` se
     // queda: eso separa renglones, no palabras.
     // `max-w-5xl` y no `4xl`: el espacio real es un poco mas ancho que el
-    // `gap-x` de antes, y con la medida vieja la ficha del clima se pasaba al
-    // arranque de la tercera linea. Con esta vuelve al final de la segunda, que
-    // es donde tiene que estar — incrustada en la frase, no encabezando.
+    // `gap-x` de antes, y con la medida vieja las fichas podian caer al
+    // arranque de un renglon. Tienen que quedar incrustadas en la frase, no
+    // encabezando.
     <WordPullUp class_name="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-y-1 text-4xl tracking-tight text-balance sm:text-5xl lg:text-6xl">
       {dict.hero_title_segments.map((segment, index) => {
         const trailing_space = index < dict.hero_title_segments.length - 1;

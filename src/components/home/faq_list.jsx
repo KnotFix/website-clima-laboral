@@ -55,7 +55,7 @@ export function FaqList({ items, class_name }) {
           //   El titular de la seccion si conserva su entrada: aparece una vez y
           //   se queda. La diferencia es que estas filas son **controles**, no
           //   texto de lectura. Un acordeon es un indice: se recorre con la
-          //   vista de arriba abajo buscando la pregunta propia, y seis
+          //   vista de arriba abajo buscando la pregunta propia, y unos
           //   renglones que se acomodan de a uno mientras se los busca hacen
           //   justo lo contrario de lo que un indice tiene que hacer.
           //
@@ -65,7 +65,7 @@ export function FaqList({ items, class_name }) {
           <li key={item.question}>
             {/* El `<h3>` va POR FUERA del boton y no adentro. Un encabezado
                   metido adentro de un boton deja de ser un hito de navegacion:
-                  quien recorre la pagina por encabezados se pierde las seis
+                  quien recorre la pagina por encabezados se pierde todas las
                   preguntas y solo encuentra el titulo de la seccion. */}
             <h3>
               <button

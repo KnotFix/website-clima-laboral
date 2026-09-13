@@ -6,6 +6,7 @@ import { HowItWorks } from "@/components/home/how_it_works";
 import { Measurement } from "@/components/home/measurement";
 import { WorldReach } from "@/components/home/world_reach";
 import { Problem } from "@/components/home/problem";
+import { Reports } from "@/components/home/reports";
 import { PinnedChapter } from "@/components/motion/pinned_chapter";
 import { ScrollLift } from "@/components/motion/scroll_lift";
 import { ScaleTree } from "@/components/home/scale_tree";
@@ -109,13 +110,28 @@ export default async function HomePage({ params }) {
             <HowItWorks dict={dict} />
           </SectionGlow>
 
+          {/* **El analisis y los reportes comparten banda** porque son un solo
+              capitulo: primero se cruza y se compara, y despues se muestra en
+              que te llevas eso. Los reportes puestos antes serian una lista de
+              formatos de un informe del que todavia no se sabe que trae.
+
+              **Al meter esta seccion se corrio el costado del resplandor de
+              las dos que siguen.** El lado alterna seccion a seccion —es lo que
+              hace que los lobulos se crucen en el solape— asi que una seccion
+              nueva en el medio invierte a todas las de abajo: el FAQ paso de
+              derecha a izquierda y el CTA de izquierda a derecha. Los `tint`
+              siguen subiendo hacia el pie, con los reportes en el escalon que
+              quedaba libre entre el analisis y el FAQ. */}
           <div className="section-band">
             <SectionGlow side="left" tint={0.8}>
               <WeightsFilters dict={dict} />
             </SectionGlow>
+            <SectionGlow side="right" tint={0.85}>
+              <Reports dict={dict} />
+            </SectionGlow>
           </div>
 
-          <SectionGlow side="right" tint={0.9}>
+          <SectionGlow side="left" tint={0.9}>
             <Faq dict={dict} />
           </SectionGlow>
 
@@ -142,7 +158,7 @@ export default async function HomePage({ params }) {
               conecta esta seccion con la anterior— quedaria medida contra otra
               caja. */}
           <ScrollLift lift={FOOTER_LIFT} span={FOOTER_SPAN}>
-            <SectionGlow side="left" tint={1}>
+            <SectionGlow side="right" tint={1}>
               <FinalCta dict={dict} />
             </SectionGlow>
           </ScrollLift>
