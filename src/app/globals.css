@@ -598,6 +598,18 @@
   .atmo-field {
     opacity: calc(var(--atmo-strength) * 5);
   }
+
+  /* **El grano tambien se apaga.** Es una capa FIJA a pantalla completa con
+     `mix-blend-mode`, o sea que el compositor tiene que volver a mezclarla
+     contra la pagina entera en cada cuadro del scroll — y encima se traslada
+     doce veces por segundo. En escritorio la GPU lo absorbe; en un telefono
+     es de lo que mas se siente como scroll trabado. La pantalla chica ademas
+     le da menos superficie plana que arreglar. `display: none` y no opacidad
+     0: a opacidad 0 la mezcla se compone igual. El bucle que la mueve se
+     frena con la misma consulta en `page_grain.jsx`. */
+  .page-grain {
+    display: none;
+  }
 }
 
 /* ---- El fondo del pie --------------------------------------------------

@@ -113,9 +113,13 @@ export function HeroShowcase({ dict }) {
               sizes="(max-width: 1200px) 100vw, 1136px"
               // Es la imagen mas grande arriba del pliegue: la candidata a LCP.
               // `fetchPriority` y NO `preload`: con dos imagenes por tema,
-              // `preload` bajaria las dos. Asi el `lazy` por defecto sigue
-              // descartando la que esta en `display: none`.
+              // `preload` bajaria las dos. `eager` en vez del `lazy` por
+              // defecto: con `lazy` la request no salia hasta que el navegador
+              // decidia que la imagen estaba cerca, y en movil eso costaba
+              // 1,8 s de LCP. `eager` sigue pidiendo solo la que se ve — la
+              // del otro tema esta en `display: none` y no se baja.
               fetch_priority="high"
+              loading="eager"
             />
           </div>
         </div>

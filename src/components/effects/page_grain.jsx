@@ -47,6 +47,11 @@ export function PageGrain() {
     // movimiento. Lo que molesta es el hervor, y es lo unico que se va.
     if (reduced_motion) return;
 
+    // En movil la capa esta apagada por CSS (`.page-grain`, bloque de 767px de
+    // `globals.css`), asi que correr el mosaico seria pedirle un cuadro al
+    // navegador doce veces por segundo para mover algo que no se pinta. Se
+    // escucha el cambio para acompanar a la ventana si crece o se achica.
+    const phone = window.matchMedia(PHONE_QUERY);
     const texture = texture_ref.current;
     if (!texture) return;
 
@@ -69,8 +74,21 @@ export function PageGrain() {
       texture.style.transform = `translate3d(${-x}px, ${-y}px, 0)`;
     };
 
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
+    const start = () => {
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+    const stop = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    };
+    const on_change = () => (phone.matches ? stop() : start());
+
+    on_change();
+    phone.addEventListener("change", on_change);
+    return () => {
+      phone.removeEventListener("change", on_change);
+      stop();
+    };
   }, [reduced_motion]);
 
   return (
@@ -98,6 +116,13 @@ export function PageGrain() {
 
 /** Lado del mosaico de ruido, en px. Es tambien el tope del corrimiento. */
 const TILE_SIZE = 160;
+
+/**
+ * Debajo de este ancho el grano no se pinta. Es el mismo corte que apaga los
+ * blurs de la atmosfera en `globals.css` (767px): un solo umbral de "esto es
+ * un telefono" para todo el sitio, no uno por efecto.
+ */
+const PHONE_QUERY = "(max-width: 767px)";
 
 /** 12 cuadros por segundo — ver arriba por que no son 60. */
 const FRAME_MS = 1000 / 12;

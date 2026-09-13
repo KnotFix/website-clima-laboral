@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 
 import { useReducedMotionSafe } from "@/components/motion/use_reduced_motion";
 import { cn } from "@/lib/utils";
@@ -32,11 +32,19 @@ const FADE = 0.8;
  * Se exporta porque el hero la usa suelta, sin el ciclo: `sizes` cambia con el
  * ancho al que se pinta, y `fetch_priority` es para cuando la captura es la
  * candidata a LCP — nunca `preload`, que bajaria las dos.
+ *
+ * `loading` va aparte de `fetch_priority` porque son dos decisiones: la
+ * prioridad dice cuanto empuja la request UNA VEZ pedida, y `lazy` —el default
+ * de next/image— dice que no se pida hasta que el elemento se acerque a la
+ * ventana. Para la candidata a LCP eso segundo es un retraso puro (medido en
+ * movil: 1,8 s de espera antes de que la imagen empiece a bajar), asi que el
+ * hero pasa `"eager"`. Sigue sin ser `preload`: `eager` pide solo la que se ve.
  */
 export function ThemedShot({
   shot,
   sizes = "(min-width: 1024px) 30vw, 100vw",
   fetch_priority,
+  loading,
 }) {
   // `object-top` y no el centro: lo que cuenta de un panel esta arriba —el
   // titulo del bloque y el primer grafico—, y la ficha es mas ancha que alta,
@@ -45,6 +53,7 @@ export function ThemedShot({
     fill: true,
     sizes,
     fetchPriority: fetch_priority,
+    loading,
   };
   const fit = "object-cover object-top";
 
@@ -82,25 +91,34 @@ export function ThemedShot({
  * porque son capturas de un producto que tiene los dos: la clara sobre el sitio
  * en oscuro es un rectangulo blanco que encandila, y al reves la oscura se
  * recorta como un agujero. Ver `ThemedShot`.
+ *
+ * **El reloj corre solo mientras la caja se ve.** Hay varias de estas en la
+ * pagina y cada cruce es un `scale` sobre una imagen: fuera de pantalla es
+ * trabajo de composicion que nadie mira y que en un telefono se siente como
+ * scroll trabado y bateria. `useInView` sin `once`: al salir se para y al
+ * volver arranca de donde quedo. Mismo criterio que el globo, que pausa su
+ * bucle con un IntersectionObserver.
  */
 export function ImageCycle({ shots, class_name }) {
   const reduced_motion = useReducedMotionSafe();
+  const box_ref = useRef(null);
+  const in_view = useInView(box_ref, { amount: 0.2 });
   const [index, set_index] = useState(0);
 
   useEffect(() => {
-    if (reduced_motion || shots.length < 2) return;
+    if (reduced_motion || !in_view || shots.length < 2) return;
 
     const timer = setInterval(() => {
       set_index((current) => (current + 1) % shots.length);
     }, HOLD);
 
     return () => clearInterval(timer);
-  }, [reduced_motion, shots.length]);
+  }, [reduced_motion, in_view, shots.length]);
 
   const shown = reduced_motion ? shots[0] : shots[index];
 
   return (
-    <div className={cn("relative overflow-hidden", class_name)}>
+    <div ref={box_ref} className={cn("relative overflow-hidden", class_name)}>
       <AnimatePresence initial={false}>
         <motion.div
           key={shown.light}

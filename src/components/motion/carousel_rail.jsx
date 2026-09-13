@@ -47,9 +47,17 @@ export function CarouselRail({ children, rail_label }) {
           `inset-y-0` se resuelve contra `ChapterSlide`, que es `relative`. Por
           eso esto va suelto en un fragmento y no adentro de la banda. Las fichas
           si respetan el margen del contenedor — son contenido, no fondo. */}
+      {/* **Suelto, el grafico solo existe de `lg` para arriba.** Sin clavado
+          la capa cubre la diapositiva ENTERA con `preserveAspectRatio="none"`,
+          y a 390px de ancho esa diapositiva es el titular y el parrafo
+          apilados: los picos cruzaban el texto. Con movimiento reducido en
+          escritorio sigue entregandose dibujado entero, que era el trato. */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-0"
+        className={cn(
+          "pointer-events-none absolute inset-y-0 left-0",
+          !is_pinned && "hidden lg:block",
+        )}
         style={{
           width: is_pinned ? chart_width : "100%",
           x: is_pinned ? chart_x : undefined,

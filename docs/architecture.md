@@ -347,7 +347,7 @@ docs/
 | `FLOAT_RANGE` | const number | tramo de scroll, en px, sobre el que `depth` se recorre entero. En `scroll_float.jsx` |
 | `SPARK_FLOOR` / `SPARK_CEIL` | const number | piso y techo del eje de la línea de tendencia del hero, en puntos del índice |
 | `SPARK_HEIGHT` | const number | alto del `viewBox` de esa línea; el ancho es 100, así x queda en % |
-| `sizes` / `fetch_priority` | prop | de `ThemedShot`: el `sizes` de next/image y su `fetchPriority`. Nunca `preload`: bajaría los dos temas |
+| `sizes` / `fetch_priority` / `loading` | prop | de `ThemedShot`: el `sizes` de next/image, su `fetchPriority` y su `loading`. Nunca `preload`: bajaría los dos temas. El hero pasa `loading="eager"`: con el `lazy` por defecto la candidata a LCP esperaba 1,8 s en móvil antes de pedirse; `eager` sigue bajando sólo la del tema visible |
 
 ### Idioma y contenido
 
@@ -566,6 +566,7 @@ Si un detalle tiene que ser morado, usa `--brand` (`text-brand`, `bg-brand`,
 | `--grain-opacity` / `--grain-blend` | cuánto pesa el grano y con qué se mezcla. Van juntos: el número no significa nada sin el modo |
 | `TILE_SIZE` | const number | lado del mosaico de ruido, en px. Es también el tope del corrimiento |
 | `FRAME_MS` | const number | cada cuánto se corre el grano. 12 cuadros por segundo |
+| `PHONE_QUERY` | const string | `(max-width: 767px)`: debajo de eso el bucle no corre. Es el mismo corte de `globals.css` que apaga los blurs, y ahí `.page-grain` está en `display: none` |
 
 > **El grano se mueve, y el movimiento es un `transform`, no un canvas.** La
 > versión de Framer que inspiró esto redibuja ruido nuevo en un canvas cada
@@ -582,6 +583,15 @@ Si un detalle tiene que ser morado, usa `--brand` (`text-brand`, `bg-brand`,
 > cuesta cinco veces menos. Con `prefers-reduced-motion` el grano se queda
 > quieto pero **no se apaga**: la textura es lo que saca a la página de la
 > sensación de plano, y eso no es movimiento — lo que molesta es el hervor.
+>
+> **En móvil sí se apaga, entero.** Es una capa fija a pantalla completa con
+> `mix-blend-mode`: el compositor la vuelve a mezclar contra la página en cada
+> cuadro del scroll, y en un teléfono eso se siente como scroll trabado. Va en
+> `display: none` y no en opacidad 0 —a opacidad 0 la mezcla se compone igual—
+> y el bucle se frena con la misma consulta (`PHONE_QUERY`), para no pedir doce
+> cuadros por segundo por algo que no se pinta. Medido con Lighthouse móvil sobre
+> el build: junto con el `eager` del hero y el reloj de `ImageCycle`, el trabajo
+> de hilo principal bajó de 10,2 s a 8,9 s y el LCP de 2,7 s a 2,2 s.
 
 > **El modo de mezcla cambia con el tema.** `overlay` conserva el tono de abajo
 > en vez de lavarlo hacia el gris, que es lo que hace que el grano se lea como
@@ -1901,14 +1911,21 @@ pasa de una a la otra sin salto:
   deja que `dark:hidden` / `hidden dark:block` decidan cuál se ve, porque el
   navegador ya tiene la clase `.dark` en el `html` cuando pinta el primer frame.
   Con un hook habría que esperar a que el cliente monte, y hasta ahí la ficha
-  muestra la captura equivocada y parpadea al corregirse. El precio es que se
-  bajan las dos: son ~110 KB cada una y van `lazy`.
+  muestra la captura equivocada y parpadea al corregirse. Van `lazy`, salvo la
+  del hero. **No se bajan las dos**: la que está en `display: none` el navegador
+  no la pide (verificado en la traza de red de Lighthouse: sólo entran las del
+  tema activo).
 - El `alt` va en la clara y la oscura queda `aria-hidden`: son la misma pantalla,
   y anunciarla dos veces le repite la misma frase a quien la escucha.
 - **`ImageCycle` corre por reloj**, como `RotatingText`, y por eso se apaga
   entera con `prefers-reduced-motion`: algo que se mueve solo, sin que el usuario
   haya hecho nada, es exactamente lo que esa preferencia pide que no pase.
   Apagada muestra la primera y se queda ahí.
+- **Y el reloj corre sólo mientras la caja se ve** (`useInView`, sin `once`,
+  `amount: 0.2`). Hay varias en la página y cada cruce es un `scale` sobre una
+  imagen: fuera de pantalla era composición que nadie miraba y que en un
+  teléfono se siente como scroll trabado. Al salir se para, al volver sigue de
+  donde quedó. Mismo criterio que el globo con su IntersectionObserver.
 - **`object-top` y no el centro.** Lo que cuenta de un panel está arriba —el
   título del bloque y el primer gráfico—, y la ficha es más ancha que alta, así
   que `object-cover` recorta justo por abajo.
@@ -2129,6 +2146,11 @@ con `scroll-pl-6` y snap. El mismo contenido, manejado por quien lo lee.
   esa preferencia pide que no pase.** Ahí el gráfico además se entrega
   **dibujado entero** (`reveal` fijo en 1): dibujarse es el efecto, no el
   contenido.
+- **Suelto, el gráfico sólo existe de `lg` para arriba** (`hidden lg:block`
+  sobre su capa). Sin clavado la capa cubre la diapositiva entera con
+  `preserveAspectRatio="none"`, y a 390px esa diapositiva es el titular y el
+  párrafo apilados: los picos cruzaban el texto. En escritorio con movimiento
+  reducido sigue entregándose entero, que era el trato de arriba.
 - **El límite de alto existe porque el bloque clavado mide una pantalla** y las
   fichas tienen que entrar adentro; con `overflow-hidden`, en una ventana muy
   baja se recortarían.
