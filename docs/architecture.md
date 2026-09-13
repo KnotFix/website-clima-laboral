@@ -449,7 +449,15 @@ scale_orgs[]      { label, size, tree }  — `size` es la cifra que se despliega
 faq_title
 faq_body
 faq_items[]       { question, answer } — el orden es el de la pantalla y el
-                  numero 01..06 sale del indice, no del contenido
+                  numero 01..08 sale del indice, no del contenido
+
+> **La última pregunta ("¿Y si no quiero hacer el estudio yo?") es la única
+> que afirma algo que el sitio no dice en otra parte, y es a propósito**
+> (2026-09-13). El estudio asistido no es una función del producto sino un
+> servicio aparte de Knotfix, así que no tiene sección propia: la pregunta ES la
+> oferta, y por eso lleva el correo adentro de la respuesta, que es texto plano
+> y no admite enlaces. Va última porque contesta a quien leyó todo lo anterior
+> y sigue sin querer hacerlo solo.
 final_cta_title
 final_cta_body
 final_cta_button

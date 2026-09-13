@@ -593,6 +593,14 @@ const en = {
       question: "Do I have to talk to someone to try it?",
       answer: "No. You create the account and start.",
     },
+    // The only answer that states something the site says nowhere else, on
+    // purpose: the assisted study is not a product feature but a separate
+    // service, and this is the question that offers it.
+    {
+      question: "What if I don't want to run the study myself?",
+      answer:
+        "You don't have to. We offer a separate service in which we run the study at your company from start to finish: we build the roster, launch the collection and hand you the results. Write to knotfixservice@knotfix.com.",
+    },
   ],
 
   // Section 7 — final CTA

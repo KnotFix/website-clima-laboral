@@ -593,6 +593,14 @@ const es = {
       question: "¿Tengo que hablar con alguien para probarlo?",
       answer: "No. Creás la cuenta y empezás.",
     },
+    // La única respuesta que afirma algo que el sitio no dice en otra parte, y
+    // es a propósito: el estudio asistido no es una función del producto sino
+    // un servicio aparte, y esta es la pregunta que lo ofrece.
+    {
+      question: "¿Y si no quiero hacer el estudio yo?",
+      answer:
+        "Tampoco hace falta. Ofrecemos un servicio aparte en el que nosotros aplicamos el estudio en tu empresa, de principio a fin: armamos la nómina, lanzamos la recolección y te entregamos los resultados. Escribinos a knotfixservice@knotfix.com.",
+    },
   ],
 
   // Sección 7 — CTA final
