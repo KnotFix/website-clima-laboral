@@ -6,7 +6,7 @@ export const site_config = {
   // se muestra en navbar, pie, titulos y tarjeta es `product`.
   brand: "Knotfix",
   product: "Censuma",
-  domain: "https://knotfix.com",
+  domain: "https://censuma.com",
   // El PRODUCTO es otro despliegue, en su propio subdominio. Todo CTA de
   // «Empezar» manda al registro autoservicio de la app (`/registro`), que es la
   // pantalla publica que crea la cuenta y abre la prueba. La URL base se puede

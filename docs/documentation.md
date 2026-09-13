@@ -81,7 +81,7 @@ datos son inventados.
 > «muestreo estratificado clima laboral» o «N mínimo confidencialidad encuesta» las busca gente que
 > está por comprar algo. Eso pide un sitio estático indexable, que es este.
 
-> **Path y no subdominio.** `knotfix.com/es/docs`, nunca `docs.knotfix.com`. Un subdominio es otro
+> **Path y no subdominio.** `censuma.com/es/docs`, nunca `docs.censuma.com`. Un subdominio es otro
 > sitio para los buscadores y parte la autoridad del dominio justo en el contenido que más
 > long-tail genera.
 
