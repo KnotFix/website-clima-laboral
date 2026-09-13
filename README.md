@@ -36,7 +36,7 @@ decisión la toma `src/proxy.js` (en Next 16 el middleware se llama así).
 
 | Variable | Qué hace | Default |
 |---|---|---|
-| `NEXT_PUBLIC_APP_URL` | URL base del producto. Todo «Empezar» manda a `${APP_URL}/registro` | `https://app.censuma.com` |
+| `NEXT_PUBLIC_APP_URL` | URL base del producto. Todo «Empezar» manda a `${APP_URL}/` | `https://app.censuma.com` |
 
 Es `NEXT_PUBLIC_*`, así que **se fija en el build**: cambiarla en el servidor sin
 reconstruir no hace nada.

@@ -23,7 +23,7 @@ WORKDIR /app
 # de runtime: cambiarla exige reconstruir la imagen, no reiniciar el contenedor.
 # En Dokploy va en "Build Args" (Environment se inyecta al contenedor ya
 # construido y llega tarde). Es la base del PRODUCTO, a donde mandan todos los
-# «Empezar» (`${APP_URL}/registro`); tiene default en `lib/site_config.js`
+# «Empezar» (`${APP_URL}/`); tiene default en `lib/site_config.js`
 # (`https://app.censuma.com`), así que es OPCIONAL: un enlace que apunta a
 # producción no puede impedir que staging arranque.
 ARG NEXT_PUBLIC_APP_URL

@@ -8,8 +8,10 @@ export const site_config = {
   product: "Censuma",
   domain: "https://censuma.com",
   // El PRODUCTO es otro despliegue, en su propio subdominio. Todo CTA de
-  // «Empezar» manda al registro autoservicio de la app (`/registro`), que es la
-  // pantalla publica que crea la cuenta y abre la prueba. La URL base se puede
+  // «Empezar» manda a la RAIZ de la app: quien ya tiene cuenta entra, y quien
+  // no la tiene encuentra ahi el enlace a `/registro` (la pantalla de login de
+  // Clerk lo ofrece). Mandar directo a `/registro` se probo y se descarto el
+  // 2026-09-13: le pedia crear cuenta a quien ya la tenia. La URL base se puede
   // pisar por entorno (staging apunta a otro host) con `NEXT_PUBLIC_APP_URL`;
   // como es `NEXT_PUBLIC_*`, se inyecta en BUILD, no al arrancar el servidor.
   //
@@ -21,7 +23,9 @@ export const site_config = {
   app_url: (process.env.NEXT_PUBLIC_APP_URL || "https://app.censuma.com").replace(/\/$/, ""),
 };
 
-site_config.signup_url = `${site_config.app_url}/registro`;
+// Conserva el nombre `signup_url` porque asi lo consumen navbar, mobile_menu,
+// hero y final_cta; el destino es la raiz de la app (ver arriba).
+site_config.signup_url = `${site_config.app_url}/`;
 
 export function is_locale(value) {
   return LOCALES.includes(value);
