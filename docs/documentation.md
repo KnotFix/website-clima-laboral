@@ -6,7 +6,7 @@ pero el mapa de archivos y las reglas de diseño del sitio siguen siendo de aque
 
 Estado: **esqueleto en pie, 21 páginas publicadas** en los dos idiomas (42 archivos) y **las seis
 capturas puestas** (2026-08-17): «Empezar», «Conceptos», «Interpretar», «Para tu gente», «Cuenta» y
-«Referencia», más el **changelog con 9 entradas**. La última en entrar fue **«Seguridad y datos»**,
+«Referencia», más el **changelog con 10 entradas**. La última en entrar fue **«Seguridad y datos»**,
 publicada el 2026-08-18 tras cerrarse el hueco de los respaldos. Falta lo marcado abajo: las
 capturas de la HOME, que siguen siendo fotos de Unsplash.
 
@@ -322,8 +322,9 @@ Cuenta
 > cuatro planes con sus topes son cuatro filas; la página son las **reglas alrededor** de
 > esas filas, y todas viven en `apps/facturacion` del repo del producto: qué es un
 > «período» (el año contratado, no el calendario), que el cupo de estudios se consume al
-> lanzar y no se devuelve, que el tope de nómina usa el mismo criterio de «activo» que el
-> muestreo, que los correos cuentan envíos y no personas, la ventana de gracia de 14 días,
+> lanzar y no se devuelve, que el tope de nómina usa el mismo criterio que el muestreo (la
+> casilla «Puede recibir encuestas» de cada estado, desde el 2026-09-12; antes era el nombre
+> «activo»), que los correos cuentan envíos y no personas, la ventana de gracia de 14 días,
 > que bajar de plan se bloquea **antes** de cobrar, y que cancelar corre hasta el fin del
 > período pagado. Un precio sin esas reglas es una tabla, no una doc.
 >
@@ -555,7 +556,8 @@ una ayuda que miente es peor que no tenerla, porque quien la lee deja de mirar l
 | Hueco | Estado | Consecuencia para las docs |
 |---|---|---|
 | ~~**Aplicación por CORREO**~~ | **CERRADO el 2026-08-17**: la pantalla `/responder/:token` existe y monta el mismo formulario que el kiosco | ya no es un hueco. `kiosk` habla del modo mixto; lo que queda es que **el modo correo no tiene página propia** y la lista de pendientes de abajo no lo refleja |
-| **eNPS** | no existe como métrica (solo un ejemplo de etiqueta libre en un comentario de `boletas/models.py`) | no aparece en Resultados |
+| ~~**Estados de nómina propios y antigüedad mínima**~~ | **CERRADO el 2026-09-12**: los estados de la nómina son del cliente (Configuración → Nómina → Estados), con la casilla «Puede recibir encuestas» como único criterio del muestreo y del tope del plan, más dos papeles («Para los nuevos», «Para quien se va»); la antigüedad mínima del muestreo se configura en Configuración → General (3 meses por defecto, 0 a 60) | ya no es un hueco. Se documenta en `roster-format` (sección «Los estados de la nómina»), `first-study` (qué vuelve elegible a alguien, en el paso de alcance), `account-and-plan` (qué cuenta el tope) y `glossary` («Elegible», «Antigüedad mínima», «Estado de nómina»). Hasta ese día `account-and-plan` y `roster-format` hablaban de «activo» e «inactivo» como si fueran fijos |
+| ~~**eNPS**~~ | **CERRADO el 2026-09-11**: switch «Medir eNPS» por organización que agrega una Sección 4 con una pregunta base fija de 0 a 10 (más seguidoras), molde propio en «Por pregunta» y KPI en el Resumen del estudio | ya no es un hueco. Se documenta en `question-types` (la Sección 4, sus tramos y sus reglas) y en `reading-results` (cómo leerlo y su semáforo propio) |
 
 > Cuando cualquiera de los dos se cierre, la página correspondiente es **parte de ese cambio**, no un
 > pendiente posterior. Es la misma disciplina que ata `ayuda.json` a las reglas del backend.

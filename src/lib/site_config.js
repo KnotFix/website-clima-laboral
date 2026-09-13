@@ -7,9 +7,15 @@ export const site_config = {
   brand: "Knotfix",
   product: "Censuma",
   domain: "https://knotfix.com",
-  // TODO: apuntar al registro real del SaaS cuando exista.
-  signup_url: "#",
+  // El PRODUCTO es otro despliegue, en su propio subdominio. Todo CTA de
+  // «Empezar» manda al registro autoservicio de la app (`/registro`), que es la
+  // pantalla publica que crea la cuenta y abre la prueba. La URL base se puede
+  // pisar por entorno (staging apunta a otro host) con `NEXT_PUBLIC_APP_URL`;
+  // como es `NEXT_PUBLIC_*`, se inyecta en BUILD, no al arrancar el servidor.
+  app_url: (process.env.NEXT_PUBLIC_APP_URL ?? "https://app.censuma.com").replace(/\/$/, ""),
 };
+
+site_config.signup_url = `${site_config.app_url}/registro`;
 
 export function is_locale(value) {
   return LOCALES.includes(value);

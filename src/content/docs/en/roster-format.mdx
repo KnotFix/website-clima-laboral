@@ -34,7 +34,7 @@ A 5 MB `.xlsx` is hundreds of thousands of rows: the limit will not bother you.
 | surname | No | |
 | email | No | Needed if you will run the survey by email |
 | hire date | No | |
-| status | No | Unmapped, new rows come in active and existing ones keep their status |
+| status | No | The name of one of your statuses. Unmapped, new rows go into the «For new people» status and existing ones keep theirs |
 
 > **There are no demographic columns, and that is not an oversight.** Sex, age and
 > tenure **are not imported from the roster**: they originate in the questionnaire
@@ -71,13 +71,42 @@ nothing is assigned to the closest match. The tree's names live in the tree.
 > consistent with what the tree means: a person works in a concrete place, not in a
 > category.
 
+## Roster statuses
+
+Every person is in a **status**, and the statuses are yours: a new account comes with
+five (active, holiday, sick leave, inactive and resigned), but you can rename them,
+retire them or add the ones you actually use, like «Unpaid leave». They are defined
+under Configuration → Payroll → Statuses.
+
+Each status has one checkbox that decides everything else: **«Can receive surveys»**.
+Anyone in a status with it checked goes into the sample of your studies and counts
+toward your plan's people cap; anyone in a status without it stays out of both. It is a
+single criterion on purpose: what is not billed is not surveyed. A new status is born
+**without** the checkbox, so nobody receives a survey until you decide it.
+
+Two statuses also carry a role:
+
+- **«For new people»** is where a person added without a status lands, and the one the
+  import uses when the column is not mapped.
+- **«For people who leave»** is where anyone missing from the file goes in Sync mode. It
+  cannot have the checkbox checked: if it did, syncing would remove nobody from anything.
+
+In the spreadsheet, the **status** column must carry the name of one of your statuses. A
+value that does not match is reported in the preview as a row with an error; no status
+is created and no closest match is picked.
+
+Changing a status's checkbox does not reinterpret a study that already generated its
+sample: it applies to the ones you set up from then on. There is a second criterion for
+entering the sample, the **minimum tenure**, which lives under Configuration → General;
+see [The four steps before your first study](/en/docs/first-study).
+
 ## The two modes
 
 **Add** — Adds whatever is in the file. Leaves anyone not present alone.
 
-**Sync** — Makes the roster match the file. Anyone absent is **marked inactive, never
-deleted**: participation in past studies references those people, and deleting them
-would break the history.
+**Sync** — Makes the roster match the file. Anyone absent **moves to the «For people
+who leave» status, never deleted**: participation in past studies references those
+people, and deleting them would break the history.
 
 ## The three steps
 

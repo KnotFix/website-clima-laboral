@@ -86,6 +86,21 @@ A four-step wizard:
   ratio="1381 / 1235"
 />
 
+The **eligible population** you see at that step is not the node's whole roster. Two
+filters apply, and both are yours:
+
+- **Each person's status.** Only people in a status with the «Can receive surveys»
+  checkbox count, under Configuration → Payroll → Statuses. See
+  [The roster spreadsheet](/en/docs/roster-format).
+- **The minimum tenure.** Anyone who has been in the company for less than a certain
+  time is not asked to answer yet: they are still getting to know their area. It is
+  **3 months** by default and changes under Configuration → General, between 0 and 60;
+  at 0 nobody is left out for being new. It is measured with the roster's hire date, and
+  anyone without a date loaded is in.
+
+Both apply to the studies you set up from then on: changing them does not touch the
+sample of a study that already generated it.
+
 On confirmation the **sample** is generated: not a random draw of names, but
 **stratified sampling**, which is what keeps a segment from being under-represented.
 The final screen shows you the actual sample that came out.

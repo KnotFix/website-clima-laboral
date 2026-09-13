@@ -32,6 +32,30 @@ npm run dev          # http://localhost:3000
 `/` redirige a `/es` o `/en` según el `Accept-Language` del navegador. Esa
 decisión la toma `src/proxy.js` (en Next 16 el middleware se llama así).
 
+## Variables de entorno
+
+| Variable | Qué hace | Default |
+|---|---|---|
+| `NEXT_PUBLIC_APP_URL` | URL base del producto. Todo «Empezar» manda a `${APP_URL}/registro` | `https://app.censuma.com` |
+
+Es `NEXT_PUBLIC_*`, así que **se fija en el build**: cambiarla en el servidor sin
+reconstruir no hace nada.
+
+## Despliegue
+
+Hay un `Dockerfile` en la raíz, con la misma forma que los del backend y el
+producto: una etapa compila y otra sirve. La imagen final corre `node server.js`
+sobre la salida `standalone` de Next (`output: "standalone"` en
+`next.config.mjs`), sin `npm` ni el `node_modules` entero.
+
+**No es un sitio estático**, aunque todas sus páginas se prerendericen: `src/proxy.js`
+resuelve `/` según el `Accept-Language` de cada request, y eso necesita un servidor.
+Por eso la imagen lleva Node y no nginx.
+
+En Dokploy se publica con **Dockerfile** como tipo de build y el contexto en esta
+carpeta. `NEXT_PUBLIC_APP_URL` va en **Build Args**, no en Environment: se hornea al
+compilar. El contenedor escucha en el puerto `3000`.
+
 ## Comandos
 
 | Comando | Qué hace |

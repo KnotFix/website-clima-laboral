@@ -87,6 +87,21 @@ asistente de cuatro pasos:
   ratio="1381 / 1235"
 />
 
+La **población elegible** que ves en ese paso no es toda la nómina del nodo. Entran dos
+filtros, y los dos son tuyos:
+
+- **El estado de cada persona.** Solo cuenta quien está en un estado con la casilla
+  «Puede recibir encuestas» marcada, en Configuración → Nómina → Estados. Ver
+  [El Excel de la nómina](/es/docs/roster-format).
+- **La antigüedad mínima.** A quien lleva menos de cierto tiempo en la empresa no se le
+  pide responder todavía: recién está conociendo su área. Son **3 meses** por defecto y
+  se cambia en Configuración → General, entre 0 y 60; en 0 nadie queda fuera por ser
+  nuevo. Se mide con la fecha de ingreso de la nómina, y quien no tiene fecha cargada
+  entra.
+
+Los dos valen para los estudios que armes de ahí en adelante: cambiarlos no toca la
+muestra de un estudio que ya la generó.
+
 Al confirmar se genera la **muestra**: no es un sorteo de nombres al azar, es un
 **muestreo estratificado**, que es lo que evita que un segmento quede
 sub-representado. La pantalla final te muestra la muestra real que salió.

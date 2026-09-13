@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { GlassBar } from "@/components/effects/glass_bar";
+import { BrandLink } from "@/components/site/brand_link";
 import { LangSwitch } from "@/components/site/lang_switch";
 import { MobileMenu } from "@/components/site/mobile_menu";
 import { NavLinks } from "@/components/site/nav_links";
@@ -36,12 +37,13 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
       </a>
 
       <GlassBar>
-        <Link
-          href={`/${lang}`}
-          className="flex items-baseline rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        {/* Sube al tope aunque ya estemos en la home: ver brand_link.jsx. */}
+        <BrandLink
+          lang={lang}
+          class_name="flex items-baseline rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {site_config.product}
-        </Link>
+        </BrandLink>
 
         <div className="hidden items-center gap-1 md:flex">
           {/* El `flex` lo pone el llamador: el `nav` de NavLinks trae

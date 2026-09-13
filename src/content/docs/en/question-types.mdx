@@ -1,12 +1,13 @@
 export const meta = {
   title: "Question types",
   description:
-    "The six types available for your own questions, which scale each one uses, and how each is charted.",
+    "The six types available for your own questions, which scale each one uses, how each is charted, and how the eNPS section works.",
 };
 
 Questions in **Section 3** —yours— can be of six types. The first three are scales and
 are the ones that produce an acceptance percentage; the other three are read
-differently.
+differently. If you measure eNPS, your questionnaire also gets a **Section 4**,
+explained further down.
 
 ## The six
 
@@ -42,6 +43,10 @@ See [Reading a result](/en/docs/reading-results).
 **Scales and `si_no`** — A distribution bar with the spread of responses, plus the
 acceptance percentage. In the historical view, a line of that percentage over time.
 
+**eNPS** — A three-segment bar per branch (detractors, passives and promoters) with each
+branch's eNPS beside it. The table also shows the full spread from 0 to 10. In the
+historical view, a line of the eNPS on a −100 to +100 axis.
+
 **Multiple choice** — The spread across options. Adds up to 100 %.
 
 **Ranking** — **Counts, never percentages.** Its selection is multiple, so counts add up
@@ -49,6 +54,46 @@ to more than the responses: normalizing to 100 % would draw a distribution that 
 exist. That is why ranking stays out of distribution charts and is read in the table.
 
 **Open** — Not charted. Read.
+
+## Section 4: eNPS
+
+eNPS (*employee Net Promoter Score*) measures how likely your people are to recommend the
+organization as a place to work. It is not a type you pick when writing a question: you
+turn it on with the **«Medir eNPS»** switch at the top of Configuración → Boletas.
+
+Once on, **every** questionnaire gets a Section 4 with the base question:
+
+> ¿Qué tan probable es que recomiendes esta organización como lugar para trabajar?
+
+The base question is **fixed**: it has the same wording for every organization and cannot
+be edited or deleted, just like Sections 1 and 2. That is what makes your eNPS comparable
+from one year to the next. Below it you can add follow-up questions of any type, such as
+«What influenced your score the most?». The eNPS comes only from the base question.
+
+It is answered on a 0 to 10 scale and answers fall into three groups:
+
+| Answer | Group |
+|---|---|
+| 9 and 10 | Promoters |
+| 7 and 8 | Passives |
+| 0 to 6 | Detractors |
+
+The eNPS is the percentage of promoters minus the percentage of detractors. That is why
+it runs from **−100** (all detractors) to **+100** (all promoters), and it is not a
+percentage: it is points. Passives neither add nor subtract, but they do count in the
+total.
+
+Three things worth knowing:
+
+- **It cannot be switched on or off while a study is running.** It would change the
+  questionnaire while people are answering it.
+- **Switching it off deletes nothing.** It removes Section 4 from the questionnaires, but
+  earlier results stay; if you switch it back on, the historical series continues.
+- **Follow-up questions can hang from the base question**, such as a «why did you give that
+  score?» shown to everyone. What you cannot do is show them depending on the value chosen.
+
+Like any result, the eNPS is hidden if fewer people answered it than the confidentiality
+threshold.
 
 ## Conditional blocks
 

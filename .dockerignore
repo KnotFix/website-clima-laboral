@@ -1,0 +1,26 @@
+# `node_modules` es lo importante acá: son cientos de megas y, peor, los binarios
+# compilados para Windows no sirven en Linux. `npm ci` los reinstala adentro.
+node_modules/
+# La salida de un build local: adentro se construye de cero.
+.next/
+out/
+coverage/
+
+# Los .env locales: aunque solo tengan variables NEXT_PUBLIC_ (públicas), no hay
+# motivo para hornearlas en la imagen — los valores reales entran como build args.
+.env
+.env.*
+!.env.example
+
+.git/
+.gitignore
+*.md
+docs/
+test/
+vitest.config.mjs
+
+# Herramientas de agentes: configuración de la máquina, no código del sitio.
+.claude/
+.agents/
+.mcp.json
+skills-lock.json

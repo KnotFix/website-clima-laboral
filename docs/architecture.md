@@ -47,6 +47,9 @@ src/
     site/
       container.jsx             ancho maximo 1200 (UNICO lugar)         [programmer]
       navbar.jsx                contenido del navbar                    [programmer]
+      brand_link.jsx            la marca como enlace al INICIO de la
+                                home; estando ya en ella, sube al tope
+                                a mano (Next no scrollea a la misma ruta) [programmer]
       nav_links.jsx             links de seccion + marca de activa      [programmer]
       use_active_section.jsx    hook useActiveSection (IntersectionObs) [programmer]
       mobile_menu.jsx           Sheet para < md                         [programmer]
@@ -190,6 +193,11 @@ test/
   docs.test.js                  is_doc_slug() y headings_of(), con la
                                 invariante de los slugs                 [programmer]
 vitest.config.mjs               alias `@` y `server-only`               [programmer]
+Dockerfile                      imagen Node de dos etapas: build + `node
+                                server.js` de la salida `standalone`. El
+                                sitio NO es estatico puro (proxy.js corre
+                                por request), por eso no hay nginx     [programmer]
+.dockerignore                   node_modules, .next, .env, docs, tests  [programmer]
 docs/
   architecture.md               este archivo                            [architect]
   legal.md                      los tres documentos legales: que falta
@@ -3328,10 +3336,17 @@ plan". Si el criterio editorial es otro, se mueve.
 
 ### Lo que sigue pendiente y no es técnico
 
-- `signup_url` está en `"#"`: el CTA principal no lleva a ningún lado.
+- ~~`signup_url` está en `"#"`: el CTA principal no lleva a ningún lado.~~ **Cerrado el
+  2026-09-13**: `signup_url` se DERIVA de `app_url` (`${app_url}/registro`, la pantalla
+  pública de registro autoservicio del producto). `app_url` sale de `NEXT_PUBLIC_APP_URL`
+  y cae a `https://app.censuma.com`; como es `NEXT_PUBLIC_*`, se fija en el BUILD (en
+  Dokploy va en Build Args, igual que las `VITE_*` del producto). El sitio vive en el
+  dominio raíz y el producto en `app.`: son despliegues distintos y la app no está
+  preparada para colgar de una ruta (`base` de Vite, `basename` del router,
+  `FORCE_SCRIPT_NAME`), así que un prefijo `/app/` no se considera.
 - Las tres imágenes de `public/shots/` son placeholders de Unsplash.
 
-Están marcados como TODO en `lib/site_config.js` y `content/es.js`.
+Lo de las imágenes sigue marcado como TODO en `content/es.js`.
 
 ## Zonas de escritura
 

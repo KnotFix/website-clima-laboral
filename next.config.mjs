@@ -2,6 +2,11 @@ import createMDX from "@next/mdx";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // `standalone`: el build deja en `.next/standalone` un `server.js` con el
+  // recorte de `node_modules` que el servidor usa de verdad. Es lo que copia el
+  // `Dockerfile` en su imagen final, que asi no lleva `npm` ni el arbol entero
+  // de dependencias. Sin esto, la imagen pesaria lo que pesa `node_modules`.
+  output: "standalone",
   reactCompiler: true,
   // **Aca vivia `images.remotePatterns`** con `i.ytimg.com`, la miniatura del
   // video del hero. El video se retiro y el sitio no tiene host externo de

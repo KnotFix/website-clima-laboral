@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { FooterBackdrop } from "@/components/effects/footer_backdrop";
+import { BrandLink } from "@/components/site/brand_link";
 import { LangSwitch } from "@/components/site/lang_switch";
 import { Container } from "@/components/site/container";
 import { LEGAL_NAV } from "@/content/legal/nav";
@@ -69,9 +70,13 @@ export function Footer({ lang, dict, section_base = "" }) {
       <Container class_name="relative">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="text-base font-semibold tracking-tight">
+            {/* Mismo destino que la marca del navbar: el inicio de la home. */}
+            <BrandLink
+              lang={lang}
+              class_name="inline-block rounded-md text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
               {site_config.product}
-            </p>
+            </BrandLink>
             <p className="mt-2 max-w-xs text-sm text-muted-foreground">
               {dict.footer_tagline}
             </p>

@@ -35,7 +35,7 @@ Un `.xlsx` de 5 MB son cientos de miles de filas: el límite no te va a molestar
 | apellido | No | |
 | correo | No | Hace falta si vas a aplicar la encuesta por correo |
 | fecha de ingreso | No | |
-| estado | No | Sin mapear, las altas quedan activas y las actualizaciones conservan su estado |
+| estado | No | El nombre de uno de tus estados. Sin mapear, las altas entran al estado «Para los nuevos» y las actualizaciones conservan el suyo |
 
 > **No hay columnas demográficas, y no es un olvido.** El sexo, la edad y la
 > antigüedad **no se importan de la nómina**: nacen de la propia boleta al responder.
@@ -71,13 +71,44 @@ se asigna al más parecido. Los nombres del árbol viven en el árbol.
 > gente a un nodo intermedio, esas filas se rechazan. Es coherente con lo que el árbol
 > significa: una persona trabaja en un lugar concreto, no en una categoría.
 
+## Los estados de la nómina
+
+Cada persona está en un **estado**, y los estados son tuyos: una cuenta nueva trae cinco
+(activo, vacaciones, incapacidad, inactivo y renunciado), pero los podés renombrar,
+retirar o agregar los que uses de verdad, como «Licencia sin goce». Se definen en
+Configuración → Nómina → Estados.
+
+Cada estado tiene una casilla que decide todo lo demás: **«Puede recibir encuestas»**.
+Quien está en un estado con la casilla marcada entra en la muestra de los estudios y
+cuenta contra el tope de personas de tu plan; quien está en uno sin marcar queda fuera
+de las dos cosas. Es un solo criterio a propósito: lo que no se cobra, no se encuesta.
+Un estado nuevo nace **sin** la casilla, así que nadie recibe una encuesta hasta que lo
+decidas.
+
+Dos estados llevan además un papel:
+
+- **«Para los nuevos»** es al que entra una persona cargada sin estado, y el que usa la
+  importación cuando la columna no se mapea.
+- **«Para quien se va»** es al que pasa quien desaparece del archivo en modo Sincronizar.
+  No puede tener la casilla marcada: si la tuviera, sincronizar no sacaría a nadie de
+  nada.
+
+En el Excel, la columna **estado** tiene que traer el nombre de uno de tus estados. Un
+valor que no coincide se reporta en la previsualización como fila con error; no se crea
+un estado nuevo ni se elige el más parecido.
+
+Cambiar la casilla de un estado no reinterpreta un estudio que ya generó su muestra:
+rige para los que se armen de ahí en adelante. Hay un segundo criterio para entrar en la
+muestra, la **antigüedad mínima**, que vive en Configuración → General; ver
+[Tu primer estudio](/es/docs/first-study).
+
 ## Los dos modos
 
 **Agregar** — Suma lo que venga en el archivo. No toca a quien no aparezca.
 
-**Sincronizar** — Deja la nómina igual al archivo. Quien no aparezca **se marca como
-inactivo, nunca se borra**: la participación de estudios pasados tiene referencias a
-esas personas, y borrarlas rompería el histórico.
+**Sincronizar** — Deja la nómina igual al archivo. Quien no aparezca **pasa al estado
+«Para quien se va», nunca se borra**: la participación de estudios pasados tiene
+referencias a esas personas, y borrarlas rompería el histórico.
 
 ## Los tres pasos
 

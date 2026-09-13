@@ -1,12 +1,13 @@
 export const meta = {
   title: "Tipos de pregunta",
   description:
-    "Los seis tipos que podés usar en tus preguntas propias, con qué escala va cada uno y cómo se grafica.",
+    "Los seis tipos que podés usar en tus preguntas propias, con qué escala va cada uno y cómo se grafica, y cómo funciona la sección de eNPS.",
 };
 
 Las preguntas de la **Sección 3** —las tuyas— pueden ser de seis tipos. Los tres
 primeros son escalas y son los que producen un porcentaje de aceptación; los otros
-tres se leen distinto.
+tres se leen distinto. Si medís eNPS, tu cuestionario suma además una **Sección 4**,
+que se explica más abajo.
 
 ## Los seis
 
@@ -42,6 +43,10 @@ Ver [Cómo leer un resultado](/es/docs/reading-results).
 **Escalas y `si_no`** — Barra de distribución con el reparto de respuestas, más el
 porcentaje de aceptación. En el histórico, una línea de ese porcentaje en el tiempo.
 
+**eNPS** — Una barra de tres tramos por rama (detractores, pasivos y promotores) con el
+eNPS de cada una al lado. La tabla muestra además el reparto completo del 0 al 10. En el
+histórico, una línea del eNPS en un eje de −100 a +100.
+
 **Opción múltiple** — El reparto entre las opciones. Suma 100 %.
 
 **Ranking** — **Conteos, nunca porcentajes.** Su selección es múltiple, así que los
@@ -50,6 +55,45 @@ no existe. Por eso el ranking queda fuera de las gráficas de distribución y se
 la tabla.
 
 **Abierta** — No se grafica. Se lee.
+
+## La Sección 4: eNPS
+
+El eNPS (*employee Net Promoter Score*) mide cuánto recomendaría tu gente la organización
+como lugar para trabajar. No es un tipo que elegís al escribir una pregunta: se enciende
+con el interruptor **«Medir eNPS»**, arriba de Configuración → Boletas.
+
+Al encenderlo, **todos** tus cuestionarios suman una Sección 4 con la pregunta base:
+
+> ¿Qué tan probable es que recomiendes esta organización como lugar para trabajar?
+
+La pregunta base es **fija**: tiene la misma redacción para todas las organizaciones y no
+se puede editar ni borrar, igual que las Secciones 1 y 2. Eso es lo que hace comparable
+tu eNPS de un año a otro. Debajo podés agregar preguntas de seguimiento de cualquier tipo,
+como «¿Qué es lo que más influyó en tu nota?». El eNPS sale solo de la pregunta base.
+
+Se contesta de 0 a 10 y las respuestas se reparten en tres grupos:
+
+| Respuesta | Grupo |
+|---|---|
+| 9 y 10 | Promotores |
+| 7 y 8 | Pasivos |
+| 0 a 6 | Detractores |
+
+El eNPS es el porcentaje de promotores menos el porcentaje de detractores. Por eso va de
+**−100** (todos detractores) a **+100** (todos promotores), y no es un porcentaje: son
+puntos. Los pasivos no suman ni restan, pero sí cuentan en el total.
+
+Tres cosas que conviene saber:
+
+- **No se enciende ni se apaga con un estudio en curso.** Cambiaría el cuestionario
+  mientras la gente lo está contestando.
+- **Apagarlo no borra nada.** Quita la Sección 4 de los cuestionarios, pero los resultados
+  anteriores siguen ahí; si lo volvés a encender, la serie histórica continúa.
+- **Las preguntas de seguimiento pueden colgar de la base**, como un «¿por qué pusiste esa
+  nota?» que vea todo el mundo. Lo que no se puede es mostrarlas según el valor elegido.
+
+Como cualquier resultado, el eNPS se oculta si lo contestaron menos personas que el
+umbral de confidencialidad.
 
 ## Bloques condicionales
 
