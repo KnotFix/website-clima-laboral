@@ -3,8 +3,11 @@ import { notFound } from "next/navigation";
 
 import { DocsLayout } from "@/components/docs/docs_layout";
 import { DOCS_NAV } from "@/content/docs/nav";
+import { JsonLd } from "@/components/site/json_ld";
 import { get_dictionary } from "@/lib/dictionaries";
-import { LOCALES, is_locale } from "@/lib/site_config";
+import { page_metadata } from "@/lib/seo";
+import { is_locale } from "@/lib/site_config";
+import { breadcrumb_ld, graph_ld } from "@/lib/structured_data";
 
 export async function generateMetadata({ params }) {
   const { lang } = await params;
@@ -12,16 +15,12 @@ export async function generateMetadata({ params }) {
 
   const dict = await get_dictionary(lang);
 
-  return {
+  return page_metadata({
+    lang,
+    path: "/docs",
     title: dict.docs_index_title,
     description: dict.docs_index_body,
-    alternates: {
-      canonical: `/${lang}/docs`,
-      languages: Object.fromEntries(
-        LOCALES.map((locale) => [locale, `/${locale}/docs`]),
-      ),
-    },
-  };
+  });
 }
 
 /**
@@ -40,6 +39,14 @@ export default async function DocsIndexPage({ params }) {
 
   return (
     <DocsLayout lang={lang} dict={dict}>
+      <JsonLd
+        data={graph_ld(
+          breadcrumb_ld(lang, [
+            { name: dict.meta_title, path: "" },
+            { name: dict.docs_index_title, path: null },
+          ]),
+        )}
+      />
       <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
         {dict.docs_index_title}
       </h1>

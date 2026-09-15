@@ -1,7 +1,14 @@
 const es = {
-  meta_title: "Censuma — Evaluación de clima laboral por segmento",
+  // <title> y metadescripción de la home, y lo que muestra el buscador.
+  // El título lleva «encuestas de clima laboral» porque es lo que la gente
+  // escribe en el buscador; «por segmento» es lo que nos distingue. Menos de
+  // 60 caracteres, para que no se corte en el resultado.
+  meta_title: "Censuma — Encuestas de clima laboral por segmento",
+  // La descripción se usa también como texto de la tarjeta de Open Graph
+  // (`opengraph-image.js`), así que tiene que seguir cabiendo en cuatro
+  // renglones a 52px.
   meta_description:
-    "Medí el clima y la satisfacción laboral por segmento, no por promedio. Cruzá filtros y compará resultados entre áreas y en el tiempo.",
+    "Medí el clima y la satisfacción laboral por segmento, no por promedio. Cruzá filtros, compará áreas y seguí la evolución estudio a estudio. Prueba gratis.",
 
   // Navegación
   nav_links: [
@@ -9,7 +16,10 @@ const es = {
     { label: "Análisis", href: "#weights" },
     { label: "Preguntas", href: "#faq" },
   ],
-  nav_cta: "Empezar",
+  // «Empezar gratis» y no «Empezar»: a un enlace que dice solo «Empezar» el
+  // buscador lo cuenta como texto genérico (mismo cajón que «clic acá»), y
+  // «gratis» es además el dato que decide el clic.
+  nav_cta: "Empezar gratis",
   // Va SUELTA y no dentro de `nav_links`: los items de esa lista son anclas de
   // la home y `NavLinks` les saca el id cortando el "#". Ver `navbar.jsx`.
   nav_docs: "Documentación",

@@ -3,6 +3,7 @@ import path from "node:path";
 
 import { flatten_nav } from "@/content/docs/nav";
 import { LEGAL_NAV } from "@/content/legal/nav";
+import { hreflang_of } from "@/lib/seo";
 import { LOCALES, site_config } from "@/lib/site_config";
 
 /**
@@ -11,7 +12,10 @@ import { LOCALES, site_config } from "@/lib/site_config";
  * **Lo que importa aca no es la lista, es `alternates.languages`.** Sin eso,
  * `/es/docs/kiosk` y `/en/docs/kiosk` son dos paginas distintas que dicen lo
  * mismo, y un buscador tiene que adivinar cual mostrar —o penalizar a una por
- * duplicada—. Con el par declarado son la misma pagina en dos idiomas.
+ * duplicada—. Con el par declarado son la misma pagina en dos idiomas. El
+ * `x-default` que va con ellas es el MISMO que emite cada pagina en su
+ * `<head>` (`hreflang_of`, en `lib/seo.js`): las dos declaraciones tienen
+ * que coincidir o el buscador desconfia de las dos.
  *
  * **Las rutas salen de los mismos manifiestos que las dibujan**, no de una lista
  * escrita a mano: `flatten_nav()` para las docs y `LEGAL_NAV` para los legales.
@@ -46,12 +50,7 @@ export default async function sitemap() {
       url: `${site_config.domain}/${locale}${route}`,
       lastModified: modified.get(route),
       alternates: {
-        languages: Object.fromEntries(
-          LOCALES.map((other) => [
-            other,
-            `${site_config.domain}/${other}${route}`,
-          ]),
-        ),
+        languages: hreflang_of(route, site_config.domain),
       },
     })),
   );

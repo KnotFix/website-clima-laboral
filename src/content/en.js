@@ -1,7 +1,12 @@
 const en = {
-  meta_title: "Censuma — Workplace climate measured by segment",
+  // <title> and meta description of the home page: what the search engine
+  // shows. "Workplace climate surveys" is what people type; "by segment" is
+  // what sets us apart. Under 60 characters so it does not get cut off.
+  meta_title: "Censuma — Workplace climate surveys by segment",
+  // Also the text of the Open Graph card (`opengraph-image.js`), so it has
+  // to keep fitting in four lines at 52px.
   meta_description:
-    "Measure workplace climate and job satisfaction by segment, not by average. Combine filters and compare results across teams and over time.",
+    "Measure workplace climate and job satisfaction by segment, not by average. Combine filters, compare teams and track results study after study. Free trial.",
 
   // Navigation
   nav_links: [
@@ -9,7 +14,10 @@ const en = {
     { label: "Analysis", href: "#weights" },
     { label: "FAQ", href: "#faq" },
   ],
-  nav_cta: "Start",
+  // "Start free" and not "Start": a link that only says "Start" counts as
+  // generic link text for search engines (same bin as "click here"), and
+  // "free" is the word that earns the click.
+  nav_cta: "Start free",
   // Kept OUT of `nav_links`: the items in that list are anchors on the home
   // page and `NavLinks` derives their id by cutting the "#". See `navbar.jsx`.
   nav_docs: "Docs",

@@ -29,6 +29,13 @@ WORKDIR /app
 ARG NEXT_PUBLIC_APP_URL
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 
+# El código de verificación de Google Search Console (`<meta
+# name="google-site-verification">`). OPCIONAL y también de build: vacío, la
+# etiqueta no se emite. Solo hace falta si el dominio se verifica por etiqueta
+# HTML; verificarlo por DNS no necesita nada de acá.
+ARG NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+ENV NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+
 # Apaga la telemetría de Next en el build: no hay nada que reportar desde un
 # servidor de CI.
 ENV NEXT_TELEMETRY_DISABLED=1

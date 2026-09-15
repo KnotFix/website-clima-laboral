@@ -58,6 +58,12 @@ export const LEGAL_NAV = [
       es: "Política de privacidad",
       en: "Privacy policy",
     },
+    // La metadescripcion de la pagina. Va aca y no en el .mdx por lo mismo
+    // que el titulo: es chrome, y el buscador la muestra debajo del enlace.
+    description: {
+      es: "Qué datos personales trata Censuma, con qué base, por cuánto tiempo y qué derechos tiene cada persona sobre ellos.",
+      en: "What personal data Censuma processes, on what basis, for how long, and what rights each person has over it.",
+    },
     version: "1.1",
     updated: "2026-08-20",
     draft: false,
@@ -68,6 +74,10 @@ export const LEGAL_NAV = [
       es: "Términos del servicio",
       en: "Terms of service",
     },
+    description: {
+      es: "Las condiciones para usar Censuma: cuenta, planes, uso permitido, responsabilidad y cómo termina el servicio.",
+      en: "The conditions for using Censuma: account, plans, permitted use, liability, and how the service ends.",
+    },
     version: "1.1",
     updated: "2026-08-20",
     draft: false,
@@ -77,6 +87,10 @@ export const LEGAL_NAV = [
     title: {
       es: "Anexo de tratamiento de datos",
       en: "Data processing addendum",
+    },
+    description: {
+      es: "El acuerdo de encargo de tratamiento entre tu organización y Censuma, bajo la Ley 8968 y el RGPD, con las cláusulas contractuales tipo.",
+      en: "The data processing agreement between your organization and Censuma under Law 8968 and the GDPR, including the standard contractual clauses.",
     },
     version: "2.0",
     updated: "2026-08-20",

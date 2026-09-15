@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 
 import { LegalLayout } from "@/components/legal/legal_layout";
+import { JsonLd } from "@/components/site/json_ld";
 import { LEGAL_NAV } from "@/content/legal/nav";
 import { get_dictionary } from "@/lib/dictionaries";
 import { resolve_legal } from "@/lib/legal";
-import { LOCALES, is_locale } from "@/lib/site_config";
+import { page_metadata } from "@/lib/seo";
+import { is_locale } from "@/lib/site_config";
+import { breadcrumb_ld, graph_ld, legal_page_ld } from "@/lib/structured_data";
 
 /**
  * `[slug]` y no una catch-all: los documentos legales son una lista plana. Si
@@ -24,17 +27,19 @@ export async function generateMetadata({ params }) {
   const legal = await resolve_legal(lang, slug);
   if (!legal) return {};
 
-  return {
+  // Los slugs son los MISMOS en los dos idiomas, asi que el hreflang se arma
+  // sin tabla de traduccion de rutas — igual que en las docs. La descripcion
+  // vive en `LEGAL_NAV` junto al titulo: un legal sin metadescripcion salia
+  // en el buscador con el primer parrafo del texto, que es la definicion de
+  // "las partes".
+  return page_metadata({
+    lang,
+    path: `/legal/${slug}`,
     title: legal.title,
-    // Los slugs son los MISMOS en los dos idiomas, asi que el hreflang se arma
-    // sin tabla de traduccion de rutas — igual que en las docs.
-    alternates: {
-      canonical: `/${lang}/legal/${slug}`,
-      languages: Object.fromEntries(
-        LOCALES.map((locale) => [locale, `/${locale}/legal/${slug}`]),
-      ),
-    },
-  };
+    description: legal.entry.description[lang],
+    type: "article",
+    modified: legal.entry.updated,
+  });
 }
 
 export default async function LegalPage({ params }) {
@@ -49,6 +54,15 @@ export default async function LegalPage({ params }) {
 
   return (
     <LegalLayout lang={lang} dict={dict} title={title} entry={entry}>
+      <JsonLd
+        data={graph_ld(
+          breadcrumb_ld(lang, [
+            { name: dict.meta_title, path: "" },
+            { name: title, path: null },
+          ]),
+          legal_page_ld(lang, `/legal/${slug}`, entry),
+        )}
+      />
       <Legal />
     </LegalLayout>
   );

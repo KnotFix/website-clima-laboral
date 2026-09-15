@@ -37,6 +37,7 @@ decisión la toma `src/proxy.js` (en Next 16 el middleware se llama así).
 | Variable | Qué hace | Default |
 |---|---|---|
 | `NEXT_PUBLIC_APP_URL` | URL base del producto. Todo «Empezar» manda a `${APP_URL}/` | `https://app.censuma.com` |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Código de la verificación por etiqueta HTML de Search Console. Vacía, no se emite nada | (vacía) |
 
 Es `NEXT_PUBLIC_*`, así que **se fija en el build**: cambiarla en el servidor sin
 reconstruir no hace nada.
@@ -55,6 +56,35 @@ Por eso la imagen lleva Node y no nginx.
 En Dokploy se publica con **Dockerfile** como tipo de build y el contexto en esta
 carpeta. `NEXT_PUBLIC_APP_URL` va en **Build Args**, no en Environment: se hornea al
 compilar. El contenedor escucha en el puerto `3000`.
+
+## SEO
+
+Todo lo que un buscador lee del sitio sale de tres archivos, y de ningún otro:
+
+- **`src/lib/seo.js`** — `page_metadata()`: el `<title>`, la metadescripción, el
+  canonical, el `hreflang` (`es`, `en` y `x-default` al español) y las tarjetas de
+  Open Graph y X de CADA página. Todas las rutas lo llaman; ninguna arma sus
+  metadatos a mano. La razón es un detalle de Next que muerde: `openGraph` y
+  `twitter` se heredan del layout **enteros**, no campo por campo, así que una
+  página que solo declare su título sale con la tarjeta de la home.
+- **`src/lib/structured_data.js`** — el JSON-LD (schema.org): la organización y
+  el sitio en el layout, el producto y la FAQ en la home, la miga y el artículo
+  en cada doc, la miga y la fecha en cada legal. El texto es siempre el mismo
+  `dict` o manifiesto que dibuja la página: lo declarado tiene que coincidir con
+  lo visible.
+- **`src/app/sitemap.js` y `robots.js`** — generados de los mismos manifiestos
+  que rutean (`DOCS_NAV`, `LEGAL_NAV`). El `x-default` del sitemap y el del
+  `<head>` salen de la misma función, `hreflang_of()`.
+
+Para indexar: en Search Console, verificar `censuma.com` como **propiedad de
+dominio** (registro TXT en el DNS): cubre `www`, `app.` y los dos protocolos de
+una vez. Después, enviar `https://censuma.com/sitemap.xml`. La verificación por
+etiqueta HTML también existe (`NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, arriba)
+pero exige reconstruir la imagen.
+
+`test/seo.test.js` vigila que cada página declare los dos idiomas más el
+`x-default`, que el título de la tarjeta lleve la marca y que el JSON-LD de la
+FAQ sea el mismo texto que la sección.
 
 ## Comandos
 

@@ -5,8 +5,11 @@ import { FOOTER_LIFT, FOOTER_SPAN, Footer } from "@/components/site/footer";
 import { ScrollLift } from "@/components/motion/scroll_lift";
 import { Navbar } from "@/components/site/navbar";
 import { changelog_entries } from "@/lib/changelog";
+import { JsonLd } from "@/components/site/json_ld";
 import { get_dictionary } from "@/lib/dictionaries";
+import { page_metadata } from "@/lib/seo";
 import { LOCALES, is_locale } from "@/lib/site_config";
+import { breadcrumb_ld, graph_ld } from "@/lib/structured_data";
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
@@ -18,16 +21,12 @@ export async function generateMetadata({ params }) {
 
   const dict = await get_dictionary(lang);
 
-  return {
+  return page_metadata({
+    lang,
+    path: "/changelog",
     title: dict.changelog_title,
     description: dict.changelog_body,
-    alternates: {
-      canonical: `/${lang}/changelog`,
-      languages: Object.fromEntries(
-        LOCALES.map((locale) => [locale, `/${locale}/changelog`]),
-      ),
-    },
-  };
+  });
 }
 
 /**
@@ -57,6 +56,14 @@ export default async function ChangelogPage({ params }) {
 
   return (
     <>
+      <JsonLd
+        data={graph_ld(
+          breadcrumb_ld(lang, [
+            { name: dict.meta_title, path: "" },
+            { name: dict.changelog_title, path: null },
+          ]),
+        )}
+      />
       <Navbar lang={lang} dict={dict} section_base={`/${lang}`} />
 
       {/* `bg-background` opaco por lo mismo que docs y legales: `PageLight` es

@@ -12,8 +12,10 @@ import { ScrollLift } from "@/components/motion/scroll_lift";
 import { ScaleTree } from "@/components/home/scale_tree";
 import { WeightsFilters } from "@/components/home/weights_filters";
 import { FOOTER_LIFT, FOOTER_SPAN, Footer } from "@/components/site/footer";
+import { JsonLd } from "@/components/site/json_ld";
 import { Navbar } from "@/components/site/navbar";
 import { get_dictionary } from "@/lib/dictionaries";
+import { faq_ld, graph_ld, software_ld } from "@/lib/structured_data";
 
 export default async function HomePage({ params }) {
   const { lang } = await params;
@@ -21,6 +23,10 @@ export default async function HomePage({ params }) {
 
   return (
     <>
+      {/* El producto como software y las preguntas de abajo como FAQ, para el
+          buscador. El texto es el MISMO `dict` que dibuja las secciones: lo
+          declarado tiene que coincidir con lo visible. */}
+      <JsonLd data={graph_ld(software_ld(lang, dict), faq_ld(dict))} />
       <Navbar lang={lang} dict={dict} />
       {/* Destino del enlace "saltar al contenido" del navbar. */}
       <main id="main" className="flex-1">

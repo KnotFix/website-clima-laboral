@@ -2,10 +2,17 @@ import { notFound } from "next/navigation";
 
 import { DocsLayout } from "@/components/docs/docs_layout";
 import { DocsPager } from "@/components/docs/docs_pager";
+import { JsonLd } from "@/components/site/json_ld";
 import { flatten_nav, neighbours_of } from "@/content/docs/nav";
 import { get_dictionary } from "@/lib/dictionaries";
 import { headings_of, resolve_doc } from "@/lib/docs";
-import { LOCALES, is_locale } from "@/lib/site_config";
+import { page_metadata } from "@/lib/seo";
+import { is_locale } from "@/lib/site_config";
+import {
+  breadcrumb_ld,
+  doc_article_ld,
+  graph_ld,
+} from "@/lib/structured_data";
 
 /**
  * Los slugs salen de `DOCS_NAV`, no de un `readdir`: un .mdx sin entrada en la
@@ -27,19 +34,16 @@ export async function generateMetadata({ params }) {
   const doc = await resolve_doc(lang, doc_slug);
   if (!doc) return {};
 
-  return {
+  // Los slugs son los MISMOS en los dos idiomas (van en ingles), asi que el
+  // hreflang se arma sin una tabla de traduccion de rutas. Es la otra mitad
+  // de por que los slugs no se traducen — ver `content/docs/nav.js`.
+  return page_metadata({
+    lang,
+    path: `/docs/${doc_slug}`,
     title: doc.meta.title,
     description: doc.meta.description,
-    alternates: {
-      canonical: `/${lang}/docs/${doc_slug}`,
-      // Los slugs son los MISMOS en los dos idiomas (van en ingles), asi que el
-      // hreflang se arma sin una tabla de traduccion de rutas. Es la otra mitad
-      // de por que los slugs no se traducen — ver `content/docs/nav.js`.
-      languages: Object.fromEntries(
-        LOCALES.map((locale) => [locale, `/${locale}/docs/${doc_slug}`]),
-      ),
-    },
-  };
+    type: "article",
+  });
 }
 
 export default async function DocPage({ params }) {
@@ -57,6 +61,7 @@ export default async function DocPage({ params }) {
   const dict = await get_dictionary(lang);
   const headings = await headings_of(lang, doc_slug);
   const { prev_doc, next_doc } = neighbours_of(doc_slug);
+  const nav_entry = flatten_nav().find((entry) => entry.slug === doc_slug);
 
   return (
     <DocsLayout
@@ -65,6 +70,22 @@ export default async function DocPage({ params }) {
       active_slug={doc_slug}
       headings={headings}
     >
+      {/* La miga (Inicio > Documentacion > Grupo > Pagina) y el articulo,
+          en schema.org. El grupo sale de `DOCS_NAV`, que es quien lo dibuja
+          en el sidebar; no tiene URL propia y por eso va sin `item`. */}
+      <JsonLd
+        data={graph_ld(
+          breadcrumb_ld(lang, [
+            { name: dict.meta_title, path: "" },
+            { name: dict.docs_index_title, path: "/docs" },
+            ...(nav_entry
+              ? [{ name: nav_entry.group_title[lang], path: null }]
+              : []),
+            { name: meta.title, path: null },
+          ]),
+          doc_article_ld(lang, `/docs/${doc_slug}`, meta),
+        )}
+      />
       <article>
         {/* El h1 lo pone la RUTA y no el .mdx. Asi el titulo de una pagina esta
             en un solo lugar —`nav.js` para el sidebar, `meta` para el <title>—

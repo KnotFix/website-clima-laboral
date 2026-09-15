@@ -54,6 +54,8 @@ src/
       use_active_section.jsx    hook useActiveSection (IntersectionObs) [programmer]
       mobile_menu.jsx           Sheet para < md                         [programmer]
       theme_provider.jsx        wrapper cliente de next-themes          [programmer]
+      json_ld.jsx               <JsonLd data>: un <script ld+json> con
+                                el objeto serializado y el `<` escapado [programmer]
       theme_toggle.jsx          claro/oscuro                            [programmer]
       lang_switch.jsx           es/en                                   [programmer]
       footer.jsx                el pie, que sale desde ABAJO del CTA.
@@ -177,6 +179,14 @@ src/
     utils.js                    cn() — lo genero shadcn
     dictionaries.js             get_dictionary(lang), LOCALES           [programmer]
     site_config.js              marca, links, constantes                [programmer]
+    seo.js                      page_metadata(): title, descripcion,
+                                canonical, hreflang (con x-default) y
+                                tarjetas OG/X de CADA pagina. Tambien
+                                hreflang_of() para el sitemap           [programmer]
+    structured_data.js          los objetos schema.org: organization_ld,
+                                website_ld, software_ld, faq_ld,
+                                breadcrumb_ld, doc_article_ld,
+                                legal_page_ld, graph_ld                 [programmer]
     docs.js                     resolve_doc(), headings_of(). Lee el .mdx
                                 CRUDO con fs para el indice             [programmer]
     legal.js                    resolve_legal(). Mas corto que docs.js: sin
@@ -192,6 +202,9 @@ test/
   site_config.test.js           swap_locale_in_path() e is_locale()     [programmer]
   docs.test.js                  is_doc_slug() y headings_of(), con la
                                 invariante de los slugs                 [programmer]
+  seo.test.js                   page_metadata() declara es, en y
+                                x-default; la FAQ del JSON-LD es la de
+                                la seccion; LEGAL_NAV con descripcion   [programmer]
 vitest.config.mjs               alias `@` y `server-only`               [programmer]
 Dockerfile                      imagen Node de dos etapas: build + `node
                                 server.js` de la salida `standalone`. El
