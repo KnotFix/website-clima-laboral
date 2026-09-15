@@ -61,7 +61,7 @@ export function Measurement({ dict }) {
           land_span={0.4}
         >
           <AccentTitle segments={dict.measurement_title_segments} />
-          <p className="mt-5 max-w-2xl text-xl leading-relaxed text-muted-foreground text-pretty">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">
             {dict.measurement_body}
           </p>
         </ChapterLand>

@@ -301,6 +301,9 @@ docs/
 | `enter_from` | prop string | `"left"` / `"right"` / `"below"`: de dónde llega la pieza. **Cambia el modelo de movimiento** — con esto aterriza en su sitio en vez de atravesar. Ver los dos modelos |
 | `SETTLE_SCALE` | const number | cuánto se achica la pieza mientras viene en camino. Es lo que la hace leer como flotando y no como empujada |
 | `SIDE_MIN_WIDTH` | const number | desde qué ancho una pieza tiene un lado del que venir. Abajo de eso el aterrizaje cae a vertical |
+| `COMPACT_IN_END` | const number | en columna (abajo de `SIDE_MIN_WIDTH`): a qué altura de la ventana, en fracción, la pieza ya está a pleno a más tardar. Techo sobre `fade_in`, no reemplazo |
+| `COMPACT_OUT` | const number | en columna: el último tramo antes del tope, en fracción de la ventana, en el que la pieza se va. Reemplaza a `fade_out`, que ahí no se mira |
+| `COMPACT_DRIFT` | const number | en columna: techo del recorrido de entrada, en px. No hay recorrido de salida: la pieza aterriza y se queda hasta irse |
 | `phase` | prop string | `ChapterLand`: de qué fase del capítulo cuelga la pieza — `"stack"` (diapo 1) o `"pan"` (diapo 2) |
 | `land_at` / `land_span` | prop number | dónde arranca y cuánto dura el aterrizaje de una pieza, **en fracción de su fase**. Adentro del capítulo no hay px de scroll que signifiquen algo |
 | `fade` | prop boolean | si la pieza además aparece. `false` para lo que ya está a la vista durante la aproximación — ver la pantalla de la aproximación |
@@ -1479,6 +1482,12 @@ Por eso los tres usan `useRemeasure`, que corre la medición al montar, en el
 `resize` de la ventana, y con un `ResizeObserver` sobre `documentElement`.
 **Escuchar solo el `resize` no alcanza**: la ventana no cambia de tamaño cuando
 lo que crece es el documento.
+
+**En un teléfono el `resize` se filtra.** La barra de direcciones se esconde al
+bajar y vuelve al subir, y cada vez la ventana cambia de alto con el mismo ancho.
+Con puntero grueso y el ancho igual, el hook no vuelve a medir: cuarenta
+mediciones y sus `setState` caían a mitad del gesto. Girar el teléfono cambia el
+ancho y sí vuelve a medir; lo que crece el documento lo sigue viendo el observer.
 
 ### La entrada y la salida de los titulares
 

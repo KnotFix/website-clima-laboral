@@ -66,7 +66,7 @@ export function FinalCta({ dict }) {
           <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between md:gap-12">
             <div className="max-w-2xl">
               <AccentTitle segments={dict.final_cta_title_segments} />
-              <p className="mt-5 text-xl leading-relaxed text-muted-foreground text-pretty">
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">
                 {dict.final_cta_body}
               </p>
             </div>

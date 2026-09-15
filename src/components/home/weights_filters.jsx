@@ -88,7 +88,7 @@ export function WeightsFilters({ dict }) {
   return (
     <section
       id="weights"
-      className="scroll-mt-24 overflow-x-clip py-24 sm:py-32"
+      className="scroll-mt-24 overflow-x-clip py-20 sm:py-32"
     >
       <Container>
         <ScrollPass {...HEADING_PASS}>
@@ -128,12 +128,12 @@ export function WeightsFilters({ dict }) {
               return pieces;
             })}
           </BlurText>
-          <p className="mt-5 max-w-2xl text-xl leading-relaxed text-muted-foreground text-pretty">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">
             {dict.weights_body}
           </p>
         </ScrollPass>
 
-        <ul className="mt-20 flex flex-col gap-20 lg:gap-24">
+        <ul className="mt-14 flex flex-col gap-16 sm:mt-20 sm:gap-20 lg:gap-24">
           {dict.weights_points.map((point, index) => {
             const { key, Shot, clip } = SHOTS[index];
 

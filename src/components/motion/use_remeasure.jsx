@@ -44,14 +44,31 @@ export function useRemeasure(measure, deps = []) {
   useEffect(() => {
     const run = () => latest.current();
 
+    // **En un telefono la ventana cambia de alto en cada scroll**: la barra de
+    // direcciones se esconde al bajar y vuelve al subir, y cada vez dispara un
+    // `resize` de 50 a 100px de alto con el mismo ancho. Sin este filtro,
+    // cuarenta mediciones y sus `setState` corrian a mitad del gesto, justo
+    // cuando la pagina tiene que estar libre para desplazarse. El alto de la
+    // ventana entra en los tramos, pero 100px sobre un hito que ya se abre a
+    // media pantalla no se ven; un ancho nuevo (girar el telefono) si, y ese
+    // sigue pasando. Lo que crece el documento lo sigue viendo el observer.
+    let last_width = window.innerWidth;
+    const on_resize = () => {
+      const width = window.innerWidth;
+      const same_width = width === last_width;
+      last_width = width;
+      if (same_width && window.matchMedia("(pointer: coarse)").matches) return;
+      run();
+    };
+
     run();
-    window.addEventListener("resize", run);
+    window.addEventListener("resize", on_resize);
 
     const observer = new ResizeObserver(run);
     observer.observe(document.documentElement);
 
     return () => {
-      window.removeEventListener("resize", run);
+      window.removeEventListener("resize", on_resize);
       observer.disconnect();
     };
     // El efecto se rearma con `deps` a proposito: es la unica forma de volver a

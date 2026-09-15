@@ -67,12 +67,12 @@ export function ScaleTree({ dict }) {
   }, []);
 
   return (
-    <section className="py-24 sm:py-32">
+    <section className="py-20 sm:py-32">
       <Container>
         <ScrollPass {...HEADING_PASS}>
           <div className="max-w-2xl">
             <AccentTitle segments={dict.scale_title_segments} />
-            <p className="mt-5 text-xl leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-5 text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">
               {dict.scale_body}
             </p>
           </div>

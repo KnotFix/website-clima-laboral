@@ -60,6 +60,41 @@ export const SETTLE_SCALE = 0.97;
 const SIDE_MIN_WIDTH = 1024;
 
 /**
+ * Abajo de `SIDE_MIN_WIDTH` la pagina es una columna, y ahi los hitos dejan de
+ * medirse como fraccion del cruce y pasan a medirse contra la pantalla.
+ *
+ * **Lo que fallaba era el reparto, no el gesto.** Los hitos en fraccion del
+ * cruce (`fade_in`, `fade_out`) se eligieron mirando un monitor, donde una
+ * ficha mide un tercio de la ventana y el cruce entero son dos pantallas. En un
+ * telefono la misma ficha mide media pantalla y el cruce son cuatro: el 0.78 de
+ * salida caia con la ficha todavia en la mitad de abajo, o sea **atenuada
+ * mientras alguien la esta leyendo**. Medido a 390×844: la ficha 04 de "Como
+ * funciona" estaba al 65% con su borde superior en el pixel 453, y "Rama contra
+ * rama" al 37% recien asomando. El sitio se veia turbio en cada pantalla.
+ *
+ * Los tres numeros, en fracciones del alto de la ventana:
+ *
+ * - `COMPACT_IN_END`: la pieza esta a pleno **a mas tardar** cuando su borde
+ *   superior llega a esta altura. El `fade_in` de siempre sigue mandando si
+ *   termina antes; esto es un techo, no un reemplazo.
+ * - `COMPACT_OUT`: se va solo en este ultimo tramo antes de que su borde
+ *   inferior cruce el tope, que es donde ya la tapa la isla del navbar. Antes
+ *   de eso no se toca: en una columna no hay "tramo de lectura" que separar
+ *   del de salida, la pieza se lee hasta que se fue.
+ * - `COMPACT_DRIFT`: techo del recorrido de entrada. 90px sobre 844 de alto es
+ *   una decima de pantalla en la que el bloque viene resbalando detras del
+ *   pulgar; a 40 llega y se apoya.
+ *
+ * Y **no hay recorrido de salida**: la pieza aterriza y se queda en su sitio
+ * hasta irse. El "vuelve por donde vino" de escritorio existe para que subir
+ * desarme lo que bajar armo, pero en una columna una pieza que se corre hacia
+ * abajo mientras sale se lee como que la pagina se resiste al scroll.
+ */
+const COMPACT_IN_END = 0.6;
+const COMPACT_OUT = 0.12;
+const COMPACT_DRIFT = 40;
+
+/**
  * El ajuste de un titular de seccion, en un solo lugar.
  *
  * **Todos los titulares del sitio entran y salen con el scroll**, no con un
@@ -181,7 +216,7 @@ export function ScrollPass({
   // Arranca en `false` y se corrige despues del montaje, como
   // `useReducedMotionSafe`. No hay salto visible: en el primer fotograma la
   // pieza todavia esta en opacidad cero.
-  const [has_sides, set_has_sides] = useState(false);
+  const [compact, set_compact] = useState(false);
 
   useRemeasure(() => {
     const element = container_ref.current;
@@ -190,22 +225,44 @@ export function ScrollPass({
     const rect = element.getBoundingClientRect();
     const top_in_document = rect.top + window.scrollY;
     const viewport = window.innerHeight;
+    const is_compact = window.innerWidth < SIDE_MIN_WIDTH;
 
-    set_has_sides(window.innerWidth >= SIDE_MIN_WIDTH);
+    set_compact(is_compact);
 
     // El turno se suma al ARRANQUE, no a cada hito: los cuatro salen de
     // `enter`, asi que corriendolo se corre el tramo completo de una. Sumarlo
     // tambien a `travel` seria otra cosa —la pieza cruzaria mas despacio— y el
     // escalonado dejaria de ser un desfase para volverse un cambio de ritmo.
-    const enter = top_in_document - viewport + build_index * build_step;
+    const turn = build_index * build_step;
+    const enter = top_in_document - viewport + turn;
     const travel = rect.height + viewport;
 
-    set_span([
-      enter,
+    if (!is_compact) {
+      set_span([
+        enter,
+        enter + travel * fade_in,
+        enter + travel * fade_out,
+        enter + travel,
+      ]);
+      return;
+    }
+
+    // En columna los hitos se miden contra la pantalla (ver `COMPACT_*`). La
+    // entrada conserva el `fade_in` de la pieza si termina antes del techo; la
+    // salida no mira `fade_out`: es el ultimo tramo antes del borde, y punto.
+    // El `Math.max` es para una pieza mas baja que ese tramo, donde la salida
+    // arrancaria antes de que termine la entrada y los hitos se cruzarian.
+    const bottom_in_document = top_in_document + rect.height;
+    const in_end = Math.min(
       enter + travel * fade_in,
-      enter + travel * fade_out,
-      enter + travel,
-    ]);
+      top_in_document - viewport * COMPACT_IN_END + turn,
+    );
+    const out_start = Math.max(
+      in_end + 1,
+      bottom_in_document - viewport * COMPACT_OUT,
+    );
+
+    set_span([enter, in_end, out_start, bottom_in_document]);
   });
 
   const opacity = useTransform(scrollY, span, [0, 1, 1, 0], { clamp: true });
@@ -218,22 +275,34 @@ export function ScrollPass({
   // Aterrizar: los cuatro hitos, espejados. El 0 del medio es la posicion de
   // layout, y el tramo entre los dos hitos del medio es la pieza QUIETA en su
   // sitio. Los extremos son iguales entre si: se va por donde vino.
-  const sideways = Boolean(enter_from) && has_sides;
-  const x_from = sideways ? (enter_from === "left" ? -drift : drift) : 0;
-  const y_from = sideways ? 0 : drift;
+  //
+  // En columna el recorrido se acota y **la salida vale 0**: la pieza se queda
+  // en su sitio hasta irse. Ver `COMPACT_DRIFT`.
+  const sideways = Boolean(enter_from) && !compact;
+  const reach = compact ? Math.min(drift, COMPACT_DRIFT) : drift;
+  const x_from = sideways ? (enter_from === "left" ? -reach : reach) : 0;
+  const y_from = sideways ? 0 : reach;
+  const x_exit = compact ? 0 : x_from;
+  const y_exit = compact ? 0 : y_from;
+  const scale_exit = compact ? 1 : SETTLE_SCALE;
 
-  const land_x = useTransform(scrollY, span, [x_from, 0, 0, x_from], {
+  const land_x = useTransform(scrollY, span, [x_from, 0, 0, x_exit], {
     clamp: true,
   });
-  const land_y = useTransform(scrollY, span, [y_from, 0, 0, y_from], {
+  const land_y = useTransform(scrollY, span, [y_from, 0, 0, y_exit], {
     clamp: true,
   });
   const scale = useTransform(
     scrollY,
     span,
-    [SETTLE_SCALE, 1, 1, SETTLE_SCALE],
+    [SETTLE_SCALE, 1, 1, scale_exit],
     { clamp: true },
   );
+
+  // En columna todo aterriza, tambien lo que en escritorio atraviesa: un
+  // parallax de ±drift sobre una pieza que ocupa el ancho entero no da
+  // profundidad, da un bloque que resbala detras del pulgar.
+  const lands = Boolean(enter_from) || compact;
 
   return (
     // Dos divs: el de afuera se mide, el de adentro se transforma. `y` sobre el
@@ -247,7 +316,7 @@ export function ScrollPass({
         style={
           reduced_motion
             ? undefined
-            : enter_from
+            : lands
               ? { opacity, x: land_x, y: land_y, scale }
               : { opacity, y: pass_y }
         }

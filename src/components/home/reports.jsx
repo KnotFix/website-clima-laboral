@@ -53,11 +53,11 @@ const SHOT_DRIFT = 96;
  */
 export function Reports({ dict }) {
   return (
-    <section id="reports" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="reports" className="scroll-mt-24 py-20 sm:py-32">
       <Container>
         <ScrollPass {...HEADING_PASS}>
           <AccentTitle segments={dict.reports_title_segments} />
-          <p className="mt-5 max-w-2xl text-xl leading-relaxed text-muted-foreground text-pretty">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">
             {dict.reports_body}
           </p>
         </ScrollPass>
