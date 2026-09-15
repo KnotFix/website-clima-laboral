@@ -61,25 +61,29 @@ const en = {
   hero_cta_secondary: "See how it works",
 
   // The panel under the CTAs: one capture and three cards floating over it.
-  // **The numbers come from the SAME demo study as the capture** — Clima
-  // Laboral 2026, 324 responses — and must keep matching it: a card that
-  // contradicts the panel underneath reads as made up. If the capture changes,
-  // check them here.
-  // `series` is the climate index study by study, 2017 to 2026, read off
-  // `indices_evolucion`; it only draws the line, it is never printed. The
-  // `*_value` fields are the goal bar lengths, 0 to 100.
+  // **The numbers come from the SAME demo series as the capture** — Clima
+  // Laboral 2027 - eNPS, 144 responses, the eleventh study of Ingenio Santa
+  // Rita — and must keep matching it: a card that contradicts the panel
+  // underneath reads as made up. If the capture changes, check them here.
+  // The capture is the 2027 one because it is the one that shows the eNPS next
+  // to the two indices; `trend` ends on the same 71.42% the panel shows.
+  // `goal` is still the 2026 target — the one in `metas_resultado`, further
+  // down —: the 2027 one was missed by 20 points and is not hero material.
+  // `series` is the climate index study by study, 2017 to 2027, read off
+  // `indices_evolucion` plus the 2027 point; it only draws the line, it is
+  // never printed. The `*_value` fields are the goal bar lengths, 0 to 100.
   hero_showcase: {
     shot: {
       light: "/shots/resumen_estudio-light.png",
       dark: "/shots/resumen_estudio-dark.png",
-      alt: "A workplace climate study summary: 324 respondents, 75.03% job satisfaction, 75.41% workplace climate, and every category with its percentage",
+      alt: "A workplace climate study summary: 144 respondents, 71.52% job satisfaction, 71.42% workplace climate, an eNPS of +0.69 with promoters, passives and detractors, and every category with its percentage",
     },
     trend: {
       label: "Workplace climate",
-      value: "75.41%",
-      delta: "+15.1 pts",
-      span: "10 studies, 2017 to 2026",
-      series: [60.31, 64.0, 65.7, 65.4, 65.4, 70.0, 71.7, 70.7, 71.7, 75.41],
+      value: "71.42%",
+      delta: "+11.1 pts",
+      span: "11 studies, 2017 to 2027",
+      series: [60.31, 64.0, 65.7, 65.4, 65.4, 70.0, 71.7, 70.7, 71.7, 75.41, 71.42],
     },
     goal: {
       label: "Job satisfaction 2026",

@@ -63,9 +63,13 @@ function FloatCard({ children, class_name }) {
  * Las tarjetas no aparecen en movil. Ahi el marco mide lo que la pantalla, y
  * tres tarjetas encima taparian justo la captura que tienen que acompanar.
  *
- * Los numeros salen del mismo modo demo que la captura —324 respuestas, 75,41
- * de clima, la meta de satisfaccion 2026—: una tarjeta que contradijera al
- * panel que tiene abajo se leeria como inventada.
+ * Los numeros salen del mismo modo demo que la captura —144 respuestas, 71,42
+ * de clima en el estudio 2027 con eNPS, la meta de satisfaccion 2026—: una
+ * tarjeta que contradijera al panel que tiene abajo se leeria como inventada.
+ *
+ * La captura es la del estudio 2027 y no la del 2026 porque es la que muestra
+ * el eNPS al lado de satisfaccion y clima: es lo que se vende arriba del
+ * pliegue, y antes no aparecia en ninguna captura del sitio.
  */
 export function HeroShowcase({ dict }) {
   const { shot, trend, goal, anonymity } = dict.hero_showcase;

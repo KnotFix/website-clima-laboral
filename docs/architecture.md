@@ -1049,6 +1049,11 @@ de ventana —tres puntos y el nombre del producto, **sin URL**: una dirección
 inventada es un dato falso— y tres tarjetas encima: la tendencia del clima con
 su línea, la meta contra el resultado, y el anonimato.
 
+La captura es el resumen del estudio **Clima Laboral 2027 - eNPS** de la demo,
+y no el de 2026 como el resto de las capturas de medición, porque es la única
+pantalla donde el eNPS aparece al lado de satisfacción y clima. Es lo que se
+muestra arriba del pliegue.
+
 **Reemplazó al video de YouTube**, que nunca pasó de *Big Buck Bunny*. Una
 captura del modo demo se puede tener hoy; un video de presentación no.
 

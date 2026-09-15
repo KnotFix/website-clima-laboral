@@ -62,25 +62,29 @@ const es = {
   hero_cta_secondary: "Ver cómo funciona",
 
   // El panel bajo los CTA: una captura y tres tarjetas que flotan encima.
-  // **Los números son del MISMO estudio demo que la captura** —Clima Laboral
-  // 2026, 324 respuestas— y tienen que seguir coincidiendo con ella: una
-  // tarjeta que contradice al panel de abajo se lee como inventada. Si cambia
-  // la captura, se revisan acá.
-  // `series` es el índice de clima estudio por estudio, 2017 a 2026, leído de
-  // `indices_evolucion`; solo dibuja la línea, no se imprime. `*_value` son
-  // los largos de la barra de la meta, de 0 a 100.
+  // **Los números son de la MISMA serie demo que la captura** —Clima Laboral
+  // 2027 - eNPS, 144 respuestas, el undécimo estudio de Ingenio Santa Rita— y
+  // tienen que seguir coincidiendo con ella: una tarjeta que contradice al
+  // panel de abajo se lee como inventada. Si cambia la captura, se revisan acá.
+  // La captura es la de 2027 porque es la que muestra el eNPS junto a los dos
+  // índices; `trend` termina en ese mismo 71,42 % que se lee en el panel.
+  // `goal` sigue siendo la meta de 2026 —la de `metas_resultado`, más abajo—:
+  // la de 2027 no se cumplió por 20 puntos y no es lo que va en el hero.
+  // `series` es el índice de clima estudio por estudio, 2017 a 2027, leído de
+  // `indices_evolucion` más el punto de 2027; solo dibuja la línea, no se
+  // imprime. `*_value` son los largos de la barra de la meta, de 0 a 100.
   hero_showcase: {
     shot: {
       light: "/shots/resumen_estudio-light.png",
       dark: "/shots/resumen_estudio-dark.png",
-      alt: "Resumen de un estudio de clima laboral: 324 encuestados, satisfacción laboral de 75,03 %, clima laboral de 75,41 % y cada categoría con su porcentaje",
+      alt: "Resumen de un estudio de clima laboral: 144 encuestados, satisfacción laboral de 71,52 %, clima laboral de 71,42 %, eNPS de +0,69 con promotores, pasivos y detractores, y cada categoría con su porcentaje",
     },
     trend: {
       label: "Clima laboral",
-      value: "75,41 %",
-      delta: "+15,1 pts",
-      span: "10 estudios, de 2017 a 2026",
-      series: [60.31, 64.0, 65.7, 65.4, 65.4, 70.0, 71.7, 70.7, 71.7, 75.41],
+      value: "71,42 %",
+      delta: "+11,1 pts",
+      span: "11 estudios, de 2017 a 2027",
+      series: [60.31, 64.0, 65.7, 65.4, 65.4, 70.0, 71.7, 70.7, 71.7, 75.41, 71.42],
     },
     goal: {
       label: "Satisfacción laboral 2026",
