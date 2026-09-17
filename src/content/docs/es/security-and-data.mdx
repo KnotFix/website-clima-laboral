@@ -59,6 +59,35 @@ Los roles son cuatro y están explicados en [Roles y permisos](/es/docs/roles). 
 **titular de la cuenta es uno solo** y hay cosas que solo él puede tocar: contratar,
 cancelar, y mover el umbral de confidencialidad.
 
+## Cómo se entra a la cuenta
+
+**Quien responde la encuesta no tiene cuenta ni contraseña.** Entra por el enlace de su
+invitación o por una estación de kiosco, responde y sale. Todo lo que sigue vale para las
+personas que administran: el titular, los admins y quien lee resultados.
+
+**La identidad la administra Clerk.** El correo, la contraseña y los factores de
+verificación viven ahí, no en nuestra base.
+
+**Hay verificación en dos pasos, y la enciende cada persona.** Está en tu nombre, al pie de
+la barra lateral: **Mi cuenta → Seguridad → Agregar verificación en dos pasos**. Son dos
+piezas y se arman de una sola vez:
+
+- **Aplicación de autenticación.** Escaneás un código con Google Authenticator, Authy,
+  1Password o la que uses, y desde ese momento el ingreso pide seis dígitos además de la
+  contraseña. Ese número lo calcula tu teléfono contra el reloj: no viaja por SMS ni por
+  correo, así que no hay mensaje que interceptar ni línea que alguien pueda portar a otro
+  chip.
+- **Códigos de respaldo.** Al activarla aparece una lista de códigos de un solo uso, y son
+  la vuelta a casa si perdés el teléfono o lo cambiás.
+
+⚠️ **Guardá los códigos de respaldo fuera de ese teléfono.** Si no tenés ni el
+autenticador ni los códigos, recuperar el acceso pasa por escribirnos, y es un trámite con
+verificación de identidad, no un clic.
+
+**Todavía no se le puede exigir al equipo entero.** Cada persona decide si lo enciende y no
+hay una casilla que lo vuelva obligatorio para toda la organización. Si tu política interna
+lo pide, por ahora se verifica por fuera del producto.
+
 ## Lo que no puede ver nadie, y tampoco nosotros
 
 Esta es la parte que hace que el instrumento sirva, y no es una promesa de buena
@@ -78,9 +107,10 @@ opción para apagarlo. Está explicado en [Anonimato y N mínimo](/es/docs/anony
 **Tu tarjeta nunca toca nuestros servidores.** Los datos del pago se digitan contra el
 procesador y viajan del navegador a él; nosotros recibimos el resultado, nunca el número.
 
-**Las contraseñas no están en nuestra base.** La identidad la administra Clerk, incluido
-el segundo factor. Nosotros guardamos a qué organización pertenece cada persona y con qué
-rol, no cómo se autentica.
+**Las contraseñas no están en nuestra base.** Las administra Clerk, junto con el segundo
+factor. Nosotros guardamos a qué organización pertenece cada persona y con qué rol, no cómo
+se autentica. Cómo se enciende la verificación en dos pasos está arriba, en
+[Cómo se entra a la cuenta](#cómo-se-entra-a-la-cuenta).
 
 ## Cifrado, acceso y registro
 

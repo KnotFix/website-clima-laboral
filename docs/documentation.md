@@ -6,7 +6,7 @@ pero el mapa de archivos y las reglas de diseño del sitio siguen siendo de aque
 
 Estado: **esqueleto en pie, 21 páginas publicadas** en los dos idiomas (42 archivos) y **las seis
 capturas puestas** (2026-08-17): «Empezar», «Conceptos», «Interpretar», «Para tu gente», «Cuenta» y
-«Referencia», más el **changelog con 10 entradas**. La última en entrar fue **«Seguridad y datos»**,
+«Referencia», más el **changelog con 11 entradas**. La última en entrar fue **«Seguridad y datos»**,
 publicada el 2026-08-18 tras cerrarse el hueco de los respaldos. Falta lo marcado abajo: las
 capturas de la HOME, que siguen siendo fotos de Unsplash.
 
@@ -379,6 +379,21 @@ Cuenta
 > quedan registradas —eso sí es cierto— y **no repite el plazo**. El arreglo correcto es
 > hacer verdadero el plazo (mandar los logs a un destino que los conserve), no aflojar la
 > promesa: doce meses es lo que hace detectable el riesgo residual de anonimato.
+
+> **La verificación en dos pasos entró el 2026-09-17**, con una sección propia en esa misma
+> página: «Cómo se entra a la cuenta», arriba de «Lo que no puede ver nadie». El disparador fue
+> que el segundo factor se habilitó en Clerk (aplicación de autenticación y códigos de respaldo,
+> opcional y por persona), o sea que la página pasó a poder decirlo **porque ya era cierto**.
+>
+> ⚠️ **Los legales ya lo permitían y por eso no hubo que tocarlos**: `privacy` lista los factores
+> de dos pasos entre las credenciales y el `dpa` promete «verificación en dos pasos disponible»
+> desde el 2026-08-17. Es la regla de esta página aplicada al derecho: la doc no dijo más que
+> ellos. Si algún día se vuelve obligatorio para toda la organización, eso **sí** es una promesa
+> nueva y se agrega allá primero.
+>
+> ⚠️ **La sección dice lo que NO hay**: no se le puede exigir al equipo entero, y no hay SMS. Lo
+> segundo se escribió como propiedad, no como carencia (el código lo calcula el teléfono contra el
+> reloj, así que no hay mensaje que interceptar), que es lo que un área de seguridad quiere leer.
 
 > **«Conceptos» es la sección que importa y la que hay que escribir primero.** El producto se vende
 > en autoservicio con prueba gratis: **no hay nadie del otro lado** explicando qué es un nodo, por

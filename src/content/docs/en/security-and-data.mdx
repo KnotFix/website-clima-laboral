@@ -58,6 +58,36 @@ There are four roles, explained in [Roles and permissions](/en/docs/roles). Ther
 **exactly one account owner**, and some things only they can touch: subscribing,
 cancelling, and moving the confidentiality threshold.
 
+## How you sign in
+
+**Whoever answers the survey has no account and no password.** They come in through the
+link in their invitation or through a kiosk station, answer, and leave. Everything that
+follows is about the people who administer the account: the owner, the admins and whoever
+reads results.
+
+**Identity is handled by Clerk.** The email address, the password and the verification
+factors live there, not in our database.
+
+**Two-step verification is available, and each person turns it on.** It sits under your
+name at the foot of the sidebar: **My account → Security → Add two-step verification**. It
+comes in two pieces, set up in one go:
+
+- **Authenticator application.** You scan a code with Google Authenticator, Authy,
+  1Password or whichever you use, and from then on signing in asks for six digits on top of
+  the password. Your phone computes that number against the clock: it does not travel over
+  SMS or email, so there is no message to intercept and no line anyone can port to another
+  SIM.
+- **Backup codes.** Turning it on shows a list of single-use codes, and they are the way
+  back in if you lose the phone or replace it.
+
+⚠️ **Keep the backup codes somewhere other than that phone.** If you have neither the
+authenticator nor the codes, getting access back means writing to us, and that is an
+identity-verification procedure, not a click.
+
+**It cannot be required of the whole team yet.** Each person decides whether to turn it on,
+and there is no setting that makes it mandatory for the organization. If your internal
+policy requires it, for now it is checked outside the product.
+
 ## What nobody can see, us included
 
 This is the part that makes the instrument work, and it is not a promise of good faith:
@@ -77,9 +107,10 @@ off. It is explained in [Anonymity and minimum N](/en/docs/anonymity).
 **Your card never touches our servers.** Payment details are entered against the processor
 and travel from the browser to it; we receive the outcome, never the number.
 
-**Passwords are not in our database.** Identity is handled by Clerk, second factor
-included. We store which organization each person belongs to and with what role, not how
-they authenticate.
+**Passwords are not in our database.** Clerk handles them, along with the second factor. We
+store which organization each person belongs to and with what role, not how they
+authenticate. How two-step verification is turned on is above, under
+[How you sign in](#how-you-sign-in).
 
 ## Encryption, access and logging
 
