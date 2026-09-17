@@ -18,6 +18,14 @@
  * El titulo vive ACA y no en el .mdx: el sidebar tiene que poder dibujar el
  * arbol entero sin abrir cuarenta archivos. El `.mdx` igual exporta su `meta`
  * para el <title> y la metadescripcion de esa pagina.
+ *
+ * **El `id` del grupo es una URL, no un adorno.** Es el ancla de su seccion en
+ * `/docs` y el destino de ese escalon en la miga de pan de cada pagina. Para
+ * Google, un `ListItem` sin `item` es error critico: lo reporto Search Console
+ * el 2026-09-17 sobre «Interpretar» y «Para tu gente», que hasta entonces
+ * eran escalones sin adonde apuntar. Va en ingles y no se traduce, por la
+ * misma regla que los slugs: es un identificador, y ademas tiene que
+ * sobrevivir al cambio de idioma parado en la misma pagina.
  */
 export const DOCS_NAV = [
   {
@@ -25,6 +33,7 @@ export const DOCS_NAV = [
     // alfabetico ni por importancia: es el recorrido. Poner las guias de clic
     // primero es el error clasico de un sitio de docs — la persona hace los
     // clics, no entiende el resultado, y escribe al formulario de soporte.
+    id: "getting-started",
     title: { es: "Empezar", en: "Getting started" },
     items: [
       {
@@ -52,6 +61,7 @@ export const DOCS_NAV = [
     ],
   },
   {
+    id: "concepts",
     title: { es: "Conceptos", en: "Concepts" },
     items: [
       {
@@ -88,6 +98,7 @@ export const DOCS_NAV = [
     ],
   },
   {
+    id: "interpreting",
     title: { es: "Interpretar", en: "Interpreting" },
     items: [
       {
@@ -108,6 +119,7 @@ export const DOCS_NAV = [
     // Material que el CLIENTE le reenvia a SUS empleados, no documentacion
     // del producto. Va en el sitio igual porque es lo que un comprador lee
     // antes de comprar: le resuelve el problema que viene despues de la compra.
+    id: "for-your-people",
     title: { es: "Para tu gente", en: "For your people" },
     items: [
       {
@@ -127,6 +139,7 @@ export const DOCS_NAV = [
     // Administracion, no producto. Va casi al final porque nadie la lee para
     // aprender a usar Censuma — se llega cuando hay que contratar, cuando un tope
     // frena algo, o cuando el area de compras pregunta.
+    id: "account",
     title: { es: "Cuenta", en: "Account" },
     items: [
       {
@@ -155,6 +168,7 @@ export const DOCS_NAV = [
   {
     // No se LEE, se CONSULTA. Por eso va ultima: nadie la recorre de arriba
     // abajo, se llega por busqueda o por un enlace de otra pagina.
+    id: "reference",
     title: { es: "Referencia", en: "Reference" },
     items: [
       {
@@ -179,7 +193,11 @@ export const DOCS_NAV = [
  */
 export function flatten_nav() {
   return DOCS_NAV.flatMap((group) =>
-    group.items.map((entry) => ({ ...entry, group_title: group.title })),
+    group.items.map((entry) => ({
+      ...entry,
+      group_title: group.title,
+      group_id: group.id,
+    })),
   );
 }
 

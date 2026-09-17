@@ -72,14 +72,21 @@ export default async function DocPage({ params }) {
     >
       {/* La miga (Inicio > Documentacion > Grupo > Pagina) y el articulo,
           en schema.org. El grupo sale de `DOCS_NAV`, que es quien lo dibuja
-          en el sidebar; no tiene URL propia y por eso va sin `item`. */}
+          en el sidebar, y apunta a SU SECCION del indice (`/docs#<id>`): no
+          tiene pagina propia, pero un escalon sin `item` es error critico de
+          Search Console y ademas manda a la persona a ningun lado. */}
       <JsonLd
         data={graph_ld(
           breadcrumb_ld(lang, [
             { name: dict.meta_title, path: "" },
             { name: dict.docs_index_title, path: "/docs" },
             ...(nav_entry
-              ? [{ name: nav_entry.group_title[lang], path: null }]
+              ? [
+                  {
+                    name: nav_entry.group_title[lang],
+                    path: `/docs#${nav_entry.group_id}`,
+                  },
+                ]
               : []),
             { name: meta.title, path: null },
           ]),

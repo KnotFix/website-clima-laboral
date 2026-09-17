@@ -138,6 +138,21 @@ describe("datos estructurados", () => {
     expect(items[2]).not.toHaveProperty("item");
   });
 
+  it("el escalon del grupo lleva el ancla de su seccion", () => {
+    // Es el unico escalon intermedio que no es una pagina. Search Console
+    // marco como error critico el 2026-09-17 que saliera sin `item`; el ancla
+    // de `/docs` es su destino y el que hace que el campo exista.
+    const ld = breadcrumb_ld("en", [
+      { name: "Inicio", path: "" },
+      { name: "Docs", path: "/docs" },
+      { name: "Interpreting", path: "/docs#interpreting" },
+      { name: "Pagina", path: null },
+    ]);
+    expect(ld.itemListElement[2].item).toBe(
+      `${site_config.domain}/en/docs#interpreting`,
+    );
+  });
+
   it("el grafo lleva contexto y descarta entidades vacias", () => {
     const g = graph_ld(organization_ld(), null, undefined);
     expect(g["@context"]).toBe("https://schema.org");

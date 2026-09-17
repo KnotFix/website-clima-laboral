@@ -56,7 +56,12 @@ export default async function DocsIndexPage({ params }) {
 
       <div className="mt-12 space-y-10">
         {DOCS_NAV.map((group) => (
-          <section key={group.title.en}>
+          // El `id` es el destino del escalon "Grupo" de la miga de pan de
+          // cada doc (`/docs#<id>`), asi que tiene que existir de verdad en
+          // esta pagina: sin el, la miga apunta a un ancla muerta. El
+          // `scroll-mt-28` es el mismo de los encabezados del .mdx, para que
+          // el titulo no quede debajo de la isla del navbar al saltar.
+          <section key={group.id} id={group.id} className="scroll-mt-28">
             <h2 className="text-xs font-semibold uppercase tracking-wider">
               {group.title[lang]}
             </h2>

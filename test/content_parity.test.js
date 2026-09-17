@@ -68,6 +68,27 @@ describe("documentacion", () => {
     expect(slugs).toHaveLength(new Set(slugs).size);
   });
 
+  it("cada grupo tiene un id unico y usable como ancla", () => {
+    // El id del grupo es el escalon "Grupo" de la miga de pan (`/docs#<id>`)
+    // y el ancla de su seccion en el indice. Sin el, ese `ListItem` sale sin
+    // `item` y Search Console lo marca como error critico: el sitio se
+    // publica igual y el aviso llega semanas despues.
+    const ids = DOCS_NAV.map((group) => group.id);
+    expect(ids).toHaveLength(new Set(ids).size);
+    for (const id of ids) {
+      expect(id, `id de grupo no usable en una URL: ${id}`).toMatch(
+        /^[a-z0-9]+(-[a-z0-9]+)*$/,
+      );
+    }
+  });
+
+  it("cada entrada aplanada sabe de que grupo viene", () => {
+    // `flatten_nav` es de donde la ruta catch-all saca el grupo para la miga.
+    for (const entry of flatten_nav()) {
+      expect(entry.group_id, `${entry.slug} sin group_id`).toBeTruthy();
+    }
+  });
+
   it("cada grupo y cada entrada tiene titulo en los dos idiomas", () => {
     for (const group of DOCS_NAV) {
       for (const locale of LOCALES) {
