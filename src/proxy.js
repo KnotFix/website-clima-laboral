@@ -47,7 +47,21 @@ export function proxy(request) {
   const locale = pick_locale(request);
   const url = request.nextUrl.clone();
   url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
-  return NextResponse.redirect(url);
+
+  // **307 y no 308.** El destino depende de quien pide, asi que el redirect no
+  // es permanente: con 308 el navegador lo guarda para siempre y quien cambia
+  // el idioma del sistema sigue cayendo en el viejo. Es ademas lo que Google
+  // espera de una redireccion por idioma; el `x-default` de cada pagina es lo
+  // que le dice que indexar. `NextResponse.redirect` ya usa 307 por defecto.
+  const response = NextResponse.redirect(url);
+
+  // **`Vary` porque la respuesta depende de un header.** Sin esto, cualquier
+  // cache compartida delante del sitio (un CDN, el proxy del hosting) guarda el
+  // `/ -> /es` de la primera visita y se lo sirve tambien a quien pidio ingles,
+  // que es el modo de fallo que no se ve desde adentro: en local nunca hay
+  // cache intermedia y el bug aparece solo en produccion y solo para terceros.
+  response.headers.set("Vary", "Accept-Language");
+  return response;
 }
 
 export const config = {

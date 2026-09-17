@@ -1,6 +1,7 @@
+import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
 
-import { pick_locale } from "@/proxy";
+import { pick_locale, proxy } from "@/proxy";
 
 /** Un request con lo unico que `pick_locale` mira: el header. */
 function request_with(accept_language) {
@@ -52,5 +53,33 @@ describe("pick_locale", () => {
     expect(pick_locale(request_with("  es-419 ; q=0.7 , en ; q=0.3 "))).toBe(
       "es",
     );
+  });
+});
+
+describe("proxy", () => {
+  /** Lo unico que mira: la URL y el header. */
+  function pedir(path, accept_language) {
+    return new NextRequest(`https://censuma.com${path}`, {
+      headers: accept_language ? { "accept-language": accept_language } : {},
+    });
+  }
+
+  it("manda la raiz al idioma del visitante, temporalmente", () => {
+    const res = proxy(pedir("/", "en-US,en;q=0.9"));
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toBe("https://censuma.com/en");
+  });
+
+  it("declara Vary: Accept-Language en el redirect", () => {
+    // El destino depende del header, asi que una cache compartida (CDN, proxy
+    // del hosting) tiene que saber que no puede reusar la respuesta para todos.
+    // Sin esto el fallo no se ve en local: ahi no hay cache en el medio.
+    const res = proxy(pedir("/docs", "es-CR"));
+    expect(res.headers.get("vary")).toMatch(/accept-language/i);
+  });
+
+  it("no toca una ruta que ya trae idioma", () => {
+    const res = proxy(pedir("/en/docs/kiosk", "es-CR"));
+    expect(res.headers.get("location")).toBeNull();
   });
 });
