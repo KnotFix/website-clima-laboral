@@ -39,9 +39,17 @@ export default async function sitemap() {
   // fecha del build en cada URL le dice al rastreador que el sitio entero
   // cambio cada vez que se despliega, que es exactamente el dato que hace que
   // deje de creerle al campo.
+  //
+  // El indice `/docs` hereda la fecha de la doc mas nueva: es una portada, y
+  // cambia exactamente cuando cambia algo de lo que lista. La home queda sin
+  // fecha a proposito: cambia con cada despliegue y no hay una sola fuente
+  // que lo diga.
   const changelog_date = await newest_changelog_date();
+  const docs = flatten_nav();
   const modified = new Map([
     ["/changelog", changelog_date],
+    ["/docs", newest_of(docs.map((entry) => entry.updated))],
+    ...docs.map((entry) => [`/docs/${entry.slug}`, entry.updated]),
     ...LEGAL_NAV.map((entry) => [`/legal/${entry.slug}`, entry.updated]),
   ]);
 
@@ -54,6 +62,14 @@ export default async function sitemap() {
       },
     })),
   );
+}
+
+/**
+ * La mas nueva de una lista de fechas `YYYY-MM-DD`. Ordenan como texto porque
+ * el formato es ISO; `undefined` si no hay ninguna.
+ */
+function newest_of(dates) {
+  return dates.filter(Boolean).sort().at(-1);
 }
 
 /**

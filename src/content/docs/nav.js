@@ -26,6 +26,22 @@
  * eran escalones sin adonde apuntar. Va en ingles y no se traduce, por la
  * misma regla que los slugs: es un identificador, y ademas tiene que
  * sobrevivir al cambio de idioma parado en la misma pagina.
+ *
+ * **`published` y `updated` viven ACA y no en el `meta` del .mdx** por una
+ * razon concreta: `sitemap.js` las necesita para el `lastmod` y no puede
+ * compilar veintiun .mdx para leer dos fechas (ver el comentario de arriba de
+ * ese archivo). De paso son una sola fecha por pagina y no una por idioma, que
+ * es lo correcto: el español y el ingles son la MISMA pagina traducida, y
+ * declarar que la version inglesa se actualizo tres dias despues seria decir
+ * que son dos documentos distintos.
+ *
+ * Se sembraron el 2026-09-17 desde el historial de git de cada archivo
+ * (primer commit y ultimo commit), y de ahi en adelante se mantienen a mano:
+ * el dia que se reescribe una doc se le mueve el `updated`. Una fecha vieja es
+ * peor que ninguna, asi que si se edita el contenido sin tocarla, mejor
+ * borrarla. Salen en el JSON-LD (`datePublished`/`dateModified`), en el
+ * `og:modified_time` y en el `lastmod` del sitemap: los tres campos con los
+ * que un buscador decide cada cuanto vuelve a pasar.
  */
 export const DOCS_NAV = [
   {
@@ -39,6 +55,8 @@ export const DOCS_NAV = [
       {
         slug: "what-is-censuma",
         title: { es: "Qué es Censuma", en: "What Censuma is" },
+        published: "2026-09-11",
+        updated: "2026-09-11",
       },
       {
         slug: "first-study",
@@ -46,6 +64,8 @@ export const DOCS_NAV = [
           es: "Tu primer estudio",
           en: "Your first study",
         },
+        published: "2026-08-17",
+        updated: "2026-09-13",
       },
       {
         slug: "kiosk",
@@ -53,10 +73,14 @@ export const DOCS_NAV = [
           es: "Aplicar la encuesta: el kiosco",
           en: "Running the survey: the kiosk",
         },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
       {
         slug: "roles",
         title: { es: "Roles y permisos", en: "Roles and permissions" },
+        published: "2026-08-17",
+        updated: "2026-09-11",
       },
     ],
   },
@@ -67,6 +91,8 @@ export const DOCS_NAV = [
       {
         slug: "org-tree",
         title: { es: "El árbol organizacional", en: "The org tree" },
+        published: "2026-08-17",
+        updated: "2026-09-11",
       },
       {
         slug: "questionnaires",
@@ -74,26 +100,38 @@ export const DOCS_NAV = [
           es: "Boletas y herencia",
           en: "Questionnaires and inheritance",
         },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
       {
         slug: "models",
         title: { es: "Modelos teóricos", en: "Theoretical models" },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
       {
         slug: "study-lifecycle",
         title: { es: "Los estados de un estudio", en: "A study's states" },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
       {
         slug: "indices",
         title: { es: "Satisfacción y Clima", en: "Satisfaction and Climate" },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
       {
         slug: "anonymity",
         title: { es: "Anonimato y N mínimo", en: "Anonymity and minimum N" },
+        published: "2026-08-17",
+        updated: "2026-09-11",
       },
       {
         slug: "targets",
         title: { es: "Metas de mejora", en: "Improvement targets" },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
     ],
   },
@@ -104,14 +142,20 @@ export const DOCS_NAV = [
       {
         slug: "reading-results",
         title: { es: "Cómo leer un resultado", en: "Reading a result" },
+        published: "2026-08-17",
+        updated: "2026-09-13",
       },
       {
         slug: "segments",
         title: { es: "Segmentos", en: "Segments" },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
       {
         slug: "history",
         title: { es: "La serie histórica", en: "The historical series" },
+        published: "2026-08-17",
+        updated: "2026-09-11",
       },
     ],
   },
@@ -125,6 +169,8 @@ export const DOCS_NAV = [
       {
         slug: "announcing",
         title: { es: "Cómo comunicar la encuesta", en: "Announcing the survey" },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
       {
         slug: "employee-anonymity",
@@ -132,6 +178,8 @@ export const DOCS_NAV = [
           es: "Qué decirles sobre el anonimato",
           en: "What to tell them about anonymity",
         },
+        published: "2026-08-17",
+        updated: "2026-08-17",
       },
     ],
   },
@@ -145,6 +193,8 @@ export const DOCS_NAV = [
       {
         slug: "account-and-plan",
         title: { es: "Cuenta y plan", en: "Account and plan" },
+        published: "2026-08-17",
+        updated: "2026-09-17",
       },
       {
         // La pagina de CONFIANZA: no la lee el usuario del producto sino el
@@ -162,6 +212,10 @@ export const DOCS_NAV = [
         // la caza `test/content_parity.test.js`.
         slug: "security-and-data",
         title: { es: "Seguridad y datos", en: "Security and data" },
+        // El archivo es del 17, pero la pagina no existio hasta el 18: es el
+        // dia que entro a esta lista y empezo a rutear. Eso es `published`.
+        published: "2026-08-18",
+        updated: "2026-09-17",
       },
     ],
   },
@@ -174,14 +228,20 @@ export const DOCS_NAV = [
       {
         slug: "glossary",
         title: { es: "Glosario", en: "Glossary" },
+        published: "2026-08-17",
+        updated: "2026-09-13",
       },
       {
         slug: "roster-format",
         title: { es: "El Excel de la nómina", en: "The roster spreadsheet" },
+        published: "2026-08-17",
+        updated: "2026-09-13",
       },
       {
         slug: "question-types",
         title: { es: "Tipos de pregunta", en: "Question types" },
+        published: "2026-08-17",
+        updated: "2026-09-13",
       },
     ],
   },

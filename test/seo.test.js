@@ -7,10 +7,11 @@ import { branded_title, hreflang_of, page_metadata } from "@/lib/seo";
 import { DEFAULT_LOCALE, LOCALES, site_config } from "@/lib/site_config";
 import {
   breadcrumb_ld,
+  doc_article_ld,
   faq_ld,
   graph_ld,
   organization_ld,
-  software_ld,
+  website_ld,
 } from "@/lib/structured_data";
 
 /**
@@ -118,11 +119,27 @@ describe("datos estructurados", () => {
     }
   });
 
-  it("el software y la organizacion se enganchan por el mismo @id", () => {
-    const org = organization_ld();
-    const app = software_ld("es", es);
-    expect(app.publisher["@id"]).toBe(org["@id"]);
-    expect(org.logo.url).toMatch(/\.png$/);
+  it("todo lo que el grafo referencia por @id existe en el grafo", () => {
+    // El `@id` es una promesa: «la organizacion de la que hablo es ESA».
+    // Referenciar un nodo que nadie declara la rompe en silencio, y es lo que
+    // pasaba con el `SoftwareApplication` que se retiro el 2026-09-17: las
+    // docs lo citaban en `about` y la home era la unica que lo declaraba.
+    const grafo = graph_ld(
+      organization_ld(),
+      website_ld("es", es),
+      doc_article_ld("es", "/docs/kiosk", { title: "K" }),
+    );
+
+    const declarados = new Set(grafo["@graph"].map((e) => e["@id"]));
+    for (const entidad of grafo["@graph"]) {
+      for (const campo of ["publisher", "author", "about", "isPartOf"]) {
+        const ref = entidad[campo]?.["@id"];
+        if (ref) {
+          expect(declarados, `${entidad["@type"]}.${campo}`).toContain(ref);
+        }
+      }
+    }
+    expect(organization_ld().logo.url).toMatch(/\.png$/);
   });
 
   it("la miga numera desde 1 y el ultimo escalon no lleva URL", () => {
@@ -151,6 +168,42 @@ describe("datos estructurados", () => {
     expect(ld.itemListElement[2].item).toBe(
       `${site_config.domain}/en/docs#interpreting`,
     );
+  });
+
+  it("un escalon intermedio sin ruta revienta el build", () => {
+    // La mitad que falta del test de arriba: que el arreglo no se pueda
+    // deshacer en silencio. Google invalida la miga ENTERA por un `item` que
+    // falta, y sin este `throw` la unica forma de enterarse es un correo de
+    // Search Console un mes despues.
+    expect(() =>
+      breadcrumb_ld("es", [
+        { name: "Inicio", path: "" },
+        { name: "Grupo", path: null },
+        { name: "Pagina", path: null },
+      ]),
+    ).toThrow(/escalon 2/);
+  });
+
+  it("la doc declara autor, imagen y las dos fechas", () => {
+    // Los cuatro campos que Google recomienda para un articulo y que Search
+    // Console reporta uno por uno mientras no esten.
+    const ld = doc_article_ld(
+      "en",
+      "/docs/kiosk",
+      { title: "Kiosk", description: "d" },
+      { published: "2026-08-17", updated: "2026-09-13" },
+    );
+
+    expect(ld.author["@id"]).toBe(organization_ld()["@id"]);
+    expect(ld.image).toBe(`${site_config.domain}/en/opengraph-image`);
+    expect(ld.datePublished).toBe("2026-08-17");
+    expect(ld.dateModified).toBe("2026-09-13");
+  });
+
+  it("una doc sin fechas omite los campos en vez de inventarlos", () => {
+    const ld = doc_article_ld("es", "/docs/kiosk", { title: "K" });
+    expect(ld).not.toHaveProperty("datePublished");
+    expect(ld).not.toHaveProperty("dateModified");
   });
 
   it("el grafo lleva contexto y descarta entidades vacias", () => {

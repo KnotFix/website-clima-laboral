@@ -132,6 +132,31 @@ describe("documentacion", () => {
     }
     expect(huerfanos).toEqual([]);
   });
+
+  it("cada doc tiene fecha de publicacion y de ultimo cambio", () => {
+    // De estas dos fechas salen el `datePublished`/`dateModified` del JSON-LD,
+    // el `og:modified_time` y el `lastmod` del sitemap. Se mantienen a mano, y
+    // un campo que se mantiene a mano es uno que se olvida: esto caza la doc
+    // nueva que entra al nav sin fecha, que es cuando pasa.
+    const hoy = new Date().toISOString().slice(0, 10);
+
+    for (const entry of flatten_nav()) {
+      expect(entry.published, `${entry.slug} sin published`).toMatch(
+        /^\d{4}-\d{2}-\d{2}$/,
+      );
+      expect(entry.updated, `${entry.slug} sin updated`).toMatch(
+        /^\d{4}-\d{2}-\d{2}$/,
+      );
+      // Ordenan como texto porque son ISO.
+      expect(
+        entry.updated >= entry.published,
+        `${entry.slug}: se actualizo antes de publicarse`,
+      ).toBe(true);
+      expect(entry.updated <= hoy, `${entry.slug}: fecha en el futuro`).toBe(
+        true,
+      );
+    }
+  });
 });
 
 describe("legales", () => {

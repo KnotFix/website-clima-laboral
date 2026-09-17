@@ -43,7 +43,15 @@ export async function generateMetadata({ params }) {
     title: doc.meta.title,
     description: doc.meta.description,
     type: "article",
+    // `og:modified_time`. La fecha vive en `DOCS_NAV` y no en el `meta` del
+    // .mdx porque el sitemap tambien la necesita y no compila los .mdx.
+    modified: entry_of(doc_slug)?.updated,
   });
+}
+
+/** La entrada de `DOCS_NAV` de una pagina: quien tiene el grupo y las fechas. */
+function entry_of(doc_slug) {
+  return flatten_nav().find((entry) => entry.slug === doc_slug);
 }
 
 export default async function DocPage({ params }) {
@@ -61,7 +69,7 @@ export default async function DocPage({ params }) {
   const dict = await get_dictionary(lang);
   const headings = await headings_of(lang, doc_slug);
   const { prev_doc, next_doc } = neighbours_of(doc_slug);
-  const nav_entry = flatten_nav().find((entry) => entry.slug === doc_slug);
+  const nav_entry = entry_of(doc_slug);
 
   return (
     <DocsLayout
@@ -90,7 +98,7 @@ export default async function DocPage({ params }) {
               : []),
             { name: meta.title, path: null },
           ]),
-          doc_article_ld(lang, `/docs/${doc_slug}`, meta),
+          doc_article_ld(lang, `/docs/${doc_slug}`, meta, nav_entry ?? {}),
         )}
       />
       <article>
