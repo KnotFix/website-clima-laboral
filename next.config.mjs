@@ -18,6 +18,27 @@ const nextConfig = {
   // porque los nombres no llevan hash: una regrabacion se publica con el mismo
   // nombre, y una semana (mas un dia sirviendo la vieja mientras revalida) es
   // lo mas que alguien puede quedar viendo la anterior.
+  // **`www` servia el sitio ENTERO con 200.** Las dos versiones responden
+  // porque el hosting rutea los dos nombres al mismo contenedor, y aunque cada
+  // pagina se auto-canonicaliza al dominio sin `www` (todas las URLs salen de
+  // `site_config.domain`), para un buscador siguen siendo dos hosts que hay que
+  // rastrear: gasta el doble de rastreo en el mismo contenido y llena Search
+  // Console de «pagina alternativa con canonica adecuada». El 308 lo resuelve
+  // antes de que se sirva nada.
+  //
+  // El host va escrito y no deducido a proposito: asi el redirect existe SOLO
+  // para el dominio de produccion y no toca staging, que corre en otro nombre.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.censuma.com" }],
+        destination: "https://censuma.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {
