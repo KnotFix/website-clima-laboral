@@ -61,6 +61,7 @@ Tokens CSS en kebab-case (`--muted-foreground`): los genera shadcn.
 
 - **Español e inglés.** Ningún texto visible hardcodeado en un componente: todo vive en `src/content/es.js` y `src/content/en.js` con las mismas llaves, y entra por props.
 - Rutas `/es` y `/en`; `/` redirige según el navegador.
+- **Sin emojis.** Ni en las páginas, ni en los legales, ni en los `.md` de `docs/`, ni en los comentarios del código. El aviso se marca con la negrita que ya abre el párrafo (decisión del usuario, 2026-09-17: se barrieron los 86 avisos con emoji que había). Las flechas de una ruta de interfaz (`Mi cuenta → Seguridad`), el `✓` de las listas de estado y los recuadros de los diagramas no son emojis y se quedan.
 
 ## Animación
 

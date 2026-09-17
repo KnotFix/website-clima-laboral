@@ -151,7 +151,7 @@ acá y olvidarla allá hace que la gente acepte un número que el texto publicad
 lleva. Se tocan el mismo día. El orden completo —avisar por correo, esperar 30
 días, recién ahí subir las dos— está en `docs/legal.md`.
 
-⚠️ Lo mismo vale para los **slugs de las docs**: la FAQ de `/ayuda` del producto
+Lo mismo vale para los **slugs de las docs**: la FAQ de `/ayuda` del producto
 enlaza siete páginas de acá por su slug. Renombrar una rompe esos enlaces **sin
 que nada falle en este repo**.
 

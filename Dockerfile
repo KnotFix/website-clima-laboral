@@ -19,7 +19,7 @@ FROM node:22-alpine AS build
 
 WORKDIR /app
 
-# ⚠️ Se resuelve AL COMPILAR y queda escrita dentro del JS. No es configuración
+# Se resuelve AL COMPILAR y queda escrita dentro del JS. No es configuración
 # de runtime: cambiarla exige reconstruir la imagen, no reiniciar el contenedor.
 # En Dokploy va en "Build Args" (Environment se inyecta al contenedor ya
 # construido y llega tarde). Es la base del PRODUCTO, a donde mandan todos los

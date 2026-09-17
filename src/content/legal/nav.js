@@ -27,7 +27,7 @@
  * re-aceptacion es un gate de sesion, o sea que se hacia aceptar tres textos
  * cuyo cartel decia "no rige" y "no invocar".
  *
- * ⚠️ Apagar el flag NO toca `version`, y no puede: la 1.0 es la que ya
+ * Apagar el flag NO toca `version`, y no puede: la 1.0 es la que ya
  * declara `DOCUMENTOS_LEGALES` en el otro repo y la que se guarda en cada
  * fila de `aceptaciones_legales`. Esto no es una version nueva, asi que no
  * dispara el preaviso de 30 dias ni la re-aceptacion de nadie.
@@ -38,7 +38,7 @@
  * es la unica forma de que la version que se hace aceptar exista en el texto
  * publicado.
  *
- * ⚠️ **Se subieron SIN el preaviso de 30 dias, y eso es legitimo solo por un
+ * **Se subieron SIN el preaviso de 30 dias, y eso es legitimo solo por un
  * motivo: no hay ningun cliente que haya aceptado la 1.0 en produccion.** El
  * preaviso protege a quien ya acepto una version; sin nadie a quien avisar, no
  * hay a quien imponerle nada. **El dia que exista el primer cliente, esta

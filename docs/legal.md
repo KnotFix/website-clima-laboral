@@ -11,7 +11,7 @@ Estado: **los tres documentos RIGEN desde el 2026-08-18.** Están escritos en lo
 cumplen los dos criterios de abajo y el flag `draft` quedó apagado en los tres (decisión del
 usuario). Antes de esa fecha estaban publicados con el aviso de borrador.
 
-⚠️ **El 2026-08-20 se INTERNACIONALIZARON** (`terms` 1.1, `privacy` 1.1, `dpa` 2.0), porque
+**El 2026-08-20 se INTERNACIONALIZARON** (`terms` 1.1, `privacy` 1.1, `dpa` 2.0), porque
 estaban escritos para vender en Costa Rica y el producto se vende afuera. Lo que cambió, lo que
 se decidió no hacer y lo que queda abierto está en «La internacionalización» al final de este
 documento. **Leelo antes de tocar cualquiera de los seis `.mdx`.**
@@ -43,7 +43,7 @@ cuál versión no prueba nada el día que el texto cambie.
 
 ### El aviso de borrador — APAGADO el 2026-08-18
 
-⚠️ **Los tres están hoy en `draft: false`.** Lo que sigue es la regla, que queda viva para el día
+**Los tres están hoy en `draft: false`.** Lo que sigue es la regla, que queda viva para el día
 que se redacte un documento nuevo o se abra una versión — no una descripción del estado de hoy.
 
 **Por qué se apagó, además de que los dos criterios se cumplían:** el cartel afirmaba «no rige» y
@@ -52,7 +52,7 @@ fail-closed sin `acepta_legales`, y la pantalla de re-aceptación es un gate de 
 se hace aceptar diciendo de sí mismo que no rige es peor que cualquiera de las dos cosas por
 separado.
 
-⚠️ **Apagar el flag NO es una versión nueva.** `version` sigue en 1.0 en los dos repos, así que no
+**Apagar el flag NO es una versión nueva.** `version` sigue en 1.0 en los dos repos, así que no
 dispara el preaviso de 30 días ni le pide a nadie volver a aceptar.
 
 `draft: true` en `LEGAL_NAV` dibuja el aviso arriba del documento. **Ya NO se apaga «cuando vuelva
@@ -71,7 +71,7 @@ Es la misma disciplina que `<Shot>` con las capturas que faltan — el hueco es 
 `grep -rniE "PENDIENTE|PENDING" src/content/legal/`, y tiene que devolver vacío: si algún día
 aparece uno, es un hueco que se abrió después.
 
-⚠️ **La alternancia del patrón no es cosmética: los marcadores están TRADUCIDOS.** Los `.mdx` en
+**La alternancia del patrón no es cosmética: los marcadores están TRADUCIDOS.** Los `.mdx` en
 inglés dicen `[PENDING: …]`, así que un `grep` por «PENDIENTE» a secas devuelve solo la mitad y
 deja creer que el inglés está limpio. Es la mitad que se publica sin que nadie la relea.
 
@@ -94,13 +94,13 @@ juntas —el responsable del tratamiento pasa a ser otro sujeto de derecho—:
 | Correo | `knotfixservice@knotfix.com`, la misma casilla pública de la tarjeta del plan a medida |
 | Teléfono | +506 8791 7066 |
 
-⚠️ **El teléfono está para identificar al proveedor, no para tramitar por ahí.** Los dos
+**El teléfono está para identificar al proveedor, no para tramitar por ahí.** Los dos
 documentos lo dicen en su sección de contacto: las solicitudes de derechos ARCO y los avisos
 contractuales (cancelar, oponerse a un cambio) **van por escrito**, porque hay que poder
 verificar quién pide y dejar constancia de qué se respondió. Una llamada no hace ninguna de las
 dos cosas.
 
-⚠️ El domicilio se declara **sin señas de ubicación**. Alcanza para identificar el domicilio
+El domicilio se declara **sin señas de ubicación**. Alcanza para identificar el domicilio
 legal; no alcanza para que a alguien lo notifiquen ahí. Si un cliente corporativo o PRODHAB
 pide una dirección notificable, hay que agregar las señas.
 
@@ -133,7 +133,7 @@ Las dos frases que la rodean **no se tocaron y son parte del mismo párrafo**: l
 daños indirectos —que acota el TIPO de daño, no el monto— y la salvedad de dolo y culpa grave,
 que es la que hace que el tope no sea abusivo por sí solo.
 
-⚠️ **La fórmula sola daba CERO durante la prueba gratis, y por eso lleva un piso de USD 1.000**
+**La fórmula sola daba CERO durante la prueba gratis, y por eso lleva un piso de USD 1.000**
 (decisión del usuario, 2026-08-18). La prueba no pide tarjeta y permite cargar la nómina entera,
 así que hay datos personales reales en un período sin monto pagado. Un tope de cero es justo la
 clase de cláusula que se declara abusiva y cae —y si cae, lo que queda no es el cero sino la
@@ -158,7 +158,7 @@ alcanza a las contrataciones nuevas y a quien cambie de plan. Es lo que el códi
 favorable para el Cliente, y evita construir la pieza más frágil de la integración por una
 promesa que nadie pidió.
 
-⚠️ **Quedó una puerta de escape con aviso de 30 días, y es a propósito.** Sin ella la cláusula
+**Quedó una puerta de escape con aviso de 30 días, y es a propósito.** Sin ella la cláusula
 sería un congelamiento de precio perpetuo, que es un compromiso más fuerte del que conviene dar.
 La diferencia con los otros correos que se prometen —fin de la prueba, cobro fallido— es que
 **este lo dispara un acto deliberado nuestro y no el sistema**: se puede cumplir a mano el día
@@ -182,7 +182,7 @@ Se eligió **separar la fila** en vez de montar un almacén de logs (decisión d
 internacional más que declarar— y esos logs llevan IP y correo, o sea datos personales. Pagar eso
 por una retención que nadie pidió es caro en el sentido que no aparece en la factura.
 
-⚠️ **Si algún día un cliente corporativo exige retención auditada de los logs de acceso**, las dos
+**Si algún día un cliente corporativo exige retención auditada de los logs de acceso**, las dos
 salidas son un volumen persistente con rotación en el propio VPS (no agrega subprocesador) o un
 gestionado (sí lo agrega, y entonces la tabla del `dpa` se toca el mismo día).
 
@@ -193,13 +193,13 @@ dos idiomas: una auditoría al año, con 30 días de preaviso, en horario labora
 que tratan los datos del Cliente y a su costa, sin alcanzar datos de otros clientes y sin esperar la
 cadencia anual si la motiva un incidente. Es el estándar de la industria.
 
-⚠️ **Lo que el marcador preguntaba no era «falta redactar esto»** —el párrafo estaba completo—
+**Lo que el marcador preguntaba no era «falta redactar esto»** —el párrafo estaba completo—
 **sino «hasta dónde cedés si un cliente corporativo pide más»**. Esa pregunta sigue existiendo y se
 va a contestar en una negociación, no en el documento: si algún día se acepta más de una auditoría
 anual o se asume el costo, es un ADENDA para ese cliente y no un cambio de este texto, que rige para
 todos los demás.
 
-⚠️ **No confundir con la BITÁCORA** (`estudios.ConsultaResultados` en el producto). Son dos cosas
+**No confundir con la BITÁCORA** (`estudios.ConsultaResultados` en el producto). Son dos cosas
 que en español se llaman igual y no se tocan: aquella es interna y técnica —nosotros auditamos a los
 usuarios del Cliente para detectar intentos de reidentificación— y esta es contractual y externa —el
 Cliente nos audita a nosotros—.
@@ -232,7 +232,7 @@ publicados.
 
 No desaparecen porque no haya abogado; cambian de dueño. Van acá para que no se pierdan:
 
-- **¿Hay que inscribir esta base ante PRODHAB?** (Ley 8968, art. 21). ⚠️ **Esto NO es una opinión
+- **¿Hay que inscribir esta base ante PRODHAB?** (Ley 8968, art. 21). **Esto NO es una opinión
   legal, es un trámite**: existe o no existe, y tiene sanción si correspondía y no se hizo. Se puede
   preguntar directo a PRODHAB, que es un órgano público y atiende consultas. La duda concreta es que
   la inscripción alcanza a las bases de distribución o comercialización de datos, y acá se tratan
@@ -250,7 +250,7 @@ No desaparecen porque no haya abogado; cambian de dueño. Van acá para que no s
 
 El último hueco —el proveedor de facturación electrónica— se cerró el 2026-08-17: es **Allegra**.
 
-⚠️ **El proveedor de cobro CAMBIÓ el 2026-08-19: es Polar (Estados Unidos), no ONVOPay.** Y no es
+**El proveedor de cobro CAMBIÓ el 2026-08-19: es Polar (Estados Unidos), no ONVOPay.** Y no es
 solo un renglón de la tabla, porque cambian dos cosas de fondo:
 
 1. **El PAÍS.** ONVO era costarricense y Polar es estadounidense, así que el cobro pasó a ser una
@@ -262,7 +262,7 @@ solo un renglón de la tabla, porque cambian dos cosas de fondo:
    **un cliente costarricense NO recibe factura electrónica ante Hacienda por esa vía** — la única
    forma de emitirla es cobrando desde Costa Rica, o sea con `PASARELA=onvo`.
 
-⚠️ **Allegra sigue declarada y sigue sin estar cableada en el repo** (no hay integración ni
+**Allegra sigue declarada y sigue sin estar cableada en el repo** (no hay integración ni
 variables de entorno): la factura se emite por fuera de la aplicación. Con Polar como MoR, además,
 lo que se facturaría es otra cosa: nosotros le facturamos a Polar (exportación de servicios), no al
 cliente final. **Ese punto necesita revisión contable antes del primer cobro real.**
@@ -304,12 +304,12 @@ que ser exacta y estar al día. Hoy: **Hostinger** (VPS con Dokploy, EE. UU.) ·
 **Polar** (cobro y facturación como *merchant of record*, EE. UU.) · **Allegra** (factura
 electrónica, Costa Rica).
 
-⚠️ **Esa fila la decide `PASARELA` del backend, no una preferencia**: si un despliegue vuelve a
+**Esa fila la decide `PASARELA` del backend, no una preferencia**: si un despliegue vuelve a
 `onvo`, quien procesa la tarjeta es ONVOPay (Costa Rica) y las seis páginas mienten hasta que se
 corrijan. Es el subencargado más fácil de cambiar sin darse cuenta, porque es una variable de
 entorno.
 
-⚠️ **Clerk faltaba en el borrador y es el más sensible de todos**: guarda el correo, la
+**Clerk faltaba en el borrador y es el más sensible de todos**: guarda el correo, la
 contraseña y los factores de MFA de quienes administran la cuenta. Si mañana se apaga Clerk o se
 cambia de proveedor de identidad, esa fila se toca el mismo día.
 
@@ -322,7 +322,7 @@ que ya no tiene los datos, y omitir el que sí los tiene, es justo la inexactitu
 base, de identidad o de correo, este documento y los cuatro archivos publicados son parte de ese
 cambio.
 
-⚠️ **Supabase todavía EXISTE y se elimina al publicar el producto** (dato del usuario,
+**Supabase todavía EXISTE y se elimina al publicar el producto** (dato del usuario,
 2026-08-18). Mientras solo tenga datos sembrados de desarrollo no es subprocesador y por eso salió
 de la tabla. **La señal**: si llega el primer cliente real antes de que se apague, vuelve a la
 tabla el mismo día, porque volvería a tratar datos personales de terceros. El orden correcto es
@@ -359,7 +359,7 @@ exige `acepta_legales: true` y escribe las filas en la MISMA transacción que cr
 `GET /api/legales/` + `POST /api/legales/aceptar/`, y del lado del front
 `Front-End/src/components/legales/casilla-legales.tsx`. Red: `test_aceptacion_legal.py`.
 
-⚠️ **Las versiones de `LEGAL_NAV` (este repo) y de `DOCUMENTOS_LEGALES` (el del producto) son dos
+**Las versiones de `LEGAL_NAV` (este repo) y de `DOCUMENTOS_LEGALES` (el del producto) son dos
 copias y no hay build que las compare.** Subir la versión de un documento acá y olvidarla allá
 hace que la gente acepte un número que el texto publicado no lleva. Es el mismo problema que
 `idiomas.json`/`escala.json` del producto, pero sin verificador posible: son dos despliegues.
@@ -373,7 +373,7 @@ lado del backend `legales.estado_legal`, que además publica `legales_primera_ve
 distinguir los dos casos (a quien nunca los vio no se le puede decir «actualizamos nuestros
 documentos»).
 
-⚠️ **Eso NO reemplaza el aviso previo, y la diferencia es de este documento y no del código.** Los
+**Eso NO reemplaza el aviso previo, y la diferencia es de este documento y no del código.** Los
 Términos prometen 30 días de antelación por correo antes de que rija una versión nueva; la
 pantalla es el recordatorio al entrar. **Subir la versión en `LEGAL_NAV` y en `DOCUMENTOS_LEGALES`
 sin haber mandado ese correo convierte la pantalla en una imposición**, que es justo lo que
@@ -417,7 +417,7 @@ Inglés:
 > The trial is free for 30 days and asks for no card. Nothing is charged until you subscribe, and
 > you can cancel from your account at any time.
 
-⚠️ **«No pide tarjeta» es parte del aviso, no un adorno**, y es lo que vuelve honesto el resto:
+**«No pide tarjeta» es parte del aviso, no un adorno**, y es lo que vuelve honesto el resto:
 sin medio de pago registrado no existe el cobro sorpresa que la Ley 7472 vigila en autoservicio.
 El día que la prueba pida tarjeta, este texto cambia ANTES que el formulario.
 
@@ -468,14 +468,14 @@ servicio no se puede prestar. **El borrado es inmediato y sin ventana de arrepen
 (decisión del usuario, 2026-08-18), y los tres documentos se corrigieron el mismo día — prometían
 30 días para exportar y una purga a los 90, dos plazos que ya no existen.
 
-⚠️ **Y con eso cayó la regla que esta sección fijaba: las filas de aceptación SÍ se borran.**
+**Y con eso cayó la regla que esta sección fijaba: las filas de aceptación SÍ se borran.**
 Decía que revocar no podía llevárselas, porque son la prueba del periodo en que el tratamiento
 estuvo consentido; `AceptacionLegal.usuario` es `CASCADE`, así que al eliminar la cuenta se van
 con las fichas. **Es una consecuencia de elegir el borrado total y hay que saberla**: el día que
 alguien discuta si hubo consentimiento, la evidencia ya no está. Conservarla exigiría romper esa
 FK y guardar una fila anonimizada, que es una decisión de esquema y está **sin tomar**.
 
-⚠️ El **canal por correo sigue publicado en `privacy`** y sigue siendo válido: no todo el mundo
+El **canal por correo sigue publicado en `privacy`** y sigue siendo válido: no todo el mundo
 que quiera revocar es el titular de la cuenta, y quien no lo sea no tiene ese botón.
 
 ---
@@ -492,7 +492,7 @@ del front `Front-End/src/components/kiosco/aviso-privacidad.tsx`, que montan las
 superficies del empleado porque vive dentro de `FormularioBoleta`. Red:
 `test_aviso_privacidad.py` y `test_aviso_en_captura.py`.
 
-⚠️ **Hasta ese día los Términos prometían un aviso modelo que el producto no entregaba.**
+**Hasta ese día los Términos prometían un aviso modelo que el producto no entregaba.**
 Si algún día se saca esta pantalla, esa cláusula deja de ser cierta.
 
 Quien responde la encuesta **nunca pasa por el registro**. No es cliente, no acepta los términos de
@@ -524,7 +524,7 @@ Se contrata **Termly Pro+** ($15/mes facturado anual; $20 mensual) para generar 
 y una política de cookies en los dos idiomas. Los planes son Free (**1** política básica), Starter
 (**2**, $10/$14) y Pro+ (**ilimitadas**). Acá hacen falta tres, así que el Starter no alcanza.
 
-⚠️ **El `dpa` NO sale de Termly y no puede salir.** Sus generadores son diez —privacy, terms,
+**El `dpa` NO sale de Termly y no puede salir.** Sus generadores son diez —privacy, terms,
 cookies, impressum, EULA, uso aceptable, disclaimer, devoluciones, envíos y accesibilidad— y el
 anexo de tratamiento no está entre ellos. Sigue siendo texto propio, y con él **la tabla de
 subprocesadores**, que es la pieza que sostiene la autorización del artículo 14. O sea que el
@@ -546,7 +546,7 @@ Y ahí está el choque, porque los dos modos de publicar se excluyen:
 | Multi-idioma automático | No aplica: se copia cada idioma a mano | Es justo lo que se paga |
 | Actualizaciones del texto | A mano | Solas |
 
-⚠️ **La recomendación es COPIAR, y el motivo es el registro de aceptación.**
+**La recomendación es COPIAR, y el motivo es el registro de aceptación.**
 `aceptaciones_legales` guarda qué `version` aceptó cada persona y `LEGAL_NAV` dice cuál rige. Un
 documento que Termly actualiza solo **cambia el texto sin tocar la versión**: quedan firmas contra
 un texto que ya no existe. Es exactamente lo que el preaviso de 30 días viene a evitar, y no hay
@@ -571,7 +571,7 @@ documento genérico que promete cosas que el producto no hace —que es el defec
 2026-08-18 vino a cerrar—. Estas son las respuestas, sacadas de este documento y de los `.mdx`
 vigentes:
 
-⚠️ **Tres filas se CORRIGIERON el 2026-08-21** —normativa, base legal y transferencia
+**Tres filas se CORRIGIERON el 2026-08-21** —normativa, base legal y transferencia
 internacional—. Estaban escritas contra el texto costarricense y quedaron desfasadas el mismo día
 que se escribieron, porque la internacionalización (ver el final de este documento) las derogó unas
 horas después. Contestarle a Termly lo que decían antes **regenera exactamente el bloqueo que la
@@ -591,9 +591,9 @@ como base de transferencia hacia la Unión. Si alguna de estas tres respuestas v
 | Menores | No dirigido a menores; personas trabajadoras mayores de edad |
 | Datos que se recolectan | Identificación de cuenta · credenciales (viven en Clerk, la contraseña **nunca** se ve) · facturación · medio de pago (**nunca toca nuestros servidores**) · bitácoras de acceso e IP · bitácora de consultas de resultados · comunicaciones de soporte · logo · nómina y respuestas |
 | Datos sensibles | **No se piden.** El cliente se obliga por contrato a no usar las preguntas propias para recabarlos |
-| Base legal | **Una tabla por base**, no una sola: ejecución del contrato, interés legítimo, obligación legal (facturación) y consentimiento **solo para lo opcional** —que hoy es nada—. En Costa Rica, además, el consentimiento expreso del artículo 5, revocable. ⚠️ **La casilla del registro NO es la base de licitud del servicio**, es la constancia de que se firmó un contrato: acoplarlas viola el artículo 7.4 del RGPD |
+| Base legal | **Una tabla por base**, no una sola: ejecución del contrato, interés legítimo, obligación legal (facturación) y consentimiento **solo para lo opcional** —que hoy es nada—. En Costa Rica, además, el consentimiento expreso del artículo 5, revocable. **La casilla del registro NO es la base de licitud del servicio**, es la constancia de que se firmó un contrato: acoplarlas viola el artículo 7.4 del RGPD |
 | Con quién se comparte | Hostinger · PlanetScale · Clerk · Resend · Cloudflare R2 · Polar · Allegra. **La fila de la pasarela la decide `PASARELA`, no una preferencia** |
-| Transferencia internacional | Sí; todos en EE. UU. salvo Allegra (Costa Rica). **Desde Costa Rica**, artículo 14. **Desde el EEE, el Reino Unido y Suiza, Cláusulas Contractuales Tipo** de la Decisión (UE) 2021/914 con Anexos I–III completos, *Addendum* del ICO y adaptaciones suizas. ⚠️ **Nunca «autorizada al aceptar la política»**: el consentimiento como base de transferencia es la derogación del artículo 49, pensada para casos ocasionales, y no vale para infraestructura permanente |
+| Transferencia internacional | Sí; todos en EE. UU. salvo Allegra (Costa Rica). **Desde Costa Rica**, artículo 14. **Desde el EEE, el Reino Unido y Suiza, Cláusulas Contractuales Tipo** de la Decisión (UE) 2021/914 con Anexos I–III completos, *Addendum* del ICO y adaptaciones suizas. **Nunca «autorizada al aceptar la política»**: el consentimiento como base de transferencia es la derogación del artículo 49, pensada para casos ocasionales, y no vale para infraestructura permanente |
 | Venta de datos / publicidad / entrenamiento de modelos | **Ninguna de las tres** |
 | Analítica y rastreo | **No hay**, ni en el sitio ni en la app |
 | Cookies | Solo indispensables: sesión, idioma y tema |
@@ -610,7 +610,7 @@ como base de transferencia hacia la Unión. Si alguna de estas tres respuestas v
 | Incidentes | **72 horas** desde la detección |
 | Soporte | Formulario de `/ayuda` + correo, L–V 8:00–17:00 CR |
 
-⚠️ **Lo que Termly NO va a saber preguntar, y hay que agregarle a mano al texto que devuelva**: la
+**Lo que Termly NO va a saber preguntar, y hay que agregarle a mano al texto que devuelva**: la
 separación entre quién respondió y qué respondió, el N mínimo de los agregados, que **los verbatims
 se entregan tal cual y sin filtro de PII**, la fecha de respuesta guardada sin hora, y la bitácora
 de consultas como medida de anonimato. Son las cláusulas que hacen distinto a este producto y
@@ -651,7 +651,7 @@ proveedor.
 
 Que la suscripción **la vende y la cobra Polar como comercio registrado**, que Polar determina,
 liquida y cobra el impuesto del país del Cliente —que puede no ser costarricense—, y que por eso
-**el monto final puede ser mayor que el precio publicado**. El ⚠️ del párrafo siguiente dice sin
+**el monto final puede ser mayor que el precio publicado**. El aviso del párrafo siguiente dice sin
 rodeos que **por esa vía no hay factura electrónica ante la Administración Tributaria**, y deja la
 salida abierta: quien necesite un comprobante costarricense lo pide **antes de contratar** y el
 cobro se procesa desde Costa Rica, con el 13 % y con factura.
@@ -663,7 +663,7 @@ Colombia— y sin ella la cláusula quedaba muda justo donde el cliente extranje
 
 ### La versión NO subió, y eso hay que verificarlo antes de desplegar
 
-⚠️ **`version` sigue en 1.0 y `updated` pasó a 2026-08-20.** Es la primera corrección posterior a
+**`version` sigue en 1.0 y `updated` pasó a 2026-08-20.** Es la primera corrección posterior a
 que los documentos entraran en vigor (2026-08-18), así que la regla de siempre —avisar, esperar 30
 días, subir las dos constantes— **se saltea solo si no hay a quién avisar**.
 
@@ -672,7 +672,7 @@ producción.** Si lo está, esta corrección entra con 1.0 y no hay nada más qu
 filas, alguien aceptó un texto que ya no es el publicado, y entonces esto pasa a ser **2.0** en
 `LEGAL_NAV` **y** en `DOCUMENTOS_LEGALES`, después del correo de preaviso.
 
-⚠️ **Y hay una ventana que se cierra sola:** mientras no llegue el primer cliente, corregir el
+**Y hay una ventana que se cierra sola:** mientras no llegue el primer cliente, corregir el
 texto legal es gratis. Después cuesta 30 días cada vez. Las correcciones que se vean venir
 conviene hacerlas ahora.
 
@@ -693,7 +693,7 @@ grep -rniE "\[(PENDIENTE|PENDING):" src/content/legal --include=*.mdx
 
 **El precio que se muestra es el TOTAL que se cobra.** Ya no se le agrega nada al pagar.
 
-⚠️ **Esto NO es una cuenta del front: es una configuración de Polar.** El comportamiento fiscal de
+**Esto NO es una cuenta del front: es una configuración de Polar.** El comportamiento fiscal de
 la organización tiene que estar en **«Inclusive»**. Sus tres opciones son *Location-based* (el
 default: elige según el país del comprador, porque Norteamérica espera el precio sin impuesto y
 Europa con él), *Inclusive* (el impuesto se **extrae** del precio) y *Exclusive* (se **agrega**
@@ -715,12 +715,12 @@ Traducido a la escalera de planes: un cliente **costarricense** con IVA del 13 %
 donde el SaaS B2B no tributa deja los $2.500 completos. **El mismo precio de lista rinde distinto
 según dónde esté el cliente, y el país que más grava es el que menos te paga.**
 
-⚠️ **Los precios de la tabla `planes` NO se tocaron.** Se decidió que el número publicado pase a
+**Los precios de la tabla `planes` NO se tocaron.** Se decidió que el número publicado pase a
 leerse como total, no subirlos para compensar. Si algún día se quiere netear lo mismo que antes, hay
 que hacer *gross-up* en `planes` —$2.500 netos desde Costa Rica son $2.825 de lista— y eso también
 se lo cobra a quien no paga impuesto. Es una decisión de precio, no de implementación.
 
-⚠️ **El tope de responsabilidad se lee sobre lo EFECTIVAMENTE PAGADO**, que es el bruto con el
+**El tope de responsabilidad se lee sobre lo EFECTIVAMENTE PAGADO**, que es el bruto con el
 impuesto adentro. La fórmula no cambia; lo que cambia es que ahora una parte de ese bruto nunca fue
 tuya.
 
@@ -759,7 +759,7 @@ del RGPD, y el `dpa` resolvía la transferencia así:
 
 > «al amparo del artículo 14 de la Ley 8968, con la autorización que el Cliente otorga»
 
-⚠️ **Eso no vale bajo el RGPD**, y no es un matiz de redacción: el consentimiento como base de
+**Eso no vale bajo el RGPD**, y no es un matiz de redacción: el consentimiento como base de
 transferencia es una derogación del artículo 49, pensada para casos ocasionales, no para
 infraestructura permanente. Es el punto exacto donde el trámite de compras de un cliente europeo
 se detiene. Hoy la transferencia se apoya en las **Cláusulas Contractuales Tipo** de la Decisión
@@ -767,7 +767,7 @@ se detiene. Hoy la transferencia se apoya en las **Cláusulas Contractuales Tipo
 cláusula 9(a) opción 2, cláusula 11(a), ley y fuero) y con los **Anexos I, II y III completos**,
 más el *Addendum* del ICO para el Reino Unido y las adaptaciones suizas.
 
-⚠️ **Incorporar por referencia es lo correcto y no un atajo**: una cláusula tipo MODIFICADA deja
+**Incorporar por referencia es lo correcto y no un atajo**: una cláusula tipo MODIFICADA deja
 de ser una cláusula tipo y con ella se cae la base de la transferencia. Por eso el `dpa` dice
 expresamente que ante una contradicción **mandan las cláusulas**. Si alguien "mejora" una
 cláusula copiándola al texto, rompe justo lo que la hace servir.
@@ -808,7 +808,7 @@ Se cerró **construyendo el cobro**, no reescribiendo la cláusula: precio medid
 del plan, alimentado por `manage.py reportar_excedentes` (cuarto cron). Detalle en el `CLAUDE.md`
 del producto, «La oferta comercial».
 
-⚠️ **La cláusula ahora declara CÓMO se calcula, y eso ata el texto al código**: se cobra el
+**La cláusula ahora declara CÓMO se calcula, y eso ata el texto al código**: se cobra el
 **máximo del período** y no la nómina del día de la renovación, porque el medidor agrega con
 `max`. Si alguien cambia esa agregación, `terms` es parte del cambio en los dos idiomas. Y la
 cláusula promete además que los dos números —hoy y el pico— **están a la vista en la pantalla del
@@ -823,7 +823,7 @@ y el orden documentado es avisar → esperar → subir `LEGAL_NAV` y `DOCUMENTOS
 aceptado la 1.0 en producción**. El preaviso protege a quien ya aceptó una versión; sin nadie a
 quien avisar, no se le está imponiendo nada a nadie.
 
-⚠️ **El día que exista el primer cliente, esa excusa deja de existir.** No es una relajación de la
+**El día que exista el primer cliente, esa excusa deja de existir.** No es una relajación de la
 regla: es el único caso en el que la regla no tiene a quién proteger. La próxima subida va con
 `manage.py avisar_version_legal` primero.
 

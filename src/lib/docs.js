@@ -50,7 +50,7 @@ export async function resolve_doc(lang, slug) {
  * Turbopack los plugins van como strings y no pueden devolver datos al que
  * importa.
  *
- * ⚠️ **El slug se calcula con `github-slugger`, que es el MISMO que usa
+ * **El slug se calcula con `github-slugger`, que es el MISMO que usa
  * `rehype-slug` por dentro.** De ahi sale que el `href` del indice coincida con
  * el `id` que termina en el HTML. Si algun dia se cambia uno de los dos, el
  * indice sigue dibujandose igual y deja de saltar a ningun lado: es un fallo
@@ -71,7 +71,7 @@ export async function headings_of(lang, slug) {
   const headings = [];
   let in_fence = false;
 
-  // ⚠️ **Se parte con `/\r?\n/` y NO con `"\n"`, y esto fue un bug de verdad.**
+  // **Se parte con `/\r?\n/` y NO con `"\n"`, y esto fue un bug de verdad.**
   // El repositorio guarda los `.mdx` con LF, pero Git los deja en el disco con
   // CRLF en Windows (`core.autocrlf`). Partiendo solo por `"\n"`, cada linea se
   // queda con un `\r` pegado al final — y en una expresion regular de
@@ -119,7 +119,7 @@ function strip_inline_markdown(text) {
     text
       .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // enlaces: queda la etiqueta
       .replace(/[`*]/g, "") // codigo en linea y negrita/cursiva con asterisco
-      // ⚠️ **El guion bajo NO se borra siempre, y borrarlo siempre era un bug.**
+      // **El guion bajo NO se borra siempre, y borrarlo siempre era un bug.**
       // En Markdown `_` es cursiva solo cuando envuelve texto (`_asi_`); adentro
       // de una palabra es un caracter comun. Este proyecto escribe
       // identificadores en snake_case y los mete en los encabezados, asi que un

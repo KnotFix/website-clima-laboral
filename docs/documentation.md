@@ -30,12 +30,12 @@ propósito — una captura faltante que no se nota se publica.
 | `kiosco-panel.png` | `kiosk` | Dos estaciones ocupadas con quién responde en cada una, y la lista de personas con su progreso |
 | `segmentos-panel.png` | `segments` | El panel lateral: árbol de rama arriba, ejes demográficos debajo, contador de respuestas |
 
-⚠️ **Cada `<Shot>` lleva su `ratio` REAL** (`ratio="1387 / 768"` y así). El default es 16:9 con
+**Cada `<Shot>` lleva su `ratio` REAL** (`ratio="1387 / 768"` y así). El default es 16:9 con
 `object-cover object-top`, o sea que una captura más alta que ancha —el diálogo de nómina es
 retrato— se publicaría **recortada por abajo** sin que nada falle. Si se reemplaza una imagen por
 otra de distinta proporción, ese atributo es parte del cambio.
 
-⚠️ **El `alt` describe lo que la imagen MUESTRA, no lo que se había planeado mostrar.** Los seis
+**El `alt` describe lo que la imagen MUESTRA, no lo que se había planeado mostrar.** Los seis
 `alt` originales describían la captura ideal y tres no coincidían con la que llegó (el organigrama
 al costado que no está, el paso de previsualización que terminó siendo el de mapeo, los filtros
 demográficos aplicados que están todos en «Cualquiera»). Un `alt` que describe algo ausente no es un
@@ -140,7 +140,7 @@ Prohibido en cualquier `.mdx`:
 > método, son la promesa que hace usable el instrumento — y el cliente tiene que poder
 > explicárselas a su gente. Ver [Para tu gente].
 
-⚠️ **Dos lugares que dicen MÁS que las docs y quedan a decisión del usuario:**
+**Dos lugares que dicen MÁS que las docs y quedan a decisión del usuario:**
 1. `ayuda.json` del producto detalla que Satisfacción pondera por importancia y que
    Clima promedia cinco categorías con el mismo peso. Está detrás de login, pero son
    ocho idiomas y llega a todos los usuarios.
@@ -196,7 +196,7 @@ una regla del sitio.
 | ¿Qué significa que una pregunta corta la serie? | `history` |
 | ¿Qué pasa con mis datos si vence el plan? | `account-and-plan` |
 
-⚠️ **Esa tabla es un acoplamiento ENTRE REPOS y no hay build que lo verifique**, igual que
+**Esa tabla es un acoplamiento ENTRE REPOS y no hay build que lo verifique**, igual que
 `LEGAL_NAV` ↔ `DOCUMENTOS_LEGALES`: son dos despliegues. **Renombrar el slug de una de esas siete
 páginas rompe un enlace del producto sin que nada falle acá.** Si hay que renombrar una, el cambio
 incluye tocar el otro repo el mismo día. Es una razón más para no traducir los slugs.
@@ -252,13 +252,13 @@ en el nombre, **todas en una sola página** y la más nueva arriba. Es lo que la
 cuando dice «versiones»: qué cambió y si les rompe algo. Arrancó con **9 entradas** que van del
 2026-07-29 al 2026-08-17.
 
-⚠️ **Las entradas se leen del DIRECTORIO, sin `nav.js`, y eso se aparta de docs y de legales a
+**Las entradas se leen del DIRECTORIO, sin `nav.js`, y eso se aparta de docs y de legales a
 propósito.** Allá el orden es una decisión editorial y por eso vive en una lista; acá el orden es la
 FECHA, que ya está en el nombre del archivo, así que un manifiesto no aportaría un dato nuevo — solo
 un lugar más donde olvidarse de anotar algo. El modo de fallo se invierte a favor: con manifiesto,
 una entrada escrita y no registrada desaparece en silencio; sin él, aparece sola.
 
-⚠️ **No entra al sidebar de las docs**, y no es un olvido: no explica nada, así que en el árbol
+**No entra al sidebar de las docs**, y no es un olvido: no explica nada, así que en el árbol
 quedaría metida en el anterior/siguiente entre dos conceptos que sí se leen seguidos. Se ofrece
 desde el **índice de la documentación**, que es donde llega quien busca «qué cambió».
 
@@ -328,7 +328,7 @@ Cuenta
 > que bajar de plan se bloquea **antes** de cobrar, y que cancelar corre hasta el fin del
 > período pagado. Un precio sin esas reglas es una tabla, no una doc.
 >
-> ⚠️ **Dos cosas de esa página no están en la pantalla de precios y son deliberadas:**
+> **Dos cosas de esa página no están en la pantalla de precios y son deliberadas:**
 > el **excedente de nómina** (se puede pasar el tope incluido pagando por cabeza hasta un
 > techo, y se factura aparte del cobro anual) y el **estado «solo lectura»** (los
 > resultados y el histórico quedan disponibles para siempre). Las dos salen de
@@ -352,12 +352,12 @@ Cuenta
 > reales: la base ya migró a **PlanetScale**, con respaldos automáticos **diarios** y **2
 > días de retención**.
 >
-> ⚠️ **La sección dice el número Y su contracara**, y eso es lo que la hace servir: 2 días
+> **La sección dice el número Y su contracara**, y eso es lo que la hace servir: 2 días
 > es excelente para la privacidad (las copias de una cuenta eliminada desaparecen en 48
 > horas) y corto para recuperar (un problema detectado al tercer día ya no tiene respaldo).
 > Un área de seguridad evalúa su propio riesgo con el segundo dato, no con el primero.
 >
-> ⚠️ Al publicarla se descubrió que la tabla de subprocesadores —en esta página y en
+> Al publicarla se descubrió que la tabla de subprocesadores —en esta página y en
 > `privacy`— **seguía diciendo Supabase** después de la migración. Ver `legal.md`: esa fila
 > no se entera sola.
 >
@@ -367,13 +367,13 @@ Cuenta
 > ellos y del código, en vez de inventarse. Lo que sigue siendo dictado es el respaldo,
 > porque depende de un plan de Supabase que todavía no se compró.
 >
-> ⚠️ **Regla de esa página: no puede decir MÁS que la política de privacidad y el DPA.**
+> **Regla de esa página: no puede decir MÁS que la política de privacidad y el DPA.**
 > Si algo hace falta afirmar y no está allá, se agrega allá primero. La página lo dice de
 > entrada («si parecen decir cosas distintas, manda el documento legal») y por eso la
 > tabla de subprocesadores está marcada como resumen, con la del `privacy` como la que
 > manda.
 >
-> ⚠️ **Lo que NO se puede publicar hasta que sea cierto:** los **12 meses de bitácoras**
+> **Lo que NO se puede publicar hasta que sea cierto:** los **12 meses de bitácoras**
 > que promete la política de privacidad. Hoy `views._auditar_lectura` escribe a consola,
 > o sea al log del contenedor, que un redeploy borra. La página menciona que las consultas
 > quedan registradas —eso sí es cierto— y **no repite el plazo**. El arreglo correcto es
@@ -385,13 +385,13 @@ Cuenta
 > que el segundo factor se habilitó en Clerk (aplicación de autenticación y códigos de respaldo,
 > opcional y por persona), o sea que la página pasó a poder decirlo **porque ya era cierto**.
 >
-> ⚠️ **Los legales ya lo permitían y por eso no hubo que tocarlos**: `privacy` lista los factores
+> **Los legales ya lo permitían y por eso no hubo que tocarlos**: `privacy` lista los factores
 > de dos pasos entre las credenciales y el `dpa` promete «verificación en dos pasos disponible»
 > desde el 2026-08-17. Es la regla de esta página aplicada al derecho: la doc no dijo más que
 > ellos. Si algún día se vuelve obligatorio para toda la organización, eso **sí** es una promesa
 > nueva y se agrega allá primero.
 >
-> ⚠️ **La sección dice lo que NO hay**: no se le puede exigir al equipo entero, y no hay SMS. Lo
+> **La sección dice lo que NO hay**: no se le puede exigir al equipo entero, y no hay SMS. Lo
 > segundo se escribió como propiedad, no como carencia (el código lo calcula el teléfono contra el
 > reloj, así que no hay mensaje que interceptar), que es lo que un área de seguridad quiere leer.
 
@@ -557,7 +557,7 @@ combinación tampoco se publica»—, y eso es exactamente lo que `_suprimir_com
 tabla hacen. La página nunca prometió nada sobre dos consultas distintas; la marca de bloqueo era
 más ancha que el texto que bloqueaba.
 
-⚠️ **«Ignorar el hueco» significa NO construir la contabilidad entre requests. No significa aflojar
+**«Ignorar el hueco» significa NO construir la contabilidad entre requests. No significa aflojar
 nada de lo que ya existe.** La supresión complementaria, la regla de tabla *value-blind*, que
 `nodo_ids` no sea un parámetro público y la prohibición de negación y resta como filtros **siguen
 siendo obligatorias**: son las que hacen cierta la frase de esta página. Si alguien lee esta
