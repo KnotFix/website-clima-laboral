@@ -107,6 +107,9 @@ src/
       carousel_rail.jsx         <CarouselRail>: el riel que corre y el
                                 grafico que lo sigue mas lento           [creative]
       tilt.jsx                  inclinacion por mouse                   [creative]
+      idle_offscreen.jsx        <IdleOffscreen>: pausa las animaciones
+                                de CSS que tiene adentro mientras el
+                                bloque no se ve. No dibuja nada         [creative]
       use_reduced_motion.jsx    hook useReducedMotionSafe               [creative]
       use_remeasure.jsx         hook useRemeasure(fn): mide de nuevo
                                 cuando cambia el alto del documento     [creative]
@@ -267,6 +270,7 @@ docs/
 | `scrim_opacity` | MotionValue | opacidad de la franja que tapa el hueco sobre la isla |
 | `active_id` | string \| null | id de la sección que el usuario está mirando |
 | `reduced_motion` | boolean | el usuario pidió menos movimiento |
+| `data-idle` | atributo HTML | el bloque no se ve; las animaciones de CSS de adentro están pausadas. Lo pone `<IdleOffscreen>` y lo leen las reglas de `globals.css` |
 
 > **La isla se achica con `scale`, nunca con `width`.** `island_width` y
 > `bar_width` se retiraron: animar el ancho obligaba a
@@ -3410,6 +3414,83 @@ plan". Si el criterio editorial es otro, se mueve.
 - Las tres imágenes de `public/shots/` son placeholders de Unsplash.
 
 Lo de las imágenes sigue marcado como TODO en `content/es.js`.
+
+## La medición del scroll, 2026-09-22
+
+Se perfiló la home con un trace de DevTools recorriéndola entera, en teléfono de
+390px y en escritorio de 1440px, las dos con el procesador frenado a la cuarta
+parte. Lo que salió cambia una creencia que estaba escrita en el código.
+
+### Un repintado no cuesta lo que ocupa: cuesta la capa que lo contiene
+
+Había dos animaciones que rompían la regla de «solo `transform` y `opacity`», y
+las dos estaban anotadas con el mismo argumento a favor: repintan un trazo
+chiquito y **no recalculan layout**. Son el destello de la espiral del hero
+(`stroke-dashoffset`) y el punteado que corre por el organigrama
+(`background-position`).
+
+El argumento era cierto y estaba incompleto. Las dos figuras viven en la capa
+raíz, así que cada cuadro que le cambia un píxel al punteado obliga al navegador
+a volver a grabar la lista de dibujo de **toda la página**. Y una animación de
+CSS no se entera de que quedó nueve mil píxeles arriba: seguían corriendo
+durante el recorrido entero.
+
+Medido en el teléfono, sobre un recorrido completo de la home:
+
+| | antes | después |
+|---|---|---|
+| `Paint` | 13,5 s en 111.248 veces | 4,2 s en 36.979 |
+| `PaintImage` | 1,6 s en 91.866 | 0,26 s en 13.935 |
+| repintados de `#document` | uno por cuadro, siempre | menos de la mitad |
+
+**La regla vale igual, y la excepción también: lo que faltaba era apagarla
+cuando nadie la mira.** Eso es `<IdleOffscreen>`, que pone `data-idle` y deja
+las animaciones en `animation-play-state: paused`. Pausada, una animación retoma
+donde quedó: volver a la sección no produce ningún salto.
+
+### Un `filter` de cero no es un valor neutro
+
+`BlurText` entra desenfocando cada palabra y terminaba en `blur(0px)`. Motion
+apaga la animación pero no limpia la propiedad, así que **veinticuatro palabras
+de la home quedaban con un filtro pegado para siempre**. Un `filter`, aunque sea
+de cero, saca al texto del camino de dibujo normal, le quita el antialiasing de
+subpíxel y le da su propia superficie. Es la misma regla que ya estaba escrita
+para los filtros SVG sobre texto, aplicada al filtro de CSS que la entrada deja
+atrás. Se borra en `onAnimationComplete`.
+
+### El resultado
+
+Trabajo del hilo principal por cuadro de scroll, con el procesador a la cuarta
+parte:
+
+| | teléfono 390px | escritorio 1440px |
+|---|---|---|
+| antes | 5,09 ms | 6,28 ms |
+| después | 3,95 ms | 5,29 ms |
+| | **−22%** | **−16%** |
+
+La geometría de la página no se movió un píxel en ninguno de los dos anchos, y
+la comparación de capturas con movimiento reducido da cero diferencia.
+
+### Lo que quedó medido y sin tocar
+
+- **`GPUTask` es la fase más cara de escritorio** (1,2 ms por cuadro) y no bajó.
+  Son los trece desenfoques grandes de la atmósfera y el planeta (`blur(60px)`,
+  `blur(70px)`, `blur(64px)`), que están apagados **solo** abajo de 767px: una
+  tablet los paga enteros con hardware de teléfono. No se tocó porque la medición
+  salió de un navegador sin GPU, que rasteriza por software y exagera justamente
+  esto: **hay que volver a medirlo en un aparato de verdad antes de mover un
+  valor.**
+- **`ScrollLine blurred`** dibuja un `blur(7px)` sobre un SVG del ancho de la
+  pantalla cuyo trazo cambia en cada cuadro, y tampoco se apaga en teléfono,
+  donde la regla del proyecto dice que los desenfoques pesados se apagan. En
+  el trace no aparece como costo de hilo principal; es la misma incógnita de GPU
+  del punto anterior.
+- **`Layerize` es ahora la fase más cara de teléfono** (0,99 ms por cuadro) y
+  apenas bajó. Es la pasada que reparte lo pintado entre capas, y su costo sube
+  con la cantidad de elementos que abren contexto propio: transforms, máscaras y
+  filtros. Las veintitrés palabras que esperan su turno en `blur(10px)` son
+  parte de esa cuenta, y esas sí son inherentes a la entrada.
 
 ## Zonas de escritura
 

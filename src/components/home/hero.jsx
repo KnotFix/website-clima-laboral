@@ -4,6 +4,7 @@ import { GoldenBackdrop } from "@/components/effects/golden_backdrop";
 import { HeroCover } from "@/components/effects/hero_cover";
 import { HeroTitle } from "@/components/home/hero_title";
 import { HeroShowcase } from "@/components/home/hero_showcase";
+import { IdleOffscreen } from "@/components/motion/idle_offscreen";
 import { Reveal } from "@/components/motion/reveal";
 import { ScrollLift } from "@/components/motion/scroll_lift";
 import { Container } from "@/components/site/container";
@@ -78,7 +79,18 @@ export function Hero({ dict }) {
             problema. Puesta despues, la espiral cruzaria la niebla intacta.
             El `<Container>` de abajo ya es `relative`, asi que el contenido queda
             arriba de las dos capas sin tocar un `z-index`. */}
-        <GoldenBackdrop />
+        {/* > **El envoltorio no es decorativo: apaga el destello de la
+            espiral mientras el hero no se ve.** La animacion es
+            `stroke-dashoffset`, o sea repintado, y una animacion de CSS no se
+            entera de que quedo nueve mil pixeles arriba: seguia repintando la
+            capa raiz en cada cuadro del recorrido entero. El numero medido esta
+            en `idle_offscreen.jsx`.
+            El `pointer-events-none` va en el envoltorio y no solo adentro:
+            es una caja del tamano del hero puesta sobre el contenido, y sin eso
+            se come los clics de los CTA. */}
+        <IdleOffscreen class_name="pointer-events-none absolute inset-0">
+          <GoldenBackdrop />
+        </IdleOffscreen>
         {/* El pie opaco que se disuelve en niebla. **No es decoracion**: es lo
             que tapa la seccion del problema, que `ScrollLift` mete detras del
             hero. Sin el, el titular del problema se ve a traves desde el primer

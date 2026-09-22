@@ -6,6 +6,7 @@ import { Tabs as TabsPrimitive } from "radix-ui";
 
 import { AccentTitle } from "@/components/home/accent_title";
 import { OrgChart } from "@/components/home/org_chart";
+import { IdleOffscreen } from "@/components/motion/idle_offscreen";
 import { HEADING_PASS, ScrollPass } from "@/components/motion/scroll_pass";
 import { useReducedMotionSafe } from "@/components/motion/use_reduced_motion";
 import { Container } from "@/components/site/container";
@@ -225,6 +226,13 @@ export function ScaleTree({ dict }) {
 
             {orgs.map((org, index) => (
               <TabsContent key={org.label} value={String(index)}>
+                {/* > **El envoltorio apaga el punteado que corre por las lineas
+                    mientras la seccion no se ve.** Es una animacion de
+                    `background-position`, o sea repintado, y son varias decenas
+                    de pseudo-elementos: medido, seguian pintando cinco veces por
+                    cuadro durante el recorrido ENTERO de la home, con el arbol
+                    fuera de pantalla. El numero esta en `idle_offscreen.jsx`. */}
+                <IdleOffscreen>
                 {/* El panel se recorre de lado en pantalla chica: `OrgChart`
                     pinta cajas con `whitespace-nowrap` y el arbol de cuatro
                     niveles no entra en un telefono. */}
@@ -248,6 +256,7 @@ export function ScaleTree({ dict }) {
                     <OrgChart tree={org.tree} />
                   </motion.div>
                 </div>
+                </IdleOffscreen>
               </TabsContent>
             ))}
           </TabsPrimitive.Root>

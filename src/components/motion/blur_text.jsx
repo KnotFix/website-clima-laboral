@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "motion/react";
 
 import { useReducedMotionSafe } from "@/components/motion/use_reduced_motion";
@@ -91,6 +92,7 @@ export function BlurTextPiece({
   class_name,
 }) {
   const reduced_motion = useReducedMotionSafe();
+  const piece_ref = useRef(null);
 
   // Espacio DURO y no uno normal: al final de un `inline-block` el espacio
   // comun se colapsa y las palabras salen pegadas.
@@ -109,8 +111,23 @@ export function BlurTextPiece({
 
   return (
     <motion.span
+      ref={piece_ref}
       className={cn("inline-block", class_name)}
       variants={piece_variants}
+      // > **Al terminar se BORRA el filtro, no se deja en `blur(0px)`.** Motion
+      // apaga la animacion pero no limpia la propiedad, y un `filter`, aunque
+      // sea de cero, no es un valor neutro: saca al texto del camino de dibujo
+      // normal, le quita el antialiasing de subpixel y le da su propia
+      // superficie de pintado. Medido en la home: veinticuatro palabras
+      // quedaban con un filtro pegado para siempre, y eran de lo que mas
+      // invalidaba la capa raiz durante el scroll.
+      //
+      // Es la misma regla que ya estaba escrita para los filtros SVG sobre
+      // texto, aplicada al filtro de CSS que la entrada deja atras.
+      onAnimationComplete={() => {
+        const piece = piece_ref.current;
+        if (piece) piece.style.filter = "";
+      }}
     >
       {content}
     </motion.span>

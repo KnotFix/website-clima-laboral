@@ -851,6 +851,20 @@
   animation: golden-spark 12s linear infinite;
 }
 
+/* **Se para cuando el hero no se ve, y esa es la mitad que faltaba del parrafo
+   de arriba.** Es cierto que `stroke-dashoffset` no recalcula layout; lo que no
+   era cierto es que por eso saliera barato. Repinta, y la espiral vive en la
+   capa raiz: cada cuadro que le cambia un pixel obliga al navegador a volver a
+   grabar la lista de dibujo de la pagina ENTERA. Y una animacion de CSS no se
+   entera de que quedo nueve mil pixeles arriba, asi que lo seguia haciendo
+   durante todo el recorrido.
+
+   Pausada retoma donde quedo: volver al hero no produce ningun salto. Quien
+   pone el atributo es `<IdleOffscreen>`, y ahi esta la medicion. */
+[data-idle="true"] .golden-spark {
+  animation-play-state: paused;
+}
+
 /* **Se apaga entero, no solo la animacion.** Con `animation: none` a secas el
    tramo de luz se queda CONGELADO en un punto de la curva, y un segmento mas
    claro parado en medio de una espiral no se lee como una decoracion detenida:
@@ -1131,6 +1145,22 @@
 
 .org-branch:only-child::after {
   display: none;
+}
+
+/* **Los tres punteados se paran cuando la seccion no se ve.** Van juntos y no
+   pegados a cada regla porque son un solo movimiento: la corriente que recorre
+   el arbol. `background-position` repinta (no recalcula layout, pero repinta) y
+   son varias decenas de pseudo-elementos en la capa raiz: medido, eran cinco
+   repintados de la pagina entera por cuadro, corriendo durante todo el
+   recorrido de la home con el organigrama fuera de pantalla.
+
+   El atributo lo pone `<IdleOffscreen>`, que envuelve al lienzo en
+   `scale_tree.jsx`. La misma pausa que la espiral del hero, por el mismo
+   motivo. */
+[data-idle="true"] .org-children::before,
+[data-idle="true"] .org-branch::before,
+[data-idle="true"] .org-branch::after {
+  animation-play-state: paused;
 }
 
 /* Las cajas usan el mismo idioma de relieve que los CTA del hero: luz arriba,
