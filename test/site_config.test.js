@@ -4,6 +4,7 @@ import {
   DEFAULT_LOCALE,
   LOCALES,
   is_locale,
+  site_config,
   swap_locale_in_path,
 } from "@/lib/site_config";
 
@@ -49,5 +50,22 @@ describe("swap_locale_in_path", () => {
     // llama a esta funcion, con `usePathname()`— nunca ve un "/" pelado. Y aun
     // si lo viera, Next normaliza la barra final.
     expect(swap_locale_in_path("/", "en")).toBe("/en/");
+  });
+});
+
+describe("register_url", () => {
+  it("le pasa a la app el idioma del sitio", () => {
+    // Sin `?lang=` la app elegia por el navegador: quien leia el sitio en
+    // ingles con el navegador en español veia los precios en español.
+    for (const locale of LOCALES) {
+      const url = new URL(site_config.register_url(locale));
+      expect(url.pathname).toBe("/registro");
+      expect(url.searchParams.get("lang")).toBe(locale);
+    }
+  });
+
+  it("un idioma que el sitio no tiene cae al de por defecto", () => {
+    const url = new URL(site_config.register_url("fr"));
+    expect(url.searchParams.get("lang")).toBe(DEFAULT_LOCALE);
   });
 });

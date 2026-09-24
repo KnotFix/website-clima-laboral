@@ -61,7 +61,7 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
               porque sigue siendo parte de "que es esto", antes de "como se
               usa". */}
           <a
-            href={site_config.register_url}
+            href={site_config.register_url(lang)}
             className={cn(
               "nav-key relative rounded-md px-3 py-2 text-sm",
               "text-muted-foreground hover:text-foreground",

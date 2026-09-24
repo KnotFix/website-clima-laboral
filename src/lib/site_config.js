@@ -33,7 +33,13 @@ site_config.signup_url = `${site_config.app_url}/`;
 // la que manda el dia que alguien contrata, y tener dos copias es tener una
 // desactualizada. Es la unica salida del sitio que va a `/registro` y no a la
 // raiz de la app: quien busca precios todavia no tiene cuenta.
-site_config.register_url = `${site_config.app_url}/registro`;
+//
+// Lleva `?lang=` desde el 2026-09-23: sin el parametro la app elegia el idioma
+// por el navegador, asi que quien leia el sitio en ingles con el navegador en
+// español veia los precios en español. La app lo lee una vez, lo guarda como
+// preferencia y lo quita de la URL (`i18n/idiomas.ts::consumirIdiomaDeUrl`).
+site_config.register_url = (lang) =>
+  `${site_config.app_url}/registro?lang=${is_locale(lang) ? lang : DEFAULT_LOCALE}`;
 
 export function is_locale(value) {
   return LOCALES.includes(value);
