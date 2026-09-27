@@ -613,7 +613,7 @@ const es = {
     {
       question: "¿Y si no quiero hacer el estudio yo?",
       answer:
-        "Tampoco hace falta. Ofrecemos un servicio aparte en el que nosotros aplicamos el estudio en tu empresa, de principio a fin: armamos la nómina, lanzamos la recolección y te entregamos los resultados. Escribinos a knotfixservice@knotfix.com.",
+        "Tampoco hace falta. Ofrecemos un servicio aparte en el que nosotros aplicamos el estudio en tu empresa, de principio a fin: armamos la nómina, lanzamos la recolección y te entregamos los resultados. Escribinos a censumaservice@censuma.com.",
     },
   ],
 

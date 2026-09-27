@@ -611,7 +611,7 @@ const en = {
     {
       question: "What if I don't want to run the study myself?",
       answer:
-        "You don't have to. We offer a separate service in which we run the study at your company from start to finish: we build the roster, launch the collection and hand you the results. Write to knotfixservice@knotfix.com.",
+        "You don't have to. We offer a separate service in which we run the study at your company from start to finish: we build the roster, launch the collection and hand you the results. Write to censumaservice@censuma.com.",
     },
   ],
 

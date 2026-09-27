@@ -91,7 +91,7 @@ juntas —el responsable del tratamiento pasa a ser otro sujeto de derecho—:
 | Cédula | 5-0448-0254 |
 | Domicilio | Guanacaste, Liberia, Liberia, La Cruz. Código postal 50101 |
 | Jurisdicción | Tribunales de **Liberia, Guanacaste** (el domicilio del proveedor, no San José) |
-| Correo | `knotfixservice@knotfix.com`, la misma casilla pública de la tarjeta del plan a medida |
+| Correo | `censumaservice@censuma.com`, la misma casilla pública de la tarjeta del plan a medida |
 | Teléfono | +506 8791 7066 |
 
 **El teléfono está para identificar al proveedor, no para tramitar por ahí.** Los dos
@@ -584,7 +584,7 @@ como base de transferencia hacia la Unión. Si alguna de estas tres respuestas v
 | Tipo de entidad | **Persona física**, no sociedad. Nombre comercial «Knotfix» |
 | Nombre legal / identificación | José Alejandro Chaves Ramírez · cédula 5-0448-0254 |
 | Domicilio | Guanacaste, Liberia, Liberia, La Cruz, CP 50101, Costa Rica |
-| Contacto de privacidad | `knotfixservice@knotfix.com` · +506 8791 7066 (identificación, **no** tramitación) |
+| Contacto de privacidad | `censumaservice@censuma.com` · +506 8791 7066 (identificación, **no** tramitación) |
 | Jurisdicción y ley aplicable | Costa Rica; tribunales de **Liberia, Guanacaste** — no San José |
 | Normativa que aplica | **Ley 8968** y su reglamento **Y el RGPD** (más UK GDPR y la LPD suiza), con el lenguaje de *service provider* de **CCPA/CPRA**. No es «la 8968 con extras opcionales»: los dos marcos rigen a la vez desde el 2026-08-20 |
 | Público | B2B. Organizaciones; el titular de los datos que importan es la persona empleada, que **nunca pasa por el registro** |
