@@ -25,9 +25,11 @@ const FADE = 0.8;
  * El precio es que se bajan las dos. Son capturas del panel, ~110 KB cada una y
  * `loading="lazy"` por defecto: no las pide hasta que la ficha se acerca.
  *
- * El `alt` va SOLO en una. Las dos son la misma pantalla —el tema no cambia lo
- * que muestra—, asi que anunciarla dos veces le repetiria la misma frase a quien
- * la escucha; la otra queda decorativa.
+ * Las dos llevan el MISMO `alt`. La que no toca esta en `display: none`
+ * (`hidden` / `dark:hidden`), y eso ya la saca del arbol de accesibilidad, asi
+ * que un lector de pantalla anuncia una sola. Hubo un `alt=""` en la oscura para
+ * no repetir la frase, y era innecesario: Bing Webmaster Tools lo marcaba como
+ * imagen sin texto alternativo, porque un crawler no aplica el CSS y ve las dos.
  *
  * Se exporta porque el hero la usa suelta, sin el ciclo: `sizes` cambia con el
  * ancho al que se pinta, y `fetch_priority` es para cuando la captura es la
@@ -68,8 +70,7 @@ export function ThemedShot({
       <Image
         {...common}
         src={shot.dark}
-        alt=""
-        aria-hidden="true"
+        alt={shot.alt}
         className={cn(fit, "hidden dark:block")}
       />
     </>
