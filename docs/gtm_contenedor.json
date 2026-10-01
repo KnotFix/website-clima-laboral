@@ -50,14 +50,28 @@
           }
         ],
         "firingTriggerId": [
-          "2147479573"
+          "2147479573",
+          "24"
         ],
         "tagFiringOption": "ONCE_PER_EVENT",
         "consentSettings": {
-          "consentStatus": "NOT_SET"
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
         },
         "accountId": "0",
-        "containerId": "0"
+        "containerId": "0",
+        "priority": {
+          "type": "INTEGER",
+          "value": "100"
+        }
       },
       {
         "tagId": "26",
@@ -147,7 +161,16 @@
         ],
         "tagFiringOption": "ONCE_PER_EVENT",
         "consentSettings": {
-          "consentStatus": "NOT_SET"
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
         },
         "accountId": "0",
         "containerId": "0"
@@ -239,7 +262,16 @@
         ],
         "tagFiringOption": "ONCE_PER_EVENT",
         "consentSettings": {
-          "consentStatus": "NOT_SET"
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
         },
         "accountId": "0",
         "containerId": "0"
@@ -316,7 +348,16 @@
         ],
         "tagFiringOption": "ONCE_PER_EVENT",
         "consentSettings": {
-          "consentStatus": "NOT_SET"
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
         },
         "accountId": "0",
         "containerId": "0"
@@ -363,7 +404,16 @@
         ],
         "tagFiringOption": "ONCE_PER_EVENT",
         "consentSettings": {
-          "consentStatus": "NOT_SET"
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
         },
         "accountId": "0",
         "containerId": "0"
@@ -410,7 +460,16 @@
         ],
         "tagFiringOption": "ONCE_PER_EVENT",
         "consentSettings": {
-          "consentStatus": "NOT_SET"
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
         },
         "accountId": "0",
         "containerId": "0"

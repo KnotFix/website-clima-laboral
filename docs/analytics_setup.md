@@ -127,9 +127,18 @@ Uno por evento, con el nombre del evento exacto:
 
 - Tipo: **Etiqueta de Google**. ID de etiqueta: `{{GA4 ID}}`.
 - Configuración → parámetro `send_page_view` = `false`.
-- Activador: **Initialization - All Pages** (Inicialización: todas las páginas).
-- Consentimiento: no agregues requisitos extra. La etiqueta de Google ya respeta el modo de
-  consentimiento sola: sin aceptación manda señales sin cookies.
+- Activadores: **Initialization - All Pages** (Inicialización: todas las páginas) **y**
+  `CE - consent_update analytics`.
+- Consentimiento: **Requerir consentimiento adicional** → `analytics_storage`. Lo mismo en
+  TODAS las etiquetas de evento de GA4 (b y c).
+
+  **Por qué GA4 espera al consentimiento** (y no manda señales sin cookies, como haría por
+  defecto): el primer hit de la visita es el que lleva `first_visit` y `session_start`, y de
+  ahí sale la fuente. Si sale antes de aceptar, GA4 lo descarta para informes y Tiempo real, y
+  la visita queda sin campaña aunque la persona acepte un segundo después (probado en
+  producción el 2026-10-01). Lo que se pierde es el modelado de quienes rechazan, que GA4
+  solo calcula con miles de eventos por día. Al aceptar en la primera página la etiqueta no
+  corrió en la inicialización (estaba bloqueada); por eso el segundo activador.
 
 **b) GA4 page_view**
 
@@ -140,10 +149,8 @@ Uno por evento, con el nombre del evento exacto:
   `{{DLV - page_language}}`.
 - Activadores: `CE - virtual_page_view` **y** `CE - consent_update analytics`.
 
-  El segundo no sobra. Antes de aceptar, el `page_view` de la primera página sale como señal
-  sin cookies, y es la única que lleva el inicio de sesión y la URL con las UTM. GA4 no usa
-  esas señales para informes ni Tiempo real, así que sin repetirlo al aceptar la sesión queda
-  sin fuente («First user source» vacío). `consent_update` solo lo emite el banner cuando la
+  El segundo no sobra: al aceptar, el `virtual_page_view` de esa página ya pasó con la etiqueta
+  bloqueada, y sin repetirlo la primera página no se cuenta. `consent_update` solo lo emite el banner cuando la
   persona decide, así que quien vuelve con el consentimiento ya dado no cuenta doble. El
   `page_location` sale del último `virtual_page_view`, que sigue en la capa de datos.
 
