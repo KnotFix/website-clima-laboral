@@ -142,7 +142,8 @@
           }
         ],
         "firingTriggerId": [
-          "17"
+          "17",
+          "24"
         ],
         "tagFiringOption": "ONCE_PER_EVENT",
         "consentSettings": {

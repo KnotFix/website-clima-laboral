@@ -138,7 +138,14 @@ Uno por evento, con el nombre del evento exacto:
 - Parámetros: `page_location` = `{{DLV - page_location}}`, `page_title` =
   `{{DLV - page_title}}`, `page_path` = `{{DLV - page_path}}`, `language` =
   `{{DLV - page_language}}`.
-- Activador: `CE - virtual_page_view`.
+- Activadores: `CE - virtual_page_view` **y** `CE - consent_update analytics`.
+
+  El segundo no sobra. Antes de aceptar, el `page_view` de la primera página sale como señal
+  sin cookies, y es la única que lleva el inicio de sesión y la URL con las UTM. GA4 no usa
+  esas señales para informes ni Tiempo real, así que sin repetirlo al aceptar la sesión queda
+  sin fuente («First user source» vacío). `consent_update` solo lo emite el banner cuando la
+  persona decide, así que quien vuelve con el consentimiento ya dado no cuenta doble. El
+  `page_location` sale del último `virtual_page_view`, que sigue en la capa de datos.
 
 **c) GA4 eventos del sitio** (una etiqueta «Evento de GA4» por fila; todas con `{{GA4 ID}}`)
 
