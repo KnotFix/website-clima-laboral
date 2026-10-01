@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { AtmosphereField } from "@/components/effects/atmosphere_field";
 import { PageGrain } from "@/components/effects/page_grain";
 import { ScrollGlide } from "@/components/motion/scroll_glide";
+import { AnalyticsListener } from "@/components/site/analytics_listener";
+import { ConsentBanner } from "@/components/site/consent_banner";
+import { TagManagerHead, TagManagerNoscript } from "@/components/site/tag_manager";
 import { ThemeProvider } from "@/components/site/theme_provider";
 import { JsonLd } from "@/components/site/json_ld";
 import { get_dictionary } from "@/lib/dictionaries";
@@ -104,6 +107,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
+function consent_dict_of(dict) {
+  return Object.fromEntries(
+    Object.entries(dict).filter(([key]) => key.startsWith("consent_")),
+  );
+}
+
 export default async function RootLayout({ children, params }) {
   const { lang } = await params;
   if (!is_locale(lang)) notFound();
@@ -116,10 +125,18 @@ export default async function RootLayout({ children, params }) {
       suppressHydrationWarning
       className={`${elms_sans.variable} ${geist_mono.variable} antialiased`}
     >
+      {/* El `<head>` explicito existe por UNA razon: el consentimiento por
+          defecto y GTM tienen que ser lo primero que corre, antes que el JS de
+          Next. Next le suma sus metadatos a este mismo `<head>`. Por que no
+          `next/script`, en `lib/consent.js`. */}
+      <head>
+        <TagManagerHead />
+      </head>
       {/* suppressHydrationWarning tambien en el body: varias extensiones de
           navegador le inyectan atributos antes de que React hidrate, y ese
           desajuste aborta la hidratacion del arbol. */}
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
+        <TagManagerNoscript />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -145,6 +162,15 @@ export default async function RootLayout({ children, params }) {
               teclado, las anclas y el foco quedan nativos. */}
           <ScrollGlide />
           {children}
+          {/* Medicion: el banner de cookies y el que escucha los clics, las
+              rutas y las secciones. Van en el layout porque son de TODAS las
+              paginas y tienen que existir una sola vez. Ver
+              `docs/analytics_setup.md`. */}
+          <AnalyticsListener />
+          {/* Solo las llaves `consent_*`: lo que se le pasa a un componente
+              de cliente viaja serializado en el HTML de cada pagina, y el
+              diccionario entero son decenas de KB que el banner no lee. */}
+          <ConsentBanner lang={lang} dict={consent_dict_of(dict)} />
           {/* El grano va ULTIMO y por encima de todo: es una propiedad de la
               lente, no del fondo. */}
           <PageGrain />

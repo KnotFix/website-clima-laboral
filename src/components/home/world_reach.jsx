@@ -50,7 +50,7 @@ export function WorldReach({ dict }) {
     // que el recorte cae en el borde de la pantalla y no en el del `Container`.
     // El resplandor no se toca — vive en el envoltorio de `SectionGlow`, afuera
     // de esta seccion, y en oscuro esta apagado.
-    <section className="relative overflow-x-clip">
+    <section data-section="world" className="relative overflow-x-clip">
       {/* El fondo de la seccion, y **solo en tema claro**: en oscuro
           `.planet-backdrop` esta en `display: none` para que el fondo quede
           parejo con el resto (ver `--band` en el bloque `.dark`). Antes de esta

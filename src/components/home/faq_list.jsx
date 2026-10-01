@@ -73,6 +73,7 @@ export function FaqList({ items, class_name }) {
                 id={button_id}
                 aria-expanded={is_open}
                 aria-controls={panel_id}
+                data-track={`faq_${String(index + 1).padStart(2, "0")}`}
                 onClick={() =>
                   set_open_question(is_open ? null : item.question)
                 }

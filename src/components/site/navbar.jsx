@@ -62,6 +62,8 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
               usa". */}
           <a
             href={site_config.register_url(lang)}
+            data-track="nav_pricing"
+            data-track-location="navbar"
             className={cn(
               "nav-key relative rounded-md px-3 py-2 text-sm",
               "text-muted-foreground hover:text-foreground",
@@ -119,7 +121,13 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
             size="lg"
             className="cta-key-flat hidden px-5 md:inline-flex"
           >
-            <a href={site_config.signup_url}>{dict.nav_cta}</a>
+            <a
+              href={site_config.signup_url}
+              data-track="nav_start"
+              data-track-location="navbar"
+            >
+              {dict.nav_cta}
+            </a>
           </Button>
           <div className="md:hidden">
             <MobileMenu lang={lang} dict={dict} section_base={section_base} />

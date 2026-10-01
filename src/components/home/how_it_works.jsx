@@ -136,7 +136,7 @@ export function HowItWorks({ dict }) {
     // Va en la `<section>`, que es de ancho completo, y no en el envoltorio del
     // zigzag: ahi el recorte caeria en el borde del `Container` y le comeria el
     // canto rotado a las fichas de la izquierda.
-    <section id="how" className="scroll-mt-24 overflow-x-clip py-20 sm:py-32">
+    <section id="how" data-section="how" className="scroll-mt-24 overflow-x-clip py-20 sm:py-32">
       <Container>
         {/* El titular entra y sale con el scroll, igual que el de todas las
             secciones. */}

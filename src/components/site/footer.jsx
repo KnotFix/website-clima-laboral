@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { FooterBackdrop } from "@/components/effects/footer_backdrop";
 import { BrandLink } from "@/components/site/brand_link";
+import { CookiePrefsButton } from "@/components/site/cookie_prefs_button";
 import { LangSwitch } from "@/components/site/lang_switch";
 import { Container } from "@/components/site/container";
 import { Marca } from "@/components/site/marca";
@@ -134,6 +135,9 @@ export function Footer({ lang, dict, section_base = "" }) {
               {entry.title[lang]}
             </Link>
           ))}
+          {/* Junto a la politica de privacidad, que es donde se busca: es la
+              salida para cambiar o retirar el consentimiento de cookies. */}
+          <CookiePrefsButton>{dict.footer_cookie_prefs}</CookiePrefsButton>
         </nav>
       </Container>
     </footer>

@@ -72,7 +72,7 @@ Each piece of data is processed on a ground of its own, and they are not all the
 | **Performance of the contract** | Account identification, credentials and payment method. Without them there is no account and no service to provide: they are the contract, not an extra someone opts into |
 | **Legitimate interests** | The access logs and the results-consultation log. The interest is the security of the service and detecting attempts to re-identify respondents. It was weighed against what it costs the person, and two limits came out of that balancing and are written above: the consultation log **does not record the values** and both have a deletion deadline |
 | **Legal obligation** | Billing data, for the period tax rules require |
-| **Consent** | Only what is genuinely optional. **Today: nothing.** There is no analytics, no profiling and no marketing email |
+| **Consent** | Only what is genuinely optional: **analytics and marketing on the website**, and notifying Google and Meta of a sign-up or a first payment when the person accepted marketing on the site. Asked for in the site's banner and withdrawn from «Cookie preferences». There is no profiling and no marketing email |
 
 **The checkbox ticked at sign-up is not the legal basis for the service, and the two
 should not be confused.** That checkbox is the express consent article 5 of Law 8968 asks
@@ -87,7 +87,8 @@ corrected: what exists for anyone who does not want to continue is to **delete t
 account**, which the owner does from the product itself and which erases the data
 immediately, with nobody in between. Consent for anything actually provided on the basis
 of consent can be withdrawn at any time, without retroactive effect, by writing to the
-address in the previous section.
+address in the previous section. Consent to the site's cookies can also be withdrawn in one
+click, from the «Cookie preferences» link at the foot of every page.
 
 ## Survey answers
 
@@ -113,8 +114,10 @@ in mind before giving details that identify you.
 
 ## Who we share it with
 
-We do not sell personal data, do not disclose it for advertising, and do not use it to
-train models.
+We do not sell personal data and do not use it to train models. **It is shared for
+advertising only if you accept that on the website**, and only what the «Cookies and site
+measurement» section describes. Measurement data (roster and answers) is never shared for
+advertising, with or without consent.
 
 We share it only with providers supplying us infrastructure services —and only what they
 need to supply them— under contractual obligations of confidentiality and of processing
@@ -129,6 +132,9 @@ it solely on our instructions:
 | **Cloudflare (R2)** | Storage of the organization's logo | United States |
 | **Polar** | Card payment processing and subscription billing as merchant of record | United States |
 | **Allegra** | Issuing and delivering the electronic invoice to the tax authority | Costa Rica |
+
+If you accept analytics or marketing on the website, **Google**, **Meta** and
+**Microsoft** are added, on the terms of the «Cookies and site measurement» section.
 
 We also disclose it when ordered by a competent authority through a reasoned decision, or
 when a legal rule requires it.
@@ -166,6 +172,7 @@ and that it accepts obligations equivalent to ours, and we add it to the table. 
 | Survey data | Set by the Client; deleted or returned at termination, per the [Addendum](/en/legal/dpa) |
 | Billing | As required by Costa Rican tax rules |
 | Result-access log | **12 months** |
+| Site cookies | `censuma_consent`, **180 days**; `censuma_utm`, **90 days**. Third-party ones, per the «Cookies and site measurement» section |
 | Server access logs | Operational and short-lived: they live on the infrastructure for as long as they help diagnose a problem and are discarded on each deployment. They are not archived or used for any other purpose |
 
 Once the period is over, data is deleted or irreversibly anonymized.
@@ -242,11 +249,18 @@ adaptations — all developed in the [Addendum](/en/legal/dpa).
 
 **California.** With respect to measurement data we act as a *service provider* within the
 meaning of the CCPA/CPRA: we process it only to provide the service to the client
-organization and on its instructions. **We do not sell or share personal information** in
-the sense that law gives to «sell» and «share» —which includes handing it over for
-non-monetary consideration, as cross-context behavioural advertising would be—, we did not
-do so in the past twelve months and we will not. Nor do we retain, use or disclose it for
-any purpose other than that, or combine it with another client's data. Exercising CCPA
+organization and on its instructions. **We do not sell personal information, and we do
+not share measurement data** in the sense that law gives to «sell» and «share» (which
+includes handing it over for non-monetary consideration, as cross-context behavioural
+advertising would be); we did not do so in the past twelve months and we will not. Nor do
+we retain, use or disclose it for any purpose other than that, or combine it with another
+client's data.
+
+**The one exception is on the website, and it is up to you.** If you accept marketing, the
+Google Ads and Meta cookies may amount to «sharing» for cross-context behavioural
+advertising within the meaning of the CCPA/CPRA. They do not switch on unless you accept
+them, and withdrawing that acceptance from «Cookie preferences» works as the right to opt
+out that the law recognizes. Exercising CCPA
 rights means writing to the same address, and **we do not discriminate against anyone who
 does**.
 
@@ -255,14 +269,75 @@ write to us: the list above is what we guarantee to everyone, not a ceiling.
 
 ## Cookies and site measurement
 
-This site uses the cookies strictly needed to work —session, language and theme— which do
-not require consent because the service cannot be provided without them.
+This section is about the **website** (censuma.com), which is where Censuma is presented
+and sold. **Inside the application there are no analytics or tracking tools**: the session
+cookie is managed by our identity provider, and language and theme are stored in your own
+browser.
 
-**We use no analytics and no tracking tools**, neither on this site nor inside the
-application: there are no advertising, profiling or cross-site tracking cookies. Inside
-the application the session cookie is managed by our identity provider, and language and
-theme are stored in your own browser. If we ever add a measurement tool that identifies
-people, we will say so here and ask for consent before switching it on.
+### What always works
+
+The site uses what it strictly needs to work: language, theme and your own cookie choice.
+That does not require consent, because without it the site cannot be provided and we could
+not remember that you said no.
+
+There are two first-party cookies:
+
+| Cookie | What for | Duration |
+|---|---|---|
+| `censuma_consent` | Stores whether you accepted analytics and marketing, so you are not asked on every page. It is shared with `app.censuma.com` so the application respects the same choice | **180 days** |
+| `censuma_utm` | Stores where you came from: the campaign, the ad or the site that sent you, the page you landed on and the date. It tells us which campaign produced a sign-up. **It does not store your name or your email**. It is only written if you accepted analytics or marketing, and it is deleted if you withdraw both | **90 days** |
+
+Until you decide, that origin data lives only in the tab's memory (`sessionStorage`), never
+leaves your browser, and is erased when you close the tab.
+
+### What switches on only if you accept it
+
+The first time you visit, the site asks. **Until you answer, everything below is off**, and
+the same goes if you reject. You can accept everything, reject everything or choose by
+category:
+
+| Tool | Provided by | Category | What for |
+|---|---|---|---|
+| **Google Analytics 4** | Google LLC | Analytics | Counting visits, page views and clicks on the site, and seeing in aggregate where people arrive from and where they drop off |
+| **Microsoft Clarity** | Microsoft Corporation | Analytics | Session recordings and heatmaps: how the cursor moves, where people click and how far they read. **Form fields are masked**: whatever you type is not recorded |
+| **Google Ads** | Google LLC | Marketing | Knowing which ad brought a visit or a sign-up, and showing our ads to people who already visited the site |
+| **Meta Pixel** | Meta Platforms, Inc. and Meta Platforms Ireland Limited | Marketing | The same on Facebook and Instagram |
+
+They are all loaded through **Google Tag Manager**, which is only the container that
+manages them and honours your choice. We use **Google's consent mode**: until you accept,
+Google's tags write no cookies and may only send signals without identifiers (for example,
+that a visit happened), which Google uses for aggregate estimates. The identifier of an ad
+click may travel in the page address from one page of the site to the next, without being
+stored in a cookie.
+
+Third-party cookies last as long as each provider sets: up to **2 years** for Google
+Analytics, up to **1 year** for Clarity and around **90 days** for Google Ads and Meta.
+Google Analytics data is kept for **14 months**.
+
+### Sign-up and first payment
+
+**If you accepted marketing on the site** and then create an account, our servers tell
+Google and Meta that a sign-up happened and, later on, that a first payment happened,
+together with the data of the campaign that brought you (the `censuma_utm` data). It tells
+us which ads produce customers so we can stop paying for the ones that do not. To match the
+event with the ad, it may include the click identifier and your email transformed with an
+irreversible hash function, from which the address cannot be recovered.
+
+**If you did not accept marketing, nothing is sent.** And measurement data is never sent:
+not the roster, not the answers, not the results.
+
+### Legal basis, transfer and how to withdraw
+
+The basis is your **consent** (article 5 of Law 8968; article 6(1)(a) GDPR). Google, Meta
+and Microsoft process this data in the United States, and all three participate in the
+**EU-U.S. Data Privacy Framework**, which is what covers that transfer from the European
+Economic Area, the United Kingdom and Switzerland.
+
+**Withdrawing is as easy as giving it**: the **«Cookie preferences»** link, at the foot of
+every page, reopens the choice with what you have selected, and you can change it at any
+time. From that moment the tools stop receiving data and `censuma_utm` is deleted; what was
+already sent while it was accepted is not recovered, because withdrawal has no retroactive
+effect. You can also delete or block cookies from your browser settings.
 
 ## Minors
 

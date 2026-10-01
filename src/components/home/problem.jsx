@@ -28,7 +28,7 @@ export function Problem({ dict }) {
   const items = dict.problem_items;
 
   return (
-    <ChapterSlide class_name="isolate">
+    <ChapterSlide class_name="isolate" section_id="problem">
       <StackBackdrop />
 
       {/* La linea que hilvana la pila, nitida. Va POR DETRAS de las fichas y a

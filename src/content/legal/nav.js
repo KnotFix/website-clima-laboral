@@ -65,7 +65,12 @@ export const LEGAL_NAV = [
       en: "What personal data Censuma processes, on what basis, for how long, and what rights each person has over it.",
     },
     version: "1.1",
-    updated: "2026-08-20",
+    // 2026-09-30: la seccion de cookies paso a describir la medicion del sitio
+    // (GTM, GA4, Clarity, Google Ads, Meta) y el aviso de altas a Google y
+    // Meta. La VERSION queda en 1.1 hasta que se decida si esto es una version
+    // nueva: subirla es tocar `DOCUMENTOS_LEGALES` de la app el mismo dia y,
+    // con clientes en produccion, el preaviso de 30 dias. Ver arriba.
+    updated: "2026-09-30",
     draft: false,
   },
   {

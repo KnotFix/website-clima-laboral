@@ -493,11 +493,15 @@ export function ChapterLand({
  * Sin clavado se convierte en una seccion normal y el capitulo deja de existir:
  * el `flex` de afuera no tiene `w-max`, asi que las dos se apilan.
  */
-export function ChapterSlide({ children, class_name }) {
+export function ChapterSlide({ children, class_name, section_id }) {
   const { is_pinned } = useChapter();
 
   return (
+    // `section_id` sale como `data-section`: es el nombre con el que la
+    // diapositiva se reporta al `dataLayer` (`section_view`). No toca el
+    // dibujo. Ver `components/site/analytics_listener.jsx`.
     <section
+      data-section={section_id}
       className={cn(
         "relative",
         is_pinned && "h-full w-screen shrink-0 overflow-hidden",

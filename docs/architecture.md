@@ -60,6 +60,18 @@ src/
       lang_switch.jsx           es/en                                   [programmer]
       footer.jsx                el pie, que sale desde ABAJO del CTA.
                                 Ver <ScrollLift> en page.js            [programmer]
+      tag_manager.jsx           <TagManagerHead> (consent default + GTM,
+                                como <script> crudos en el <head>) y
+                                <TagManagerNoscript>. Ver analytics_setup [programmer]
+      consent_banner.jsx        <ConsentBanner>: la tarjeta de cookies,
+                                abajo y sin bloquear. Se reabre con
+                                OPEN_CONSENT_EVENT                      [programmer]
+      cookie_prefs_button.jsx   <CookiePrefsButton>: «Preferencias de
+                                cookies» del pie; dispara OPEN_CONSENT_EVENT
+                                                                        [programmer]
+      analytics_listener.jsx    <AnalyticsListener>: clics con data-track,
+                                virtual_page_view por ruta, section_view
+                                y la captura de UTM. No dibuja nada     [programmer]
     home/
       hero.jsx                  titular, copy, CTAs                     [programmer]
       hero_title.jsx            el h1 con la entrada palabra a palabra  [programmer]
@@ -194,6 +206,13 @@ src/
                                 CRUDO con fs para el indice             [programmer]
     legal.js                    resolve_legal(). Mas corto que docs.js: sin
                                 indice, no hace falta releer el .mdx    [programmer]
+    consent.js                  CONTRATO con la app: cookie censuma_consent
+                                (1.a.m), parse/serialize, dominio, y el
+                                script de Consent Mode del <head>       [programmer]
+    attribution.js              CONTRATO con la app: cookie censuma_utm,
+                                ultimo toque no directo                 [programmer]
+    analytics.js                push_event(), update_consent_mode(),
+                                classify_link(), is_section_seen()      [programmer]
   proxy.js                      elige idioma por Accept-Language y redirige.
                                 Exporta pick_locale() solo para poder
                                 probarla                                [programmer]
@@ -205,6 +224,9 @@ test/
   site_config.test.js           swap_locale_in_path() e is_locale()     [programmer]
   docs.test.js                  is_doc_slug() y headings_of(), con la
                                 invariante de los slugs                 [programmer]
+  analytics.test.js             las dos cookies del contrato con la app,
+                                el script del <head>, el ultimo toque no
+                                directo, classify_link, is_section_seen [programmer]
   seo.test.js                   page_metadata() declara es, en y
                                 x-default; la FAQ del JSON-LD es la de
                                 la seccion; LEGAL_NAV con descripcion   [programmer]
@@ -221,6 +243,9 @@ docs/
                                 ESPECIFICACION del registro de aceptacion
                                 que implementa el otro proyecto (la app)
                                                                         [architect]
+  analytics_setup.md            la medicion: GTM + Consent Mode, los eventos
+                                del dataLayer y la guia paso a paso de
+                                GA4, Ads, Meta y Clarity                [architect]
   documentation.md              la seccion de docs del producto: por que
                                 vive aca y no en Docusaurus, su FRONTERA
                                 con el /ayuda del SaaS, la estructura de
@@ -501,6 +526,13 @@ final_cta_button
 
 footer_tagline
 footer_rights
+footer_cookie_prefs    «Preferencias de cookies»: reabre el banner
+
+consent_*              el banner de cookies: title, body, privacy_link,
+                       accept_all, reject, configure, save y label/body de
+                       cada categoria (necessary, analytics, marketing),
+                       mas necessary_state. El layout le pasa al banner SOLO
+                       estas llaves: viajan serializadas al cliente
 
 a11y_toggle_theme
 a11y_open_menu
@@ -3298,8 +3330,28 @@ se elige con `resolvedTheme` de next-themes.
 | `plot_ratio` | chart_line | alto sobre ancho de la caja del gráfico |
 | `chart_width` | chart_line | ancho de la caja del gráfico en px; con `plot_ratio` da el paso de unidades del `viewBox` a píxeles |
 | `rail_label` | carousel_rail | nombre accesible del riel; solo se usa sin clavado |
+| `section_id` | pinned_chapter (`ChapterSlide`) | sale como `data-section`: el nombre con que la diapo se reporta en `section_view` |
 
 > `class_name` es la prop **nuestra**; se pasa al DOM como `className`. La distinción es a propósito: `className` es de React, `class_name` es de nuestra API.
+
+### Medicion: atributos y nombres
+
+| Nombre | Tipo | Significado |
+|---|---|---|
+| `CONSENT_COOKIE` | const | `"censuma_consent"`, valor `1.<a>.<m>`. Contrato con la app |
+| `UTM_COOKIE` | const | `"censuma_utm"`, JSON codificado con `s m c t n gclid fbclid l r ts`. Contrato con la app |
+| `OPEN_CONSENT_EVENT` | const | evento de `window` que reabre el banner |
+| `push_event` | funcion | `push_event(name, params)`; no hace nada en el servidor |
+| `data-track` | atributo | id snake_case de un CTA; el listener delegado emite `cta_click` |
+| `data-track-location` | atributo | donde esta el CTA, si no alcanza con la seccion que lo contiene |
+| `data-section` | atributo | id de una seccion de la home para `section_view` |
+
+Los ids vigentes de `data-track`: `hero_start`, `hero_how_it_works`, `nav_start`,
+`nav_pricing`, `mobile_nav_start`, `mobile_nav_pricing`, `final_cta_start`, `faq_01`..`faq_08`.
+Los de `data-section`: `hero`, `problem`, `measurement`, `world`, `scale`, `how`, `weights`,
+`reports`, `faq`, `final_cta`. **GTM los usa como valores**: renombrar uno rompe un informe
+sin que nada falle aca. La lista de eventos y la regla de las paginas vistas viven en
+`docs/analytics_setup.md`.
 
 ---
 

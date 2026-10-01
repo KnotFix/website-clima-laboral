@@ -36,6 +36,13 @@ ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ARG NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 ENV NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=$NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
+# El contenedor de Google Tag Manager (`GTM-XXXXXXX`). OPCIONAL y de build:
+# vacio, no se carga GTM, pero el banner de cookies y el `dataLayer` siguen
+# funcionando. GA4, Google Ads, Meta y Clarity se configuran DENTRO del
+# contenedor, no aca. Ver `docs/analytics_setup.md`.
+ARG NEXT_PUBLIC_GTM_ID
+ENV NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID
+
 # Apaga la telemetría de Next en el build: no hay nada que reportar desde un
 # servidor de CI.
 ENV NEXT_TELEMETRY_DISABLED=1

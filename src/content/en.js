@@ -661,6 +661,26 @@ const en = {
   legal_draft_body:
     "This document has not yet been reviewed by a lawyer and is not in force. It is published so it can be worked on, not to be relied upon.",
 
+  // Cookie consent. The banner and the footer link that reopens it.
+  consent_title: "Cookies and measurement",
+  consent_body:
+    "We use our own and third-party cookies to measure how the site is used and whether our ads work. They only switch on if you accept; the essential ones always work.",
+  consent_privacy_link: "Privacy policy",
+  consent_accept_all: "Accept all",
+  consent_reject: "Reject",
+  consent_configure: "Customize",
+  consent_save: "Save",
+  consent_necessary_label: "Essential",
+  consent_necessary_body: "Language, theme and this very choice.",
+  consent_necessary_state: "Always on",
+  consent_analytics_label: "Analytics",
+  consent_analytics_body:
+    "How many people visit the site and which pages they read, so we can improve it (Google Analytics and Microsoft Clarity).",
+  consent_marketing_label: "Marketing",
+  consent_marketing_body:
+    "Knowing which ad brought you here and showing you ours on other sites (Google Ads and Meta).",
+  footer_cookie_prefs: "Cookie preferences",
+
   // Accessibility
   a11y_toggle_theme: "Toggle theme",
   a11y_open_menu: "Open menu",

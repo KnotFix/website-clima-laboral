@@ -663,6 +663,28 @@ const es = {
   legal_draft_body:
     "Este documento todavía no fue revisado por un abogado y no rige. Está publicado para poder trabajarlo, no para ser invocado.",
 
+  // Consentimiento de cookies. El banner y el enlace del pie que lo reabre.
+  // «Aceptar todo» y «Rechazar» pesan lo mismo a propósito: un rechazo
+  // escondido no es un consentimiento libre.
+  consent_title: "Cookies y medición",
+  consent_body:
+    "Usamos cookies propias y de terceros para medir cómo se usa el sitio y si nuestros anuncios funcionan. Solo se activan si lo aceptás; las indispensables funcionan siempre.",
+  consent_privacy_link: "Política de privacidad",
+  consent_accept_all: "Aceptar todo",
+  consent_reject: "Rechazar",
+  consent_configure: "Configurar",
+  consent_save: "Guardar",
+  consent_necessary_label: "Indispensables",
+  consent_necessary_body: "Idioma, tema y esta misma elección.",
+  consent_necessary_state: "Siempre activas",
+  consent_analytics_label: "Analítica",
+  consent_analytics_body:
+    "Cuántas personas visitan el sitio y qué páginas leen, para mejorarlo (Google Analytics y Microsoft Clarity).",
+  consent_marketing_label: "Marketing",
+  consent_marketing_body:
+    "Saber qué anuncio te trajo y mostrarte los nuestros en otros sitios (Google Ads y Meta).",
+  footer_cookie_prefs: "Preferencias de cookies",
+
   // Accesibilidad
   a11y_toggle_theme: "Cambiar tema",
   a11y_open_menu: "Abrir menú",

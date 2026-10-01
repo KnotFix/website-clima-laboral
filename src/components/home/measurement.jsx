@@ -39,7 +39,10 @@ const ITEM_ICONS = [Scale, Layers, Presentation];
  */
 export function Measurement({ dict }) {
   return (
-    <ChapterSlide class_name="flex flex-col justify-center pt-28 pb-16">
+    <ChapterSlide
+      class_name="flex flex-col justify-center pt-28 pb-16"
+      section_id="measurement"
+    >
       {/* El titular es lo unico de la diapositiva que no se mueve MIENTRAS
           corre el riel. Va en su `Container`; el riel de abajo sale a sangre
           hasta el borde de la pantalla y arranca en este mismo margen. */}

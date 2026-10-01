@@ -72,7 +72,7 @@ Cada dato se trata por un motivo y no todos son el mismo:
 | **Ejecución del contrato** | Identificación de la cuenta, credenciales y medio de pago. Sin ellos no hay cuenta ni servicio que prestar: son el contrato, no un extra que alguien acepte aparte |
 | **Interés legítimo** | Las bitácoras de acceso y la bitácora de consultas de resultados. El interés es la seguridad del servicio y detectar intentos de reidentificar a quien respondió. Se pesó contra lo que le cuesta a la persona, y de esa ponderación salieron dos límites que están escritos arriba: la bitácora de consultas **no registra los valores** y las dos tienen plazo de borrado |
 | **Obligación legal** | Los datos de facturación, por el plazo que exige la normativa tributaria |
-| **Consentimiento** | Solo lo que de verdad es opcional. **Hoy: nada.** No hay analítica, ni perfilado, ni correos comerciales |
+| **Consentimiento** | Solo lo que de verdad es opcional: **la analítica y el marketing del sitio web**, y el aviso a Google y a Meta de un registro o un primer pago cuando la persona aceptó marketing en el sitio. Se piden en el banner del sitio y se retiran desde «Preferencias de cookies». No hay perfilado ni correos comerciales |
 
 **La casilla que se marca al registrarse no es la base de licitud del servicio, y
 conviene no confundirlas.** Esa casilla es el consentimiento expreso que pide el artículo
@@ -86,7 +86,8 @@ prestar el servicio. **Era la confusión de arriba puesta por escrito**, y se co
 que hay para quien no quiera seguir es **eliminar la cuenta**, que el titular hace desde el
 propio producto y que borra los datos de inmediato y sin intermediarios. El consentimiento
 de lo que sí se preste con consentimiento se puede retirar cuando se quiera, sin efecto
-retroactivo, escribiendo al correo de la sección anterior.
+retroactivo, escribiendo al correo de la sección anterior. El de las cookies del sitio se
+retira además con un clic, desde el enlace «Preferencias de cookies» del pie de cada página.
 
 ## Las respuestas de la encuesta
 
@@ -112,8 +113,10 @@ respondés una encuesta, tenelo presente antes de dar detalles que te identifiqu
 
 ## Con quién los compartimos
 
-No vendemos datos personales, no los cedemos con fines publicitarios y no los usamos
-para entrenar modelos.
+No vendemos datos personales y no los usamos para entrenar modelos. **Con fines
+publicitarios solo se comparten si lo aceptás en el sitio web**, y únicamente lo que
+describe la sección «Cookies y medición del sitio». Los datos de la medición (nómina y
+respuestas) no se comparten con fines publicitarios nunca, con o sin consentimiento.
 
 Los compartimos únicamente con proveedores que nos prestan servicios de infraestructura
 —y solo lo necesario para prestarlos—, con obligación contractual de confidencialidad y
@@ -128,6 +131,9 @@ de tratarlos exclusivamente según nuestras instrucciones:
 | **Cloudflare (R2)** | Almacenamiento del logo de la organización | Estados Unidos |
 | **Polar** | Procesamiento del pago con tarjeta y facturación de la suscripción como comercio registrado (*merchant of record*) | Estados Unidos |
 | **Allegra** | Emisión y envío de la factura electrónica ante Hacienda | Costa Rica |
+
+Si aceptás analítica o marketing en el sitio web, se suman **Google**, **Meta** y
+**Microsoft**, en los términos de la sección «Cookies y medición del sitio».
 
 También los entregamos cuando lo ordena una autoridad competente por resolución
 fundamentada, o cuando una norma legal lo exige.
@@ -165,6 +171,7 @@ Avisamos con **30 días** de antelación antes de incorporarlo.
 | Datos de la medición | Los define el cliente; se eliminan o devuelven al terminar, según el [Anexo](/es/legal/dpa) |
 | Facturación | El que exige la normativa tributaria costarricense |
 | Bitácora de consultas de resultados | **12 meses** |
+| Cookies del sitio | `censuma_consent`, **180 días**; `censuma_utm`, **90 días**. Las de terceros, según la sección «Cookies y medición del sitio» |
 | Bitácoras de acceso del servidor | Son operativas y efímeras: viven en la infraestructura mientras sirven para diagnosticar un problema y se descartan en cada despliegue. No se archivan ni se usan para ninguna otra finalidad |
 
 Vencido el plazo se eliminan o se anonimizan de forma irreversible.
@@ -240,12 +247,18 @@ adaptaciones suizas — todo desarrollado en el [Anexo](/es/legal/dpa).
 
 **California.** Respecto de los datos de la medición actuamos como *service provider* en el
 sentido de la CCPA/CPRA: los tratamos únicamente para prestarle el servicio a la
-organización cliente y con arreglo a sus instrucciones. **No vendemos ni compartimos datos
-personales** en el sentido que esa ley le da a «vender» y «compartir» —que incluye
-entregarlos a cambio de una contraprestación no monetaria, como sería el caso de la
-publicidad cruzada entre sitios—, no lo hicimos en los últimos doce meses y no lo vamos a
-hacer. Tampoco los conservamos, usamos ni divulgamos para ningún fin distinto de ese, ni
-los combinamos con datos de otro cliente. Ejercer los derechos de la CCPA es escribir al
+organización cliente y con arreglo a sus instrucciones. **No vendemos datos personales, y
+los de la medición no los compartimos** en el sentido que esa ley le da a «vender» y
+«compartir» (que incluye entregarlos a cambio de una contraprestación no monetaria, como
+sería el caso de la publicidad cruzada entre sitios); no lo hicimos en los últimos doce
+meses y no lo vamos a hacer. Tampoco los conservamos, usamos ni divulgamos para ningún fin
+distinto de ese, ni los combinamos con datos de otro cliente.
+
+**La única excepción está en el sitio web, y depende de vos.** Si aceptás marketing, las
+cookies de Google Ads y de Meta pueden constituir «compartir» con fines de publicidad
+cruzada entre sitios en el sentido de la CCPA/CPRA. No se activan si no las aceptás, y
+retirar esa aceptación desde «Preferencias de cookies» funciona como el derecho de
+exclusión (*opt-out*) que esa ley reconoce. Ejercer los derechos de la CCPA es escribir al
 mismo correo, y **no discriminamos a quien los ejerza**.
 
 **Otros países.** Si la norma de tu país te reconoce un derecho que esta política no
@@ -253,15 +266,76 @@ nombra, escribinos: la lista de arriba es lo que garantizamos a todo el mundo, n
 
 ## Cookies y medición del sitio
 
-Este sitio usa las cookies indispensables para que funcione —sesión, idioma y tema—, que
-no requieren consentimiento porque sin ellas el servicio no se puede prestar.
+Esta sección es sobre el **sitio web** (censuma.com), que es donde se presenta y se vende
+Censuma. **Dentro de la aplicación no hay herramientas de analítica ni de rastreo**: la
+cookie de sesión la administra nuestro proveedor de identidad, y el idioma y el tema se
+guardan en tu propio navegador.
 
-**No usamos analítica ni herramientas de rastreo**, ni en este sitio ni dentro de la
-aplicación: no hay cookies de publicidad, de perfilado ni de seguimiento entre sitios.
-Dentro de la aplicación, la cookie de sesión la administra nuestro proveedor de
-identidad y el idioma y el tema se guardan en tu propio navegador. Si algún día
-incorporamos una herramienta de medición que identifique personas, lo diremos acá y
-pediremos consentimiento antes de activarla.
+### Lo que funciona siempre
+
+El sitio usa lo indispensable para funcionar: el idioma, el tema y tu propia elección sobre
+cookies. Eso no requiere consentimiento, porque sin ello el sitio no se puede prestar ni
+podríamos recordar que dijiste que no.
+
+Las cookies propias son dos:
+
+| Cookie | Para qué | Duración |
+|---|---|---|
+| `censuma_consent` | Guarda si aceptaste analítica y marketing, para no preguntarte en cada página. Se comparte con `app.censuma.com` para que la aplicación respete la misma elección | **180 días** |
+| `censuma_utm` | Guarda de dónde llegaste: la campaña, el anuncio o el sitio que te trajo, la página por la que entraste y la fecha. Sirve para saber qué campaña produjo un registro. **No guarda tu nombre ni tu correo**. Solo se escribe si aceptaste analítica o marketing, y se borra si retirás las dos | **90 días** |
+
+Mientras no decidas, ese dato de origen vive solo en la memoria de la pestaña
+(`sessionStorage`), no sale de tu navegador y se borra al cerrarla.
+
+### Lo que se activa solo si lo aceptás
+
+La primera vez que entrás, el sitio te pregunta. **Hasta que respondas, todo lo que sigue
+está apagado**, y lo mismo si rechazás. Podés aceptar todo, rechazar todo o elegir por
+categoría:
+
+| Herramienta | Quién la presta | Categoría | Para qué |
+|---|---|---|---|
+| **Google Analytics 4** | Google LLC | Analítica | Contar visitas, páginas vistas y clics en el sitio, y ver en conjunto por dónde se llega y dónde se abandona |
+| **Microsoft Clarity** | Microsoft Corporation | Analítica | Grabaciones de sesión y mapas de calor: cómo se mueve el cursor, dónde se hace clic y hasta dónde se lee. **Los campos de formulario se enmascaran**: lo que escribas no queda grabado |
+| **Google Ads** | Google LLC | Marketing | Saber qué anuncio trajo una visita o un registro, y mostrarle nuestros anuncios a quien ya visitó el sitio |
+| **Meta Pixel** | Meta Platforms, Inc. y Meta Platforms Ireland Limited | Marketing | Lo mismo en Facebook e Instagram |
+
+Todas se cargan a través de **Google Tag Manager**, que es solo el contenedor que las
+administra y respeta tu elección. Usamos el **modo de consentimiento de Google**: mientras
+no aceptes, las etiquetas de Google no escriben cookies y pueden enviar solo señales sin
+identificadores (por ejemplo, que hubo una visita), que Google usa para estimaciones
+agregadas. El identificador de un clic en un anuncio puede viajar en la dirección de la
+página entre una página y otra del sitio, sin guardarse en una cookie.
+
+Las cookies de terceros duran lo que fija cada proveedor: hasta **2 años** las de Google
+Analytics, hasta **1 año** las de Clarity y alrededor de **90 días** las de Google Ads y
+Meta. Los datos de Google Analytics se conservan **14 meses**.
+
+### El registro y el primer pago
+
+**Si aceptaste marketing en el sitio** y después creás una cuenta, nuestros servidores le
+informan a Google y a Meta que hubo un registro y, más adelante, que hubo un primer pago,
+junto con los datos de la campaña que te trajo (los de `censuma_utm`). Sirve para saber
+qué anuncios producen clientes y dejar de pagar los que no. Para asociar el aviso con el
+anuncio, puede incluir el identificador del clic y tu correo transformado con una función
+de resumen (*hash*) irreversible, que no permite recuperar la dirección.
+
+**Si no aceptaste marketing, no se envía nada.** Y en ningún caso se envían datos de la
+medición: ni la nómina, ni las respuestas, ni los resultados.
+
+### Base, transferencia y cómo retirarlo
+
+La base es tu **consentimiento** (artículo 5 de la Ley 8968; artículo 6.1.a del RGPD). Google,
+Meta y Microsoft tratan estos datos en Estados Unidos, y los tres están adheridos al
+**Marco de Privacidad de Datos UE-EE. UU.** (*Data Privacy Framework*), que es el amparo de
+esa transferencia desde el Espacio Económico Europeo, el Reino Unido y Suiza.
+
+**Retirarlo es tan fácil como darlo**: el enlace **«Preferencias de cookies»**, al pie de
+cada página, vuelve a abrir la elección con lo que tenés marcado, y podés cambiarlo en
+cualquier momento. Desde ese momento las herramientas dejan de recibir datos y se borra
+`censuma_utm`; lo que ya se había enviado mientras estaba aceptado no se recupera, porque
+el retiro no tiene efecto retroactivo. También podés borrar o bloquear las cookies desde la
+configuración de tu navegador.
 
 ## Menores de edad
 

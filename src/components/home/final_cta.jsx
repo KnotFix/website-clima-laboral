@@ -16,7 +16,10 @@ export function FinalCta({ dict }) {
     // boton— y necesitaba aire alrededor para no leerse apretado. En fila el
     // bloque mide casi la mitad, y el mismo relleno dejaba la seccion vacia por
     // arriba y por abajo.
-    <section className="relative overflow-hidden py-20 sm:py-24">
+    <section
+      data-section="final_cta"
+      className="relative overflow-hidden py-20 sm:py-24"
+    >
       <GridBackdrop />
       {/* > **Esto es lo que convierte al CTA en una tapa**, y sin ello el efecto
             no existe. El sitio no pinta un fondo por seccion: todas dejan ver el
@@ -88,7 +91,7 @@ export function FinalCta({ dict }) {
                 size="lg"
                 className="cta-key h-11 w-full px-6 text-base"
               >
-                <a href={site_config.signup_url}>
+                <a href={site_config.signup_url} data-track="final_cta_start">
                   {dict.final_cta_button}
                   <ArrowRight
                     aria-hidden="true"

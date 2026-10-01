@@ -88,6 +88,7 @@ export function WeightsFilters({ dict }) {
   return (
     <section
       id="weights"
+      data-section="weights"
       className="scroll-mt-24 overflow-x-clip py-20 sm:py-32"
     >
       <Container>

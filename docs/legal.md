@@ -559,6 +559,14 @@ decisión sea con el dato, no contra él.
 
 ### El banner de cookies se justifica a sí mismo
 
+**Actualizado el 2026-09-30: el sitio ya tiene medición, y banner propio (no el de Termly).**
+GTM con Consent Mode v2, GA4, Clarity, Google Ads y Meta, todo denegado hasta que se acepta;
+`privacy` lo describe en «Cookies y medición del sitio» y quedó con fecha 2026-09-30 **sin
+subir la versión** (sigue 1.1): decidir si es una versión nueva es tocar `DOCUMENTOS_LEGALES`
+de la app el mismo día y, con clientes, el preaviso. Las filas «Analítica y rastreo» y
+«Cookies» de la tabla de Termly de abajo quedaron desfasadas por esto. Lo técnico está en
+`analytics_setup.md`. Lo que sigue es el razonamiento de cuando no había medición:
+
 Hoy el sitio **no tiene ninguna cookie no esencial** —cero analítica, verificado en el repo— y
 `privacy` ya lo declara en «Cookies y medición del sitio». Montar el CMP de Termly le agrega al
 sitio las cookies del propio banner, que es lo único que habría que consentir. **El orden correcto

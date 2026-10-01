@@ -68,7 +68,7 @@ export function ScaleTree({ dict }) {
   }, []);
 
   return (
-    <section className="py-20 sm:py-32">
+    <section data-section="scale" className="py-20 sm:py-32">
       <Container>
         <ScrollPass {...HEADING_PASS}>
           <div className="max-w-2xl">

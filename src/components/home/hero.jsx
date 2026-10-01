@@ -59,6 +59,7 @@ export function Hero({ dict }) {
       {/* El `pb` es el aire bajo el video, y es exactamente el alto de la
           franja esmerilada: el problema se destapa cruzando ese vidrio. */}
       <section
+        data-section="hero"
         className="relative overflow-hidden pt-32 sm:pt-[max(8rem,calc(50svh_-_11.5rem))]"
         style={{ paddingBottom: HERO_EDGE }}
       >
@@ -157,7 +158,7 @@ export function Hero({ dict }) {
                   size="lg"
                   className="cta-key h-11 w-full px-6 text-base"
                 >
-                  <a href={site_config.signup_url}>
+                  <a href={site_config.signup_url} data-track="hero_start">
                     {dict.hero_cta_primary}
                     <ArrowRight
                       aria-hidden="true"
@@ -172,7 +173,9 @@ export function Hero({ dict }) {
                 variant="outline"
                 className="cta-key-soft h-11 px-6 text-base"
               >
-                <a href="#how">{dict.hero_cta_secondary}</a>
+                <a href="#how" data-track="hero_how_it_works">
+                  {dict.hero_cta_secondary}
+                </a>
               </Button>
             </Reveal>
           </div>
