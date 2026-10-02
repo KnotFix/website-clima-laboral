@@ -58,9 +58,13 @@ function on_click(event) {
   // `link.href` y no `getAttribute`: el navegador ya lo resolvio a absoluto.
   const href = link ? link.href : null;
   const kind = classify_link(href, site_config.app_url);
-  // Un `mailto:` lleva la direccion de correo adentro, y eso no viaja a
-  // ninguna herramienta de medicion.
-  const link_url = kind.is_mailto ? "mailto:" : href;
+  // Un `mailto:` lleva la direccion de correo adentro, y un wa.me el telefono:
+  // ninguno de los dos viaja a una herramienta de medicion.
+  const link_url = kind.is_mailto
+    ? "mailto:"
+    : kind.is_whatsapp
+      ? "https://wa.me/"
+      : href;
   const cta_id = tracked ? tracked.getAttribute("data-track") : null;
 
   if (tracked) {
@@ -87,6 +91,9 @@ function on_click(event) {
 
   if (kind.is_mailto) {
     push_event("contact_click", { method: "email", cta_id });
+  }
+  if (kind.is_whatsapp) {
+    push_event("contact_click", { method: "whatsapp", cta_id });
   }
 }
 

@@ -26,6 +26,9 @@ const es = {
   // También SUELTA, y por lo mismo: no es un ancla, es el registro del
   // producto, que es donde se ven los planes. Ver `site_config.register_url`.
   nav_pricing: "Precios",
+  // También SUELTA: es un ancla al bloque de contacto del PIE, que está en
+  // todas las páginas, y no a una sección de la home.
+  nav_contact: "Contacto",
 
   // Hero
   hero_title: "El clima de tu empresa, medido por quienes lo viven",
@@ -644,6 +647,11 @@ const es = {
   // Footer
   footer_tagline: "Evaluación de clima y satisfacción laboral.",
   footer_rights: "Todos los derechos reservados.",
+  footer_contact_title: "Contacto",
+  footer_contact_whatsapp: "WhatsApp",
+  footer_contact_email: "Correo",
+  // El mensaje que queda escrito en el WhatsApp de quien toca el botón.
+  footer_contact_whatsapp_message: "Hola, tengo una consulta sobre Censuma.",
 
   // Legales. Acá va SOLO el chrome, igual que en docs: el texto de cada
   // documento vive en `src/content/legal/**.mdx`, y su título, versión y fecha

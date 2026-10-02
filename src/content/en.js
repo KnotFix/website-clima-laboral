@@ -25,6 +25,9 @@ const en = {
   // sign-up screen, which is where the plans are shown. See
   // `site_config.register_url`.
   nav_pricing: "Pricing",
+  // Also kept OUT: it is an anchor to the contact block in the FOOTER, which
+  // is on every page, not to a section of the home page.
+  nav_contact: "Contact",
 
   // Hero
   hero_title: "Your company's climate, measured by the people who live it",
@@ -642,6 +645,11 @@ const en = {
   // Footer
   footer_tagline: "Workplace climate and job satisfaction.",
   footer_rights: "All rights reserved.",
+  footer_contact_title: "Contact",
+  footer_contact_whatsapp: "WhatsApp",
+  footer_contact_email: "Email",
+  // The message pre-filled in the WhatsApp of whoever taps the button.
+  footer_contact_whatsapp_message: "Hi, I have a question about Censuma.",
 
   // Legal. Only the chrome lives here, same as docs: the text of each document
   // lives in `src/content/legal/**.mdx`, and its title, version and date in

@@ -44,6 +44,17 @@ export function organization_ld() {
       width: 180,
       height: 180,
     },
+    // Los mismos datos del bloque de contacto del pie, que esta en todas las
+    // paginas: declarados y visibles coinciden, que es lo que Google verifica.
+    email: site_config.contact.email,
+    telephone: site_config.contact.phone,
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: site_config.contact.email,
+      telephone: site_config.contact.phone,
+      availableLanguage: ["es", "en"],
+    },
   };
 }
 

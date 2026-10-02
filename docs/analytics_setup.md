@@ -32,12 +32,13 @@ ahí. No hace falta un deploy del sitio.
 | `cta_click` | Clic en un botón marcado (ver ids abajo) | `cta_id`, `cta_text`, `cta_location`, `link_url` |
 | `app_link_click` | Clic en cualquier enlace a app.censuma.com | `link_url`, `cta_id` |
 | `begin_sign_up` | Clic en «Empezar» o «Precios» (la raíz de la app o `/registro`) | `link_url`, `cta_id`, `plan` (si el enlace lo lleva) |
-| `contact_click` | Clic en un enlace de correo | `method` (`email`), `cta_id` |
+| `contact_click` | Clic en un enlace de correo o de WhatsApp | `method` (`email` o `whatsapp`), `cta_id` |
 | `section_view` | La primera vez que cada sección de la home se ve (media sección o media pantalla) | `section_id` |
 | `consent_update` | La persona acepta, rechaza o cambia sus preferencias | `consent_analytics`, `consent_marketing` (true/false) |
 
 Ids de los botones (`cta_id`): `hero_start`, `hero_how_it_works`, `nav_start`,
-`nav_pricing`, `mobile_nav_start`, `mobile_nav_pricing`, `final_cta_start`, y `faq_01` a
+`nav_pricing`, `nav_contact`, `mobile_nav_start`, `mobile_nav_pricing`, `mobile_nav_contact`,
+`final_cta_start`, `footer_whatsapp`, `footer_email`, y `faq_01` a
 `faq_08` para las preguntas frecuentes.
 
 Ids de las secciones (`section_id`): `hero`, `problem`, `measurement`, `world`, `scale`,

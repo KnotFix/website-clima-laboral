@@ -256,6 +256,13 @@ describe("clasificacion de enlaces", () => {
     expect(classify_link(null, app)).toMatchObject({ is_app: false, is_mailto: false });
   });
 
+  it("reconoce WhatsApp y no lo confunde con un dominio parecido", () => {
+    expect(classify_link("https://wa.me/50687917066?text=Hola", app).is_whatsapp).toBe(true);
+    expect(classify_link("https://api.whatsapp.com/send?phone=50687917066", app).is_whatsapp).toBe(true);
+    expect(classify_link("https://wa.me.evil.io/50687917066", app).is_whatsapp).toBe(false);
+    expect(classify_link("mailto:censumaservice@censuma.com", app).is_whatsapp).toBe(false);
+  });
+
   it("recorta el texto del CTA", () => {
     expect(clip_text("  Empezar \n gratis  ")).toBe("Empezar gratis");
     expect(clip_text("x".repeat(300))).toHaveLength(100);

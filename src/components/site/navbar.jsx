@@ -103,6 +103,23 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
               )}
             />
           </Link>
+
+          {/* **«Contacto» baja al bloque de contacto del pie**, que esta en
+              todas las paginas: por eso es `#contact` pelado y no lleva
+              `section_base`. Tampoco entra a `nav_links`: no es una seccion de
+              la home y `useActiveSection` no tiene nada que marcar. */}
+          <a
+            href="#contact"
+            data-track="nav_contact"
+            data-track-location="navbar"
+            className={cn(
+              "nav-key relative rounded-md px-3 py-2 text-sm",
+              "text-muted-foreground hover:text-foreground",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            )}
+          >
+            {dict.nav_contact}
+          </a>
         </div>
 
         <div className="flex items-center gap-2">

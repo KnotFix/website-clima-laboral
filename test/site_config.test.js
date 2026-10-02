@@ -69,3 +69,17 @@ describe("register_url", () => {
     expect(url.searchParams.get("lang")).toBe(DEFAULT_LOCALE);
   });
 });
+
+describe("whatsapp_url", () => {
+  it("abre el chat del numero de contacto con el mensaje codificado", () => {
+    const url = new URL(site_config.whatsapp_url("Hola, ¿qué tal? & más"));
+    expect(url.host).toBe("wa.me");
+    expect(url.pathname).toBe(`/${site_config.contact.whatsapp}`);
+    expect(url.searchParams.get("text")).toBe("Hola, ¿qué tal? & más");
+  });
+
+  it("el numero de wa.me es el mismo que se muestra, sin formato", () => {
+    expect(site_config.contact.whatsapp).toMatch(/^\d+$/);
+    expect(site_config.contact.phone.replace(/\D/g, "")).toBe(site_config.contact.whatsapp);
+  });
+});

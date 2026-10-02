@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Mail, MessageCircle } from "lucide-react";
 
 import { FooterBackdrop } from "@/components/effects/footer_backdrop";
 import { BrandLink } from "@/components/site/brand_link";
@@ -85,26 +86,64 @@ export function Footer({ lang, dict, section_base = "" }) {
             </p>
           </div>
 
-          <nav
-            className="flex flex-col gap-2 sm:items-end"
-            aria-label={dict.a11y_main_nav}
-          >
-            {dict.nav_links.map((link) => (
-              <a
-                key={link.href}
-                href={`${section_base}${link.href}`}
+          <div className="flex flex-col gap-8 sm:flex-row sm:gap-16">
+            <nav
+              className="flex flex-col gap-2 sm:items-end"
+              aria-label={dict.a11y_main_nav}
+            >
+              {dict.nav_links.map((link) => (
+                <a
+                  key={link.href}
+                  href={`${section_base}${link.href}`}
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Link
+                href={`/${lang}/docs`}
                 className="text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
-                {link.label}
-              </a>
-            ))}
-            <Link
-              href={`/${lang}/docs`}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                {dict.nav_docs}
+              </Link>
+            </nav>
+
+            {/* El destino del «Contacto» del navbar. Vive en el pie y no en una
+                seccion de la home porque el pie esta en TODAS las paginas: el
+                ancla `#contact` funciona igual desde las docs o los legales,
+                sin `section_base`. Los datos son los de `site_config.contact`,
+                los mismos que firman los legales. */}
+            <address
+              id="contact"
+              className="flex flex-col gap-2 not-italic sm:items-end"
+              data-track-location="footer_contact"
             >
-              {dict.nav_docs}
-            </Link>
-          </nav>
+              <p className="text-sm font-medium text-foreground">
+                {dict.footer_contact_title}
+              </p>
+              <a
+                href={site_config.whatsapp_url(
+                  dict.footer_contact_whatsapp_message,
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="footer_whatsapp"
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <MessageCircle className="size-4" aria-hidden="true" />
+                {dict.footer_contact_whatsapp} {site_config.contact.phone}
+              </a>
+              <a
+                href={`mailto:${site_config.contact.email}`}
+                data-track="footer_email"
+                aria-label={`${dict.footer_contact_email}: ${site_config.contact.email}`}
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <Mail className="size-4" aria-hidden="true" />
+                {site_config.contact.email}
+              </a>
+            </address>
+          </div>
         </div>
 
         <div className="mt-10 flex flex-col-reverse gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">

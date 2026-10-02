@@ -142,6 +142,17 @@ describe("datos estructurados", () => {
     expect(organization_ld().logo.url).toMatch(/\.png$/);
   });
 
+  it("la organizacion declara el mismo contacto que muestra el pie", () => {
+    const org = organization_ld();
+    expect(org.email).toBe(site_config.contact.email);
+    expect(org.telephone).toMatch(/^\+\d/); // con codigo de pais
+    expect(org.contactPoint).toMatchObject({
+      "@type": "ContactPoint",
+      email: site_config.contact.email,
+      telephone: site_config.contact.phone,
+    });
+  });
+
   it("la miga numera desde 1 y el ultimo escalon no lleva URL", () => {
     const ld = breadcrumb_ld("es", [
       { name: "Inicio", path: "" },

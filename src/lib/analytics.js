@@ -14,7 +14,7 @@ import { consent_signals } from "@/lib/consent";
  *     cta_click          cta_id, cta_text, cta_location, link_url
  *     app_link_click     link_url, cta_id
  *     begin_sign_up      link_url, cta_id, plan?
- *     contact_click      method, link_url
+ *     contact_click      method ("email" | "whatsapp"), cta_id
  *     section_view       section_id
  *     consent_update     consent_analytics, consent_marketing
  *
@@ -85,13 +85,25 @@ export function clip_text(text, max = 100) {
  *   dia se enlaza una pagina de ayuda del producto) es solo `app_link_click`.
  * - `plan`: el `?plan=` del enlace, si lo lleva.
  * - `is_mailto`: un enlace de correo.
+ * - `is_whatsapp`: un enlace a un chat de WhatsApp (wa.me o api.whatsapp.com).
  */
 export function classify_link(href, app_url) {
-  const result = { is_app: false, is_sign_up: false, plan: null, is_mailto: false };
+  const result = {
+    is_app: false,
+    is_sign_up: false,
+    plan: null,
+    is_mailto: false,
+    is_whatsapp: false,
+  };
   if (typeof href !== "string" || !href) return result;
 
   if (href.toLowerCase().startsWith("mailto:")) {
     result.is_mailto = true;
+    return result;
+  }
+
+  if (/^https?:\/\/(wa\.me|api\.whatsapp\.com)(\/|$)/i.test(href)) {
+    result.is_whatsapp = true;
     return result;
   }
 

@@ -41,6 +41,20 @@ site_config.signup_url = `${site_config.app_url}/`;
 site_config.register_url = (lang) =>
   `${site_config.app_url}/registro?lang=${is_locale(lang) ? lang : DEFAULT_LOCALE}`;
 
+// Contacto. Los mismos datos que firman los legales (`content/legal/**.mdx`):
+// si cambian, cambian alla tambien. `whatsapp` va en el formato que pide
+// wa.me, solo digitos con el codigo de pais; `phone` es como se muestra.
+site_config.contact = {
+  email: "censumaservice@censuma.com",
+  phone: "+506 8791 7066",
+  whatsapp: "50687917066",
+};
+
+// El mensaje inicial sale del diccionario: es texto que la persona ve en su
+// WhatsApp, asi que va en su idioma.
+site_config.whatsapp_url = (message) =>
+  `https://wa.me/${site_config.contact.whatsapp}?text=${encodeURIComponent(message)}`;
+
 export function is_locale(value) {
   return LOCALES.includes(value);
 }

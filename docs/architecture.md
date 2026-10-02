@@ -403,7 +403,7 @@ docs/
 | `LOCALES` | const array | `["es", "en"]` |
 | `DEFAULT_LOCALE` | const string | `"es"` |
 | `get_dictionary` | función | `get_dictionary(lang) -> dict` |
-| `site_config` | object | marca, navegación y URLs |
+| `site_config` | object | marca, navegación, URLs y `contact` (correo, teléfono, número de wa.me); `whatsapp_url(message)` arma el enlace al chat |
 
 ### Llaves del diccionario
 
@@ -419,6 +419,8 @@ nav_pricing        «Precios». Tambien SUELTO: no es un ancla sino el registro
                    del producto (site_config.register_url), que es donde se
                    ven los planes. El sitio NO publica tabla de precios
                    (2026-09-13): dos copias es una desactualizada
+nav_contact        «Contacto». SUELTO: es el ancla #contact, que esta en el
+                   PIE (todas las paginas), no una seccion de la home
 docs_*             el chrome de la seccion de docs (indice, plegado de movil,
                    "En esta pagina", anterior/siguiente). La PROSA vive en
                    src/content/docs/**.mdx, nunca aca
@@ -527,6 +529,9 @@ final_cta_button
 footer_tagline
 footer_rights
 footer_cookie_prefs    «Preferencias de cookies»: reabre el banner
+footer_contact_*       el bloque #contact del pie: title, whatsapp, email y
+                       whatsapp_message (el texto que queda escrito en el chat).
+                       Los datos (correo, telefono) son site_config.contact
 
 consent_*              el banner de cookies: title, body, privacy_link,
                        accept_all, reject, configure, save y label/body de
@@ -3347,7 +3352,8 @@ se elige con `resolvedTheme` de next-themes.
 | `data-section` | atributo | id de una seccion de la home para `section_view` |
 
 Los ids vigentes de `data-track`: `hero_start`, `hero_how_it_works`, `nav_start`,
-`nav_pricing`, `mobile_nav_start`, `mobile_nav_pricing`, `final_cta_start`, `faq_01`..`faq_08`.
+`nav_pricing`, `nav_contact`, `mobile_nav_start`, `mobile_nav_pricing`, `mobile_nav_contact`,
+`final_cta_start`, `footer_whatsapp`, `footer_email`, `faq_01`..`faq_08`.
 Los de `data-section`: `hero`, `problem`, `measurement`, `world`, `scale`, `how`, `weights`,
 `reports`, `faq`, `final_cta`. **GTM los usa como valores**: renombrar uno rompe un informe
 sin que nada falle aca. La lista de eventos y la regla de las paginas vistas viven en
