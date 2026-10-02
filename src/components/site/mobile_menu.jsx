@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
@@ -18,14 +19,46 @@ import { site_config } from "@/lib/site_config";
 export function MobileMenu({ lang, dict, section_base = "" }) {
   const [is_open, set_is_open] = useState(false);
 
+  // > **El menu NO es modal, y es por el toque que lo abre.** En modo modal,
+  // Radix le pone `pointer-events: none` al `<body>` para bloquear la pagina.
+  // Esa propiedad se hereda, asi que el navegador recalcula el estilo de los
+  // ~960 elementos de la home dentro del mismo toque, antes de pintar el
+  // primer cuadro del panel. Medido el 2026-10-02 en telefono emulado con CPU
+  // x4: 280 ms entre el toque y el primer cuadro, contra ~120 ms sin modal. En
+  // la mano se sentia como un menu que abre pegado.
+  //
+  // Lo que el modal hacia se cubre con el fondo de abajo: tapa la pagina, se
+  // come el toque de afuera (sin el, el toque cerraria el menu Y apretaria lo
+  // que hubiera debajo) y con `touch-action: none` no deja scrollearla por
+  // detras. Escape y el toque afuera los sigue resolviendo Radix. Lo unico que
+  // se pierde es la trampa del Tab, que en un menu de enlaces no hace falta.
+  //
+  // Va por portal porque el navbar se traslada con `transform`, y un `fixed`
+  // adentro de un ancestro transformado se mide contra ese ancestro y no
+  // contra la pantalla. Va en `z-50` como el navbar, y como entra despues en
+  // el DOM le gana y lo oscurece igual que el fondo de Radix; el panel sube a
+  // `z-[51]` para quedar encima de los dos.
+  // Sin desenfoque, a proposito: un `backdrop-filter` a pantalla completa es
+  // lo mas caro que se le puede pedir a un telefono mientras anima el panel.
+  const backdrop =
+    is_open &&
+    createPortal(
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 z-50 touch-none bg-black/10 animate-in fade-in-0 duration-100"
+      />,
+      document.body,
+    );
+
   return (
-    <Sheet open={is_open} onOpenChange={set_is_open}>
+    <Sheet open={is_open} onOpenChange={set_is_open} modal={false}>
+      {backdrop}
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" aria-label={dict.a11y_open_menu}>
           <Menu className="size-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-72">
+      <SheetContent side="right" className="z-[51] w-72 overscroll-contain">
         <SheetHeader>
           <SheetTitle className="text-left">{site_config.product}</SheetTitle>
         </SheetHeader>
