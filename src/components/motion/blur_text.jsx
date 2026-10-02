@@ -112,7 +112,10 @@ export function BlurTextPiece({
   return (
     <motion.span
       ref={piece_ref}
-      className={cn("inline-block", class_name)}
+      // `blur-piece` es el gancho del interruptor de movil: en telefono el
+      // desenfoque se anula desde `globals.css` y la palabra entra solo con
+      // opacidad y desplazamiento.
+      className={cn("blur-piece inline-block", class_name)}
       variants={piece_variants}
       // > **Al terminar se BORRA el filtro, no se deja en `blur(0px)`.** Motion
       // apaga la animacion pero no limpia la propiedad, y un `filter`, aunque

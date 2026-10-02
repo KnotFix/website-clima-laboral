@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 
 import { useReducedMotionSafe } from "@/components/motion/use_reduced_motion";
 import { cn } from "@/lib/utils";
@@ -69,9 +69,18 @@ function split_graphemes(text) {
 export function RotatingText({ texts, interval = 2400, class_name }) {
   const reduced_motion = useReducedMotionSafe();
   const [index, set_index] = useState(0);
+  const box_ref = useRef(null);
+
+  // **Fuera de pantalla no rota.** Cada vuelta no es solo un re-render: el
+  // `popLayout` de abajo mete y saca una hoja de estilos para sacar del flujo
+  // a la palabra que se va, y eso obliga a recalcular el estilo del documento
+  // ENTERO. Medido el 2026-10-02 en telefono emulado: seguia pasando cada 2,4 s
+  // durante todo el scroll, aunque la seccion del planeta estuviera miles de
+  // pixeles arriba. Al volver retoma desde la palabra en la que quedo.
+  const in_view = useInView(box_ref, { margin: "100px 0px" });
 
   useEffect(() => {
-    if (reduced_motion || texts.length < 2) return;
+    if (reduced_motion || texts.length < 2 || !in_view) return;
 
     let timer;
     const stop = () => {
@@ -99,7 +108,7 @@ export function RotatingText({ texts, interval = 2400, class_name }) {
       stop();
       document.removeEventListener("visibilitychange", on_visibility);
     };
-  }, [reduced_motion, texts.length, interval]);
+  }, [reduced_motion, texts.length, interval, in_view]);
 
   const characters = useMemo(
     () => split_graphemes(texts[index]),
@@ -114,6 +123,7 @@ export function RotatingText({ texts, interval = 2400, class_name }) {
 
   return (
     <motion.span
+      ref={box_ref}
       layout
       transition={TRANSITION}
       className={cn(

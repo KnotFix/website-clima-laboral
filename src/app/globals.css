@@ -560,6 +560,13 @@
   );
   -webkit-mask-image: var(--atmo-clear);
   mask-image: var(--atmo-clear);
+  /* **Capa propia, o el parallax repinta la pagina entera.** Motion le escribe
+     un `translateY` en cada cuadro del scroll, y un `transform` 2D sobre algo
+     que no esta promovido no se recompone: se repinta. Medido el 2026-10-02 en
+     telefono emulado: los dos planos se pintaban 746 veces en 451 cuadros y
+     arrastraban al `#document` a repintarse en TODOS. Con la capa promovida el
+     movimiento lo hace el compositor y el hilo principal ni se entera. */
+  will-change: transform;
 }
 
 .atmo-blob {
@@ -609,6 +616,18 @@
      frena con la misma consulta en `page_grain.jsx`. */
   .page-grain {
     display: none;
+  }
+
+  /* **Las palabras de `BlurText` entran sin desenfoque.** Un `filter: blur()`
+     animado no lo puede hacer el compositor: cada cuadro de la entrada repinta
+     la palabra con el filtro, y son decenas de palabras escalonadas que entran
+     justo mientras el dedo esta scrolleando. Medido el 2026-10-02 en telefono
+     emulado: ~1.900 cuadros de animacion de filtro en un recorrido de la home.
+     `!important` porque el filtro lo escribe Motion en linea y por animacion, y
+     una declaracion importante de hoja le gana a las dos. La entrada sigue
+     leyendose: opacidad y desplazamiento no cambian. */
+  .blur-piece {
+    filter: none !important;
   }
 }
 
@@ -1038,6 +1057,18 @@
   backdrop-filter: blur(10px);
   -webkit-mask-image: linear-gradient(to bottom, #000 0 45%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0 45%, transparent 100%);
+}
+
+/* **En telefono la franja va sin desenfoque.** Queda justo encima de la isla,
+   asi que eran dos `backdrop-filter` apilados sobre el mismo tramo de pantalla:
+   el de la isla tiene que leer lo que ya desenfoco el de la franja, y el
+   telefono paga los dos en cada cuadro del scroll. El vidrio lo sigue haciendo
+   la isla; la franja se queda con su tinte, que es lo que tapa el hueco. */
+@media (max-width: 767px) {
+  .nav-scrim {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /* ---- Organigrama ------------------------------------------------------

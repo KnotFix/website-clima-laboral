@@ -163,7 +163,11 @@ export function ConsentBanner({ lang, dict }) {
         // arriba es una tarjeta en la esquina, lejos de los CTA del centro.
         // `max-h` + scroll: con el panel abierto en un telefono apaisado, la
         // tarjeta no puede pasarse de la pantalla.
-        "fixed inset-x-3 bottom-3 z-50 max-h-[calc(100svh-1.5rem)] overflow-y-auto rounded-2xl border border-border bg-background/95 p-4 text-foreground shadow-2xl backdrop-blur-md outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-[26rem] sm:p-5 " +
+        // El desenfoque va solo de `sm` para arriba. En telefono la tarjeta
+        // ocupa el ancho y se queda fija mientras la pagina scrollea debajo,
+        // asi que un `backdrop-filter` ahi se recalcula en cada cuadro, y con el
+        // fondo al 95 % casi no se ve.
+        "fixed inset-x-3 bottom-3 z-50 max-h-[calc(100svh-1.5rem)] overflow-y-auto rounded-2xl border border-border bg-background/95 p-4 text-foreground shadow-2xl sm:backdrop-blur-md outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-[26rem] sm:p-5 " +
         "animate-in fade-in slide-in-from-bottom-4 duration-300 motion-reduce:animate-none"
       }
     >
