@@ -67,6 +67,13 @@ Esto obliga a dos cosas en GTM, y saltarse cualquiera de las dos cuenta cada pá
    `Censuma web`. Dejá activada la **medición mejorada**, pero entrá a su engranaje y
    **apagá «Vistas de página: cambios en el historial del navegador»** (ver la regla de
    arriba).
+
+   **«Clics salientes» se queda PRENDIDO, a propósito** (decisión del 2026-10-02). Manda un
+   `click` por cada enlace que sale del sitio, y para WhatsApp, el correo y la app eso
+   duplica, con otro nombre, a `contact_click` y `app_link_click`. No infla nada: son
+   eventos distintos y los eventos clave son los nuestros. A cambio mide los enlaces
+   externos que no llevan `data-track`, como los de las docs y los legales. **Para contar
+   contactos se usa siempre `contact_click`, nunca `click`.**
 4. Copiá el **ID de medición** (empieza con `G-`). Lo vas a usar en GTM y en Dokploy.
 5. **Google Signals**: Administrar → Recopilación de datos → **Activar** la recopilación de
    datos de Google Signals.
@@ -76,10 +83,14 @@ Esto obliga a dos cosas en GTM, y saltarse cualquiera de las dos cuenta cada pá
    y GA4 escribe la cookie `_ga` en `.censuma.com`, así que los dos la comparten solos. La
    app tampoco carga GA4 en el navegador: lee esa cookie en el servidor para mandar
    `sign_up` y `purchase` con el mismo visitante.
-8. **Eventos clave**: Administrar → Visualización de datos → Eventos clave → **Nuevo evento
-   clave** → escribí `sign_up` y guardá; repetí con `purchase`. Los dos los manda la app
-   desde el servidor, así que van a aparecer recién después del primer registro real; se
-   pueden crear antes igual.
+8. **Eventos clave**: `purchase`, `sign_up` y `contact_click`. Administrar → Visualización
+   de datos → **Eventos** → pestaña **Eventos recientes** → la **estrella** a la izquierda
+   del nombre. La interfaz actual no tiene botón «Nuevo evento clave»: **un evento solo se
+   puede marcar cuando ya aparece en esa lista, y aparece hasta 24 h después de que llegó
+   el primero.** Que no esté no es un error: se confirma en Informes → Tiempo real.
+   `purchase` viene marcado de fábrica. `sign_up` y `purchase` los manda la app desde el
+   servidor, así que aparecen recién después del primer registro y el primer pago reales.
+   Con la interfaz en inglés: Admin → Data display → Events → **Recent events**.
 9. **API secret del Measurement Protocol** (lo usa la app para mandar `sign_up` y
    `purchase`): Administrar → Flujos de datos → `Censuma web` → **Secretos de la API del
    Measurement Protocol** → Crear → apodo `backend censuma` → copiá el valor.
@@ -165,9 +176,23 @@ Uno por evento, con el nombre del evento exacto:
 | GA4 section_view | `section_view` | `section_id` | `CE - section_view` |
 | GA4 contact_click | `contact_click` | `method` | `CE - contact_click` |
 
-Cada parámetro toma su variable `{{DLV - …}}`. Para verlos en los informes, en GA4:
-Administrar → Definiciones personalizadas → **Crear dimensión personalizada** (alcance
-«Evento») para `cta_id`, `cta_location`, `section_id` y `plan`.
+Cada parámetro toma su variable `{{DLV - …}}`. **Sin dimensión personalizada, GA4 recibe
+el parámetro pero no deja abrir los informes por él.** En GA4: Administrar → Visualización
+de datos → Definiciones personalizadas → **Crear dimensión personalizada** (en inglés:
+Data display → Custom definitions → Create custom dimension), una por fila, alcance
+**Evento**. El **Guardar** está arriba a la derecha del panel: cerrarlo de otra forma no
+guarda. Si avisa que el parámetro todavía no llegó, se guarda igual.
+
+| Nombre de la dimensión | Parámetro | Para qué |
+|---|---|---|
+| Método de contacto | `method` | separar WhatsApp de correo en `contact_click` |
+| ID del botón | `cta_id` | qué botón se tocó |
+| Ubicación del botón | `cta_location` | en qué parte de la página estaba |
+| Sección vista | `section_id` | hasta dónde llega la gente en la home |
+| Plan | `plan` | qué plan eligió quien fue a registrarse |
+
+Las cinco están creadas en la propiedad de producción desde el 2026-10-02. Se llenan desde
+que existen: los datos anteriores no se completan hacia atrás.
 
 **d) Microsoft Clarity**
 
@@ -231,10 +256,12 @@ Arriba a la derecha → **Enviar** → nombre de la versión (por ejemplo `Medic
    Analytics (GA4) y Firebase** → Vincular → elegí la propiedad `Censuma`. Activá la
    importación de audiencias y de métricas.
 2. **Importar conversiones**: Objetivos → Conversiones → Resumen → **Nueva acción de
-   conversión** → **Importar** → Propiedades de Google Analytics 4 → Web → marcá `sign_up`
-   y `purchase` → Importar y continuar.
+   conversión** → **Importar** → Propiedades de Google Analytics 4 → Web → marcá `sign_up`,
+   `purchase` y `contact_click` → Importar y continuar.
 3. Marcá `purchase` como conversión **principal** y `sign_up` como **secundaria** si las
    campañas van a optimizar por venta; al revés si todavía no hay volumen de pagos.
+   **`contact_click` va siempre como secundaria**: si fuera principal, Ads optimizaría para
+   que la gente escriba por WhatsApp y no para que se registre o pague.
 
 ## 5. Variables de entorno en Dokploy
 
