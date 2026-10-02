@@ -50,6 +50,9 @@ src/
       brand_link.jsx            la marca como enlace al INICIO de la
                                 home; estando ya en ella, sube al tope
                                 a mano (Next no scrollea a la misma ruta) [programmer]
+      brand_icons.jsx           logos de WhatsApp, Instagram, Facebook y
+                                YouTube (simple-icons, CC0): lucide 1.x
+                                ya no trae logos de marca              [programmer]
       nav_links.jsx             links de seccion + marca de activa      [programmer]
       use_active_section.jsx    hook useActiveSection (IntersectionObs) [programmer]
       mobile_menu.jsx           Sheet para < md                         [programmer]
@@ -403,7 +406,7 @@ docs/
 | `LOCALES` | const array | `["es", "en"]` |
 | `DEFAULT_LOCALE` | const string | `"es"` |
 | `get_dictionary` | función | `get_dictionary(lang) -> dict` |
-| `site_config` | object | marca, navegación, URLs y `contact` (correo, teléfono, número de wa.me); `whatsapp_url(message)` arma el enlace al chat |
+| `site_config` | object | marca, navegación, URLs y `contact` (correo, teléfono, número de wa.me); `social` (perfiles de Instagram, Facebook y YouTube, tambien el `sameAs` del JSON-LD); `whatsapp_url(message)` arma el enlace al chat |
 
 ### Llaves del diccionario
 
@@ -532,6 +535,9 @@ footer_cookie_prefs    «Preferencias de cookies»: reabre el banner
 footer_contact_*       el bloque #contact del pie: title, whatsapp, email y
                        whatsapp_message (el texto que queda escrito en el chat).
                        Los datos (correo, telefono) son site_config.contact
+footer_social_*        label (nombre del nav de redes) e instagram, facebook,
+                       youtube: el nombre accesible de cada boton, que es solo
+                       un logo. Las URLs son site_config.social
 
 consent_*              el banner de cookies: title, body, privacy_link,
                        accept_all, reject, configure, save y label/body de
@@ -3353,7 +3359,8 @@ se elige con `resolvedTheme` de next-themes.
 
 Los ids vigentes de `data-track`: `hero_start`, `hero_how_it_works`, `nav_start`,
 `nav_pricing`, `nav_contact`, `mobile_nav_start`, `mobile_nav_pricing`, `mobile_nav_contact`,
-`final_cta_start`, `footer_whatsapp`, `footer_email`, `faq_01`..`faq_08`.
+`final_cta_start`, `footer_whatsapp`, `footer_email`, `footer_instagram`, `footer_facebook`,
+`footer_youtube`, `faq_01`..`faq_08`.
 Los de `data-section`: `hero`, `problem`, `measurement`, `world`, `scale`, `how`, `weights`,
 `reports`, `faq`, `final_cta`. **GTM los usa como valores**: renombrar uno rompe un informe
 sin que nada falle aca. La lista de eventos y la regla de las paginas vistas viven en

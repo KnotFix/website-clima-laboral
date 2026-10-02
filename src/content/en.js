@@ -650,6 +650,11 @@ const en = {
   footer_contact_email: "Email",
   // The message pre-filled in the WhatsApp of whoever taps the button.
   footer_contact_whatsapp_message: "Hi, I have a question about Censuma.",
+  // The social buttons are just a logo: this is their accessible name.
+  footer_social_label: "Censuma on social media",
+  footer_social_instagram: "Censuma on Instagram",
+  footer_social_facebook: "Censuma on Facebook",
+  footer_social_youtube: "Censuma on YouTube",
 
   // Legal. Only the chrome lives here, same as docs: the text of each document
   // lives in `src/content/legal/**.mdx`, and its title, version and date in

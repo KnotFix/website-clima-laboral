@@ -1,14 +1,30 @@
 import Link from "next/link";
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { FooterBackdrop } from "@/components/effects/footer_backdrop";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  WhatsappIcon,
+  YoutubeIcon,
+} from "@/components/site/brand_icons";
 import { BrandLink } from "@/components/site/brand_link";
 import { CookiePrefsButton } from "@/components/site/cookie_prefs_button";
 import { LangSwitch } from "@/components/site/lang_switch";
 import { Container } from "@/components/site/container";
 import { Marca } from "@/components/site/marca";
+import { Button } from "@/components/ui/button";
 import { LEGAL_NAV } from "@/content/legal/nav";
 import { site_config } from "@/lib/site_config";
+
+// En el orden en que se dibujan. `id` es a la vez la llave de
+// `site_config.social`, el sufijo de `footer_social_*` en el diccionario y el
+// del `data-track`.
+const SOCIAL_LINKS = [
+  { id: "instagram", Icon: InstagramIcon },
+  { id: "facebook", Icon: FacebookIcon },
+  { id: "youtube", Icon: YoutubeIcon },
+];
 
 /**
  * Cuanto del pie queda metido debajo de la seccion anterior, en px. **Es
@@ -112,37 +128,72 @@ export function Footer({ lang, dict, section_base = "" }) {
                 seccion de la home porque el pie esta en TODAS las paginas: el
                 ancla `#contact` funciona igual desde las docs o los legales,
                 sin `section_base`. Los datos son los de `site_config.contact`,
-                los mismos que firman los legales. */}
-            <address
+                los mismos que firman los legales.
+
+                **Botones y no enlaces de texto**: un enlace gris del mismo
+                tamaño que la navegacion no se leia como algo que se aprieta.
+                Y el correo y el telefono quedan ADEMAS escritos en texto
+                plano debajo, seleccionables: un `mailto:` en una compu sin
+                cliente de correo configurado no abre nada, y ahi la persona
+                tiene que poder copiar la direccion. */}
+            <div
               id="contact"
-              className="flex flex-col gap-2 not-italic sm:items-end"
+              className="flex flex-col gap-3 sm:items-end"
               data-track-location="footer_contact"
             >
-              <p className="text-sm font-medium text-foreground">
-                {dict.footer_contact_title}
-              </p>
-              <a
-                href={site_config.whatsapp_url(
-                  dict.footer_contact_whatsapp_message,
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-track="footer_whatsapp"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              <address className="flex flex-col gap-3 not-italic sm:items-end">
+                <p className="text-sm font-medium text-foreground">
+                  {dict.footer_contact_title}
+                </p>
+                <div className="flex flex-wrap gap-2 sm:justify-end">
+                  <Button asChild variant="outline" size="lg" className="px-4">
+                    <a
+                      href={site_config.whatsapp_url(
+                        dict.footer_contact_whatsapp_message,
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-track="footer_whatsapp"
+                    >
+                      <WhatsappIcon class_name="size-4" />
+                      {dict.footer_contact_whatsapp}
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="px-4">
+                    <a
+                      href={`mailto:${site_config.contact.email}`}
+                      data-track="footer_email"
+                    >
+                      <Mail aria-hidden="true" />
+                      {dict.footer_contact_email}
+                    </a>
+                  </Button>
+                </div>
+                <p className="flex flex-col text-sm text-muted-foreground select-text sm:items-end">
+                  <span>{site_config.contact.email}</span>
+                  <span>{site_config.contact.phone}</span>
+                </p>
+              </address>
+
+              <nav
+                className="flex gap-1 sm:justify-end"
+                aria-label={dict.footer_social_label}
               >
-                <MessageCircle className="size-4" aria-hidden="true" />
-                {dict.footer_contact_whatsapp} {site_config.contact.phone}
-              </a>
-              <a
-                href={`mailto:${site_config.contact.email}`}
-                data-track="footer_email"
-                aria-label={`${dict.footer_contact_email}: ${site_config.contact.email}`}
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <Mail className="size-4" aria-hidden="true" />
-                {site_config.contact.email}
-              </a>
-            </address>
+                {SOCIAL_LINKS.map(({ id, Icon }) => (
+                  <Button key={id} asChild variant="ghost" size="icon-lg">
+                    <a
+                      href={site_config.social[id]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={dict[`footer_social_${id}`]}
+                      data-track={`footer_${id}`}
+                    >
+                      <Icon class_name="size-5" />
+                    </a>
+                  </Button>
+                ))}
+              </nav>
+            </div>
           </div>
         </div>
 

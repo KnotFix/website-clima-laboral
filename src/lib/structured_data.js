@@ -55,6 +55,9 @@ export function organization_ld() {
       telephone: site_config.contact.phone,
       availableLanguage: ["es", "en"],
     },
+    // Los perfiles oficiales: le dicen al buscador que esas cuentas son de
+    // esta organizacion y no de otra con el mismo nombre.
+    sameAs: Object.values(site_config.social),
   };
 }
 

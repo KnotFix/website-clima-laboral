@@ -652,6 +652,11 @@ const es = {
   footer_contact_email: "Correo",
   // El mensaje que queda escrito en el WhatsApp de quien toca el botón.
   footer_contact_whatsapp_message: "Hola, tengo una consulta sobre Censuma.",
+  // Los botones de redes son solo un logo: este es su nombre accesible.
+  footer_social_label: "Censuma en redes sociales",
+  footer_social_instagram: "Censuma en Instagram",
+  footer_social_facebook: "Censuma en Facebook",
+  footer_social_youtube: "Censuma en YouTube",
 
   // Legales. Acá va SOLO el chrome, igual que en docs: el texto de cada
   // documento vive en `src/content/legal/**.mdx`, y su título, versión y fecha

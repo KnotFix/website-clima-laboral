@@ -38,7 +38,8 @@ ahí. No hace falta un deploy del sitio.
 
 Ids de los botones (`cta_id`): `hero_start`, `hero_how_it_works`, `nav_start`,
 `nav_pricing`, `nav_contact`, `mobile_nav_start`, `mobile_nav_pricing`, `mobile_nav_contact`,
-`final_cta_start`, `footer_whatsapp`, `footer_email`, y `faq_01` a
+`final_cta_start`, `footer_whatsapp`, `footer_email`, `footer_instagram`, `footer_facebook`,
+`footer_youtube`, y `faq_01` a
 `faq_08` para las preguntas frecuentes.
 
 Ids de las secciones (`section_id`): `hero`, `problem`, `measurement`, `world`, `scale`,

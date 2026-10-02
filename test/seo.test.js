@@ -151,6 +151,11 @@ describe("datos estructurados", () => {
       email: site_config.contact.email,
       telephone: site_config.contact.phone,
     });
+    expect(org.sameAs).toEqual(Object.values(site_config.social));
+    for (const url of org.sameAs) {
+      // Sin parametros de rastreo de quien compartio el enlace.
+      expect(new URL(url).searchParams.has("si")).toBe(false);
+    }
   });
 
   it("la miga numera desde 1 y el ultimo escalon no lleva URL", () => {

@@ -50,6 +50,15 @@ site_config.contact = {
   whatsapp: "50687917066",
 };
 
+// Los perfiles de Censuma en redes. Van al pie y al `sameAs` del JSON-LD de la
+// organizacion. URLs limpias: el `?si=` que agrega YouTube al compartir es un
+// rastreo de quien comparte, no parte del perfil.
+site_config.social = {
+  instagram: "https://www.instagram.com/censumaofficial/",
+  facebook: "https://www.facebook.com/profile.php?id=61595148890304",
+  youtube: "https://www.youtube.com/@censuma",
+};
+
 // El mensaje inicial sale del diccionario: es texto que la persona ve en su
 // WhatsApp, asi que va en su idioma.
 site_config.whatsapp_url = (message) =>
