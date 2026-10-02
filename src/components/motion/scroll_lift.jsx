@@ -137,7 +137,12 @@ export function ScrollLift({
     // viene despues y por defecto pintaria arriba. Sin esto no tapa nada.
     <div
       ref={container_ref}
-      className={cn("relative z-10", class_name)}
+      // **`pointer-events-none` afuera y `auto` adentro.** El de afuera NO se
+      // mueve: con el `marginBottom` negativo su caja sigue montada `lift` px
+      // sobre lo de abajo, y con `z-10` esa franja vacia se tragaba los clics
+      // (2026-10-02: los botones de WhatsApp y Correo del pie no se podian
+      // apretar en escritorio). Asi solo recibe clics lo que se ve.
+      className={cn("pointer-events-none relative z-10", class_name)}
       // Sin movimiento no hay margen negativo NI transform: las dos cosas se
       // apagan juntas o la seccion de abajo se queda debajo de esta sin nada que
       // la levante.
@@ -153,7 +158,7 @@ export function ScrollLift({
           de bloque, y el `flex-1` se corta en el primero. Sin el, una pagina
           corta deja al pie flotando a media pantalla. */}
       <motion.div
-        className={cn(inner_class_name)}
+        className={cn("pointer-events-auto", inner_class_name)}
         style={still ? undefined : { y }}
       >
         {children}
