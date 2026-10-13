@@ -78,17 +78,17 @@ export function MobileMenu({ lang, dict, section_base = "" }) {
               {link.label}
             </a>
           ))}
-          {/* Precios: el registro del producto, no una seccion. Mismo lugar
-              que en escritorio, entre las anclas y las docs. */}
-          <a
-            href={site_config.register_url(lang)}
+          {/* Precios: una RUTA del sitio, como las docs. Mismo lugar que en
+              escritorio, entre las anclas y las docs. */}
+          <Link
+            href={`/${lang}/pricing`}
             data-track="mobile_nav_pricing"
             data-track-location="mobile_menu"
             onClick={() => set_is_open(false)}
             className="rounded-md px-2 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           >
             {dict.nav_pricing}
-          </a>
+          </Link>
           {/* Las docs van con el resto de la navegacion y no abajo del CTA: en
               el menu de escritorio estan al mismo nivel que las secciones, y
               moverlas de lugar segun el tamaño de pantalla obliga a buscarlas

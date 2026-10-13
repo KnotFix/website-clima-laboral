@@ -93,7 +93,9 @@ export function website_ld(lang, dict) {
  * Lo que quedo en su lugar es `Organization`, que sigue diciendo que detras
  * del sitio hay un producto llamado Censuma de una empresa llamada Knotfix.
  * Si algun dia el sitio publica precios, este bloque vuelve COMPLETO o no
- * vuelve.
+ * vuelve. **Desde el 2026-10-12 los publica** (`/[lang]/pricing`) y el bloque
+ * NO volvio: el precio ya esta, pero sigue sin haber reseñas que citar, y
+ * `aggregateRating` sigue siendo obligatorio.
  */
 
 /**

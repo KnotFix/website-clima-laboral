@@ -23,8 +23,8 @@ const es = {
   // Va SUELTA y no dentro de `nav_links`: los items de esa lista son anclas de
   // la home y `NavLinks` les saca el id cortando el "#". Ver `navbar.jsx`.
   nav_docs: "Documentación",
-  // También SUELTA, y por lo mismo: no es un ancla, es el registro del
-  // producto, que es donde se ven los planes. Ver `site_config.register_url`.
+  // También SUELTA, y por lo mismo: no es un ancla, es una RUTA del sitio
+  // (`/es/pricing`), igual que las docs.
   nav_pricing: "Precios",
   // También SUELTA: es un ancla al bloque de contacto del PIE, que está en
   // todas las páginas, y no a una sección de la home.
@@ -669,6 +669,107 @@ const es = {
   changelog_body:
     "Qué cambió en Censuma y cuándo. Lo más nuevo arriba; las entradas viejas no se corrigen.",
   changelog_hint: "¿Buscás qué cambió y cuándo?",
+
+  // Precios (`/es/pricing`). Acá va SOLO el texto que no cambia de plan a plan:
+  // nombres, precios y topes salen del catálogo del producto en cada
+  // regeneración (`lib/pricing.js`), nunca de este archivo. Las plantillas
+  // llevan `{clave}` y las rellena `fill()`.
+  pricing_meta_title: "Precios y planes",
+  pricing_meta_description:
+    "Planes anuales para medir clima y satisfacción laboral, con todas las funciones incluidas. Cambia cuántas personas medís. Prueba gratis 30 días, sin tarjeta.",
+  pricing_title: "Planes y precios",
+  pricing_body:
+    "Todos los planes incluyen todas las funciones del producto. Lo que cambia es cuántas personas medís, cuántos estudios lanzás por año y cuántas invitaciones mandás.",
+  pricing_billing: "Facturación anual",
+  pricing_currency_note:
+    "Precios en dólares estadounidenses (USD), con impuestos incluidos: el importe que ves es el que se cobra.",
+  pricing_trial_note:
+    "La prueba de 30 días no pide tarjeta y deja configurar tu organización entera; lo único que no hace es lanzar encuestas. Los planes de pago se cobran al crear la cuenta y arrancan activos.",
+  pricing_unavailable:
+    "No pudimos cargar los planes en este momento. Los ves completos al crear tu cuenta, o escribinos y te los mandamos.",
+  pricing_unavailable_button: "Ver los planes en la aplicación",
+  pricing_limits: {
+    studies: {
+      one: "{number} estudio al año",
+      other: "{number} estudios al año",
+      unlimited: "Estudios al año sin límite",
+    },
+    people: {
+      one: "{number} persona en nómina",
+      other: "{number} personas en nómina",
+      unlimited: "Personas en nómina sin límite",
+    },
+    forms: {
+      one: "{number} boleta",
+      other: "{number} boletas",
+      unlimited: "Boletas sin límite",
+    },
+    kiosks: {
+      one: "{number} estación de kiosco",
+      other: "{number} estaciones de kiosco",
+      unlimited: "Estaciones de kiosco sin límite",
+    },
+    emails: {
+      one: "{number} correo por período",
+      other: "{number} correos por período",
+      unlimited: "Correos sin límite",
+    },
+    whatsapp: {
+      one: "{number} mensaje de WhatsApp por período",
+      other: "{number} mensajes de WhatsApp por período",
+      unlimited: "WhatsApp sin límite",
+    },
+  },
+  pricing_extra: "{price} al año por persona adicional",
+  pricing_extra_up_to: "{price} al año por persona adicional (hasta {number} más)",
+  pricing_trial: {
+    title: "Prueba",
+    description:
+      "Configurá tu organización completa sin tarjeta. Al terminar la prueba elegís plan para lanzar tu primer estudio.",
+    price: "Gratis",
+    period: "durante {days} días",
+    button: "Empezar gratis",
+    features: [
+      "Personas en nómina sin límite",
+      "Estructura, nómina y boletas completas",
+      "Sin tarjeta de crédito",
+      "No lanza recolección de encuestas",
+    ],
+  },
+  pricing_paid: {
+    description: "Se cobra el año al crear la cuenta. Arranca activo, sin prueba.",
+    featured: "Más popular",
+    period: "por año, impuestos incluidos",
+    per_person: "{price} por persona al año",
+    button: "Contratar",
+  },
+  pricing_custom: {
+    description:
+      "Más de {number} personas, varios estudios al año o necesidades particulares. Armamos el plan con vos.",
+    description_plain:
+      "Varios estudios al año, nóminas grandes o necesidades particulares. Armamos el plan con vos.",
+    price: "A medida",
+    button: "Escribinos",
+    mail_subject: "Consulta por el plan {plan}",
+    features: [
+      "Personas en nómina sin límite",
+      "Estudios al año sin límite",
+      "Correos sin límite",
+      "Todas las funciones del producto",
+      "Acompañamiento en la implementación",
+    ],
+  },
+  pricing_demo_title: "Mirá el producto funcionando, con datos de ejemplo",
+  pricing_demo_body: "¿Querés ver primero cómo se ven los resultados?",
+  pricing_demo_button: "Ver la demo",
+  pricing_assisted_title: "¿Preferís que lo hagamos nosotros?",
+  pricing_assisted_body:
+    "No tenés que lanzar el estudio vos. Ofrecemos un servicio aparte en el que aplicamos el estudio en tu empresa, de principio a fin.",
+  pricing_assisted_button: "Escribinos",
+  pricing_assisted_subject: "Quiero que Censuma aplique el estudio por nosotros",
+  pricing_docs_hint: "¿Cómo se cobra el excedente, qué pasa al renovar o al cancelar?",
+  pricing_docs_link: "Leé «Cuenta y plan»",
+  pricing_card_label: "{action}: {plan}",
 
   legal_version: "Versión",
   legal_updated: "Actualizado el",

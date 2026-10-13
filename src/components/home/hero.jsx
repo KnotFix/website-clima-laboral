@@ -115,7 +115,7 @@ export function Hero({ dict }) {
               todavia se esta armando, se leerian como otro bloque. Si cambia
               la cantidad de piezas del titular, estos retrasos se corren con
               ella. */}
-            <HeroTitle dict={dict} />
+            <HeroTitle dict={{ hero_title_segments: dict.hero_title_segments, a11y_mood_face: dict.a11y_mood_face, a11y_weather_tile: dict.a11y_weather_tile }} />
 
             {/* El subtitulo va en gris y las palabras con `tone: "strong"`
               suben al color del texto con un punto mas de peso: resaltan sin

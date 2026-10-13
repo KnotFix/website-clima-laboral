@@ -418,10 +418,13 @@ nav_cta            "Empezar"
 nav_docs           el link a la documentacion. SUELTO y no dentro de
                    nav_links: esa lista son anclas y NavLinks les saca el id
                    cortando el "#". Ver documentation.md
-nav_pricing        «Precios». Tambien SUELTO: no es un ancla sino el registro
-                   del producto (site_config.register_url), que es donde se
-                   ven los planes. El sitio NO publica tabla de precios
-                   (2026-09-13): dos copias es una desactualizada
+nav_pricing        «Precios». Tambien SUELTO: no es un ancla sino la RUTA
+                   /[lang]/pricing (desde 2026-10-12; antes iba al registro
+                   de la app). Se marca activo con `pricing_active`
+pricing_*          la pagina de precios. SOLO texto fijo: nombres, precios y
+                   topes salen de GET /api/planes-publicos/ del producto
+                   (lib/pricing.js), nunca del diccionario. Las plantillas
+                   llevan {clave} y las rellena fill()
 nav_contact        «Contacto». SUELTO: es el ancla #contact, que esta en el
                    PIE (todas las paginas), no una seccion de la home
 docs_*             el chrome de la seccion de docs (indice, plegado de movil,

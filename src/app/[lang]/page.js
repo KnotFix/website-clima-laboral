@@ -114,7 +114,7 @@ export default async function HomePage({ params }) {
               <WorldReach dict={dict} />
             </SectionGlow>
             <SectionGlow side="left" tint={0.4}>
-              <ScaleTree dict={dict} />
+              <ScaleTree dict={{ scale_body: dict.scale_body, scale_orgs: dict.scale_orgs, scale_title_segments: dict.scale_title_segments }} />
             </SectionGlow>
           </div>
 
@@ -136,7 +136,9 @@ export default async function HomePage({ params }) {
               quedaba libre entre el analisis y el FAQ. */}
           <div className="section-band">
             <SectionGlow side="left" tint={0.8}>
-              <WeightsFilters dict={dict} />
+              <WeightsFilters
+                dict={{ weights_body: dict.weights_body, weights_clips: dict.weights_clips, weights_points: dict.weights_points, weights_shots: dict.weights_shots, weights_title: dict.weights_title }}
+              />
             </SectionGlow>
             <SectionGlow side="right" tint={0.85}>
               <Reports dict={dict} />

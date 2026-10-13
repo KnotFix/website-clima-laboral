@@ -8,6 +8,7 @@ import { MobileMenu } from "@/components/site/mobile_menu";
 import { NavLinks } from "@/components/site/nav_links";
 import { ThemeToggle } from "@/components/site/theme_toggle";
 import { Button } from "@/components/ui/button";
+import { chrome_dict_of } from "@/lib/dictionaries";
 import { cn } from "@/lib/utils";
 import { site_config } from "@/lib/site_config";
 
@@ -21,10 +22,21 @@ import { site_config } from "@/lib/site_config";
  * `docs_active` marca el enlace de Documentacion. Va como prop y no derivado de
  * `section_base` porque son dos cosas distintas —donde apuntan las anclas, y
  * en que pagina estamos—, y la que viene despues (un blog, precios) va a
- * necesitar la primera sin la segunda.
+ * necesitar la primera sin la segunda. `pricing_active` es eso mismo para la
+ * pagina de precios.
  */
-export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
+export function Navbar({
+  lang,
+  dict,
+  section_base = "",
+  docs_active = false,
+  pricing_active = false,
+}) {
   const docs_href = `/${lang}/docs`;
+  const pricing_href = `/${lang}/pricing`;
+  // Los componentes de cliente reciben solo las llaves que leen: ver
+  // `chrome_dict_of`.
+  const chrome = chrome_dict_of(dict);
 
   return (
     <>
@@ -51,27 +63,36 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
           {/* El `flex` lo pone el llamador: el `nav` de NavLinks trae
               `items-center gap-1` pero no el display, y sin el los enlaces
               vuelven a ser inline y el gap no aplica. */}
-          <NavLinks dict={dict} section_base={section_base} class_name="flex" />
+          <NavLinks dict={chrome} section_base={section_base} class_name="flex" />
 
-          {/* **«Precios» no es una seccion del sitio: es el registro del
-              producto**, que es donde se ven los planes (ver
-              `site_config.register_url`). Por eso es un <a> y no un Link, va
-              fuera de `nav_links` como las docs, y no lleva el subrayado de
-              activo: nunca puede estarlo. Va entre las anclas y las docs
-              porque sigue siendo parte de "que es esto", antes de "como se
-              usa". */}
-          <a
-            href={site_config.register_url(lang)}
+          {/* **«Precios» es una RUTA del sitio desde el 2026-10-12**
+              (`/[lang]/pricing`), y antes era un enlace al registro de la app.
+              Se movio para que la lista de planes quede indexada. Va fuera de
+              `nav_links` por lo mismo que las docs (no es un ancla) y se marca
+              activo por ruta. Entre las anclas y las docs porque sigue siendo
+              parte de "que es esto", antes de "como se usa". */}
+          <Link
+            href={pricing_href}
+            aria-current={pricing_active ? "page" : undefined}
             data-track="nav_pricing"
             data-track-location="navbar"
             className={cn(
               "nav-key relative rounded-md px-3 py-2 text-sm",
-              "text-muted-foreground hover:text-foreground",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              pricing_active
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {dict.nav_pricing}
-          </a>
+            <span
+              aria-hidden="true"
+              className={cn(
+                "absolute inset-x-3 bottom-1 h-px origin-center bg-foreground transition-transform duration-200",
+                pricing_active ? "scale-x-100" : "scale-x-0",
+              )}
+            />
+          </Link>
 
           {/* **El enlace a las docs NO entra a `nav_links`, y no es una
               cuestion de orden.** Todos los items de esa lista son anclas, y
@@ -127,9 +148,9 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
               apretar la barra. Es la unica copia visible ahi: si se saca de
               los dos lados, el sitio bilingue se queda sin conmutador. */}
           <div className="hidden sm:block">
-            <LangSwitch lang={lang} dict={dict} />
+            <LangSwitch lang={lang} dict={chrome} />
           </div>
-          <ThemeToggle dict={dict} />
+          <ThemeToggle dict={chrome} />
           {/* size lg da 36px de alto y px-5 lo ensancha: con la etiqueta
               corta, el boton necesita el aire lateral para no leerse apretado
               dentro de una barra de 64px. */}
@@ -147,7 +168,7 @@ export function Navbar({ lang, dict, section_base = "", docs_active = false }) {
             </a>
           </Button>
           <div className="md:hidden">
-            <MobileMenu lang={lang} dict={dict} section_base={section_base} />
+            <MobileMenu lang={lang} dict={chrome} section_base={section_base} />
           </div>
         </div>
       </GlassBar>

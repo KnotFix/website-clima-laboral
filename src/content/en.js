@@ -21,9 +21,8 @@ const en = {
   // Kept OUT of `nav_links`: the items in that list are anchors on the home
   // page and `NavLinks` derives their id by cutting the "#". See `navbar.jsx`.
   nav_docs: "Docs",
-  // Also kept OUT, for the same reason: it is not an anchor but the product's
-  // sign-up screen, which is where the plans are shown. See
-  // `site_config.register_url`.
+  // Also kept OUT, for the same reason: it is not an anchor but a ROUTE of the
+  // site (`/en/pricing`), like the docs.
   nav_pricing: "Pricing",
   // Also kept OUT: it is an anchor to the contact block in the FOOTER, which
   // is on every page, not to a section of the home page.
@@ -667,6 +666,107 @@ const en = {
   changelog_body:
     "What changed in Censuma and when. Newest first; older entries are not rewritten.",
   changelog_hint: "Looking for what changed, and when?",
+
+  // Pricing (`/en/pricing`). Only the copy that does not change from plan to
+  // plan lives here: names, prices and limits come from the product's catalog
+  // on every regeneration (`lib/pricing.js`). Templates use `{key}` and are
+  // filled by `fill()`.
+  pricing_meta_title: "Pricing and plans",
+  pricing_meta_description:
+    "Annual plans to measure workplace climate and satisfaction, every feature included. What changes is how many people you measure. Free 30-day trial, no card.",
+  pricing_title: "Plans and pricing",
+  pricing_body:
+    "Every plan includes every feature of the product. What changes is how many people you measure, how many studies you launch per year and how many invitations you send.",
+  pricing_billing: "Billed annually",
+  pricing_currency_note:
+    "Prices in US dollars (USD), taxes included: the amount you see is the amount you are charged.",
+  pricing_trial_note:
+    "The 30-day trial requires no card and lets you configure your entire organization; the only thing it does not do is launch surveys. Paid plans are charged when the account is created and start out active.",
+  pricing_unavailable:
+    "We could not load the plans right now. You will see all of them when you create your account, or write to us and we will send them over.",
+  pricing_unavailable_button: "See the plans in the app",
+  pricing_limits: {
+    studies: {
+      one: "{number} study per year",
+      other: "{number} studies per year",
+      unlimited: "Unlimited studies per year",
+    },
+    people: {
+      one: "{number} person on payroll",
+      other: "{number} people on payroll",
+      unlimited: "Unlimited people on payroll",
+    },
+    forms: {
+      one: "{number} survey form",
+      other: "{number} survey forms",
+      unlimited: "Unlimited survey forms",
+    },
+    kiosks: {
+      one: "{number} kiosk station",
+      other: "{number} kiosk stations",
+      unlimited: "Unlimited kiosk stations",
+    },
+    emails: {
+      one: "{number} email per period",
+      other: "{number} emails per period",
+      unlimited: "Unlimited emails",
+    },
+    whatsapp: {
+      one: "{number} WhatsApp message per period",
+      other: "{number} WhatsApp messages per period",
+      unlimited: "Unlimited WhatsApp messages",
+    },
+  },
+  pricing_extra: "{price} per year for each additional person",
+  pricing_extra_up_to: "{price} per year for each additional person (up to {number} more)",
+  pricing_trial: {
+    title: "Trial",
+    description:
+      "Set up your whole organization without a card. When the trial ends, choose a plan to launch your first study.",
+    price: "Free",
+    period: "for {days} days",
+    button: "Start for free",
+    features: [
+      "Unlimited people on payroll",
+      "Full structure, payroll and survey forms",
+      "No credit card",
+      "Does not launch survey collection",
+    ],
+  },
+  pricing_paid: {
+    description: "The year is charged when you create the account. Starts active, no trial.",
+    featured: "Most popular",
+    period: "per year, taxes included",
+    per_person: "{price} per person per year",
+    button: "Subscribe",
+  },
+  pricing_custom: {
+    description:
+      "More than {number} people, several studies a year or special needs. We build the plan with you.",
+    description_plain:
+      "Several studies a year, large payrolls or special needs. We build the plan with you.",
+    price: "Custom",
+    button: "Contact us",
+    mail_subject: "Question about the {plan} plan",
+    features: [
+      "Unlimited people on payroll",
+      "Unlimited studies per year",
+      "Unlimited emails",
+      "Every product feature",
+      "Implementation support",
+    ],
+  },
+  pricing_demo_title: "See the product running, with sample data",
+  pricing_demo_body: "Want to see what the results look like first?",
+  pricing_demo_button: "See the demo",
+  pricing_assisted_title: "Would you rather we do it?",
+  pricing_assisted_body:
+    "You don't have to launch the study yourself. We offer a separate service in which we run the study at your company, from start to finish.",
+  pricing_assisted_button: "Contact us",
+  pricing_assisted_subject: "I want Censuma to run the study for us",
+  pricing_docs_hint: "How is the overage charged, and what happens at renewal or cancellation?",
+  pricing_docs_link: "Read “Account and plan”",
+  pricing_card_label: "{action}: {plan}",
 
   legal_version: "Version",
   legal_updated: "Updated",

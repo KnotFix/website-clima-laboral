@@ -7,7 +7,7 @@ import { hreflang_of } from "@/lib/seo";
 import { LOCALES, site_config } from "@/lib/site_config";
 
 /**
- * El mapa del sitio: las ~52 URLs reales, cada una declarando sus traducciones.
+ * El mapa del sitio: las ~54 URLs reales, cada una declarando sus traducciones.
  *
  * **Lo que importa aca no es la lista, es `alternates.languages`.** Sin eso,
  * `/es/docs/kiosk` y `/en/docs/kiosk` son dos paginas distintas que dicen lo
@@ -29,6 +29,7 @@ import { LOCALES, site_config } from "@/lib/site_config";
 export default async function sitemap() {
   const paths = [
     "",
+    "/pricing",
     "/docs",
     "/changelog",
     ...flatten_nav().map((entry) => `/docs/${entry.slug}`),

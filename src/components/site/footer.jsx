@@ -13,6 +13,7 @@ import { CookiePrefsButton } from "@/components/site/cookie_prefs_button";
 import { LangSwitch } from "@/components/site/lang_switch";
 import { Container } from "@/components/site/container";
 import { Marca } from "@/components/site/marca";
+import { chrome_dict_of } from "@/lib/dictionaries";
 import { Button } from "@/components/ui/button";
 import { LEGAL_NAV } from "@/content/legal/nav";
 import { site_config } from "@/lib/site_config";
@@ -117,6 +118,12 @@ export function Footer({ lang, dict, section_base = "" }) {
                 </a>
               ))}
               <Link
+                href={`/${lang}/pricing`}
+                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {dict.nav_pricing}
+              </Link>
+              <Link
                 href={`/${lang}/docs`}
                 className="text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
@@ -201,7 +208,7 @@ export function Footer({ lang, dict, section_base = "" }) {
           <p className="text-sm text-muted-foreground">
             © {year} {site_config.brand}. {dict.footer_rights}
           </p>
-          <LangSwitch lang={lang} dict={dict} />
+          <LangSwitch lang={lang} dict={chrome_dict_of(dict)} />
         </div>
 
         {/* Los legales van en su propia fila y ABAJO del ©, no mezclados con la

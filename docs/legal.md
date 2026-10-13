@@ -104,17 +104,19 @@ El domicilio se declara **sin señas de ubicación**. Alcanza para identificar e
 legal; no alcanza para que a alguien lo notifiquen ahí. Si un cliente corporativo o PRODHAB
 pide una dirección notificable, hay que agregar las señas.
 
-### El sitio todavía no publica precios
+### El sitio publica precios desde el 2026-10-12
 
-`terms` decía «los precios publicados en el sitio», y **el sitio no tiene página de precios**:
-las rutas son la home, `/docs` y `/legal`. La cláusula apuntaba a nada. Se corrigió el
-2026-08-17 para que nombre las dos superficies posibles —la pantalla de contratación del
-producto, que hoy es la que muestra la lista, y la página de precios del sitio cuando exista—.
+`terms` decía «los precios publicados en el sitio» cuando el sitio no tenía página de precios; se
+corrigió el 2026-08-17 para que nombre las dos superficies posibles (la pantalla de contratación
+del producto y la página de precios del sitio). **Desde el 2026-10-12 la segunda existe**:
+`/es/pricing` y `/en/pricing`.
 
-Cuando esa página se construya, **la lista tiene que coincidir con la tabla `planes`**, que es
-lo que se cobra: el producto ya tiene esa parity cuidada entre la demo y la migración
-(`npm run verificar:demo`), y una tercera copia en el sitio de marketing es la que se
-desactualiza sin que nadie se entere. Ver «La oferta comercial» en el `CLAUDE.md` del producto.
+La condición que esta sección ponía se cumple por construcción: **la página NO es una copia**.
+Lee `GET /api/planes-publicos/` del producto en el servidor del sitio (`lib/pricing.js`) y se
+regenera cada hora, así que la lista que se lee es la de la tabla `planes`, que es lo que se
+cobra. Un cambio de precio llega al sitio sin deploy, con hasta una hora de demora. Si alguien
+escribe precios a mano en `es.js`/`en.js`, reabre exactamente el problema que esta sección
+describía.
 
 ### El tope de responsabilidad — ESCRITO el 2026-08-18
 
