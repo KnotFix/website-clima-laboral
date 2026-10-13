@@ -3407,6 +3407,11 @@ runtime cuestan cero porque nada los importa.
 son convenciones de archivo de Next; el detalle está en cada una. Dos notas que
 no viven en ningún archivo:
 
+> **`robots.js` nombra a los agentes de IA y `/llms.txt` les da el mapa** (2026-10-04).
+> El robots ya era abierto; nombrar a `ClaudeBot`, `Claude-User`, `GPTBot` y compañía
+> deja la decisión escrita. `app/llms.txt/route.js` arma, desde los mismos manifiestos
+> que el sitemap, la lista de docs y legales en Markdown (`lib/llms.js`).
+
 > **El sitemap sale de `DOCS_NAV` y `LEGAL_NAV`, no de una lista.** Una lista
 > aparte se desincroniza el día que alguien agrega una página, y el modo de fallo
 > es silencioso — la página existe y el buscador no se entera.

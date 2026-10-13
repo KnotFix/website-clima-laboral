@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 
+import robots, { AI_AGENTS } from "@/app/robots";
+import { flatten_nav } from "@/content/docs/nav";
 import en from "@/content/en";
 import es from "@/content/es";
 import { LEGAL_NAV } from "@/content/legal/nav";
+import { llms_txt } from "@/lib/llms";
 import { branded_title, hreflang_of, page_metadata } from "@/lib/seo";
 import { DEFAULT_LOCALE, LOCALES, site_config } from "@/lib/site_config";
 import {
@@ -226,5 +229,53 @@ describe("datos estructurados", () => {
     const g = graph_ld(organization_ld(), null, undefined);
     expect(g["@context"]).toBe("https://schema.org");
     expect(g["@graph"]).toHaveLength(1);
+  });
+});
+
+describe("robots.txt", () => {
+  it("no le cierra nada a nadie y nombra a los agentes de IA", () => {
+    // El modo de fallo que esto vigila es un `disallow` que alguien agrega
+    // "por un rato": no rompe el sitio, solo lo saca del buscador y de los
+    // asistentes, y se nota semanas despues.
+    const { rules, sitemap } = robots();
+
+    for (const rule of rules) {
+      expect(rule.allow).toBe("/");
+      expect(rule).not.toHaveProperty("disallow");
+    }
+    expect(rules.map((rule) => rule.userAgent).flat()).toContain("*");
+    for (const agent of ["ClaudeBot", "Claude-User", "Claude-SearchBot"]) {
+      expect(AI_AGENTS).toContain(agent);
+    }
+    expect(sitemap).toBe(`${site_config.domain}/sitemap.xml`);
+  });
+});
+
+describe("llms.txt", () => {
+  it("lista cada doc y cada legal en los dos idiomas, con URL absoluta", () => {
+    const text = llms_txt({
+      dicts: { es, en },
+      descriptions: { es: { kiosk: "Cómo se monta el kiosco." }, en: {} },
+    });
+
+    expect(text.startsWith(`# ${site_config.product}
+`)).toBe(true);
+    for (const lang of LOCALES) {
+      expect(text).toContain(`(${site_config.domain}/${lang}/pricing)`);
+      for (const entry of flatten_nav()) {
+        expect(text).toContain(
+          `(${site_config.domain}/${lang}/docs/${entry.slug})`,
+        );
+      }
+      for (const entry of LEGAL_NAV) {
+        expect(text).toContain(
+          `(${site_config.domain}/${lang}/legal/${entry.slug})`,
+        );
+      }
+    }
+    // La descripcion acompaña al enlace cuando existe, y no deja un ": " suelto
+    // cuando no.
+    expect(text).toContain("/es/docs/kiosk): Cómo se monta el kiosco.");
+    expect(text).not.toMatch(/\): *$/m);
   });
 });
