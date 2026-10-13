@@ -744,10 +744,17 @@ tuya.
 
 ### La excepción que no se puede olvidar
 
-**El excedente de nómina se factura FUERA de la pasarela**, así que la inclusión no lo alcanza: se
-cobra por cabeza y por separado, y lleva el impuesto que corresponda a esa factura. Quedó dicho en
-`terms` en los dos idiomas. Sin esa frase, «impuestos incluidos» prometía algo sobre un cargo que
-Polar ni siquiera ve.
+~~El excedente de nómina se factura FUERA de la pasarela~~: **ya no es cierto desde el
+2026-08-20.** El excedente es un precio medido sobre el producto del plan y lo cobra Polar en la
+misma factura (ver «El excedente: era un agujero fiscal» más abajo), así que la inclusión SÍ lo
+alcanza: con `default_tax_behavior = inclusive` en la organización de Polar, la tarifa por cabeza
+también lleva el impuesto adentro. La excepción que hay que recordar ahora es otra: **ese ajuste
+vive en la cuenta de Polar y no en el repo**, y sandbox y producción son cuentas separadas.
+
+Confirmado otra vez con el usuario el 2026-10-12, después de comparar con la norma B2B (Slack,
+Notion y Atlassian publican «+ impuestos»): se queda incluido porque el cliente tico no recibe
+factura electrónica por el MoR y no puede descontar el 13 %, así que para él «+ IVA» sería un
+costo real.
 
 ---
 
