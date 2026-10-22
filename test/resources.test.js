@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -7,7 +7,6 @@ import sitemap from "@/app/sitemap";
 import en from "@/content/en";
 import es from "@/content/es";
 import { RESOURCES, RESOURCES_BASE, resource_paths } from "@/content/resources/nav";
-import survey_template from "@/content/resources/survey_template.json";
 import { llms_txt } from "@/lib/llms";
 import { hreflang_of, page_metadata } from "@/lib/seo";
 import { LOCALES, site_config, swap_locale_in_path } from "@/lib/site_config";
@@ -15,11 +14,11 @@ import { LOCALES, site_config, swap_locale_in_path } from "@/lib/site_config";
 /**
  * Los recursos son la unica seccion con el slug traducido, y eso es lo que se
  * rompe en silencio: un conmutador de idioma que manda a `/en/recursos` (404),
- * un hreflang que apunta a la ruta del otro idioma, o un Excel que dice otra
- * cosa que la pagina. Ver `content/resources/nav.js`.
+ * un hreflang que apunta a la ruta del otro idioma, o un articulo del
+ * manifiesto sin su `.mdx` en alguno de los dos idiomas. Ver `content/resources/nav.js`.
  */
 
-const PUBLIC = path.join(process.cwd(), "public");
+const CONTENT = path.join(process.cwd(), "src", "content", "resources");
 
 describe("rutas traducidas", () => {
   it("el conmutador de idioma lleva al recurso en el otro idioma", () => {
@@ -91,46 +90,49 @@ describe("sitemap y llms.txt", () => {
   });
 });
 
-describe("plantilla de encuesta", () => {
-  it("los dos idiomas tienen la misma forma", () => {
-    // La pagina y el Excel recorren estas listas con el mismo codigo: una
-    // pregunta de mas en un idioma corre toda la numeracion.
-    const shape = (content) => ({
-      keys: Object.keys(content).sort(),
-      dimensions: content.dimensions.map((dimension) => dimension.questions.length),
-      scale: content.scale.map((item) => item.value),
-      steps: content.steps.length,
-      open: content.open_questions.length,
-      tips: content.anonymity_tips.length,
-      limits: content.limits.length,
-    });
-    expect(shape(survey_template.en)).toEqual(shape(survey_template.es));
-  });
-
-  it("trae 30 preguntas en 6 dimensiones de 5 y una escala de 4 sin punto medio", () => {
-    for (const lang of LOCALES) {
-      const content = survey_template[lang];
-      expect(content.dimensions).toHaveLength(6);
-      for (const dimension of content.dimensions) {
-        expect(dimension.questions).toHaveLength(5);
+describe("articulos", () => {
+  it("cada articulo del manifiesto tiene su .mdx en los dos idiomas", () => {
+    // Sin el archivo, la ruta esta en el sitemap y en el indice y da 404.
+    for (const entry of RESOURCES) {
+      for (const lang of LOCALES) {
+        const file = path.join(CONTENT, lang, `${entry.id}.mdx`);
+        expect(existsSync(file), `falta ${lang}/${entry.id}.mdx`).toBe(true);
       }
-      expect(content.scale.map((item) => item.value)).toEqual([1, 2, 3, 4]);
-      expect(content.steps).toHaveLength(5);
     }
   });
 
-  it("el Excel y la captura que enlaza la pagina estan publicados", () => {
-    // Los arma `scripts/build_survey_template.py`. Sin ellos la pagina
-    // ofrece una descarga que da 404.
-    for (const lang of LOCALES) {
-      const content = survey_template[lang];
-      expect(existsSync(path.join(PUBLIC, content.download_path))).toBe(true);
-      expect(existsSync(path.join(PUBLIC, content.preview_image))).toBe(true);
+  it("las fechas son AAAA-MM-DD y la actualizacion no es anterior a la publicacion", () => {
+    for (const entry of RESOURCES) {
+      expect(entry.published).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(entry.updated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(entry.updated >= entry.published).toBe(true);
     }
   });
 
-  it("el FAQ de la pagina tiene cuatro preguntas en los dos idiomas", () => {
-    expect(es.template_faq_items).toHaveLength(4);
-    expect(en.template_faq_items).toHaveLength(4);
+  it("los textos no llevan rayas em", () => {
+    // Regla de la prosa del sitio: se reformula la frase, no se usa la raya.
+    for (const entry of RESOURCES) {
+      for (const lang of LOCALES) {
+        const body = readFileSync(path.join(CONTENT, lang, `${entry.id}.mdx`), "utf8");
+        expect(body).not.toContain("—");
+        expect(entry.title[lang]).not.toContain("—");
+        expect(entry.description[lang]).not.toContain("—");
+      }
+    }
+  });
+
+  it("el indice y el articulo tienen sus textos en los dos idiomas", () => {
+    for (const key of [
+      "resources_reading",
+      "resources_card_cta",
+      "resources_back",
+      "resources_cta_title",
+      "resources_cta",
+    ]) {
+      expect(es[key], key).toBeTruthy();
+      expect(en[key], key).toBeTruthy();
+    }
+    expect(es.resources_reading).toContain("{minutes}");
+    expect(en.resources_reading).toContain("{minutes}");
   });
 });

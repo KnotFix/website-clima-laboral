@@ -42,8 +42,9 @@ Ids de los botones (`cta_id`): `hero_start`, `hero_how_it_works`, `nav_start`,
 `final_cta_start`, `footer_whatsapp`, `footer_email`, `footer_instagram`, `footer_facebook`,
 `footer_youtube`, `whatsapp_float` (el botón flotante), `faq_01` a
 `faq_08` para las preguntas frecuentes, y los de los recursos: `nav_resources`,
-`mobile_nav_resources`, `template_download` (la descarga del Excel),
-`template_start` («Probá Censuma gratis») y `template_faq_01` a `template_faq_04`.
+`mobile_nav_resources` y `article_start` («Probá Censuma gratis» al pie de un artículo).
+`template_download`, `template_start` y `template_faq_01` a `template_faq_04` dejaron de
+existir el 2026-10-21, con la plantilla de Excel.
 `nav_contact` y `mobile_nav_contact` dejaron de existir el 2026-10-12 junto con el «Contacto»
 del navbar; el canal que lo reemplaza es `whatsapp_float`.
 

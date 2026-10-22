@@ -45,7 +45,7 @@ src/
                                 generateStaticParams desde LEGAL_NAV    [programmer]
       recursos/                 SOLO /es: los recursos traducen el slug.
         page.js                 indice. /en/recursos da 404             [programmer]
-        [slug]/page.js          un recurso. dynamicParams=false         [programmer]
+        [slug]/page.js          un articulo. dynamicParams=false        [programmer]
       resources/                SOLO /en, el par de recursos/. Las cuatro
                                 rutas son cinco lineas que llaman a
                                 resource_routes.jsx con su idioma       [programmer]
@@ -202,10 +202,12 @@ src/
                                 generateStaticParams, ahi mismo         [programmer]
       resource_frame.jsx        <ResourceFrame>: navbar + ScrollLift +
                                 pie, el marco de precios                [programmer]
-      resources_index.jsx       <ResourcesIndex>: una tarjeta por recurso
-                                                                        [programmer]
-      survey_template.jsx       <SurveyTemplate>: la pagina de la
-                                plantilla de encuesta                   [programmer]
+      resources_index.jsx       <ResourcesIndex>: una tarjeta por
+                                articulo (fecha, minutos de lectura,
+                                bajada), el mas nuevo primero           [programmer]
+      resource_article.jsx      <ResourceArticle>: vuelta al indice,
+                                cabecera, cuerpo MDX y la invitacion a
+                                probar Censuma                          [programmer]
     ui/                         shadcn — NO SE TOCA
   content/
     es.js                       copy espanol                            [programmer]
@@ -228,9 +230,9 @@ src/
                                 LOCALIZED_PATHS (conmutador de idioma),
                                 sitemap y llms.txt. Arriba, la REGLA DE
                                 CONFIDENCIALIDAD de los recursos        [architect]
-      survey_template.json      preguntas, pasos y textos de la plantilla.
-                                Lo leen la pagina Y el script que arma el
-                                Excel                                   [programmer]
+      es/<id>.mdx               el cuerpo de cada articulo, sin `meta`:
+                                titulo y fechas van en nav.js           [programmer]
+      en/<id>.mdx               idem, MISMO id                          [programmer]
   lib/
     utils.js                    cn() — lo genero shadcn
     dictionaries.js             get_dictionary(lang), LOCALES           [programmer]
@@ -245,12 +247,14 @@ src/
                                 hreflang_of() para el sitemap. `path`
                                 puede ser una ruta por idioma
                                 ({ es, en }); path_in() elige           [programmer]
-    resources.js                server-only: contenido de la plantilla,
-                                peso del .xlsx y tamaño del PNG        [programmer]
+    resources.js                server-only: resolve_article(),
+                                reading_minutes() (cuenta el .mdx
+                                CRUDO) y format_date()                  [programmer]
     structured_data.js          los objetos schema.org: organization_ld,
                                 website_ld, software_ld, faq_ld,
                                 breadcrumb_ld, doc_article_ld,
-                                legal_page_ld, graph_ld                 [programmer]
+                                blog_posting_ld, legal_page_ld,
+                                graph_ld                 [programmer]
     docs.js                     resolve_doc(), headings_of(). Lee el .mdx
                                 CRUDO con fs para el indice             [programmer]
     legal.js                    resolve_legal(). Mas corto que docs.js: sin
@@ -479,10 +483,10 @@ nav_resources      «Recursos». SUELTO: la RUTA del indice /es/recursos o
                    /en/resources (slug traducido, ver content/resources/nav.js),
                    en el navbar y el pie. Se marca activo en el indice y en
                    cada recurso
-resources_*        el indice de recursos (titulo, metadatos, tarjeta)
-template_*         la pagina de la plantilla de encuesta: metadatos, intro,
-                   descarga, «lo que una plantilla no puede hacer» y su FAQ.
-                   Las PREGUNTAS no: van en survey_template.json
+resources_*        el indice y el chrome de los articulos (metadatos,
+                   minutos de lectura, vuelta al indice, invitacion final).
+                   El TEXTO del articulo vive en content/resources/**.mdx y
+                   su titulo en content/resources/nav.js, nunca aca
 docs_*             el chrome de la seccion de docs (indice, plegado de movil,
                    "En esta pagina", anterior/siguiente). La PROSA vive en
                    src/content/docs/**.mdx, nunca aca
@@ -3422,7 +3426,8 @@ Los ids vigentes de `data-track`: `hero_start`, `hero_how_it_works`, `nav_start`
 `mobile_nav_docs`, `mobile_nav_login`,
 `final_cta_start`, `footer_whatsapp`, `footer_email`, `footer_instagram`, `footer_facebook`,
 `footer_youtube`, `whatsapp_float`, `faq_01`..`faq_08`, `nav_resources`, `mobile_nav_resources`,
-`template_download`, `template_start`, `template_faq_01`..`template_faq_04`.
+`article_start` («Probá Censuma gratis» al pie de un articulo). `template_download`,
+`template_start` y `template_faq_*` se fueron el 2026-10-21 con la plantilla de Excel.
 `nav_contact` y `mobile_nav_contact` dejaron de existir el 2026-10-12, con el «Contacto» del
 navbar.
 Los de `data-section`: `hero`, `problem`, `measurement`, `world`, `scale`, `how`, `weights`,

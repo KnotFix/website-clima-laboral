@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
+import { ResourceArticle } from "@/components/resources/resource_article";
 import { ResourceFrame } from "@/components/resources/resource_frame";
 import { ResourcesIndex } from "@/components/resources/resources_index";
-import { SurveyTemplate } from "@/components/resources/survey_template";
 import { JsonLd } from "@/components/site/json_ld";
 import {
   RESOURCES,
@@ -11,8 +11,9 @@ import {
   resource_paths,
 } from "@/content/resources/nav";
 import { get_dictionary } from "@/lib/dictionaries";
+import { resolve_article } from "@/lib/resources";
 import { page_metadata } from "@/lib/seo";
-import { breadcrumb_ld, faq_ld, graph_ld } from "@/lib/structured_data";
+import { blog_posting_ld, breadcrumb_ld, graph_ld } from "@/lib/structured_data";
 
 /**
  * Las rutas de los recursos, armadas una vez para los dos idiomas.
@@ -27,11 +28,6 @@ import { breadcrumb_ld, faq_ld, graph_ld } from "@/lib/structured_data";
  * Lo que tiene que ser un literal para Next (`dynamicParams`) se declara en la
  * carpeta de la ruta, no aca.
  */
-
-/** El componente de cada recurso, por `id` del manifiesto. */
-const RESOURCE_PAGES = {
-  survey_template: SurveyTemplate,
-};
 
 export function resources_index_route(route_lang) {
   async function generateMetadata({ params }) {
@@ -91,13 +87,11 @@ export function resource_route(route_lang) {
     const entry = lang === route_lang ? find_resource(lang, slug) : null;
     if (!entry) return {};
 
-    const dict = await get_dictionary(lang);
-    const { title, description } = resource_meta(entry, dict, lang);
     return page_metadata({
       lang,
       path: resource_paths(entry),
-      title,
-      description,
+      title: entry.title[lang],
+      description: entry.description[lang],
       type: "article",
       modified: entry.updated,
     });
@@ -106,15 +100,15 @@ export function resource_route(route_lang) {
   async function Page({ params }) {
     const { lang, slug } = await params;
     const entry = lang === route_lang ? find_resource(lang, slug) : null;
-    if (!entry) notFound();
+    const Body = entry ? await resolve_article(lang, entry.id) : null;
+    if (!Body) notFound();
 
     const dict = await get_dictionary(lang);
-    const Resource = RESOURCE_PAGES[entry.id];
 
     return (
       <>
-        {/* La miga, y las preguntas frecuentes del recurso como FAQPage: el
-            texto es el MISMO `dict` que dibuja el acordeon. */}
+        {/* La miga y el articulo como BlogPosting, con las fechas del
+            manifiesto. */}
         <JsonLd
           data={graph_ld(
             breadcrumb_ld(lang, [
@@ -122,31 +116,15 @@ export function resource_route(route_lang) {
               { name: dict.resources_title, path: RESOURCES_BASE[lang] },
               { name: entry.title[lang], path: null },
             ]),
-            resource_faq(entry, dict),
+            blog_posting_ld(lang, resource_paths(entry)[lang], entry),
           )}
         />
         <ResourceFrame lang={lang} dict={dict}>
-          <Resource lang={lang} dict={dict} />
+          <ResourceArticle lang={lang} dict={dict} entry={entry} Body={Body} />
         </ResourceFrame>
       </>
     );
   }
 
   return { generateStaticParams, generateMetadata, Page };
-}
-
-/** El `<title>` y la descripcion de un recurso: los del diccionario, si tiene. */
-function resource_meta(entry, dict, lang) {
-  if (entry.id === "survey_template") {
-    return {
-      title: dict.template_meta_title,
-      description: dict.template_meta_description,
-    };
-  }
-  return { title: entry.title[lang], description: entry.description[lang] };
-}
-
-function resource_faq(entry, dict) {
-  if (entry.id === "survey_template") return faq_ld(dict.template_faq_items);
-  return null;
 }

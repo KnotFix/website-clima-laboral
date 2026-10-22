@@ -72,7 +72,7 @@ export function llms_txt({ dicts, descriptions }) {
       lines.push("");
     }
 
-    // Los recursos gratis, con el slug de su idioma.
+    // Los articulos de recursos, con el slug de su idioma.
     lines.push(`## ${dicts[lang].resources_title}${tag}`, "");
     for (const entry of RESOURCES) {
       lines.push(

@@ -486,7 +486,7 @@ No son de las docs pero salieron de ellas, y valen para cualquier página futura
 > **`nav_docs` va suelto y NO dentro de `nav_links`.** Todos los items de esa lista son anclas de la
 > home y se marcan por scroll (`useActiveSection`); las docs son una ruta y se marcan por
 > `pathname`. Desde el 2026-10-12 es un enlace directo del navbar, entre «Precios» y «Recursos»
-> (`lib/nav_menu.js`); los recursos son material gratuito y las docs explican el producto.
+> (`lib/nav_menu.js`); los recursos son artículos para quien todavía no es cliente y las docs explican el producto.
 
 ### Llaves nuevas del diccionario
 

@@ -2,14 +2,16 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { RESOURCES, resource_paths } from "@/content/resources/nav";
+import { fill } from "@/lib/pricing";
+import { format_date, reading_minutes } from "@/lib/resources";
 
 /**
- * El indice de recursos: una tarjeta por recurso, con su descripcion.
- *
- * Hoy hay uno solo. Va igual en tarjeta y no como redireccion a la plantilla
- * porque es la pagina que enlaza el menu, y la que va a crecer.
+ * El indice de recursos, como el de un blog: una tarjeta por articulo con su
+ * fecha, los minutos de lectura y la bajada. El mas nuevo va primero.
  */
 export function ResourcesIndex({ lang, dict }) {
+  const entries = [...RESOURCES].sort((a, b) => b.published.localeCompare(a.published));
+
   return (
     <>
       <header className="max-w-3xl">
@@ -20,16 +22,20 @@ export function ResourcesIndex({ lang, dict }) {
       </header>
 
       <ul className="mt-10 grid gap-4 md:grid-cols-2">
-        {RESOURCES.map((entry) => (
+        {entries.map((entry) => (
           <li key={entry.id}>
             <Link
               href={`/${lang}${resource_paths(entry)[lang]}`}
               className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 text-card-foreground transition-colors hover:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <span className="w-fit rounded-full bg-foreground px-2.5 py-0.5 text-xs font-medium text-background">
-                {dict.resources_free}
-              </span>
-              <h2 className="mt-4 text-lg font-semibold tracking-tight">{entry.title[lang]}</h2>
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <time dateTime={entry.published}>{format_date(entry.published, lang)}</time>
+                <span aria-hidden="true"> · </span>
+                {fill(dict.resources_reading, { minutes: reading_minutes(lang, entry.id) })}
+              </p>
+              <h2 className="mt-3 text-lg font-semibold tracking-tight text-balance">
+                {entry.title[lang]}
+              </h2>
               <p className="mt-2 flex-1 text-sm text-muted-foreground text-pretty">
                 {entry.description[lang]}
               </p>

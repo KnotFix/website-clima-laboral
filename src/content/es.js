@@ -779,92 +779,26 @@ const es = {
   pricing_docs_link: "Leé «Cuenta y plan»",
   pricing_card_label: "{action}: {plan}",
 
-  // Recursos gratis (`/es/recursos`). Son marketing para quien todavía no es
-  // cliente: **nada de acá sale del método del producto** (ni las preguntas
-  // del núcleo, ni los modelos, ni cómo se calculan los índices o el
+  // Recursos (`/es/recursos`): artículos tipo blog. Son marketing para quien
+  // todavía no es cliente: **nada de acá sale del método del producto** (ni las
+  // preguntas del núcleo, ni los modelos, ni cómo se calculan los índices o el
   // anonimato). De Censuma se nombra solo lo que ya dice la home, como
   // beneficio. La regla completa, en `content/resources/nav.js`.
-  resources_meta_title: "Recursos gratis para medir el clima laboral",
+  resources_meta_title: "Artículos sobre clima laboral y satisfacción",
   resources_meta_description:
-    "Plantillas gratis para medir el clima laboral en tu organización. Descargalas y usalas sin crear una cuenta.",
+    "Artículos para entender por qué y cómo medir el clima laboral y la satisfacción de tu equipo, con datos y fuentes.",
   resources_title: "Recursos",
   resources_body:
-    "Material gratis para medir el clima laboral por tu cuenta. Descargalo y usalo sin crear una cuenta.",
-  resources_free: "Gratis",
-  resources_card_cta: "Ver el recurso",
-
-  // La plantilla de encuesta (`/es/recursos/plantilla-encuesta-clima-laboral`).
-  // Las preguntas, los pasos y los textos del Excel NO van acá: viven en
-  // `content/resources/survey_template.json`, que es de donde los lee también
-  // el script que arma el archivo. Así lo que se ve y lo que se descarga es lo
-  // mismo.
-  // El título lleva «plantilla encuesta de clima laboral», que es lo que se
-  // busca.
-  template_meta_title: "Plantilla de encuesta de clima laboral en Excel gratis",
-  template_meta_description:
-    "Descargá gratis una plantilla de encuesta de clima laboral en Excel: 30 preguntas en 6 dimensiones, eNPS y resultados que se calculan solos.",
-  template_title: "Plantilla de encuesta de clima laboral en Excel (gratis)",
-  template_intro: [
-    "Una encuesta de 30 preguntas lista para imprimir o pasar a un formulario, con una hoja para cargar las respuestas y otra que calcula los resultados sola.",
-    "Incluye eNPS y dos preguntas abiertas. Es gratis y no pide registro.",
-  ],
-  template_preview_title: "Vista previa",
-  template_preview_body:
-    "Las 30 preguntas, en 6 dimensiones de 5. Cada una se responde con cuatro opciones: Nada, Algo, Mucho y Completamente.",
-  template_shot_title: "La hoja Resultados",
-  template_shot_alt:
-    "Hoja Resultados de la plantilla con los datos de ejemplo: 80% de participación, 68% favorable general, el eNPS y el porcentaje favorable de cada dimensión.",
-  template_shot_caption: "Calculada con las 20 respuestas de ejemplo que trae el archivo.",
-  template_download_title: "Descargá la plantilla",
-  template_download_body:
-    "Un archivo de Excel con cuatro hojas: cómo usarla, la encuesta, las respuestas y los resultados.",
-  template_download_button: "Descargar la plantilla",
-  // `{size}` lo pone la página con el peso real del archivo.
-  template_download_meta: "Excel (.xlsx), {size}",
-  template_steps_title: "Cómo usarla, en 5 pasos",
-  template_limits_title: "Lo que una plantilla no puede hacer",
-  template_limits_items: [
-    {
-      title: "El promedio tapa al área con problemas",
-      body: "Un 70% favorable general puede esconder a un equipo que está en 30%. Si nadie mira por área, ese equipo aparece recién cuando empieza a irse gente.",
-    },
-    {
-      title: "Cruzar filtros no entra en una hoja",
-      body: "Ver un área, una antigüedad y un turno a la vez es un trabajo de horas. Y cada cruce achica el grupo, que es justo donde se pierde el anonimato.",
-    },
-    {
-      title: "Comparar año contra año se arma a mano",
-      body: "Para saber si las cosas mejoraron hay que poner dos mediciones en la misma línea. Con archivos sueltos, eso se vuelve a hacer cada vez.",
-    },
-  ],
-  template_limits_body:
-    "Censuma mide por segmento, cruza filtros y compara un estudio con el anterior. No muestra resultados de un grupo por debajo del mínimo de respuestas, y los reportes salen en XLSX, PDF y HTML.",
-  template_cta: "Probá Censuma gratis",
-  template_faq_title: "Preguntas frecuentes",
-  // Generales a propósito: sirven con o sin Censuma. Van también como FAQPage
-  // en el JSON-LD de la página, con este mismo texto.
-  template_faq_items: [
-    {
-      question: "¿Cuántas preguntas debe tener una encuesta de clima laboral?",
-      answer:
-        "Entre 25 y 40 preguntas cerradas suele alcanzar: cubren los temas importantes y se responden en 10 a 15 minutos. Más larga, la gente empieza a contestar sin leer. Esta plantilla trae 30, más una de recomendación y dos abiertas.",
-    },
-    {
-      question: "¿Cada cuánto conviene aplicarla?",
-      answer:
-        "Una vez al año es lo más común, y es lo mínimo para ver una tendencia. Si después de la encuesta hacen cambios grandes, una medición más corta a los seis meses muestra si funcionaron. Medir más seguido de lo que tardan en verse los cambios cansa a la gente.",
-    },
-    {
-      question: "¿Cómo cuido el anonimato?",
-      answer:
-        "No pidas datos que identifiquen a la persona, juntá las áreas chicas con otras y nunca muestres resultados de un grupo tan chico que se pueda adivinar quién respondió. Que no tabule las respuestas la jefatura del área evaluada, y resumí los comentarios abiertos en vez de citarlos tal cual.",
-    },
-    {
-      question: "¿Qué hago con los resultados?",
-      answer:
-        "Compartilos pronto con el equipo, aunque no sean buenos. Elegí dos o tres temas con el porcentaje favorable más bajo, armá un plan con responsables y fechas, y contá qué cambió antes de la próxima medición. Una encuesta sin acciones visibles baja la participación de la siguiente.",
-    },
-  ],
+    "Artículos para entender por qué y cómo medir el clima laboral y la satisfacción de tu equipo.",
+  // `{minutes}` lo calcula la página contando las palabras del artículo.
+  resources_reading: "{minutes} min de lectura",
+  resources_card_cta: "Leer el artículo",
+  resources_back: "Todos los artículos",
+  resources_updated: "Actualizado el",
+  resources_cta_title: "Medí el clima y la satisfacción de tu equipo",
+  resources_cta_body:
+    "Censuma arma la encuesta, la hace llegar a toda tu gente y te muestra los resultados por área, cuidando el anonimato.",
+  resources_cta: "Probá Censuma gratis",
 
   legal_version: "Versión",
   legal_updated: "Actualizado el",

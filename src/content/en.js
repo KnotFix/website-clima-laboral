@@ -776,89 +776,24 @@ const en = {
   pricing_docs_link: "Read “Account and plan”",
   pricing_card_label: "{action}: {plan}",
 
-  // Free resources (`/en/resources`). Marketing for people who aren't
-  // customers yet: **nothing here comes from the product's method** (not the
-  // core questions, the models, or how the indices or anonymity are computed).
-  // Censuma is only named for what the home page already says, as a benefit.
+  // Resources (`/en/resources`): blog-style articles. Marketing for people who
+  // are not customers yet: **nothing here comes from the product's method**.
   // The full rule is in `content/resources/nav.js`.
-  resources_meta_title: "Free resources to measure workplace climate",
+  resources_meta_title: "Articles on workplace climate and employee satisfaction",
   resources_meta_description:
-    "Free templates to measure workplace climate in your organization. Download them and use them without creating an account.",
+    "Articles to understand why and how to measure your team's workplace climate and satisfaction, with data and sources.",
   resources_title: "Resources",
   resources_body:
-    "Free material to measure workplace climate on your own. Download it and use it without creating an account.",
-  resources_free: "Free",
-  resources_card_cta: "View the resource",
-
-  // The survey template (`/en/resources/workplace-climate-survey-template`).
-  // The questions, steps and Excel copy DON'T live here: they're in
-  // `content/resources/survey_template.json`, which the script that builds the
-  // file also reads. What you see and what you download stay the same.
-  template_meta_title: "Free workplace climate survey template in Excel",
-  template_meta_description:
-    "Download a free workplace climate survey template in Excel: 30 statements across 6 dimensions, eNPS and results that calculate themselves.",
-  template_title: "Workplace climate survey template in Excel (free)",
-  template_intro: [
-    "A 30-statement survey ready to print or move to a form, with a sheet to enter the answers and another one that calculates the results on its own.",
-    "It includes eNPS and two open questions. It's free and doesn't ask you to sign up.",
-  ],
-  template_preview_title: "Preview",
-  template_preview_body:
-    "The 30 statements, in 6 dimensions of 5. Each one is answered with four options: Not at all, Somewhat, Very much and Completely.",
-  template_shot_title: "The Results sheet",
-  template_shot_alt:
-    "The template's Results sheet with the example data: 80% participation, 68% overall favorable, the eNPS and the percentage favorable for each dimension.",
-  template_shot_caption: "Calculated with the 20 example responses that come in the file.",
-  template_download_title: "Download the template",
-  template_download_body:
-    "An Excel file with four sheets: how to use it, the survey, the responses and the results.",
-  template_download_button: "Download the template",
-  // The page fills in `{size}` with the file's real size.
-  template_download_meta: "Excel (.xlsx), {size}",
-  template_steps_title: "How to use it, in 5 steps",
-  template_limits_title: "What a template can't do",
-  template_limits_items: [
-    {
-      title: "The average hides the area that's struggling",
-      body: "A 70% overall favorable score can hide a team sitting at 30%. If nobody looks by area, that team only shows up once people start leaving.",
-    },
-    {
-      title: "Crossing filters doesn't fit in a sheet",
-      body: "Looking at one area, one tenure band and one shift at once takes hours. And every cross makes the group smaller, which is exactly where anonymity gets lost.",
-    },
-    {
-      title: "Year-over-year comparison is built by hand",
-      body: "To know whether things improved, you have to put two surveys on the same line. With loose files, you do that all over again every time.",
-    },
-  ],
-  template_limits_body:
-    "Censuma measures by segment, crosses filters and compares each study with the previous one. It doesn't show results for a group below the minimum number of responses, and reports come out in XLSX, PDF and HTML.",
-  template_cta: "Try Censuma for free",
-  template_faq_title: "Frequently asked questions",
-  // General on purpose: they're useful with or without Censuma. They also go
-  // into the page's JSON-LD as FAQPage, with this same text.
-  template_faq_items: [
-    {
-      question: "How many questions should a workplace climate survey have?",
-      answer:
-        "Between 25 and 40 closed questions is usually enough: they cover the important topics and take 10 to 15 minutes to answer. Any longer and people start answering without reading. This template has 30, plus one recommendation question and two open ones.",
-    },
-    {
-      question: "How often should we run it?",
-      answer:
-        "Once a year is the most common, and it's the minimum to see a trend. If you make big changes after the survey, a shorter one six months later shows whether they worked. Surveying more often than changes take to show up wears people out.",
-    },
-    {
-      question: "How do I protect anonymity?",
-      answer:
-        "Don't ask for anything that identifies the person, merge small areas with others and never show results for a group so small that someone could guess who answered. The manager of the area being surveyed shouldn't enter the answers, and summarize open comments instead of quoting them word for word.",
-    },
-    {
-      question: "What do I do with the results?",
-      answer:
-        "Share them with the team soon, even if they're not good. Pick two or three topics with the lowest percentage favorable, make a plan with owners and dates, and tell people what changed before the next survey. A survey with no visible action lowers participation in the next one.",
-    },
-  ],
+    "Articles to understand why and how to measure your team's workplace climate and satisfaction.",
+  // `{minutes}` is computed by the page from the article's word count.
+  resources_reading: "{minutes} min read",
+  resources_card_cta: "Read the article",
+  resources_back: "All articles",
+  resources_updated: "Updated",
+  resources_cta_title: "Measure your team's climate and satisfaction",
+  resources_cta_body:
+    "Censuma builds the survey, gets it to all your people and shows you the results by team, protecting anonymity.",
+  resources_cta: "Try Censuma for free",
 
   legal_version: "Version",
   legal_updated: "Updated",

@@ -12,13 +12,13 @@ import { RESOURCES_BASE } from "@/content/resources/nav";
  * Solo «Producto» es desplegable. «Recursos» se probo como desplegable y
  * volvio a ser un enlace al INDICE (`/es/recursos`, decision del usuario,
  * 2026-10-12): el indice ya es el menu de los recursos, con una tarjeta por
- * cada uno, y sumar un recurso al manifiesto (`content/resources/nav.js`) lo
+ * articulo, y sumar uno al manifiesto (`content/resources/nav.js`) lo
  * agrega ahi sin tocar el navbar. Se marca activo en el indice y en cada
  * recurso, porque `path_matches` cubre las subrutas.
  *
  * Las docs son un enlace DIRECTO y no van dentro de «Recursos» (decision del
- * usuario, 2026-10-12): los recursos son material gratuito para quien todavia
- * no es cliente, y las docs explican el producto.
+ * usuario, 2026-10-12): los recursos son articulos para quien todavia no es
+ * cliente, y las docs explican el producto.
  *
  * `dict` alcanza con las llaves `nav_*`: ver `chrome_dict_of`.
  */

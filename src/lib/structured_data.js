@@ -100,7 +100,7 @@ export function website_ld(lang, dict) {
 
 /**
  * Un bloque de preguntas frecuentes, tal cual se ve: la home le pasa
- * `dict.faq_items` y la plantilla de encuesta `dict.template_faq_items`.
+ * `dict.faq_items`.
  *
  * Ya no gana resultado enriquecido: Google limito la ficha de FAQ a sitios de
  * gobierno y salud en agosto de 2023 y la retiro del todo en mayo de 2026. Se
@@ -194,6 +194,29 @@ export function doc_article_ld(lang, path, meta, dates = {}) {
     // asi que «este articulo trata sobre Censuma» sigue siendo cierto, y
     // ahora apunta a un nodo que existe de verdad en el grafo.
     about: { "@id": ORG_ID },
+  };
+}
+
+/**
+ * Un articulo de recursos (`/es/recursos/...`), como `BlogPosting`.
+ *
+ * Mismo criterio que `doc_article_ld`: autor y editor son la organizacion, la
+ * imagen es la tarjeta del Open Graph y las fechas salen del manifiesto. Sin
+ * `about`: el articulo trata del clima laboral, no de Censuma.
+ */
+export function blog_posting_ld(lang, path, entry) {
+  return {
+    "@type": "BlogPosting",
+    headline: entry.title[lang],
+    description: entry.description[lang],
+    url: `${site_config.domain}/${lang}${path}`,
+    inLanguage: lang,
+    image: `${site_config.domain}/${lang}/opengraph-image`,
+    author: { "@id": ORG_ID },
+    datePublished: entry.published,
+    dateModified: entry.updated,
+    isPartOf: { "@id": `${SITE_ID}-${lang}` },
+    publisher: { "@id": ORG_ID },
   };
 }
 
