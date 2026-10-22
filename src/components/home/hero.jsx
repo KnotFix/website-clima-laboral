@@ -40,7 +40,7 @@ const HERO_SPAN = 640;
  */
 const HERO_EDGE = 60;
 
-export function Hero({ dict }) {
+export function Hero({ lang, dict }) {
   return (
     // El hero es la tapa: se levanta con el scroll y va descubriendo el
     // problema, que arranca metido detras suyo. `ScrollLift` pone el margen
@@ -158,7 +158,7 @@ export function Hero({ dict }) {
                   size="lg"
                   className="cta-key h-11 w-full px-6 text-base"
                 >
-                  <a href={site_config.signup_url} data-track="hero_start">
+                  <a href={site_config.register_url(lang)} data-track="hero_start">
                     {dict.hero_cta_primary}
                     <ArrowRight
                       aria-hidden="true"

@@ -40,7 +40,7 @@ export default async function HomePage({ params }) {
             clima no cambian nada y recien despues se afirma la solucion.
             Planeta y escala quedan pegados porque son el mismo argumento —
             alcance— visto de dos maneras. */}
-        <Hero dict={dict} />
+        <Hero lang={lang} dict={dict} />
 
         {/* **Aca vivia `.light-handoff`**, un envoltorio que pintaba un
             degradado de transparente a `--background` para apagar de a poco la
@@ -173,7 +173,7 @@ export default async function HomePage({ params }) {
               caja. */}
           <ScrollLift lift={FOOTER_LIFT} span={FOOTER_SPAN}>
             <SectionGlow side="right" tint={1}>
-              <FinalCta dict={dict} />
+              <FinalCta lang={lang} dict={dict} />
             </SectionGlow>
           </ScrollLift>
         </div>

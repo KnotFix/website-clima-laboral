@@ -100,7 +100,7 @@ export function Navbar({ lang, dict, section_base = "" }) {
             className="cta-key-flat h-9 px-2.5 text-[13px] sm:px-3 sm:text-sm xl:px-5"
           >
             <a
-              href={site_config.signup_url}
+              href={site_config.register_url(lang)}
               data-track="nav_start"
               data-track-location="navbar"
             >

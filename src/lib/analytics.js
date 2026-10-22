@@ -80,8 +80,9 @@ export function clip_text(text, max = 100) {
  *
  * - `is_app`: va al producto (`site_config.app_url`).
  * - `is_sign_up`: es intencion de alta. Son las dos salidas del sitio al
- *   producto: la raiz («Empezar», donde Clerk ofrece crear cuenta) y
- *   `/registro` (los botones de la pagina de precios, donde se elige plan). Otra ruta de la app (si algun
+ *   producto: `/registro` (todos los «Empezar» y los botones de la pagina
+ *   de precios) y la raiz de la app, por si algun enlace sin `data-login`
+ *   vuelve a apuntar ahi (hasta el 2026-10-21 era el destino de «Empezar»). Otra ruta de la app (si algun
  *   dia se enlaza una pagina de ayuda del producto) es solo `app_link_click`.
  * - `plan`: el `?plan=` del enlace, si lo lleva.
  * - `is_mailto`: un enlace de correo.

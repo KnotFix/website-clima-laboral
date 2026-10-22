@@ -9,7 +9,7 @@ import { Container } from "@/components/site/container";
 import { Button } from "@/components/ui/button";
 import { site_config } from "@/lib/site_config";
 
-export function FinalCta({ dict }) {
+export function FinalCta({ lang, dict }) {
   return (
     // El relleno bajo de `py-28 sm:py-36` a `py-20 sm:py-24`. Aquel alto salia
     // de que el bloque era una columna centrada de tres pisos —titular, cuerpo,
@@ -91,7 +91,7 @@ export function FinalCta({ dict }) {
                 size="lg"
                 className="cta-key h-11 w-full px-6 text-base"
               >
-                <a href={site_config.signup_url} data-track="final_cta_start">
+                <a href={site_config.register_url(lang)} data-track="final_cta_start">
                   {dict.final_cta_button}
                   <ArrowRight
                     aria-hidden="true"

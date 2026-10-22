@@ -156,7 +156,7 @@ export function MobileMenu({ lang, dict, menu }) {
           </div>
           <Button asChild className="mt-2">
             <a
-              href={site_config.signup_url}
+              href={site_config.register_url(lang)}
               data-track="mobile_nav_start"
               data-track-location="mobile_menu"
             >

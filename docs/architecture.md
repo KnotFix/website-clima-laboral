@@ -466,7 +466,7 @@ Planas por sección, con prefijo de sección. **`es.js` y `en.js` tienen exactam
 nav_product        «Producto»: el titulo del desplegable con las nav_links
 nav_links[]        { label, href }   href es un ancla: "#how". Son los items
                    de «Producto» y la primera columna del pie
-nav_cta            "Empezar gratis"
+nav_cta            "Empezar gratis": va a /registro (site_config.register_url)
 nav_login          «Iniciar sesion»: enlace secundario a la raiz de la app
                    (site_config.login_url). Lleva `data-login`
 nav_docs           el link a la documentacion. SUELTO y no dentro de
@@ -3544,7 +3544,9 @@ plan". Si el criterio editorial es otro, se mueve.
   2026-09-13**: `signup_url` se DERIVA de `app_url` (`${app_url}/`, la raíz de la app: el
   login de Clerk, que ofrece el enlace a `/registro` a quien no tiene cuenta. Mandar directo
   a `/registro` se probó el mismo día y se descartó: le pedía crear cuenta a quien ya la
-  tenía). `app_url` sale de `NEXT_PUBLIC_APP_URL`
+  tenía). **Revertido el 2026-10-21**: con «Iniciar sesión» en el navbar (2026-10-12) ese
+  motivo dejó de valer, y `signup_url` se fue: todo «Empezar» usa `register_url(lang)`
+  (`/registro?lang=`), y la raíz queda para `login_url`. `app_url` sale de `NEXT_PUBLIC_APP_URL`
   y cae a `https://app.censuma.com`; como es `NEXT_PUBLIC_*`, se fija en el BUILD (en
   Dokploy va en Build Args, igual que las `VITE_*` del producto). El sitio vive en el
   dominio raíz y el producto en `app.`: son despliegues distintos y la app no está

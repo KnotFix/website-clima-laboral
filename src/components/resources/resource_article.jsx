@@ -57,7 +57,7 @@ export function ResourceArticle({ lang, dict, entry, Body }) {
         <p className="mt-2 text-muted-foreground text-pretty">{dict.resources_cta_body}</p>
         <Button asChild size="lg" className="mt-6">
           <a
-            href={site_config.signup_url}
+            href={site_config.register_url(lang)}
             data-track="article_start"
             data-track-location="resource"
           >

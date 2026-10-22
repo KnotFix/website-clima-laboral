@@ -31,7 +31,7 @@ ahí. No hace falta un deploy del sitio.
 | `virtual_page_view` | Cada página vista, **incluida la primera** | `page_path`, `page_title`, `page_language`, `page_location` |
 | `cta_click` | Clic en un botón marcado (ver ids abajo) | `cta_id`, `cta_text`, `cta_location`, `link_url` |
 | `app_link_click` | Clic en cualquier enlace a app.censuma.com | `link_url`, `cta_id` |
-| `begin_sign_up` | Clic en «Empezar» o en un plan (la raíz de la app o `/registro`). **No** «Iniciar sesión»: va a la misma raíz, pero el enlace lleva `data-login` y el listener lo saltea | `link_url`, `cta_id`, `plan` (si el enlace lo lleva) |
+| `begin_sign_up` | Clic en «Empezar» o en un plan (los dos van a `/registro` desde el 2026-10-21). **No** «Iniciar sesión»: va a la raíz de la app, y además el enlace lleva `data-login` y el listener lo saltea | `link_url`, `cta_id`, `plan` (si el enlace lo lleva) |
 | `contact_click` | Clic en un enlace de correo o de WhatsApp | `method` (`email` o `whatsapp`), `cta_id` |
 | `section_view` | La primera vez que cada sección de la home se ve (media sección o media pantalla) | `section_id` |
 | `consent_update` | La persona acepta, rechaza o cambia sus preferencias | `consent_analytics`, `consent_marketing` (true/false) |

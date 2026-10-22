@@ -10,10 +10,13 @@ export const site_config = {
   product: "Censuma",
   domain: "https://censuma.com",
   // El PRODUCTO es otro despliegue, en su propio subdominio. Todo CTA de
-  // «Empezar» manda a la RAIZ de la app: quien ya tiene cuenta entra, y quien
-  // no la tiene encuentra ahi el enlace a `/registro` (la pantalla de login de
-  // Clerk lo ofrece). Mandar directo a `/registro` se probo y se descarto el
-  // 2026-09-13: le pedia crear cuenta a quien ya la tenia. La URL base se puede
+  // «Empezar» manda a `/registro` (`register_url`) e «Iniciar sesion» a la RAIZ
+  // de la app (`login_url`). Del 2026-09-13 al 2026-10-21 «Empezar» tambien iba
+  // a la raiz, porque a `/registro` le pedia crear cuenta a quien ya la tenia y
+  // el sitio no tenia otra puerta a la app; desde que existe «Iniciar sesion»
+  // (2026-10-12) ese motivo no vale, y quien se equivoca de boton tiene en el
+  // registro su «¿Ya tenés cuenta? Entrá» (decision del usuario, 2026-10-21).
+  // La URL base se puede
   // pisar por entorno (staging apunta a otro host) con `NEXT_PUBLIC_APP_URL`;
   // como es `NEXT_PUBLIC_*`, se inyecta en BUILD, no al arrancar el servidor.
   //
@@ -25,22 +28,18 @@ export const site_config = {
   app_url: (process.env.NEXT_PUBLIC_APP_URL || "https://app.censuma.com").replace(/\/$/, ""),
 };
 
-// Conserva el nombre `signup_url` porque asi lo consumen navbar, mobile_menu,
-// hero y final_cta; el destino es la raiz de la app (ver arriba).
-site_config.signup_url = `${site_config.app_url}/`;
-
-// «Iniciar sesion» del navbar: la misma raiz, que sin sesion muestra el login
+// «Iniciar sesion» del navbar: la raiz de la app, que sin sesion muestra el login
 // de Clerk (la app no tiene una ruta `/login` aparte). Va SIN `?lang=` a
 // proposito: la app guarda ese parametro como preferencia, y a quien ya tiene
 // cuenta le pisaria el idioma que eligio adentro con el del sitio.
 //
-// Es la misma URL que `signup_url`, asi que para la medicion se distingue por
-// el atributo `data-login` del enlace, no por la URL: ver `analytics_listener`.
+// Para la medicion se distingue del registro por el atributo `data-login` del
+// enlace y no solo por la URL: ver `analytics_listener`.
 site_config.login_url = `${site_config.app_url}/`;
 
-// El registro del producto, con el idioma del sitio. Lo usan los botones de la
-// pagina de precios (`/[lang]/pricing`): quien elige un plan todavia no tiene
-// cuenta, asi que va a `/registro` y no a la raiz de la app.
+// El registro del producto, con el idioma del sitio. Lo usan todos los
+// «Empezar gratis» (navbar, menu movil, hero, cierre de la home, articulos) y
+// los botones de la pagina de precios.
 //
 // Hasta el 2026-10-12 era tambien el destino del «Precios» del navbar, porque
 // el sitio no publicaba la lista (decision del 2026-09-13: dos copias son una
