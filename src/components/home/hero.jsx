@@ -45,7 +45,7 @@ export function Hero({ lang, dict }) {
     // El hero es la tapa: se levanta con el scroll y va descubriendo el
     // problema, que arranca metido detras suyo. `ScrollLift` pone el margen
     // negativo que lo mete y el movimiento que lo saca.
-    <ScrollLift lift={HERO_LIFT} span={HERO_SPAN}>
+    <ScrollLift lift={HERO_LIFT} span={HERO_SPAN} own_layer>
       {/* El padding de arriba centra el bloque de texto en la pantalla, y por
           eso es relativo al viewport y no un valor fijo: el bloque mide ~23rem,
           asi que para que su centro caiga en el centro de la ventana hay que

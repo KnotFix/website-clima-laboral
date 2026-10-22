@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useInView } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -50,12 +50,52 @@ import { cn } from "@/lib/utils";
  *
  * El `data-idle` que pone no lo lee este archivo: lo leen las reglas de
  * `globals.css` que estan al lado de cada `@keyframes`. Buscarlo ahi.
+ *
+ * ## Tambien se pausa MIENTRAS se scrollea (2026-10-21)
+ *
+ * Fuera de pantalla no era el unico caso. Con el hero a la vista, el destello
+ * de la espiral seguia repintando en cada cuadro DEL SCROLL, y en un telefono
+ * ese trabajo compite con el desplazamiento: el usuario lo sintio como «se pega
+ * un poco» solo en el hero. Medido con CPU x4 en 2 s de gesto tactil:
+ *
+ * | | hero con destello | hero pausado | FAQ |
+ * |---|---|---|---|
+ * | `Paint` | 798 | 15 | 15 |
+ * | `RasterTask` | 1.623 | 459 | 10 |
+ * | `Layerize` | 64 ms | 13 ms | 12 ms |
+ *
+ * Mientras el dedo mueve la pagina nadie mira un destello quieto, y al soltar
+ * retoma donde quedo. `data-scrolling` va por `ref` y no por estado: un
+ * `setState` por evento de scroll re-renderizaria en cada cuadro, que es
+ * justamente lo que se quiere sacar del medio.
  */
 export function IdleOffscreen({ children, class_name }) {
   const box_ref = useRef(null);
   // Mismo margen que usa el globo para pausar su bucle: la animacion vuelve a
   // andar una pantalla antes de asomar, asi nunca se la ve arrancar.
   const in_view = useInView(box_ref, { margin: MARGIN });
+
+  useEffect(() => {
+    const box = box_ref.current;
+    if (!box) return undefined;
+    let timer = 0;
+
+    function on_scroll() {
+      // Escribe el atributo solo al cambiar, no en cada evento.
+      if (!timer) box.setAttribute("data-scrolling", "true");
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        timer = 0;
+        box.removeAttribute("data-scrolling");
+      }, SCROLL_SETTLE_MS);
+    }
+
+    window.addEventListener("scroll", on_scroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", on_scroll);
+      window.clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <div
@@ -70,3 +110,11 @@ export function IdleOffscreen({ children, class_name }) {
 
 /** Cuanto antes de entrar en pantalla se despierta el bloque. */
 const MARGIN = "200px";
+
+/**
+ * Cuanto despues del ultimo evento de scroll vuelve a andar. Corto, para que el
+ * destello retome apenas se suelta, y lo bastante largo para no prender y
+ * apagar entre dos eventos de un mismo gesto (en un telefono llegan cada ~16 ms,
+ * y la inercia los sigue mandando despues de levantar el dedo).
+ */
+const SCROLL_SETTLE_MS = 150;

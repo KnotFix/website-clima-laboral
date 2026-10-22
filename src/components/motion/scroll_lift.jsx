@@ -47,6 +47,7 @@ export function ScrollLift({
   span = SPAN,
   class_name,
   inner_class_name,
+  own_layer = false,
 }) {
   const container_ref = useRef(null);
   const reduced_motion = useReducedMotionSafe();
@@ -157,9 +158,23 @@ export function ScrollLift({
           `<body>` —que es la columna flex— y el `<main>` quedan estos dos divs
           de bloque, y el `flex-1` se corta en el primero. Sin el, una pagina
           corta deja al pie flotando a media pantalla. */}
+      {/* > **`own_layer`: el bloque que se mueve en su propia capa.** El `y`
+          lo escribe JavaScript en cada cuadro, y sin capa propia el navegador
+          no puede solo desplazar lo ya pintado: repinta y rasteriza el bloque
+          entero en cada cuadro. En el hero eso era la espiral, la captura y
+          los titulos a la densidad de un telefono, y se sentia como «se pega
+          un poco» solo ahi (2026-10-21). Medido con CPU x4 scrolleando dentro
+          del hero: `RasterTask` de 187 a 16.
+          >
+          > No va por defecto porque `will-change: transform` vuelve a este
+          > bloque el contenedor de todo `position: fixed` que lleve adentro, y
+          > en las paginas donde envuelve al `<main>` entero eso no se puede
+          > asegurar. El hero no tiene nada fijo. */}
       <motion.div
         className={cn("pointer-events-auto", inner_class_name)}
-        style={still ? undefined : { y }}
+        style={
+          still ? undefined : own_layer ? { y, willChange: "transform" } : { y }
+        }
       >
         {children}
       </motion.div>

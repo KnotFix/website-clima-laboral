@@ -880,7 +880,8 @@
 
    Pausada retoma donde quedo: volver al hero no produce ningun salto. Quien
    pone el atributo es `<IdleOffscreen>`, y ahi esta la medicion. */
-[data-idle="true"] .golden-spark {
+[data-idle="true"] .golden-spark,
+[data-scrolling] .golden-spark {
   animation-play-state: paused;
 }
 
@@ -1187,10 +1188,13 @@
 
    El atributo lo pone `<IdleOffscreen>`, que envuelve al lienzo en
    `scale_tree.jsx`. La misma pausa que la espiral del hero, por el mismo
-   motivo. */
+   motivo, y tambien mientras se scrollea (`data-scrolling`). */
 [data-idle="true"] .org-children::before,
 [data-idle="true"] .org-branch::before,
-[data-idle="true"] .org-branch::after {
+[data-idle="true"] .org-branch::after,
+[data-scrolling] .org-children::before,
+[data-scrolling] .org-branch::before,
+[data-scrolling] .org-branch::after {
   animation-play-state: paused;
 }
 
