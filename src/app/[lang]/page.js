@@ -32,7 +32,7 @@ export default async function HomePage({ params }) {
           sin precio ni resenas. El porque esta escrito en
           `lib/structured_data.js`. Lo que sigue identificando al producto es
           la `Organization` del layout. */}
-      <JsonLd data={graph_ld(faq_ld(dict))} />
+      <JsonLd data={graph_ld(faq_ld(dict.faq_items))} />
       <Navbar lang={lang} dict={dict} />
       {/* Destino del enlace "saltar al contenido" del navbar. */}
       <main id="main" className="flex-1">

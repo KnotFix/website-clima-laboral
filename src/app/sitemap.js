@@ -3,7 +3,8 @@ import path from "node:path";
 
 import { flatten_nav } from "@/content/docs/nav";
 import { LEGAL_NAV } from "@/content/legal/nav";
-import { hreflang_of } from "@/lib/seo";
+import { RESOURCES, RESOURCES_BASE, resource_paths } from "@/content/resources/nav";
+import { hreflang_of, path_in } from "@/lib/seo";
 import { LOCALES, site_config } from "@/lib/site_config";
 
 /**
@@ -22,6 +23,10 @@ import { LOCALES, site_config } from "@/lib/site_config";
  * Una lista aparte se desincroniza el dia que alguien agrega una pagina, y el
  * modo de fallo es silencioso — la pagina existe y el buscador no se entera.
  *
+ * **Los recursos traducen el slug** (`/es/recursos`, `/en/resources`): su
+ * ruta no es una cadena sino un objeto con una por idioma, y `path_in` elige
+ * la de cada uno. Ver `content/resources/nav.js`.
+ *
  * **Se importa de `@/content/**` y NO de `@/lib/docs`**, que lleva
  * `server-only`: la version de `lib/` ademas compila el `.mdx` para devolver el
  * componente, y para una URL no hace falta abrir el archivo.
@@ -34,6 +39,8 @@ export default async function sitemap() {
     "/changelog",
     ...flatten_nav().map((entry) => `/docs/${entry.slug}`),
     ...LEGAL_NAV.map((entry) => `/legal/${entry.slug}`),
+    RESOURCES_BASE,
+    ...RESOURCES.map(resource_paths),
   ];
 
   // Fechas solo donde hay una de verdad. **Nada de `new Date()`**: poner la
@@ -52,11 +59,13 @@ export default async function sitemap() {
     ["/docs", newest_of(docs.map((entry) => entry.updated))],
     ...docs.map((entry) => [`/docs/${entry.slug}`, entry.updated]),
     ...LEGAL_NAV.map((entry) => [`/legal/${entry.slug}`, entry.updated]),
+    [RESOURCES_BASE, newest_of(RESOURCES.map((entry) => entry.updated))],
+    ...RESOURCES.map((entry) => [resource_paths(entry), entry.updated]),
   ]);
 
   return paths.flatMap((route) =>
     LOCALES.map((locale) => ({
-      url: `${site_config.domain}/${locale}${route}`,
+      url: `${site_config.domain}/${locale}${path_in(route, locale)}`,
       lastModified: modified.get(route),
       alternates: {
         languages: hreflang_of(route, site_config.domain),

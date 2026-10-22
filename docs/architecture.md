@@ -43,6 +43,12 @@ src/
         [slug]/page.js          un documento legal. `[slug]` y no catch-all:
                                 la lista es plana. dynamicParams=false y
                                 generateStaticParams desde LEGAL_NAV    [programmer]
+      recursos/                 SOLO /es: los recursos traducen el slug.
+        page.js                 indice. /en/recursos da 404             [programmer]
+        [slug]/page.js          un recurso. dynamicParams=false         [programmer]
+      resources/                SOLO /en, el par de recursos/. Las cuatro
+                                rutas son cinco lineas que llaman a
+                                resource_routes.jsx con su idioma       [programmer]
   components/
     site/
       container.jsx             ancho maximo 1200 (UNICO lugar)         [programmer]
@@ -53,9 +59,20 @@ src/
       brand_icons.jsx           logos de WhatsApp, Instagram, Facebook y
                                 YouTube (simple-icons, CC0): lucide 1.x
                                 ya no trae logos de marca              [programmer]
-      nav_links.jsx             links de seccion + marca de activa      [programmer]
+      nav_menu.jsx              <NavMenu>: la navegacion de escritorio
+                                (>= lg). El desplegable «Producto»
+                                es un disclosure: el panel esta
+                                SIEMPRE en el HTML (visibility), hover +
+                                clic + Escape. Marca activo por scroll y
+                                por pathname                            [programmer]
       use_active_section.jsx    hook useActiveSection (IntersectionObs) [programmer]
-      mobile_menu.jsx           Sheet para < md                         [programmer]
+      mobile_menu.jsx           Sheet para < lg: la misma lista que la
+                                barra, con los desplegables abiertos
+                                como grupos. Debajo de sm lleva tambien
+                                idioma y tema                           [programmer]
+      whatsapp_float.jsx        <WhatsappFloat>: boton fijo abajo a la
+                                derecha, en el layout. Mismo enlace que
+                                el boton de WhatsApp del pie            [programmer]
       theme_provider.jsx        wrapper cliente de next-themes          [programmer]
       json_ld.jsx               <JsonLd data>: un <script ld+json> con
                                 el objeto serializado y el `<` escapado [programmer]
@@ -177,6 +194,18 @@ src/
                                 version + fecha, aviso de borrador, una sola
                                 columna. Sin sidebar ni indice — un legal no
                                 es un recorrido                         [programmer]
+    resources/
+      resource_routes.jsx       resources_index_route(lang) y
+                                resource_route(lang): metadatos, JSON-LD
+                                y pagina de las rutas de recursos. Por
+                                que no se devuelve [] en
+                                generateStaticParams, ahi mismo         [programmer]
+      resource_frame.jsx        <ResourceFrame>: navbar + ScrollLift +
+                                pie, el marco de precios                [programmer]
+      resources_index.jsx       <ResourcesIndex>: una tarjeta por recurso
+                                                                        [programmer]
+      survey_template.jsx       <SurveyTemplate>: la pagina de la
+                                plantilla de encuesta                   [programmer]
     ui/                         shadcn — NO SE TOCA
   content/
     es.js                       copy espanol                            [programmer]
@@ -193,14 +222,31 @@ src/
                                 aceptacion del producto                 [architect]
       es/*.mdx                  privacy, terms, dpa                     [programmer]
       en/*.mdx                  idem, MISMOS slugs                      [programmer]
+    resources/
+      nav.js                    RESOURCES y RESOURCES_BASE: slug POR IDIOMA,
+                                titulo, descripcion y fechas. De aca salen
+                                LOCALIZED_PATHS (conmutador de idioma),
+                                sitemap y llms.txt. Arriba, la REGLA DE
+                                CONFIDENCIALIDAD de los recursos        [architect]
+      survey_template.json      preguntas, pasos y textos de la plantilla.
+                                Lo leen la pagina Y el script que arma el
+                                Excel                                   [programmer]
   lib/
     utils.js                    cn() — lo genero shadcn
     dictionaries.js             get_dictionary(lang), LOCALES           [programmer]
     site_config.js              marca, links, constantes                [programmer]
+    nav_menu.js                 nav_menu(): la lista del navbar (Producto,
+                                Precios, Documentacion, Recursos) que leen NavMenu y
+                                MobileMenu; path_matches(). Solo
+                                Producto es desplegable                 [programmer]
     seo.js                      page_metadata(): title, descripcion,
                                 canonical, hreflang (con x-default) y
                                 tarjetas OG/X de CADA pagina. Tambien
-                                hreflang_of() para el sitemap           [programmer]
+                                hreflang_of() para el sitemap. `path`
+                                puede ser una ruta por idioma
+                                ({ es, en }); path_in() elige           [programmer]
+    resources.js                server-only: contenido de la plantilla,
+                                peso del .xlsx y tamaño del PNG        [programmer]
     structured_data.js          los objetos schema.org: organization_ld,
                                 website_ld, software_ld, faq_ld,
                                 breadcrumb_ld, doc_article_ld,
@@ -413,20 +459,30 @@ docs/
 Planas por sección, con prefijo de sección. **`es.js` y `en.js` tienen exactamente las mismas llaves.**
 
 ```
-nav_links[]        { label, href }   href es un ancla: "#how"
-nav_cta            "Empezar"
+nav_product        «Producto»: el titulo del desplegable con las nav_links
+nav_links[]        { label, href }   href es un ancla: "#how". Son los items
+                   de «Producto» y la primera columna del pie
+nav_cta            "Empezar gratis"
+nav_login          «Iniciar sesion»: enlace secundario a la raiz de la app
+                   (site_config.login_url). Lleva `data-login`
 nav_docs           el link a la documentacion. SUELTO y no dentro de
-                   nav_links: esa lista son anclas y NavLinks les saca el id
-                   cortando el "#". Ver documentation.md
+                   nav_links: esa lista son anclas. En el navbar es un
+                   enlace directo entre Precios y Recursos. Ver documentation.md
 nav_pricing        «Precios». Tambien SUELTO: no es un ancla sino la RUTA
                    /[lang]/pricing (desde 2026-10-12; antes iba al registro
-                   de la app). Se marca activo con `pricing_active`
+                   de la app). Enlace directo de la barra, como las docs
 pricing_*          la pagina de precios. SOLO texto fijo: nombres, precios y
                    topes salen de GET /api/planes-publicos/ del producto
                    (lib/pricing.js), nunca del diccionario. Las plantillas
                    llevan {clave} y las rellena fill()
-nav_contact        «Contacto». SUELTO: es el ancla #contact, que esta en el
-                   PIE (todas las paginas), no una seccion de la home
+nav_resources      «Recursos». SUELTO: la RUTA del indice /es/recursos o
+                   /en/resources (slug traducido, ver content/resources/nav.js),
+                   en el navbar y el pie. Se marca activo en el indice y en
+                   cada recurso
+resources_*        el indice de recursos (titulo, metadatos, tarjeta)
+template_*         la pagina de la plantilla de encuesta: metadatos, intro,
+                   descarga, «lo que una plantilla no puede hacer» y su FAQ.
+                   Las PREGUNTAS no: van en survey_template.json
 docs_*             el chrome de la seccion de docs (indice, plegado de movil,
                    "En esta pagina", anterior/siguiente). La PROSA vive en
                    src/content/docs/**.mdx, nunca aca
@@ -3359,11 +3415,16 @@ se elige con `resolvedTheme` de next-themes.
 | `data-track` | atributo | id snake_case de un CTA; el listener delegado emite `cta_click` |
 | `data-track-location` | atributo | donde esta el CTA, si no alcanza con la seccion que lo contiene |
 | `data-section` | atributo | id de una seccion de la home para `section_view` |
+| `data-login` | atributo | marca un enlace a la raiz de la app que NO es registro («Iniciar sesion»): el listener no emite `begin_sign_up` |
 
 Los ids vigentes de `data-track`: `hero_start`, `hero_how_it_works`, `nav_start`,
-`nav_pricing`, `nav_contact`, `mobile_nav_start`, `mobile_nav_pricing`, `mobile_nav_contact`,
+`nav_pricing`, `nav_docs`, `nav_login`, `mobile_nav_start`, `mobile_nav_pricing`,
+`mobile_nav_docs`, `mobile_nav_login`,
 `final_cta_start`, `footer_whatsapp`, `footer_email`, `footer_instagram`, `footer_facebook`,
-`footer_youtube`, `faq_01`..`faq_08`.
+`footer_youtube`, `whatsapp_float`, `faq_01`..`faq_08`, `nav_resources`, `mobile_nav_resources`,
+`template_download`, `template_start`, `template_faq_01`..`template_faq_04`.
+`nav_contact` y `mobile_nav_contact` dejaron de existir el 2026-10-12, con el «Contacto» del
+navbar.
 Los de `data-section`: `hero`, `problem`, `measurement`, `world`, `scale`, `how`, `weights`,
 `reports`, `faq`, `final_cta`. **GTM los usa como valores**: renombrar uno rompe un informe
 sin que nada falle aca. La lista de eventos y la regla de las paginas vistas viven en

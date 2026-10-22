@@ -18,6 +18,9 @@ producto (React + Vite), que viven en `../Proyecto/`.
 | `/[lang]/docs/[...slug]` | 21 páginas de documentación del producto, con barra lateral e índice |
 | `/[lang]/legal/[slug]` | `privacy`, `terms` y `dpa` |
 | `/[lang]/changelog` | Novedades del producto |
+| `/es/recursos`, `/en/resources` | Recursos gratis (hoy, la plantilla de encuesta en Excel). Único slug traducido: ver `src/content/resources/nav.js` |
+
+La plantilla de Excel se regenera con `python scripts/build_survey_template.py` (pide `openpyxl`; en Windows con Excel, además `pywin32`, `pymupdf` y `pillow`, y entonces recalcula, verifica que ninguna fórmula dé error, guarda los valores, exporta la captura y limpia los metadatos). El texto sale de `src/content/resources/survey_template.json`, el mismo que dibuja la página.
 
 **Dos idiomas: `es` y `en`.** El producto sirve ocho; el mapeo de esos ocho a
 estos dos vive del lado del producto (`Front-End/src/lib/sitio.ts`), no acá.

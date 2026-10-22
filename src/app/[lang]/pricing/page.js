@@ -76,7 +76,7 @@ export default async function PricingPage({ params }) {
           ]),
         )}
       />
-      <Navbar lang={lang} dict={dict} section_base={`/${lang}`} pricing_active />
+      <Navbar lang={lang} dict={dict} section_base={`/${lang}`} />
 
       {/* El mismo envoltorio que el changelog: `bg-background` opaco para que
           los destellos de fondo no le peleen a la tabla, y el destape del pie

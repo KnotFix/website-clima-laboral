@@ -80,7 +80,10 @@ function on_click(event) {
 
   if (kind.is_app) {
     push_event("app_link_click", { link_url, cta_id });
-    if (kind.is_sign_up) {
+    // «Iniciar sesion» va a la misma raiz de la app que «Empezar», pero quien
+    // lo toca ya tiene cuenta: contarlo como registro inflaria el embudo. El
+    // enlace se marca con `data-login` (ver `site_config.login_url`).
+    if (kind.is_sign_up && !link.hasAttribute("data-login")) {
       push_event("begin_sign_up", {
         link_url,
         cta_id,

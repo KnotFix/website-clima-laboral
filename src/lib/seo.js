@@ -31,7 +31,10 @@ import { DEFAULT_LOCALE, LOCALES, site_config } from "@/lib/site_config";
  *
  * @param {object} opts
  * @param {string} opts.lang        idioma de la pagina
- * @param {string} opts.path        ruta SIN el idioma: "", "/docs", "/docs/kiosk"
+ * @param {string|Record<string, string>} opts.path
+ *        ruta SIN el idioma: "", "/docs", "/docs/kiosk". Los recursos, que
+ *        traducen el slug, pasan una ruta por idioma:
+ *        `{ es: "/recursos", en: "/resources" }`. Ver `content/resources/nav.js`
  * @param {string} [opts.title]     titulo de la pagina; sin el, sale el de la home
  * @param {string} opts.description
  * @param {"website"|"article"} [opts.type]
@@ -46,7 +49,8 @@ export function page_metadata({
   modified,
 }) {
   const languages = hreflang_of(path);
-  const url = `${site_config.domain}/${lang}${path}`;
+  const own_path = path_in(path, lang);
+  const url = `${site_config.domain}/${lang}${own_path}`;
   const images = [
     {
       url: `/${lang}/opengraph-image`,
@@ -62,7 +66,7 @@ export function page_metadata({
     ...(title ? { title } : {}),
     description,
     alternates: {
-      canonical: `/${lang}${path}`,
+      canonical: `/${lang}${own_path}`,
       languages,
     },
     openGraph: {
@@ -96,18 +100,27 @@ export function branded_title(title) {
 /**
  * Las URLs de una misma pagina en cada idioma, mas el `x-default`.
  *
- * Los slugs son los mismos en los dos idiomas (van en ingles), asi que no
- * hace falta una tabla de traduccion de rutas: la ruta es la misma y cambia
- * solo el segmento de idioma. Lo consume tambien `sitemap.js`, con URLs
- * absolutas — por eso recibe una `base` opcional.
+ * Casi todos los slugs son los mismos en los dos idiomas (van en ingles), y
+ * entonces la ruta es la misma y cambia solo el segmento de idioma. Los
+ * recursos son la excepcion: traducen el slug y pasan una ruta por idioma (ver
+ * `path_in`). Lo consume tambien `sitemap.js`, con URLs absolutas — por eso
+ * recibe una `base` opcional.
  */
 export function hreflang_of(path = "", base = "") {
   return {
     ...Object.fromEntries(
-      LOCALES.map((locale) => [locale, `${base}/${locale}${path}`]),
+      LOCALES.map((locale) => [locale, `${base}/${locale}${path_in(path, locale)}`]),
     ),
-    "x-default": `${base}/${DEFAULT_LOCALE}${path}`,
+    "x-default": `${base}/${DEFAULT_LOCALE}${path_in(path, DEFAULT_LOCALE)}`,
   };
+}
+
+/**
+ * La ruta de una pagina en un idioma: la misma cadena para todos, o la del
+ * idioma cuando viene una por idioma (`{ es: "/recursos", en: "/resources" }`).
+ */
+export function path_in(path, lang) {
+  return typeof path === "string" ? path : path[lang];
 }
 
 /**

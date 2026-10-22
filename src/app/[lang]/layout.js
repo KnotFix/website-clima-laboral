@@ -8,6 +8,7 @@ import { AnalyticsListener } from "@/components/site/analytics_listener";
 import { ConsentBanner } from "@/components/site/consent_banner";
 import { TagManagerHead, TagManagerNoscript } from "@/components/site/tag_manager";
 import { ThemeProvider } from "@/components/site/theme_provider";
+import { WhatsappFloat } from "@/components/site/whatsapp_float";
 import { JsonLd } from "@/components/site/json_ld";
 import { get_dictionary } from "@/lib/dictionaries";
 import { page_metadata } from "@/lib/seo";
@@ -162,6 +163,10 @@ export default async function RootLayout({ children, params }) {
               teclado, las anclas y el foco quedan nativos. */}
           <ScrollGlide />
           {children}
+          {/* El boton flotante de WhatsApp: en el layout porque va en TODAS
+              las paginas, una sola vez. Lee dos llaves y es Server Component,
+              asi que el diccionario no viaja al navegador. */}
+          <WhatsappFloat dict={dict} />
           {/* Medicion: el banner de cookies y el que escucha los clics, las
               rutas y las secciones. Van en el layout porque son de TODAS las
               paginas y tienen que existir una sola vez. Ver

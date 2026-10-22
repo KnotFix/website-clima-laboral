@@ -1,15 +1,13 @@
-import Link from "next/link";
-
 import { GlassBar } from "@/components/effects/glass_bar";
 import { BrandLink } from "@/components/site/brand_link";
 import { LangSwitch } from "@/components/site/lang_switch";
 import { Marca } from "@/components/site/marca";
 import { MobileMenu } from "@/components/site/mobile_menu";
-import { NavLinks } from "@/components/site/nav_links";
+import { NavMenu } from "@/components/site/nav_menu";
 import { ThemeToggle } from "@/components/site/theme_toggle";
 import { Button } from "@/components/ui/button";
 import { chrome_dict_of } from "@/lib/dictionaries";
-import { cn } from "@/lib/utils";
+import { nav_menu } from "@/lib/nav_menu";
 import { site_config } from "@/lib/site_config";
 
 /**
@@ -19,24 +17,18 @@ import { site_config } from "@/lib/site_config";
  * vuelven a la home a esa seccion. Sin eso, un "#how" apretado desde las docs
  * no hace absolutamente nada: el id no esta en esta pagina.
  *
- * `docs_active` marca el enlace de Documentacion. Va como prop y no derivado de
- * `section_base` porque son dos cosas distintas —donde apuntan las anclas, y
- * en que pagina estamos—, y la que viene despues (un blog, precios) va a
- * necesitar la primera sin la segunda. `pricing_active` es eso mismo para la
- * pagina de precios.
+ * **Desde el 2026-10-12 la barra es corta**: «Producto» (las tres anclas de la
+ * home) es el unico desplegable; «Precios», «Documentacion» y «Recursos» (el
+ * indice de recursos) son enlaces sueltos, y «Contacto» salio de la barra (sigue en el pie, y
+ * el boton flotante de WhatsApp lo reemplaza). Que item esta activo lo decide
+ * el `pathname` y la seccion en pantalla, adentro de `NavMenu`: las paginas ya
+ * no le pasan `docs_active` ni `pricing_active`.
  */
-export function Navbar({
-  lang,
-  dict,
-  section_base = "",
-  docs_active = false,
-  pricing_active = false,
-}) {
-  const docs_href = `/${lang}/docs`;
-  const pricing_href = `/${lang}/pricing`;
+export function Navbar({ lang, dict, section_base = "" }) {
   // Los componentes de cliente reciben solo las llaves que leen: ver
   // `chrome_dict_of`.
   const chrome = chrome_dict_of(dict);
+  const menu = nav_menu({ lang, dict: chrome, section_base });
 
   return (
     <>
@@ -53,111 +45,59 @@ export function Navbar({
         {/* Sube al tope aunque ya estemos en la home: ver brand_link.jsx. */}
         <BrandLink
           lang={lang}
-          class_name="flex items-center gap-2 rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          class_name="flex shrink-0 items-center gap-2 rounded-md px-1 text-base font-semibold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Marca class_name="size-6" />
-          {site_config.product}
+          {/* Debajo de 360px (un iPhone SE de primera generacion) el nombre no
+              entra junto al CTA: queda el logo, y el nombre sigue siendo el
+              texto del enlace para el lector de pantalla. */}
+          <span className="max-[359px]:sr-only">{site_config.product}</span>
         </BrandLink>
 
-        <div className="hidden items-center gap-1 md:flex">
-          {/* El `flex` lo pone el llamador: el `nav` de NavLinks trae
-              `items-center gap-1` pero no el display, y sin el los enlaces
-              vuelven a ser inline y el gap no aplica. */}
-          <NavLinks dict={chrome} section_base={section_base} class_name="flex" />
-
-          {/* **«Precios» es una RUTA del sitio desde el 2026-10-12**
-              (`/[lang]/pricing`), y antes era un enlace al registro de la app.
-              Se movio para que la lista de planes quede indexada. Va fuera de
-              `nav_links` por lo mismo que las docs (no es un ancla) y se marca
-              activo por ruta. Entre las anclas y las docs porque sigue siendo
-              parte de "que es esto", antes de "como se usa". */}
-          <Link
-            href={pricing_href}
-            aria-current={pricing_active ? "page" : undefined}
-            data-track="nav_pricing"
-            data-track-location="navbar"
-            className={cn(
-              "nav-key relative rounded-md px-3 py-2 text-sm",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              pricing_active
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {dict.nav_pricing}
-            <span
-              aria-hidden="true"
-              className={cn(
-                "absolute inset-x-3 bottom-1 h-px origin-center bg-foreground transition-transform duration-200",
-                pricing_active ? "scale-x-100" : "scale-x-0",
-              )}
-            />
-          </Link>
-
-          {/* **El enlace a las docs NO entra a `nav_links`, y no es una
-              cuestion de orden.** Todos los items de esa lista son anclas, y
-              `NavLinks` les saca el id con `section_id_of`, que corta el "#".
-              Un "/es/docs" le devolveria string vacio: nunca se marcaria como
-              activo, y ademas entraria un id vacio a `useActiveSection`. Es el
-              primer item de navegacion del sitio que sale de la home, asi que
-              se dibuja aparte y se marca por ruta, no por scroll. */}
-          <Link
-            href={docs_href}
-            aria-current={docs_active ? "page" : undefined}
-            className={cn(
-              "nav-key relative rounded-md px-3 py-2 text-sm",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              docs_active
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {dict.nav_docs}
-            {/* El mismo subrayado que las anclas: el color solo no alcanza,
-                porque al pasar el mouse un link inactivo toma el mismo
-                `text-foreground` que el activo. */}
-            <span
-              aria-hidden="true"
-              className={cn(
-                "absolute inset-x-3 bottom-1 h-px origin-center bg-foreground transition-transform duration-200",
-                docs_active ? "scale-x-100" : "scale-x-0",
-              )}
-            />
-          </Link>
-
-          {/* **«Contacto» baja al bloque de contacto del pie**, que esta en
-              todas las paginas: por eso es `#contact` pelado y no lleva
-              `section_base`. Tampoco entra a `nav_links`: no es una seccion de
-              la home y `useActiveSection` no tiene nada que marcar. */}
-          <a
-            href="#contact"
-            data-track="nav_contact"
-            data-track-location="navbar"
-            className={cn(
-              "nav-key relative rounded-md px-3 py-2 text-sm",
-              "text-muted-foreground hover:text-foreground",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            )}
-          >
-            {dict.nav_contact}
-          </a>
+        {/* **La navegacion aparece desde `lg` (1024px).** Con cuatro items la
+            isla todavia entra a ese ancho (medido el 2026-10-12, en es y en
+            en); debajo va el menu de hamburguesa.
+            `hidden` es CSS: los enlaces, los de los desplegables incluidos,
+            estan igual en el HTML para el buscador. */}
+        <div className="hidden lg:block">
+          <NavMenu
+            menu={menu}
+            label={chrome.a11y_main_nav}
+            section_base={section_base}
+          />
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Debajo de sm el cambio de idioma vive en el menu movil, para no
-              apretar la barra. Es la unica copia visible ahi: si se saca de
-              los dos lados, el sitio bilingue se queda sin conmutador. */}
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          {/* Debajo de sm el idioma y el tema viven en el menu movil, para que
+              en la barra entren la marca, «Empezar gratis» y la hamburguesa.
+              Es la unica copia visible ahi: si se saca de los dos lados, el
+              sitio bilingue se queda sin conmutador. */}
           <div className="hidden sm:block">
             <LangSwitch lang={lang} dict={chrome} />
           </div>
-          <ThemeToggle dict={chrome} />
-          {/* size lg da 36px de alto y px-5 lo ensancha: con la etiqueta
-              corta, el boton necesita el aire lateral para no leerse apretado
-              dentro de una barra de 64px. */}
+          <div className="hidden sm:block">
+            <ThemeToggle dict={chrome} />
+          </div>
+          {/* Secundario a proposito: un enlace de texto, no un boton, para que
+              no le compita a «Empezar gratis». `data-login` le avisa a la
+              medicion que esto no es un registro: ver `site_config.login_url`. */}
+          <a
+            href={site_config.login_url}
+            data-login=""
+            data-track="nav_login"
+            data-track-location="navbar"
+            className="nav-key hidden whitespace-nowrap rounded-md px-2 py-2 text-sm xl:px-2.5 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:inline-flex"
+          >
+            {dict.nav_login}
+          </a>
+          {/* **Visible en todos los anchos**: es la accion del sitio, y en el
+              celular no se esconde en el menu. Debajo de sm es mas angosto y
+              con la letra un punto mas chica, para que entre junto a la marca y
+              la hamburguesa en 360px; desde `xl`, el `px-5` de siempre (entre
+              `lg` y `xl` no entra junto a los cuatro items). */}
           <Button
             asChild
-            size="lg"
-            className="cta-key-flat hidden px-5 md:inline-flex"
+            className="cta-key-flat h-9 px-2.5 text-[13px] sm:px-3 sm:text-sm xl:px-5"
           >
             <a
               href={site_config.signup_url}
@@ -167,8 +107,8 @@ export function Navbar({
               {dict.nav_cta}
             </a>
           </Button>
-          <div className="md:hidden">
-            <MobileMenu lang={lang} dict={chrome} section_base={section_base} />
+          <div className="lg:hidden">
+            <MobileMenu lang={lang} dict={chrome} menu={menu} />
           </div>
         </div>
       </GlassBar>

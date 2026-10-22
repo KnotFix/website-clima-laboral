@@ -29,7 +29,7 @@ export function DocsLayout({
           En la home son anclas crudas ("#how") y aca no sirven: apuntarian a un
           id que esta en OTRA pagina, asi que el link no haria nada. Con la base
           pasan a ser "/es#how" y se van a la home, a la seccion. */}
-      <Navbar lang={lang} dict={dict} section_base={`/${lang}`} docs_active />
+      <Navbar lang={lang} dict={dict} section_base={`/${lang}`} />
 
       {/* `bg-background` opaco por lo mismo que el pie de la home: `PageLight`
           es una capa FIJA detras de toda la pagina y aca no se la quiere. Los

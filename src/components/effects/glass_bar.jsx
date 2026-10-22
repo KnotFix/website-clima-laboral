@@ -105,8 +105,11 @@ export function GlassBar({ children, class_name }) {
           />
           {/* El padding despega al logo y al CTA del borde de la pildora. Va
               aca dentro y no en el Container: el Container define el ancho de
-              la pagina, esto es el aire interno de la isla. */}
-          <div className="pointer-events-auto relative flex h-full items-center justify-between gap-4 px-5 md:px-7">
+              la pagina, esto es el aire interno de la isla. Debajo de sm es
+              mas justo: a 360px la barra lleva marca, «Empezar gratis» y la
+              hamburguesa, y con `px-5 gap-4` la hamburguesa se salia 4px de
+              la pildora (medido el 2026-10-12). */}
+          <div className="pointer-events-auto relative flex h-full items-center justify-between gap-3 px-4 sm:gap-4 sm:px-5 md:px-7">
             {children}
           </div>
         </motion.header>

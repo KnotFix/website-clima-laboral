@@ -99,7 +99,8 @@ export function website_ld(lang, dict) {
  */
 
 /**
- * Las preguntas de la home, tal cual se ven: `dict.faq_items`.
+ * Un bloque de preguntas frecuentes, tal cual se ve: la home le pasa
+ * `dict.faq_items` y la plantilla de encuesta `dict.template_faq_items`.
  *
  * Ya no gana resultado enriquecido: Google limito la ficha de FAQ a sitios de
  * gobierno y salud en agosto de 2023 y la retiro del todo en mayo de 2026. Se
@@ -107,10 +108,10 @@ export function website_ld(lang, dict) {
  * bloque de texto es un par pregunta/respuesta, que es lo que leen los
  * rastreadores que no son Google. El dia que estorbe, se saca sin drama.
  */
-export function faq_ld(dict) {
+export function faq_ld(items) {
   return {
     "@type": "FAQPage",
-    mainEntity: dict.faq_items.map((item) => ({
+    mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: { "@type": "Answer", text: item.answer },

@@ -33,7 +33,7 @@ import { cn } from "@/lib/utils";
  * primero el texto se ve entero con la fila en `0fr`, y sin el segundo la fila
  * nunca baja de la altura minima del contenido, que es el default de una reja.
  */
-export function FaqList({ items, class_name }) {
+export function FaqList({ items, class_name, track_prefix = "faq" }) {
   // Arranca todo cerrado. Abrir la primera de fabrica es comodo en una demo y
   // molesto en un sitio: mete un bloque de texto entre el titular y el resto de
   // las preguntas, que es justo el indice que alguien vino a leer.
@@ -73,7 +73,7 @@ export function FaqList({ items, class_name }) {
                 id={button_id}
                 aria-expanded={is_open}
                 aria-controls={panel_id}
-                data-track={`faq_${String(index + 1).padStart(2, "0")}`}
+                data-track={`${track_prefix}_${String(index + 1).padStart(2, "0")}`}
                 onClick={() =>
                   set_open_question(is_open ? null : item.question)
                 }

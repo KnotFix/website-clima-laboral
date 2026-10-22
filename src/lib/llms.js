@@ -1,5 +1,6 @@
 import { DOCS_NAV } from "@/content/docs/nav";
 import { LEGAL_NAV } from "@/content/legal/nav";
+import { RESOURCES, resource_paths } from "@/content/resources/nav";
 import { DEFAULT_LOCALE, LOCALES, site_config } from "@/lib/site_config";
 
 /**
@@ -70,6 +71,15 @@ export function llms_txt({ dicts, descriptions }) {
       }
       lines.push("");
     }
+
+    // Los recursos gratis, con el slug de su idioma.
+    lines.push(`## ${dicts[lang].resources_title}${tag}`, "");
+    for (const entry of RESOURCES) {
+      lines.push(
+        link_line(entry.title[lang], `${base}${resource_paths(entry)[lang]}`, entry.description[lang]),
+      );
+    }
+    lines.push("");
 
     lines.push(`## Legal${tag}`, "");
     for (const entry of LEGAL_NAV) {

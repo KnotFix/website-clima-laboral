@@ -1,3 +1,5 @@
+import { LOCALIZED_PATHS } from "@/content/resources/nav";
+
 export const LOCALES = ["es", "en"];
 export const DEFAULT_LOCALE = "es";
 
@@ -26,6 +28,15 @@ export const site_config = {
 // Conserva el nombre `signup_url` porque asi lo consumen navbar, mobile_menu,
 // hero y final_cta; el destino es la raiz de la app (ver arriba).
 site_config.signup_url = `${site_config.app_url}/`;
+
+// «Iniciar sesion» del navbar: la misma raiz, que sin sesion muestra el login
+// de Clerk (la app no tiene una ruta `/login` aparte). Va SIN `?lang=` a
+// proposito: la app guarda ese parametro como preferencia, y a quien ya tiene
+// cuenta le pisaria el idioma que eligio adentro con el del sitio.
+//
+// Es la misma URL que `signup_url`, asi que para la medicion se distingue por
+// el atributo `data-login` del enlace, no por la URL: ver `analytics_listener`.
+site_config.login_url = `${site_config.app_url}/`;
 
 // El registro del producto, con el idioma del sitio. Lo usan los botones de la
 // pagina de precios (`/[lang]/pricing`): quien elige un plan todavia no tiene
@@ -70,11 +81,21 @@ export function is_locale(value) {
   return LOCALES.includes(value);
 }
 
-/** Reemplaza el segmento de idioma de una ruta: /es/precios -> /en/precios */
+/**
+ * Reemplaza el segmento de idioma de una ruta: /es/pricing -> /en/pricing.
+ *
+ * Si la ruta es una de las que traducen el slug (los recursos, ver
+ * `content/resources/nav.js`), devuelve la del otro idioma:
+ * /es/recursos -> /en/resources. Sin eso, el conmutador mandaria a
+ * /en/recursos, que no existe.
+ */
 export function swap_locale_in_path(pathname, next_locale) {
   const segments = pathname.split("/");
   // segments[0] siempre es "" porque la ruta arranca con "/"
   if (is_locale(segments[1])) {
+    const rest = segments.length > 2 ? `/${segments.slice(2).join("/")}` : "";
+    const localized = LOCALIZED_PATHS.find((paths) => paths[segments[1]] === rest);
+    if (localized) return `/${next_locale}${localized[next_locale]}`;
     segments[1] = next_locale;
     return segments.join("/");
   }

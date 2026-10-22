@@ -11,24 +11,32 @@ const es = {
     "Medí el clima y la satisfacción laboral por segmento, no por promedio. Cruzá filtros, compará áreas y seguí la evolución estudio a estudio. Prueba gratis.",
 
   // Navegación
+  // Los items del desplegable «Producto» del navbar (y la primera columna del
+  // pie): anclas de la home. Ver `lib/nav_menu.js`.
+  nav_product: "Producto",
   nav_links: [
     { label: "Cómo funciona", href: "#how" },
     { label: "Análisis", href: "#weights" },
-    { label: "Preguntas", href: "#faq" },
+    { label: "Preguntas frecuentes", href: "#faq" },
   ],
   // «Empezar gratis» y no «Empezar»: a un enlace que dice solo «Empezar» el
   // buscador lo cuenta como texto genérico (mismo cajón que «clic acá»), y
   // «gratis» es además el dato que decide el clic.
   nav_cta: "Empezar gratis",
   // Va SUELTA y no dentro de `nav_links`: los items de esa lista son anclas de
-  // la home y `NavLinks` les saca el id cortando el "#". Ver `navbar.jsx`.
+  // la home, y esta es la RUTA `/es/docs`. En el navbar es un enlace directo,
+  // entre «Precios» y «Recursos». Ver `lib/nav_menu.js`.
   nav_docs: "Documentación",
-  // También SUELTA, y por lo mismo: no es un ancla, es una RUTA del sitio
-  // (`/es/pricing`), igual que las docs.
+  // También SUELTA, y por lo mismo: es la RUTA `/es/pricing`. Un enlace
+  // directo de la barra, como las docs.
   nav_pricing: "Precios",
-  // También SUELTA: es un ancla al bloque de contacto del PIE, que está en
-  // todas las páginas, y no a una sección de la home.
-  nav_contact: "Contacto",
+  // También SUELTA: es la RUTA del índice `/es/recursos`, en el navbar y en el
+  // pie. Es la única sección con el slug traducido (`/en/resources`): ver
+  // `content/resources/nav.js`.
+  nav_resources: "Recursos",
+  // El enlace secundario a la app, para quien ya tiene cuenta. Va a la RAÍZ de
+  // la app, que sin sesión muestra el login.
+  nav_login: "Iniciar sesión",
 
   // Hero
   hero_title: "El clima de tu empresa, medido por quienes lo viven",
@@ -771,6 +779,93 @@ const es = {
   pricing_docs_link: "Leé «Cuenta y plan»",
   pricing_card_label: "{action}: {plan}",
 
+  // Recursos gratis (`/es/recursos`). Son marketing para quien todavía no es
+  // cliente: **nada de acá sale del método del producto** (ni las preguntas
+  // del núcleo, ni los modelos, ni cómo se calculan los índices o el
+  // anonimato). De Censuma se nombra solo lo que ya dice la home, como
+  // beneficio. La regla completa, en `content/resources/nav.js`.
+  resources_meta_title: "Recursos gratis para medir el clima laboral",
+  resources_meta_description:
+    "Plantillas gratis para medir el clima laboral en tu organización. Descargalas y usalas sin crear una cuenta.",
+  resources_title: "Recursos",
+  resources_body:
+    "Material gratis para medir el clima laboral por tu cuenta. Descargalo y usalo sin crear una cuenta.",
+  resources_free: "Gratis",
+  resources_card_cta: "Ver el recurso",
+
+  // La plantilla de encuesta (`/es/recursos/plantilla-encuesta-clima-laboral`).
+  // Las preguntas, los pasos y los textos del Excel NO van acá: viven en
+  // `content/resources/survey_template.json`, que es de donde los lee también
+  // el script que arma el archivo. Así lo que se ve y lo que se descarga es lo
+  // mismo.
+  // El título lleva «plantilla encuesta de clima laboral», que es lo que se
+  // busca.
+  template_meta_title: "Plantilla de encuesta de clima laboral en Excel gratis",
+  template_meta_description:
+    "Descargá gratis una plantilla de encuesta de clima laboral en Excel: 30 preguntas en 6 dimensiones, eNPS y resultados que se calculan solos.",
+  template_title: "Plantilla de encuesta de clima laboral en Excel (gratis)",
+  template_intro: [
+    "Una encuesta de 30 preguntas lista para imprimir o pasar a un formulario, con una hoja para cargar las respuestas y otra que calcula los resultados sola.",
+    "Incluye eNPS y dos preguntas abiertas. Es gratis y no pide registro.",
+  ],
+  template_preview_title: "Vista previa",
+  template_preview_body:
+    "Las 30 preguntas, en 6 dimensiones de 5. Cada una se responde con cuatro opciones: Nada, Algo, Mucho y Completamente.",
+  template_shot_title: "La hoja Resultados",
+  template_shot_alt:
+    "Hoja Resultados de la plantilla con los datos de ejemplo: 80% de participación, 68% favorable general, el eNPS y el porcentaje favorable de cada dimensión.",
+  template_shot_caption: "Calculada con las 20 respuestas de ejemplo que trae el archivo.",
+  template_download_title: "Descargá la plantilla",
+  template_download_body:
+    "Un archivo de Excel con cuatro hojas: cómo usarla, la encuesta, las respuestas y los resultados.",
+  template_download_button: "Descargar la plantilla",
+  // `{size}` lo pone la página con el peso real del archivo.
+  template_download_meta: "Excel (.xlsx), {size}",
+  template_steps_title: "Cómo usarla, en 5 pasos",
+  template_limits_title: "Lo que una plantilla no puede hacer",
+  template_limits_items: [
+    {
+      title: "El promedio tapa al área con problemas",
+      body: "Un 70% favorable general puede esconder a un equipo que está en 30%. Si nadie mira por área, ese equipo aparece recién cuando empieza a irse gente.",
+    },
+    {
+      title: "Cruzar filtros no entra en una hoja",
+      body: "Ver un área, una antigüedad y un turno a la vez es un trabajo de horas. Y cada cruce achica el grupo, que es justo donde se pierde el anonimato.",
+    },
+    {
+      title: "Comparar año contra año se arma a mano",
+      body: "Para saber si las cosas mejoraron hay que poner dos mediciones en la misma línea. Con archivos sueltos, eso se vuelve a hacer cada vez.",
+    },
+  ],
+  template_limits_body:
+    "Censuma mide por segmento, cruza filtros y compara un estudio con el anterior. No muestra resultados de un grupo por debajo del mínimo de respuestas, y los reportes salen en XLSX, PDF y HTML.",
+  template_cta: "Probá Censuma gratis",
+  template_faq_title: "Preguntas frecuentes",
+  // Generales a propósito: sirven con o sin Censuma. Van también como FAQPage
+  // en el JSON-LD de la página, con este mismo texto.
+  template_faq_items: [
+    {
+      question: "¿Cuántas preguntas debe tener una encuesta de clima laboral?",
+      answer:
+        "Entre 25 y 40 preguntas cerradas suele alcanzar: cubren los temas importantes y se responden en 10 a 15 minutos. Más larga, la gente empieza a contestar sin leer. Esta plantilla trae 30, más una de recomendación y dos abiertas.",
+    },
+    {
+      question: "¿Cada cuánto conviene aplicarla?",
+      answer:
+        "Una vez al año es lo más común, y es lo mínimo para ver una tendencia. Si después de la encuesta hacen cambios grandes, una medición más corta a los seis meses muestra si funcionaron. Medir más seguido de lo que tardan en verse los cambios cansa a la gente.",
+    },
+    {
+      question: "¿Cómo cuido el anonimato?",
+      answer:
+        "No pidas datos que identifiquen a la persona, juntá las áreas chicas con otras y nunca muestres resultados de un grupo tan chico que se pueda adivinar quién respondió. Que no tabule las respuestas la jefatura del área evaluada, y resumí los comentarios abiertos en vez de citarlos tal cual.",
+    },
+    {
+      question: "¿Qué hago con los resultados?",
+      answer:
+        "Compartilos pronto con el equipo, aunque no sean buenos. Elegí dos o tres temas con el porcentaje favorable más bajo, armá un plan con responsables y fechas, y contá qué cambió antes de la próxima medición. Una encuesta sin acciones visibles baja la participación de la siguiente.",
+    },
+  ],
+
   legal_version: "Versión",
   legal_updated: "Actualizado el",
   legal_draft_title: "Borrador sin revisión legal",
@@ -822,6 +917,8 @@ const es = {
   a11y_mood_face: "Cara que cambia entre contenta, seria y triste",
   a11y_weather_tile: "Clima que cambia entre soleado, nublado y lluvioso",
   a11y_skip_to_content: "Saltar al contenido",
+  // El botón flotante de WhatsApp es solo el logo: este es su nombre accesible.
+  a11y_whatsapp_float: "Escribinos por WhatsApp",
 };
 
 export default es;

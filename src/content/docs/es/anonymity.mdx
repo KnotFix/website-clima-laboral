@@ -52,10 +52,30 @@ principal:
 - Un **punto de una serie histórica**, que se dibuja como hueco en vez de unirse
   con una línea.
 
-> **La regla se aplica también a la tabla completa, no dato por dato.** No alcanza
-> con que cada celda visible supere el umbral: si de restar las que se ven se
-> pudiera deducir una que no llega, esa combinación tampoco se publica. Publicar
-> nueve de diez celdas revela la décima.
+### Con filtros por puesto, sexo, edad o antigüedad: grupos de publicación
+
+Un filtro demográfico tiene un riesgo propio: dos filtros que por separado superan el
+umbral se pueden restar entre sí. «Las mujeres del área» menos «las mujeres de un
+puesto» puede dejar a una sola persona, aunque ninguno de los dos resultados sea chico.
+
+Por eso, **al finalizar el estudio, las respuestas de cada área se reparten en grupos de
+al menos N personas**, y un filtro por puesto, sexo, edad o antigüedad publica solamente
+los grupos que caen **enteros** dentro del filtro. Combinar, sumar o restar filtros nunca
+deja a menos gente que un grupo, sin importar cuántas consultas se hagan ni quién las
+haga. Los grupos se arman una sola vez, sin mirar lo que nadie respondió, y no cambian
+después.
+
+Cuando algunas personas del filtro quedaron en un grupo mezclado con otras (por ejemplo,
+la única persona de un puesto en su área), el resultado se muestra igual, marcado como
+**«Cobertura parcial»**, y no las incluye. La marca nunca dice cuántas personas faltan ni
+dónde están. Si existe, el producto ofrece el filtro más chico que sí sale completo, como
+dos puestos juntos.
+
+### Los resultados se publican cuando el estudio finaliza
+
+Mientras un estudio está en curso se ve el avance de la recolección, no los resultados.
+Si se pudieran leer en vivo, comparar el resultado de antes y el de después de que una
+persona termina, con la lista de participación al lado, revelaría su boleta entera.
 
 ### Por qué el aviso es siempre el mismo
 
@@ -66,7 +86,8 @@ como un texto perezoso.
 El motivo *es* información sobre el grupo escondido. «Este segmento tiene menos de N
 respuestas» y «este segmento se puede deducir del de al lado» dicen cosas distintas
 sobre cuánta gente hay ahí. Un mensaje distinto por causa reconstruye, en la prosa,
-exactamente el canal que el umbral cerró en los datos.
+exactamente el canal que el umbral cerró en los datos. La marca de «Cobertura parcial»
+sigue la misma regla: es siempre el mismo texto.
 
 ## Está por encima de los permisos
 
@@ -85,6 +106,7 @@ no un problema técnico:
 - **Mirá la forma del árbol.** Ramas de muy poca gente producen resultados que no se
   van a poder leer. Ver [El árbol organizacional](/es/docs/org-tree).
 - **Segmentá más grueso.** Cruzar nodo × sexo × edad × antigüedad al mismo tiempo
-  parte la muestra en celdas diminutas. Sacá un eje y el mismo dato aparece.
+  parte la muestra en celdas diminutas. Sacá un eje, o juntá dos opciones de un eje, y
+  el dato aparece completo.
 - **Mirá la participación antes que el umbral.** A veces el grupo es lo bastante
   grande y lo que falta son respuestas.

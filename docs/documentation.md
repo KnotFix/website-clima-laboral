@@ -6,7 +6,7 @@ pero el mapa de archivos y las reglas de diseño del sitio siguen siendo de aque
 
 Estado: **esqueleto en pie, 21 páginas publicadas** en los dos idiomas (42 archivos) y **las seis
 capturas puestas** (2026-08-17): «Empezar», «Conceptos», «Interpretar», «Para tu gente», «Cuenta» y
-«Referencia», más el **changelog con 11 entradas**. La última en entrar fue **«Seguridad y datos»**,
+«Referencia», más el **changelog con 12 entradas**. La última en entrar fue **«Seguridad y datos»**,
 publicada el 2026-08-18 tras cerrarse el hueco de los respaldos. Falta lo marcado abajo: las
 capturas de la HOME, que siguen siendo fotos de Unsplash.
 
@@ -478,18 +478,15 @@ No son de las docs pero salieron de ellas, y valen para cualquier página futura
 
 | Nombre | Tipo | Significado |
 |---|---|---|
-| `section_base` | prop string | prefijo de los enlaces de sección. `""` en la home —son anclas de esta página, y así `useActiveSection` puede marcarlas—; `/es` o `/en` fuera de ella. Lo toman `Navbar`, `NavLinks`, `MobileMenu` y `Footer` |
-| `docs_active` | prop boolean | marca el enlace de Documentación en el navbar |
+| `section_base` | prop string | prefijo de los enlaces de sección. `""` en la home —son anclas de esta página, y así `useActiveSection` puede marcarlas—; `/es` o `/en` fuera de ella. Lo toman `Navbar` (que se lo pasa a `nav_menu`) y `Footer` |
 
-> **Son dos props y no uno derivado del otro**, aunque hoy siempre viajen juntos: uno dice a dónde
-> apuntan las anclas y el otro en qué página estamos. La página que venga después —precios, un blog—
-> va a necesitar el primero sin el segundo.
+> **`docs_active` ya no existe (2026-10-12).** Qué item del navbar está activo lo decide `NavMenu`
+> con el `pathname`: «Documentación» se marca en cualquier `/[lang]/docs/**`.
 
-> **`nav_docs` va suelto y NO dentro de `nav_links`.** Todos los items de esa lista son anclas, y
-> `NavLinks` les saca el id con `section_id_of`, que corta el `#`. Un `/es/docs` le devolvería string
-> vacío: nunca se marcaría como activo, y encima entraría un id vacío a `useActiveSection`. Es el
-> primer item de navegación del sitio que sale de la home, así que se dibuja aparte y se marca por
-> ruta, no por scroll.
+> **`nav_docs` va suelto y NO dentro de `nav_links`.** Todos los items de esa lista son anclas de la
+> home y se marcan por scroll (`useActiveSection`); las docs son una ruta y se marcan por
+> `pathname`. Desde el 2026-10-12 es un enlace directo del navbar, entre «Precios» y «Recursos»
+> (`lib/nav_menu.js`); los recursos son material gratuito y las docs explican el producto.
 
 ### Llaves nuevas del diccionario
 
@@ -522,11 +519,9 @@ docs_search            placeholder, cuando exista la búsqueda
 > entradas idénticas y no hay forma de elegir. Es la misma razón por la que ya existen
 > `a11y_main_nav` y `a11y_mobile_nav` separados.
 
-> **`nav_links` de hoy son ANCLAS, y el link de docs no lo es.** `NavLinks` deriva el id de sección
-> con `section_id_of`, que corta el `#` — un href `/es/docs` le devuelve `""`, así que nunca se
-> marcaría como activo y encima entraría un id vacío a `useActiveSection`. Por eso el link de docs
-> **no se agrega a `nav_links`**: va como `nav_docs`, aparte, y `Navbar` lo pinta como un `Link` de
-> Next junto al `nav_cta`. Es el primer ítem de navegación del sitio que sale de la home.
+> **`nav_links` de hoy son ANCLAS, y el link de docs no lo es.** Por eso el link de docs **no se
+> agrega a `nav_links`**: va como `nav_docs`, aparte, y lo usan el navbar y el pie. Fue el primer ítem de
+> navegación del sitio que salía de la home.
 
 > El footer hoy solo tiene `footer_tagline` y `footer_rights`: no hay columnas de enlaces. Si las
 > docs quieren estar ahí —y conviene— eso es inventar una estructura de footer que no existe, y es

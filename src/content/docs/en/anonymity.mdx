@@ -53,10 +53,30 @@ Everywhere a result could be exposed, not just in the main one:
 - A **point in a historical series**, which is drawn as a gap instead of being joined
   by a line.
 
-> **The rule applies to the whole table, not cell by cell.** It is not enough for
-> every visible cell to clear the threshold: if subtracting the ones you can see
-> would let you deduce one that does not, that combination is not published either.
-> Publishing nine cells out of ten reveals the tenth.
+### With filters by position, sex, age or tenure: publication groups
+
+A demographic filter carries a risk of its own: two filters that each clear the threshold
+can be subtracted from each other. «The women in the area» minus «the women in one
+position» can leave a single person, even though neither result is small.
+
+That is why, **when a study is finalized, the responses of each area are split into
+groups of at least N people**, and a filter by position, sex, age or tenure publishes
+only the groups that fall **entirely** inside it. Combining, adding or subtracting
+filters never leaves fewer people than a group, no matter how many queries are made or
+who makes them. The groups are built once, without looking at anyone's answers, and they
+do not change afterwards.
+
+When some people in the filter ended up in a group mixed with others (for example, the
+only person in a position in their area), the result is still shown, marked as
+**«Partial coverage»**, and it does not include them. The mark never says how many
+people are missing or where they are. When one exists, the product offers the smallest
+filter that does come out complete, such as two positions together.
+
+### Results are published when the study is finalized
+
+While a study is in progress you see how collection is going, not the results. If they
+could be read live, comparing the result before and after one person finishes, with the
+participation list beside it, would reveal that person's whole questionnaire.
 
 ### Why the notice is always the same
 
@@ -67,7 +87,8 @@ most often mistaken for lazy copy.
 The reason *is* information about the hidden group. «This segment has fewer than N
 responses» and «this segment can be deduced from the one next to it» say different
 things about how many people are in there. A different message per cause rebuilds, in
-prose, exactly the channel the threshold closed in the data.
+prose, exactly the channel the threshold closed in the data. The «Partial coverage» mark
+follows the same rule: it is always the same text.
 
 ## It sits above permissions
 
@@ -86,6 +107,7 @@ technical problem:
 - **Look at the shape of the tree.** Branches with very few people produce results
   that will never be readable. See [The org tree](/en/docs/org-tree).
 - **Segment more coarsely.** Crossing node × sex × age × tenure all at once splits
-  the sample into tiny cells. Drop one axis and the same data appears.
+  the sample into tiny cells. Drop one axis, or put two options of an axis together,
+  and the data appears complete.
 - **Check participation before the threshold.** Sometimes the group is large enough
   and what is missing is responses.

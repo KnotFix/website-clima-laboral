@@ -16,6 +16,7 @@ import { Marca } from "@/components/site/marca";
 import { chrome_dict_of } from "@/lib/dictionaries";
 import { Button } from "@/components/ui/button";
 import { LEGAL_NAV } from "@/content/legal/nav";
+import { RESOURCES_BASE } from "@/content/resources/nav";
 import { site_config } from "@/lib/site_config";
 
 // En el orden en que se dibujan. `id` es a la vez la llave de
@@ -128,6 +129,12 @@ export function Footer({ lang, dict, section_base = "" }) {
                 className="text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
                 {dict.nav_docs}
+              </Link>
+              <Link
+                href={`/${lang}${RESOURCES_BASE[lang]}`}
+                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {dict.nav_resources}
               </Link>
             </nav>
 

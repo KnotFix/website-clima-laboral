@@ -112,7 +112,7 @@ describe("titulo y descripcion", () => {
 describe("datos estructurados", () => {
   it("la FAQ declarada es exactamente la que se ve", () => {
     for (const dict of [es, en]) {
-      const ld = faq_ld(dict);
+      const ld = faq_ld(dict.faq_items);
       expect(ld.mainEntity.map((q) => q.name)).toEqual(
         dict.faq_items.map((item) => item.question),
       );
