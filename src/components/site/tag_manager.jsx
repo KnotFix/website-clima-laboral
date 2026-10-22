@@ -39,6 +39,13 @@ export function TagManagerHead() {
           dangerouslySetInnerHTML={{ __html: gtm_loader_script(GTM_ID) }}
         />
       ) : null}
+      {/* Sin JavaScript no se carga ninguna etiqueta y los botones del banner
+          no harian nada: no hay nada que consentir, asi que no se muestra. Va
+          en `<noscript>` y no colgado de una marca en `<html>`, porque React
+          borra las marcas ajenas del `<html>` al cambiar de idioma. */}
+      <noscript>
+        <style>{"[data-consent-banner]{display:none}"}</style>
+      </noscript>
     </>
   );
 }

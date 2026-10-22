@@ -139,6 +139,13 @@ export function write_consent(consent) {
  * > cargado con el consentimiento sin fijar. Un `<script>` en el `<head>` del
  * > layout raiz lo ejecuta el parser del navegador en el acto.
  *
+ * Si ya hay decision guardada, ademas marca `<html data-consent>`: el banner
+ * viene dibujado en el HTML (para que pinte con la pagina y no despues de
+ * hidratar, ver `ConsentBanner`) y es esta marca la que lo esconde por CSS
+ * antes del primer pintado, sin destello para quien ya eligio. La marca vale
+ * para la carga de la pagina: si React vuelve a dibujar el `<html>` (al cambiar
+ * de idioma) la borra, y para entonces el banner ya lo decide su estado.
+ *
  * `url_passthrough` y `ads_data_redaction` son lo que deja medir sin cookies
  * mientras no hay consentimiento: el primero pasa el gclid por la URL entre
  * paginas, el segundo borra los identificadores de las pings de publicidad.
@@ -154,7 +161,8 @@ export function consent_bootstrap_script() {
     "try{",
     `var m=document.cookie.match(/(?:^|;\\s*)${CONSENT_COOKIE}=1\\.([01])\\.([01])(?:;|$)/);`,
     "if(m){var a=m[1]==='1'?'granted':'denied',d=m[2]==='1'?'granted':'denied';",
-    "gtag('consent','update',{analytics_storage:a,ad_storage:d,ad_user_data:d,ad_personalization:d});}",
+    "gtag('consent','update',{analytics_storage:a,ad_storage:d,ad_user_data:d,ad_personalization:d});",
+    "var h=document.documentElement;if(h)h.setAttribute('data-consent','');}",
     "}catch(e){}",
   ].join("");
 }

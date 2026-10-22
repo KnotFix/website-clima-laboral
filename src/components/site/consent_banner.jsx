@@ -59,10 +59,21 @@ function server_snapshot() {
  * > de «Configurar» es un patron oscuro, y un consentimiento sacado asi no es
  * > libre ni para la Ley 8968 ni para el RGPD.
  *
- * **Se monta despues de hidratar** y solo si no hay decision guardada: la
- * cookie no se puede leer en el render estatico, y dibujarlo en el HTML para
- * esconderlo despues seria un destello para quien ya eligio. Como es `fixed`,
- * aparecer no corre nada de la pagina: no suma CLS.
+ * **Viene dibujado en el HTML**, y lo esconde el CSS si ya hay decision: el
+ * script del `<head>` lee la cookie y marca `<html data-consent>` antes del
+ * primer pintado (`lib/consent.js`), y `globals.css` oculta el banner con esa
+ * marca. Despues de hidratar, el componente lee la cookie de verdad y lo saca
+ * del arbol si ya se eligio.
+ *
+ * > Hasta el 2026-10-21 se montaba DESPUES de hidratar, para no dibujar algo
+ * > que habia que esconder. El costo no se veia: en la primera visita, en las
+ * > paginas con poco texto, su parrafo era lo mas grande de la pantalla y el
+ * > navegador lo tomaba como el LCP, a los 2,6 s de un celular lento contra los
+ * > 0,8 s del resto de la pagina. Ahora pinta con la pagina.
+ *
+ * Como es `fixed`, aparecer no corre nada de la pagina: no suma CLS.
+ * `data-nosnippet` lo deja fuera de los fragmentos de Google, que si no podrian
+ * citar el aviso de cookies como resumen de una pagina.
  *
  * Se reabre desde «Preferencias de cookies» del pie (`CookiePrefsButton`), que
  * dispara `OPEN_CONSENT_EVENT`. Reabierto arranca con el panel de los switches
@@ -142,8 +153,10 @@ export function ConsentBanner({ lang, dict }) {
     }
   }
 
-  // `raw === null` es el render del servidor y la hidratacion: no se dibuja.
-  const is_open = raw !== null && (reopened || !has_decision);
+  // `raw === null` es el render del servidor y la hidratacion: se dibuja, y si
+  // ya habia decision lo tapa el CSS (`html[data-consent]`) hasta que el
+  // snapshot del navegador lo saca.
+  const is_open = reopened || raw === null || !has_decision;
   const { analytics, marketing } = draft;
   const set_analytics = (value) => set_draft((d) => ({ ...d, analytics: value }));
   const set_marketing = (value) => set_draft((d) => ({ ...d, marketing: value }));
@@ -158,6 +171,10 @@ export function ConsentBanner({ lang, dict }) {
       aria-describedby={body_id}
       tabIndex={-1}
       onKeyDown={on_key_down}
+      // «initial» es el que esconde `html[data-consent]`; reabierto desde el
+      // pie no lleva la marca y se ve aunque ya haya decision.
+      data-consent-banner={reopened ? "reopened" : "initial"}
+      data-nosnippet=""
       className={
         // Abajo de `sm` ocupa el ancho con el margen del sitio; de `sm` para
         // arriba es una tarjeta en la esquina, lejos de los CTA del centro.
@@ -167,8 +184,14 @@ export function ConsentBanner({ lang, dict }) {
         // ocupa el ancho y se queda fija mientras la pagina scrollea debajo,
         // asi que un `backdrop-filter` ahi se recalcula en cada cuadro, y con el
         // fondo al 95 % casi no se ve.
-        "fixed inset-x-3 bottom-3 z-50 max-h-[calc(100svh-1.5rem)] overflow-y-auto rounded-2xl border border-border bg-background/95 p-4 text-foreground shadow-2xl sm:backdrop-blur-md outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-[26rem] sm:p-5 " +
-        "animate-in fade-in slide-in-from-bottom-4 duration-300 motion-reduce:animate-none"
+        "fixed inset-x-3 bottom-3 z-50 max-h-[calc(100svh-1.5rem)] overflow-y-auto rounded-2xl border border-border bg-background/95 p-4 text-foreground shadow-2xl sm:backdrop-blur-md outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-[26rem] sm:p-5" +
+        // La entrada animada, solo al reabrirlo desde el pie. El de la primera
+        // visita aparece CON la pagina, y arrancar transparente hacia que el
+        // navegador lo contara como pintado tarde (es el LCP de las paginas con
+        // poco texto).
+        (reopened
+          ? " animate-in fade-in slide-in-from-bottom-4 duration-300 motion-reduce:animate-none"
+          : "")
       }
     >
       <h2 id={title_id} className="text-sm font-semibold tracking-tight">

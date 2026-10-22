@@ -97,7 +97,7 @@ export function FaqList({ items, class_name, track_prefix = "faq" }) {
                     aria-hidden="true"
                     className={cn(
                       "relative text-sm font-medium tabular-nums transition-colors duration-200 motion-reduce:transition-none",
-                      is_open ? "text-background" : "text-muted-foreground/70",
+                      is_open ? "text-background" : "text-muted-foreground",
                     )}
                   >
                     {String(index + 1).padStart(2, "0")}

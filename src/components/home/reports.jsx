@@ -53,7 +53,16 @@ const SHOT_DRIFT = 96;
  */
 export function Reports({ dict }) {
   return (
-    <section id="reports" data-section="reports" className="scroll-mt-24 py-20 sm:py-32">
+    // `overflow-x-clip` porque las capturas llegan desde la derecha: antes de
+    // hidratar ya estan corridas, y en un telefono ese desborde agrandaba la
+    // pagina (479 px en vez de 412) hasta que el JavaScript la acomodaba, con
+    // un salto de todo lo fijo. Va en la `<section>` porque esta no tiene
+    // `SectionGlow` que recortar (ver `ScrollPass`).
+    <section
+      id="reports"
+      data-section="reports"
+      className="scroll-mt-24 overflow-x-clip py-20 sm:py-32"
+    >
       <Container>
         <ScrollPass {...HEADING_PASS}>
           <AccentTitle segments={dict.reports_title_segments} />

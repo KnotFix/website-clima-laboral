@@ -1611,3 +1611,12 @@
     scroll-behavior: smooth;
   }
 }
+
+/* ---- Banner de cookies --------------------------------------------------
+   El banner viene en el HTML para pintar junto con la pagina (ver
+   `ConsentBanner`). Si ya hay decision, el script del <head> marca
+   `<html data-consent>` antes del primer pintado y esto lo esconde: quien ya
+   eligio no ve un destello. El reabierto desde el pie no lleva «initial». */
+html[data-consent] [data-consent-banner="initial"] {
+  display: none;
+}

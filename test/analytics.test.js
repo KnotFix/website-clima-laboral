@@ -114,6 +114,28 @@ describe("script del <head>", () => {
     return data_layer.map((args) => Array.from(args));
   };
 
+  it("marca <html data-consent> solo con una decision valida guardada", () => {
+    // Es lo que esconde el banner por CSS antes del primer pintado.
+    const marks = (cookie) => {
+      const attrs = {};
+      const context = { dataLayer: [] };
+      context.window = context;
+      context.document = {
+        cookie,
+        documentElement: { setAttribute: (name) => (attrs[name] = true) },
+      };
+      new Function("window", "document", "dataLayer", consent_bootstrap_script())(
+        context,
+        context.document,
+        context.dataLayer,
+      );
+      return Object.keys(attrs).sort();
+    };
+    expect(marks("")).toEqual([]);
+    expect(marks("censuma_consent=1.0.1")).toEqual(["data-consent"]);
+    expect(marks("censuma_consent=basura")).toEqual([]);
+  });
+
   it("deniega todo por defecto antes de cualquier etiqueta", () => {
     const calls = run("");
     expect(calls[0][0]).toBe("consent");
