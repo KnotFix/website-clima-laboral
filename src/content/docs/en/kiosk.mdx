@@ -1,7 +1,7 @@
 export const meta = {
   title: "Running the survey: the kiosk",
   description:
-    "How to set up a kiosk session with tablets, how to run people through it, and what to do when something goes wrong.",
+    "How to set up a kiosk session with tablets, how to survey where there is no signal, how to run people through it, and what to do when something goes wrong.",
 };
 
 The **kiosk** means responding from a tablet at the workplace. It exists for a concrete
@@ -60,14 +60,56 @@ was switched off, ran out of battery or lost wifi. Nothing expires because of it
 closing the tablet's tab does not unregister the device. When it comes back, it keeps
 working.
 
-## Mixed mode: kiosk and email together
+## No signal: the offline session
+
+On a farm, in a warehouse or a basement there is often no internet. For that, the
+tablet can **work offline**: it stores the answers on the device itself and uploads
+them on its own when the signal comes back.
+
+**1. Prepare it with signal, from the panel.** On the station's card, **«Prepare for
+offline»**: you choose which parts of the structure that tablet will survey (at any
+level) and set a **PIN** of 4 to 8 digits for the person in charge. The pending people
+in those branches are **reserved** for that tablet.
+
+**2. On the tablet, still with signal,** tap «Trabajar sin conexión» and enter the PIN.
+The tablet downloads what it needs: the questionnaires and the list of people. From then
+on it opens and works with no network.
+
+**3. Survey as usual.** The person in charge checks people in on the tablet itself,
+with the PIN, and each person answers their questionnaire.
+
+**4. When the signal returns, it uploads by itself.** Answers are sent in batches,
+without anyone doing anything. To close, tap **«Terminar jornada»** on the tablet, with
+signal: it uploads whatever is left and releases the people who did not respond. (The
+tablet screens are in Spanish, like everything the people answering see.)
+
+Worth knowing beforehand:
+
+- **A reserved person does not come in through another channel.** While the session
+  lasts they cannot be checked in online or sent the invitation by email or WhatsApp.
+  That is what guarantees nobody answers twice.
+- **The package is downloaded only once.** If you switch tablets, cancel the package
+  and prepare another.
+- **The session lasts one day.** The package expires after 48 hours, but expiring
+  **does not erase what was stored**: the tablet still uploads it once it has signal.
+- **The study cannot be finished with open packages.** Otherwise whatever a tablet has
+  not uploaded yet would be left out for good. End the session or cancel the package
+  first.
+- **Cancelling or deleting loses what was not uploaded.** The panel warns before you
+  confirm: whatever the tablet stored and has not sent can no longer be uploaded.
+
+Anonymity is the same as online: the tablet uploads who took part on one side and what
+was answered on the other, shuffled and with no link between the two.
+
+## Mixed mode: kiosk, email and WhatsApp together
 
 It is not all or nothing. You can be running the kiosk session and, for one person who
-did not show up, **send them the email invitation without taking them out of the
-kiosk**.
+did not show up, **send them the invitation by email or WhatsApp without taking them
+out of the kiosk**.
 
 That is the sane setup for a mixed organization: the plant responds on tablets and the
-ten people in admin by email, in the same study.
+ten people in admin by email, in the same study. See
+[Announcing the survey](/en/docs/announcing).
 
 ## Anonymity during capture
 

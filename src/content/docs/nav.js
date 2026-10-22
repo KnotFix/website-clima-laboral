@@ -56,7 +56,7 @@ export const DOCS_NAV = [
         slug: "what-is-censuma",
         title: { es: "Qué es Censuma", en: "What Censuma is" },
         published: "2026-09-11",
-        updated: "2026-09-11",
+        updated: "2026-10-21",
       },
       {
         slug: "first-study",
@@ -65,7 +65,7 @@ export const DOCS_NAV = [
           en: "Your first study",
         },
         published: "2026-08-17",
-        updated: "2026-09-13",
+        updated: "2026-10-21",
       },
       {
         slug: "kiosk",
@@ -74,7 +74,7 @@ export const DOCS_NAV = [
           en: "Running the survey: the kiosk",
         },
         published: "2026-08-17",
-        updated: "2026-08-17",
+        updated: "2026-10-21",
       },
       {
         slug: "roles",
@@ -101,31 +101,31 @@ export const DOCS_NAV = [
           en: "Questionnaires and inheritance",
         },
         published: "2026-08-17",
-        updated: "2026-08-17",
+        updated: "2026-10-21",
       },
       {
         slug: "models",
         title: { es: "Modelos teóricos", en: "Theoretical models" },
         published: "2026-08-17",
-        updated: "2026-08-17",
+        updated: "2026-10-21",
       },
       {
         slug: "study-lifecycle",
         title: { es: "Los estados de un estudio", en: "A study's states" },
         published: "2026-08-17",
-        updated: "2026-08-17",
+        updated: "2026-10-21",
       },
       {
         slug: "indices",
         title: { es: "Satisfacción y Clima", en: "Satisfaction and Climate" },
         published: "2026-08-17",
-        updated: "2026-08-17",
+        updated: "2026-10-21",
       },
       {
         slug: "anonymity",
         title: { es: "Anonimato y N mínimo", en: "Anonymity and minimum N" },
         published: "2026-08-17",
-        updated: "2026-09-11",
+        updated: "2026-10-21",
       },
       {
         slug: "targets",
@@ -149,13 +149,13 @@ export const DOCS_NAV = [
         slug: "segments",
         title: { es: "Segmentos", en: "Segments" },
         published: "2026-08-17",
-        updated: "2026-08-17",
+        updated: "2026-10-21",
       },
       {
         slug: "history",
         title: { es: "La serie histórica", en: "The historical series" },
         published: "2026-08-17",
-        updated: "2026-09-11",
+        updated: "2026-10-21",
       },
     ],
   },
@@ -170,7 +170,7 @@ export const DOCS_NAV = [
         slug: "announcing",
         title: { es: "Cómo comunicar la encuesta", en: "Announcing the survey" },
         published: "2026-08-17",
-        updated: "2026-08-17",
+        updated: "2026-10-21",
       },
       {
         slug: "employee-anonymity",
@@ -194,7 +194,7 @@ export const DOCS_NAV = [
         slug: "account-and-plan",
         title: { es: "Cuenta y plan", en: "Account and plan" },
         published: "2026-08-17",
-        updated: "2026-09-17",
+        updated: "2026-10-21",
       },
       {
         // La pagina de CONFIANZA: no la lee el usuario del producto sino el
@@ -229,13 +229,13 @@ export const DOCS_NAV = [
         slug: "glossary",
         title: { es: "Glosario", en: "Glossary" },
         published: "2026-08-17",
-        updated: "2026-09-13",
+        updated: "2026-10-21",
       },
       {
         slug: "roster-format",
         title: { es: "El Excel de la nómina", en: "The roster spreadsheet" },
         published: "2026-08-17",
-        updated: "2026-09-13",
+        updated: "2026-10-21",
       },
       {
         slug: "question-types",

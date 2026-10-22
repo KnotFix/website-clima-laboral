@@ -1,7 +1,7 @@
 export const meta = {
   title: "Theoretical models",
   description:
-    "What a model is, why there is one per index rather than one overall, and what happens to your history if you change it.",
+    "What a model is, how it is chosen, how to write a custom Satisfaction theory, and what happens to your history if you change model.",
 };
 
 A **theoretical model** is the framework used to measure one of the two fixed
@@ -18,19 +18,64 @@ That follows directly from the two indices being parallel and never combined. Th
 two different questions about the same people, so **choosing the theory behind one
 says nothing about the other**. See [Satisfaction and Climate](/en/docs/indices).
 
-## The catalog is global and you do not edit it
+**What you choose is the Satisfaction model.** Climate is measured with a single
+model, the same for every account, and has no selector.
 
-Models ship with the product. There is no way to write your own system questions, and
-that is deliberate.
+## The curated catalog is not edited
 
-Comparability rests on a strong claim: **two companies choosing the same model measure
-exactly the same thing, with the same instrument.** If every account could
-rewrite those questions, that claim could not be made about any pair of organizations
-— and cross-company comparison would go with it.
+The catalog models ship with the product and are curated: their questions cannot be
+rewritten, and that is deliberate.
 
-The place for what is specific to your organization is Section 3, which is editable
-precisely so this never has to be. See
-[Questionnaires and inheritance](/en/docs/questionnaires).
+Comparability rests on a strong claim: **two companies choosing the same catalog model
+measure exactly the same thing, with the same instrument.** If every account could
+rewrite those questions, that claim could not be made about any pair of
+organizations, and cross-company comparison would go with it.
+
+What is specific to your organization has two homes. Individual questions go in
+Section 3, which is editable precisely so this never has to be (see
+[Questionnaires and inheritance](/en/docs/questionnaires)). And if what you want is to
+measure Satisfaction with **your own framework**, you can write a custom theory.
+
+## Custom Satisfaction theories
+
+A **custom theory** is a Satisfaction model written by your organization: its
+categories, its questions and how much each one weighs. Once created it works like any
+catalog model: it is chosen in Settings → Survey forms and in the study wizard, it
+has its own questionnaires, and it produces results, history and reports like the
+rest. In the selectors it carries the **«Custom»** label.
+
+You create one from **Settings → Survey forms → Custom theories**, blank or by copying
+a catalog model (or another custom theory) as a starting point. Copying creates
+nothing until you save.
+
+### What you decide
+
+- **The categories and their questions**, with whatever names and wording you want.
+- **How much each category is worth in the index.** All the same, or the percentage
+  you give each one (together they must add up to 100 %).
+- **How much each question is worth within its category**, chosen per category: by
+  order of importance (the first one weighs most), all equal, or the percentage you
+  type. While you type, the editor shows how many index points each question is worth;
+  the final figure is computed by the system when you save.
+- **The scale of each question**: 1 to 3, 4, 5, 7 or 10, with a default scale for the
+  theory. Only the 1 to 4 scale carries words (Nada, Algo, Mucho, Completamente,
+  which are part of the instrument and are not translated); the others are answered with numbers.
+
+### It freezes once a study uses it
+
+While no study has launched it, a custom theory can be edited freely. **As soon as a
+study launches it, it freezes**: categories, questions, weights and scales can no
+longer change, because changing them would reinterpret results already measured. The
+name and description can still be edited.
+
+To change it afterwards, **duplicate it**: the copy is a new, editable theory that
+starts its own history (see below for why).
+
+> **A custom theory is only comparable with itself.** Nobody else measures with it, so
+> its results are read against its own series, inside your organization, and never
+> enter any cross-company comparison.
+
+Custom theories are included in every plan.
 
 ## Changing model starts from zero
 
@@ -38,12 +83,14 @@ This is the part that surprises people, so it is worth knowing beforehand.
 
 **Results from one model do not mix with those from another.** An account that has
 measured Satisfaction with one model for three years and tries another does not see
-three years of history in the new one: it sees day one.
+three years of history in the new one: it sees day one. The same holds for a custom
+theory and its copy.
 
 That is correct. They are two different instruments, and joining their series would
 assert a trend between two things that were not measured the same way. In practice a
 model behaves like a separate space: each has its own history, and they are
-independent.
+independent. In Statistics you can choose which stretch to look at when your history
+went through more than one model.
 
 > **Practical consequence: choose the model at the start and change it deliberately,
 > never to try it out.** A model change costs that index's history, and that cost is
@@ -60,15 +107,18 @@ series still names it.
 
 It had to work this way: deleting it would leave published results with no way to say
 which instrument produced them, which is the same as not being able to interpret them.
+The same goes for a custom theory: one no study has used can be deleted, and one already
+used is retired and can be reactivated.
 
-## The questionnaire decides, and it does so per branch
+## Each model has its own questionnaire setup
 
-The model belongs to the **questionnaire**, not the study. Since questionnaires are
-inherited per branch, two branches of the same company can be configured with
-different models.
+In Settings → Survey forms, the selector at the top picks the model, and
+**everything below belongs to that model**: its questionnaires and which branch
+inherits which. Each model has its own setup of the tree, and inheritance only reaches
+questionnaires of the same model. Starting a new model therefore means starting with a
+tree without questionnaires: that is the normal state, not an error.
 
-What **cannot** happen is one study measuring with two models at once: the index would
-be the average of two instruments, which is not a number that means anything.
-
-When you create a study, step 3 of the wizard shows you the model in force on that
-branch, already selected. Normally you confirm and move on.
+**The study chooses the model**, in step 3 of the wizard, and that decides which
+questionnaire each branch gets. Once launched, the study no longer changes model. What
+**cannot** happen is one study measuring with two models at once: the index would be
+the average of two instruments, which is not a number that means anything.

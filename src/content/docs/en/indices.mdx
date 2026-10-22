@@ -1,7 +1,7 @@
 export const meta = {
   title: "Satisfaction and Climate",
   description:
-    "The two indices a study produces, what each one measures, and why the product will not let you put them on the same chart.",
+    "The two indices a study produces, what each one measures, why the product will not let you put them on the same chart, and how to measure just one.",
 };
 
 A finished study produces **two indices**, not one. They are computed over the same
@@ -46,6 +46,30 @@ not is «is Climate better than Satisfaction?».
 The same rule holds across nodes: comparing the Climate of two branches is legitimate —
 same method, same scale, same instrument. What you never cross is the two indices
 against each other.
+
+## You can measure just one
+
+Measuring both is not mandatory. At the top of **Settings → Survey forms** there are
+two switches, **«Measure Satisfaction»** and **«Measure Climate»**, just like the one
+for eNPS: turning one off removes that section from every questionnaire, and new
+studies stop asking it and stop computing that index.
+
+- **One always stays on.** eNPS alone is not enough for a study, so the switch that is
+  the only one left on cannot be turned off.
+- **It cannot change while a study is running.** It would change the questionnaire
+  people are answering; change it before launching or after finishing.
+- **Each study remembers what it measured.** What gets measured is fixed at launch, so
+  moving the switches later changes nothing about a study already launched.
+
+**A study that did not measure an index is a gap, not a break.** In Statistics, looking
+at an index shows only the studies that measured it, and in tables that carry both the
+missing one reads «Not measured». The series runs from one study that measured it to
+the next one that did, and so do targets: the target of the next study that measures
+it is computed from that index's last result. See
+[The historical series](/en/docs/history) and [Improvement targets](/en/docs/targets).
+
+> **Turning an index off deletes nothing.** Studies that already measured it keep
+> their results, and if you turn it back on, its history continues where it was.
 
 ## Each has its own model
 

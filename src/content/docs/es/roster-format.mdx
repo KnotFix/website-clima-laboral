@@ -33,7 +33,8 @@ Un `.xlsx` de 5 MB son cientos de miles de filas: el límite no te va a molestar
 | **ubicación** (nodo) | **Sí** | Puede venir en una columna o repartida en varias |
 | **puesto** | **Sí** | |
 | apellido | No | |
-| correo | No | Hace falta si vas a aplicar la encuesta por correo |
+| correo | No | Hace falta si vas a invitar por correo |
+| teléfono | No | Hace falta si vas a invitar por WhatsApp. Ver «Teléfonos» abajo |
 | fecha de ingreso | No | |
 | estado | No | El nombre de uno de tus estados. Sin mapear, las altas entran al estado «Para los nuevos» y las actualizaciones conservan el suyo |
 
@@ -41,6 +42,17 @@ Un `.xlsx` de 5 MB son cientos de miles de filas: el límite no te va a molestar
 > antigüedad **no se importan de la nómina**: nacen de la propia boleta al responder.
 > Esa separación es lo que permite segmentar por demografía sin poder unir una
 > respuesta con una persona. Si tu Excel las trae, simplemente no se mapean.
+
+### Teléfonos
+
+Un número **sin `+` se toma como del país de tu organización**, que se elige en
+Configuración → General. Si alguien tiene un número de otro país, escribilo con `+` y su
+código (por ejemplo `+57 300 123 4567`): ese se respeta tal cual. El importador valida
+cada número con las reglas reales de su país, y uno que no es válido rechaza la fila con
+el motivo, igual que un correo mal escrito.
+
+Si tu Excel no trae la columna, o la dejás sin mapear, una sincronización **no borra**
+los teléfonos que ya estaban cargados.
 
 ### Formatos de fecha aceptados
 
@@ -134,6 +146,7 @@ persiste ninguna.
 | Ubicaciones sin emparejar | El nodo no existe en el árbol todavía, o se escribe distinto |
 | Filas rechazadas por el nodo | Apuntan a un nodo con hijos. Tienen que ir a una hoja |
 | Correos inválidos | No tienen forma de correo. Si no vas a usar el modo correo, dejá la columna sin mapear |
+| Teléfonos inválidos | No son un número válido para su país. Revisá que los de otro país lleven `+` y su código |
 
 ## Antes de importar
 

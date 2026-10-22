@@ -32,7 +32,8 @@ A 5 MB `.xlsx` is hundreds of thousands of rows: the limit will not bother you.
 | **location** (node) | **Yes** | Can arrive in one column or spread across several |
 | **position** | **Yes** | |
 | surname | No | |
-| email | No | Needed if you will run the survey by email |
+| email | No | Needed if you will invite by email |
+| phone | No | Needed if you will invite by WhatsApp. See «Phone numbers» below |
 | hire date | No | |
 | status | No | The name of one of your statuses. Unmapped, new rows go into the «For new people» status and existing ones keep theirs |
 
@@ -41,6 +42,17 @@ A 5 MB `.xlsx` is hundreds of thousands of rows: the limit will not bother you.
 > itself, at response time. That separation is what makes it possible to segment by
 > demographics without ever being able to link a response to a person. If your
 > spreadsheet has them, they simply do not get mapped.
+
+### Phone numbers
+
+A number **without `+` is taken as being from your organization's country**, which you
+choose in Settings → General. If someone has a number from another country, write it
+with `+` and its code (for example `+57 300 123 4567`): that one is kept as is. The
+importer checks every number against its country's real rules, and an invalid one
+rejects the row with the reason, just like a mistyped email.
+
+If your spreadsheet does not have the column, or you leave it unmapped, a sync **does
+not erase** the phone numbers already loaded.
 
 ### Accepted date formats
 
@@ -131,6 +143,7 @@ persisted.
 | Unmatched locations | The node does not exist in the tree yet, or is spelled differently |
 | Rows rejected on the node | They point at a node with children. They have to go to a leaf |
 | Invalid emails | Not email-shaped. If you will not use email mode, leave the column unmapped |
+| Invalid phone numbers | Not a valid number for their country. Check that numbers from another country carry `+` and their code |
 
 ## Before importing
 

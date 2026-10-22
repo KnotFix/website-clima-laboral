@@ -1,7 +1,7 @@
 export const meta = {
   title: "Modelos teóricos",
   description:
-    "Qué es un modelo, por qué hay uno por índice y no uno solo, y qué pasa con tu histórico si lo cambiás.",
+    "Qué es un modelo, cómo se elige, cómo escribir una teoría propia de Satisfacción y qué pasa con tu histórico si cambiás de modelo.",
 };
 
 Un **modelo teórico** es el marco con el que se mide una de las dos secciones fijas.
@@ -18,18 +18,64 @@ Es la consecuencia directa de que los dos índices sean paralelos y nunca se com
 Son dos preguntas distintas sobre la misma gente, así que **elegir con qué teoría se
 mide una no dice nada sobre la otra**. Ver [Satisfacción y Clima](/es/docs/indices).
 
-## El catálogo es global y no lo editás
+**Lo que se elige es el modelo de Satisfacción.** Clima mide con un único modelo, el
+mismo para todas las cuentas, y no tiene selector.
 
-Los modelos vienen con el producto. No hay forma de escribir tus propias preguntas de
-sistema, y eso es deliberado.
+## El catálogo curado no se edita
+
+Los modelos del catálogo vienen con el producto y están curados: sus preguntas no se
+pueden reescribir, y eso es deliberado.
 
 La comparabilidad se sostiene sobre una afirmación fuerte: **dos empresas que eligen
-el mismo modelo miden exactamente lo mismo, con el mismo instrumento.** Si
-cada cuenta pudiera reescribir esas preguntas, la afirmación no se podría hacer sobre
-ningún par de organizaciones — y con ella se caería la comparación entre empresas.
+el mismo modelo del catálogo miden exactamente lo mismo, con el mismo instrumento.**
+Si cada cuenta pudiera reescribir esas preguntas, la afirmación no se podría hacer
+sobre ningún par de organizaciones, y con ella se caería la comparación entre empresas.
 
-El lugar para lo propio de tu organización es la Sección 3, que es editable
-justamente para no tener que tocar esto. Ver [Boletas y herencia](/es/docs/questionnaires).
+Lo propio de tu organización tiene dos lugares. Las preguntas sueltas van en la
+Sección 3, que es editable justamente para no tener que tocar esto (ver
+[Boletas y herencia](/es/docs/questionnaires)). Y si lo que querés es medir la
+Satisfacción con **tu propio marco**, podés escribir una teoría propia.
+
+## Teorías propias de Satisfacción
+
+Una **teoría propia** es un modelo de Satisfacción que escribe tu organización: sus
+categorías, sus preguntas y cuánto pesa cada cosa. Una vez creada funciona como
+cualquier modelo del catálogo: se elige en Configuración → Boletas y en el asistente de
+estudio, tiene sus propias boletas, y produce resultados, histórico y reportes igual que
+los demás. En los selectores aparece con la marca **«Propia»**.
+
+Se crea desde **Configuración → Boletas → Teorías propias**, en blanco o copiando
+un modelo del catálogo (o otra teoría tuya) como punto de partida. Copiar no crea nada
+hasta que guardás.
+
+### Qué decidís
+
+- **Las categorías y sus preguntas**, con los nombres y la redacción que quieras.
+- **Cuánto vale cada categoría en el índice.** Todas lo mismo, o el porcentaje que le
+  des a cada una (entre todas tienen que sumar 100 %).
+- **Cuánto vale cada pregunta dentro de su categoría**, y se elige por categoría: por
+  orden de importancia (la primera pesa más), todas iguales, o el porcentaje que
+  escribas. El editor te muestra, mientras escribís, cuántos puntos del índice vale
+  cada pregunta; el número definitivo lo calcula el sistema al guardar.
+- **La escala de cada pregunta**: de 1 a 3, 4, 5, 7 o 10, con una escala por defecto
+  para la teoría. Solo la de 1 a 4 lleva palabras (Nada, Algo, Mucho, Completamente);
+  las demás se responden con números.
+
+### Se congela cuando un estudio la usa
+
+Mientras ningún estudio la haya lanzado, una teoría propia se edita libremente. **En
+cuanto un estudio la lanza, queda congelada**: categorías, preguntas, pesos y escalas
+ya no se pueden cambiar, porque cambiarlos reinterpretaría resultados ya medidos. El
+nombre y la descripción sí se pueden seguir editando.
+
+Para cambiarla después, **se duplica**: la copia es una teoría nueva, editable, que
+arranca su propio histórico (ver abajo por qué).
+
+> **Una teoría propia solo se compara consigo misma.** Nadie más mide con ella, así que
+> sus resultados se leen contra su propia serie, dentro de tu organización, y no entran
+> en ninguna comparación entre empresas.
+
+Las teorías propias están incluidas en todos los planes.
 
 ## Cambiar de modelo empieza de cero
 
@@ -37,11 +83,14 @@ Esta es la parte que sorprende, así que conviene saberla antes.
 
 **Los resultados de un modelo no se mezclan con los de otro.** Una cuenta que viene
 midiendo Satisfacción con un modelo desde hace tres años y prueba otro no ve tres años
-de historia en el nuevo: ve el día uno.
+de historia en el nuevo: ve el día uno. Vale igual para una teoría propia y para su
+copia.
 
 Es correcto. Son dos instrumentos distintos, y unir sus series afirmaría una tendencia
 entre dos cosas que no se midieron igual. En la práctica el modelo funciona como un
-espacio aparte: cada uno tiene su propia historia, y son independientes.
+espacio aparte: cada uno tiene su propia historia, y son independientes. En
+Estadísticas podés elegir qué tramo mirar cuando tu historia pasó por más de un
+modelo.
 
 > **Consecuencia práctica: el modelo se elige al principio y se cambia con criterio,
 > nunca para probar.** Un cambio de modelo cuesta el histórico de ese índice, y ese
@@ -57,15 +106,19 @@ nada de lo ya medido**. Los estudios que se midieron con él conservan sus resul
 su serie sigue nombrándolo.
 
 Tenía que ser así: borrarlo dejaría resultados publicados sin poder decir con qué
-instrumento se obtuvieron, que es lo mismo que no poder interpretarlos.
+instrumento se obtuvieron, que es lo mismo que no poder interpretarlos. Con una teoría
+propia pasa lo mismo: una que ningún estudio usó se puede borrar, y una que ya se usó
+se retira y se puede volver a activar.
 
-## La boleta manda, y por rama
+## Cada modelo tiene su propia configuración de boletas
 
-El modelo es de la **boleta**, no del estudio. Como la boleta se hereda por rama, dos
-ramas de la misma empresa pueden estar configuradas con modelos distintos.
+En Configuración → Boletas, el selector de arriba elige el modelo, y **todo lo que ves
+debajo es de ese modelo**: sus boletas y qué rama hereda cuál. Cada modelo tiene su
+propia configuración del árbol, y la herencia solo alcanza boletas del mismo modelo.
+Estrenar un modelo es, por eso, empezar con el árbol sin boletas: es el estado normal,
+no un error.
 
-Lo que **no** puede pasar es que un mismo estudio mida con dos modelos a la vez: el
-índice sería el promedio de dos instrumentos, que no es un número que signifique algo.
-
-Cuando creás un estudio, el paso 3 del asistente te muestra el modelo que rige en esa
-rama, ya seleccionado. Normalmente se confirma y se sigue.
+**El modelo lo elige el estudio**, en el paso 3 del asistente, y con él se resuelve qué
+boleta le toca a cada rama. Una vez lanzado, el estudio ya no cambia de modelo. Lo que
+**no** puede pasar es que un mismo estudio mida con dos modelos a la vez: el índice
+sería el promedio de dos instrumentos, que no es un número que signifique algo.
