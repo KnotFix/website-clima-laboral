@@ -143,7 +143,7 @@ export const DOCS_NAV = [
         slug: "reading-results",
         title: { es: "Cómo leer un resultado", en: "Reading a result" },
         published: "2026-08-17",
-        updated: "2026-09-13",
+        updated: "2026-10-21",
       },
       {
         slug: "segments",
