@@ -215,7 +215,9 @@ export const DOCS_NAV = [
         // El archivo es del 17, pero la pagina no existio hasta el 18: es el
         // dia que entro a esta lista y empezo a rutear. Eso es `published`.
         published: "2026-08-18",
-        updated: "2026-09-17",
+        // 2026-10-01: dejo de decir que el sitio no usa medicion (entro GTM con
+        // consentimiento) y remite a la politica de privacidad.
+        updated: "2026-10-01",
       },
     ],
   },

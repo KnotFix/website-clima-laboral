@@ -15,7 +15,12 @@
 # `package.json`: solo `node server.js`.
 
 # ─── Etapa 1: build ──────────────────────────────────────────────
-FROM node:22-alpine AS build
+# Versión EXACTA, no `node:24-alpine`: con una etiqueta flotante Docker reusa la
+# imagen que ya tiene en caché y un rebuild NO baja el parche de seguridad (Node
+# sacó uno el 2026-10-20 para todas sus ramas). Es la misma idea que `npm ci`:
+# se construye con lo que se probó. Va en 24 porque es la que corre en local.
+# Para actualizar: subir el número acá.
+FROM node:24.22.1-alpine AS build
 
 WORKDIR /app
 
@@ -56,7 +61,8 @@ COPY . .
 RUN npm run build
 
 # ─── Etapa 2: servir ─────────────────────────────────────────────
-FROM node:22-alpine AS runner
+# La misma versión que la etapa de build: el servidor corre con el Node que compiló.
+FROM node:24.22.1-alpine AS runner
 
 WORKDIR /app
 

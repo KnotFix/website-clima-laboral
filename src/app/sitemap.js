@@ -8,7 +8,7 @@ import { hreflang_of, path_in } from "@/lib/seo";
 import { LOCALES, site_config } from "@/lib/site_config";
 
 /**
- * El mapa del sitio: las ~54 URLs reales, cada una declarando sus traducciones.
+ * El mapa del sitio: las ~60 URLs reales, cada una declarando sus traducciones.
  *
  * **Lo que importa aca no es la lista, es `alternates.languages`.** Sin eso,
  * `/es/docs/kiosk` y `/en/docs/kiosk` son dos paginas distintas que dicen lo
