@@ -50,6 +50,17 @@
  * pasa a regir bajo dos marcos (Ley 8968 y RGPD/UK/Suiza) e incorpora las
  * Clausulas Contractuales Tipo con sus tres anexos. `terms` y `privacy`
  * cambian secciones pero siguen siendo el mismo texto.
+ *
+ * ## 2026-11-05: privacy 1.2 y dpa 2.1 (Anthropic y Meta como subencargados)
+ *
+ * Suman a las tablas de proveedores a **Anthropic**, que lee el archivo de
+ * nomina cuando la cuenta usa «Ordenar con el asistente», y a **Meta**, que
+ * entrega las invitaciones por WhatsApp desde el 2026-10-21 sin haber estado en
+ * la lista. El anexo agrega ademas la lectura asistida a la naturaleza del
+ * tratamiento y la fecha de ingreso y el telefono a las categorias de datos.
+ * Subio el MISMO dia que `DOCUMENTOS_LEGALES` del otro repo, y otra vez sin el
+ * preaviso de 30 dias por el mismo motivo de arriba: decision del usuario,
+ * todavia no hay clientes que hayan aceptado una version anterior.
  */
 export const LEGAL_NAV = [
   {
@@ -64,13 +75,11 @@ export const LEGAL_NAV = [
       es: "Qué datos personales trata Censuma, con qué base, por cuánto tiempo y qué derechos tiene cada persona sobre ellos.",
       en: "What personal data Censuma processes, on what basis, for how long, and what rights each person has over it.",
     },
-    version: "1.1",
-    // 2026-09-30: la seccion de cookies paso a describir la medicion del sitio
-    // (GTM, GA4, Clarity, Google Ads, Meta) y el aviso de altas a Google y
-    // Meta. La VERSION queda en 1.1 hasta que se decida si esto es una version
-    // nueva: subirla es tocar `DOCUMENTOS_LEGALES` de la app el mismo dia y,
-    // con clientes en produccion, el preaviso de 30 dias. Ver arriba.
-    updated: "2026-09-30",
+    // 1.2 (2026-11-05): Anthropic y Meta (WhatsApp) en la tabla de proveedores.
+    // Arrastra tambien la seccion de cookies del 2026-09-30, que se habia
+    // publicado sin subir la version. Ver arriba.
+    version: "1.2",
+    updated: "2026-11-05",
     draft: false,
   },
   {
@@ -97,8 +106,8 @@ export const LEGAL_NAV = [
       es: "El acuerdo de encargo de tratamiento entre tu organización y Censuma, bajo la Ley 8968 y el RGPD, con las cláusulas contractuales tipo.",
       en: "The data processing agreement between your organization and Censuma under Law 8968 and the GDPR, including the standard contractual clauses.",
     },
-    version: "2.0",
-    updated: "2026-08-20",
+    version: "2.1",
+    updated: "2026-11-05",
     draft: false,
   },
 ];

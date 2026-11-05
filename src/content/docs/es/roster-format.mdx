@@ -1,7 +1,7 @@
 export const meta = {
   title: "El Excel de la nómina",
   description:
-    "Qué tiene que tener el archivo, qué campos son obligatorios y qué hace el importador con lo que no reconoce.",
+    "Qué tiene que tener el archivo, qué campos son obligatorios, qué hace el asistente de importación y qué pasa con lo que el importador no reconoce.",
 };
 
 ## No hay una plantilla obligatoria
@@ -14,13 +14,17 @@ pantalla.
 Nada se importa por la heurística sola. La sugerencia es una sugerencia; el mapeo que
 manda es el que confirmaste.
 
+Si tu archivo está lejos de eso —encabezados raros, la ubicación partida en varias
+columnas, gerencias escritas como títulos arriba de su gente—, está el **asistente de
+importación**, que se explica más abajo.
+
 ## El archivo
 
 | | |
 |---|---|
 | Formato | `.xlsx` únicamente |
 | Tamaño máximo | 5 MB |
-| Encabezados | En la **fila 1** |
+| Encabezados | En la **fila 1**, o más abajo si arriba hay un título: se buscan en las primeras 10 filas |
 | Encabezados repetidos | **Rechazados.** Renombralos antes de subir |
 
 Un `.xlsx` de 5 MB son cientos de miles de filas: el límite no te va a molestar.
@@ -33,7 +37,7 @@ Un `.xlsx` de 5 MB son cientos de miles de filas: el límite no te va a molestar
 | **ubicación** (nodo) | **Sí** | Puede venir en una columna o repartida en varias |
 | **puesto** | **Sí** | |
 | apellido | No | |
-| correo | No | Hace falta si vas a invitar por correo |
+| correo | No | Hace falta si vas a invitar por correo, y es lo que reconoce a una persona que ya está en la nómina |
 | teléfono | No | Hace falta si vas a invitar por WhatsApp. Ver «Teléfonos» abajo |
 | fecha de ingreso | No | |
 | estado | No | El nombre de uno de tus estados. Sin mapear, las altas entran al estado «Para los nuevos» y las actualizaciones conservan el suyo |
@@ -51,8 +55,8 @@ código (por ejemplo `+57 300 123 4567`): ese se respeta tal cual. El importador
 cada número con las reglas reales de su país, y uno que no es válido rechaza la fila con
 el motivo, igual que un correo mal escrito.
 
-Si tu Excel no trae la columna, o la dejás sin mapear, una sincronización **no borra**
-los teléfonos que ya estaban cargados.
+Si tu Excel no trae la columna, o la dejás sin mapear, una importación **no borra** los
+teléfonos que ya estaban cargados.
 
 ### Formatos de fecha aceptados
 
@@ -67,21 +71,64 @@ los teléfonos que ya estaban cargados.
 Si tu archivo tiene la ubicación completa en una columna («Tienda Norte»), mapeás esa.
 
 Si la tiene **desdoblada** —País, Región, Tienda, Departamento en columnas
-separadas—, podés mapear todas juntas al mismo campo. El importador las combina para
-identificar el nodo.
+separadas—, las elegís en orden, de la más general a la más específica. El importador
+las combina para identificar el nodo.
 
 ### El emparejamiento contra el árbol
 
-Los textos del Excel tienen que corresponderse con nodos que **ya existen**. «Región
-Norte» en tu planilla contra «Norte» en el árbol es un caso normal, y lo resolvés en
-pantalla: el importador te muestra los textos que no pudo ubicar y vos elegís el nodo.
+Sin el asistente, los textos del Excel tienen que corresponderse con nodos que **ya
+existen**. «Región Norte» en tu planilla contra «Norte» en el árbol es un caso normal, y
+lo resolvés en la revisión: el importador te muestra los textos que no pudo ubicar y vos
+elegís el nodo. Si son muchos, la misma pantalla te ofrece pasar el archivo por el
+asistente o ir a Estructura a crear las ramas que faltan.
 
-**Nunca adivina en silencio.** Un texto sin resolver se reporta; no se crea un nodo ni
-se asigna al más parecido. Los nombres del árbol viven en el árbol.
+**Nunca adivina en silencio.** Un texto sin resolver se reporta; no se asigna al más
+parecido. Las únicas ramas que se crean son las que el asistente propone y vos ves en el
+árbol antes de importar.
 
-> **Un empleado solo puede vivir en un nodo HOJA** —uno sin hijos—. Si tu Excel manda
+> **Una persona solo puede vivir en un nodo HOJA** —uno sin hijos—. Si tu Excel manda
 > gente a un nodo intermedio, esas filas se rechazan. Es coherente con lo que el árbol
 > significa: una persona trabaja en un lugar concreto, no en una categoría.
+
+## El asistente de importación
+
+En el paso «Columnas» está el botón **«Ordenar con el asistente»**. Lee tu archivo con
+inteligencia artificial y propone dos cosas: qué columna es cada dato, y en qué rama de tu
+estructura va cada ubicación del Excel, **incluidas las ramas que todavía no existen**.
+Entiende las gerencias escritas como un título arriba de su gente y las ubicaciones
+repartidas en varias columnas, y te marca en ámbar lo que no tiene claro.
+
+Lo que propone se ve como un árbol, con la misma forma que la pestaña Estructura: tu
+organización arriba, las ramas que se crearían marcadas como «Nueva» y cuántas personas
+van a cada una. Si algo no te convence lo corregís en «Corregir ubicaciones», escribiendo
+la ruta de la rama («Operaciones / Logística»). **Nada se crea ni se guarda hasta que
+apretás «Importar»**, y las ramas nuevas se crean junto con la nómina: si la importación
+falla, no queda ninguna.
+
+Tres cosas que conviene saber:
+
+- **Quién puede crear ramas.** Las propone para cualquiera que importe, pero solo el
+  titular y quien administra pueden crearlas. Para el resto, el asistente igual ordena
+  las columnas y las ubicaciones que ya existen.
+- **Qué se envía.** Al apretar el botón, el archivo completo se envía a **Anthropic**, la
+  empresa que hace Claude, el modelo que lo lee. No lo usa para entrenar sus modelos y lo
+  borra dentro de los 30 días. Nunca recibe las respuestas de las encuestas. Está en la
+  [Política de privacidad](/es/legal/privacy) y en el [Anexo de tratamiento de
+  datos](/es/legal/dpa).
+- **Cuánto tarda.** Hasta un minuto. Si no está disponible, la importación sigue igual con
+  el mapeo a mano.
+
+### Si la gente ya estaba cargada
+
+Es el caso de quien importó primero sin estructura, con toda la nómina colgada de la
+organización, y después pasa el mismo archivo por el asistente para ordenarla en ramas.
+Funciona: la importación reconoce a cada persona por su correo y **la mueve** a su rama
+nueva, sin duplicarla ni borrar nada.
+
+La condición es que, al terminar, nadie quede en un nodo que pasó a tener ramas debajo. Si
+alguien que estaba ahí no viene en el archivo, o no tiene correo, la revisión te dice
+cuántas son y no se importa nada: las agregás al archivo, o primero las movés con
+«Subdividir» en Estructura.
 
 ## Los estados de la nómina
 
@@ -101,9 +148,9 @@ Dos estados llevan además un papel:
 
 - **«Para los nuevos»** es al que entra una persona cargada sin estado, y el que usa la
   importación cuando la columna no se mapea.
-- **«Para quien se va»** es al que pasa quien desaparece del archivo en modo Sincronizar.
-  No puede tener la casilla marcada: si la tuviera, sincronizar no sacaría a nadie de
-  nada.
+- **«Para quien se va»** es al que pasa quien no viene en el archivo cuando importás con
+  «Desactivar a quienes no vienen en el archivo». No puede tener la casilla marcada: si
+  la tuviera, desactivar no sacaría a nadie de nada.
 
 En el Excel, la columna **estado** tiene que traer el nombre de uno de tus estados. Un
 valor que no coincide se reporta en la previsualización como fila con error; no se crea
@@ -114,28 +161,45 @@ rige para los que se armen de ahí en adelante. Hay un segundo criterio para ent
 muestra, la **antigüedad mínima**, que vive en Configuración → General; ver
 [Tu primer estudio](/es/docs/first-study).
 
-## Los dos modos
+## Quien no viene en el archivo
 
-**Agregar** — Suma lo que venga en el archivo. No toca a quien no aparezca.
+Una importación siempre **crea** a las personas nuevas y **actualiza** a las que ya están
+en la nómina, reconociéndolas por el correo. A quien no viene en el archivo no lo toca.
 
-**Sincronizar** — Deja la nómina igual al archivo. Quien no aparezca **pasa al estado
-«Para quien se va», nunca se borra**: la participación de estudios pasados tiene
-referencias a esas personas, y borrarlas rompería el histórico.
+Si querés que la nómina quede igual al archivo, marcás **«Desactivar a quienes no vienen
+en el archivo»** en el último paso. Quien no aparezca **pasa al estado «Para quien se va»,
+nunca se borra**: la participación de estudios pasados tiene referencias a esas personas,
+y borrarlas rompería el histórico. Para eso hace falta el correo en cada fila, y antes de
+importar la pantalla te dice a cuántas personas va a desactivar.
 
-## Los tres pasos
+## Los cuatro pasos
 
-**1. Analizar** — Lee los encabezados y propone el mapeo. No valida datos todavía.
+**1. Archivo** — Arrastrás o elegís el `.xlsx`. Se leen los encabezados y se pasa solo al
+paso siguiente.
 
-**2. Previsualizar** — Valida **todo** sin escribir nada: filas válidas, filas con
-error y su motivo, ubicaciones sin emparejar. Este es el punto donde todavía se
-cancela.
+**2. Columnas** — El mapeo propuesto, para confirmar o corregir. Acá está el asistente y,
+si lo usaste, el árbol que quedaría.
 
-**3. Ejecutar** — Escribe. Es **todo o nada**: si una sola fila es inválida, no se
-persiste ninguna.
+**3. Revisión** — Valida **todo** sin escribir nada: filas válidas, filas con error y su
+motivo, ubicaciones sin emparejar, puestos nuevos y el tope de tu plan. Este es el punto
+donde todavía se cancela.
 
-> **Que sea transaccional es lo que hace segura la previsualización.** No podés quedar
-> con media nómina cargada y la otra media no; o entró el archivo entero, o no entró
-> nada y podés corregirlo y reintentar.
+**4. Confirmar** — Cuántas personas son nuevas, cuántas se actualizan y cuántas ramas se
+crean, y la casilla para desactivar a quien no viene. Al apretar «Importar» se escribe, y
+es **todo o nada**: si una sola fila es inválida, no se persiste ninguna.
+
+> **Que sea transaccional es lo que hace segura la revisión.** No podés quedar con media
+> nómina cargada y la otra media no; o entró el archivo entero, o no entró nada y podés
+> corregirlo y reintentar.
+
+## Con un estudio en curso
+
+Mientras un estudio está recolectando, **la importación no cambia de rama a nadie** que
+esté en una rama con respuestas de ese estudio, ni lo manda a una que las tenga. Las
+respuestas ya dadas conservan su rama y las siguientes caerían en la nueva, así que la
+rama quedaría partida en dos dentro del mismo estudio. Dar de alta a gente nueva,
+actualizar datos sin cambiar de rama y desactivar sí se puede. Si el archivo mueve a
+alguien, la revisión te lo dice: finalizás el estudio y después importás.
 
 ## Errores frecuentes
 
@@ -143,13 +207,16 @@ persiste ninguna.
 |---|---|
 | «Encabezados repetidos» | Dos columnas con el mismo nombre. Renombralas |
 | «El archivo está vacío» | Falta la fila de encabezados, o está en blanco |
-| Ubicaciones sin emparejar | El nodo no existe en el árbol todavía, o se escribe distinto |
+| Ubicaciones sin emparejar | El nodo no existe en el árbol todavía, o se escribe distinto. Elegí el nodo, usá el asistente o creá la rama en Estructura |
 | Filas rechazadas por el nodo | Apuntan a un nodo con hijos. Tienen que ir a una hoja |
-| Correos inválidos | No tienen forma de correo. Si no vas a usar el modo correo, dejá la columna sin mapear |
+| Correos inválidos | No tienen forma de correo. Si no vas a usar el correo, dejá la columna sin mapear |
 | Teléfonos inválidos | No son un número válido para su país. Revisá que los de otro país lleven `+` y su código |
+| «No se pueden crear ramas dentro de…» | En ese nodo hay personas que no vienen en el archivo, y quedarían fuera de una rama final. Agregalas al archivo o subdividí la rama en Estructura |
+| «Este archivo cambia de rama a…» | Hay un estudio en curso con respuestas en esas ramas. Finalizalo antes de importar |
 
 ## Antes de importar
 
-Armá el árbol primero. El importador empareja contra nodos existentes, así que subir
-la nómina antes de tener la estructura convierte cada fila en una ubicación sin
-resolver. Ver [El árbol organizacional](/es/docs/org-tree).
+Lo más simple es armar el árbol primero: el importador empareja contra nodos existentes, y
+subir la nómina sin estructura convierte cada fila en una ubicación sin resolver. Ver
+[El árbol organizacional](/es/docs/org-tree). Si preferís partir del Excel, el asistente
+propone las ramas que faltan y las crea al importar.

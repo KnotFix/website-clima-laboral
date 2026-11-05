@@ -36,12 +36,20 @@ is the authoritative one—; this is the summary:
 | PlanetScale | The database: roster, answers and results | United States |
 | Clerk | Identity: email, password and second factor | United States |
 | Resend | Sending the invitations to answer | United States |
+| Meta (WhatsApp) | Invitations to answer by WhatsApp, if you use them | United States |
+| Anthropic | The import assistant: reads the roster file only when you ask it to | United States |
 | Cloudflare R2 | Your organization's logo | United States |
 | Polar | Payments | United States |
 | Allegra | Electronic invoicing before the tax authority | Costa Rica |
 
 > **Changing a provider on that list comes with notice**, not silently: the terms set 30
 > days ahead.
+
+**The import assistant is the only part that uses artificial intelligence**, and it only
+runs when someone in the account clicks «Sort with the assistant». At that point the roster
+file is sent to Anthropic, which does not use it to train its models and deletes it within
+30 days. Survey answers never go through it. See
+[The roster spreadsheet](/en/docs/roster-format).
 
 ## Who can see what
 

@@ -607,7 +607,7 @@ const es = {
     {
       question: "¿Cuánto lleva ponerlo en marcha?",
       answer:
-        "El sistema te da una plantilla del árbol de tu empresa. Completás la nómina y la subís en la sección de nómina. Después elegís a quién medir y lanzás el estudio. No hay proyecto de implementación.",
+        "El sistema te da una plantilla del árbol de tu empresa. Completás la nómina y la subís en la sección de nómina; si ya tenés tu propio Excel, un asistente con inteligencia artificial lo ordena y propone las ramas que faltan (lo procesa Anthropic, y vos revisás todo antes de importar). Después elegís a quién medir y lanzás el estudio. No hay proyecto de implementación.",
     },
     {
       question: "¿Nos capacitan para usarlo?",

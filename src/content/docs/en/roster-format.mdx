@@ -1,7 +1,7 @@
 export const meta = {
   title: "The roster spreadsheet",
   description:
-    "What the file needs, which fields are required, and what the importer does with what it does not recognize.",
+    "What the file needs, which fields are required, what the import assistant does, and what happens to what the importer does not recognize.",
 };
 
 ## There is no mandatory template
@@ -13,13 +13,17 @@ position, «Depto» → location— and you confirm or correct it on screen.
 Nothing is imported on the heuristic alone. The suggestion is a suggestion; the mapping
 that counts is the one you confirmed.
 
+If your file is far from that —unusual headers, the location split across several
+columns, departments written as titles above their people— there is the **import
+assistant**, explained below.
+
 ## The file
 
 | | |
 |---|---|
 | Format | `.xlsx` only |
 | Maximum size | 5 MB |
-| Headers | In **row 1** |
+| Headers | In **row 1**, or further down if there is a title above them: they are looked for in the first 10 rows |
 | Duplicate headers | **Rejected.** Rename them before uploading |
 
 A 5 MB `.xlsx` is hundreds of thousands of rows: the limit will not bother you.
@@ -32,7 +36,7 @@ A 5 MB `.xlsx` is hundreds of thousands of rows: the limit will not bother you.
 | **location** (node) | **Yes** | Can arrive in one column or spread across several |
 | **position** | **Yes** | |
 | surname | No | |
-| email | No | Needed if you will invite by email |
+| email | No | Needed if you will invite by email, and it is what recognizes a person already on the roster |
 | phone | No | Needed if you will invite by WhatsApp. See «Phone numbers» below |
 | hire date | No | |
 | status | No | The name of one of your statuses. Unmapped, new rows go into the «For new people» status and existing ones keep theirs |
@@ -51,7 +55,7 @@ with `+` and its code (for example `+57 300 123 4567`): that one is kept as is. 
 importer checks every number against its country's real rules, and an invalid one
 rejects the row with the reason, just like a mistyped email.
 
-If your spreadsheet does not have the column, or you leave it unmapped, a sync **does
+If your spreadsheet does not have the column, or you leave it unmapped, an import **does
 not erase** the phone numbers already loaded.
 
 ### Accepted date formats
@@ -66,22 +70,64 @@ not erase** the phone numbers already loaded.
 
 If your file has the full location in one column («North Store»), map that one.
 
-If it is **split** —Country, Region, Store, Department in separate columns— you can map
-them all to the same field. The importer combines them to identify the node.
+If it is **split** —Country, Region, Store, Department in separate columns— you pick them
+in order, from the most general to the most specific. The importer combines them to
+identify the node.
 
 ### Matching against the tree
 
-The text in your spreadsheet has to correspond to nodes that **already exist**. «North
-Region» in your file against «North» in the tree is a normal case, and you resolve it on
-screen: the importer shows you the values it could not place and you pick the node.
+Without the assistant, the text in your spreadsheet has to correspond to nodes that
+**already exist**. «North Region» in your file against «North» in the tree is a normal
+case, and you resolve it in the review: the importer shows you the values it could not
+place and you pick the node. If there are many, the same screen offers to run the file
+through the assistant or to go to Structure and create the missing branches.
 
-**It never guesses silently.** An unresolved value is reported; no node is created and
-nothing is assigned to the closest match. The tree's names live in the tree.
+**It never guesses silently.** An unresolved value is reported; nothing is assigned to the
+closest match. The only branches that get created are the ones the assistant proposes and
+you see in the tree before importing.
 
-> **An employee can only live in a LEAF node** —one with no children. If your
-> spreadsheet sends people to an intermediate node, those rows are rejected. It is
-> consistent with what the tree means: a person works in a concrete place, not in a
-> category.
+> **A person can only live in a LEAF node** —one with no children. If your spreadsheet
+> sends people to an intermediate node, those rows are rejected. It is consistent with
+> what the tree means: a person works in a concrete place, not in a category.
+
+## The import assistant
+
+In the «Columns» step there is the **«Sort with the assistant»** button. It reads your
+file with artificial intelligence and proposes two things: which column holds each piece
+of data, and which branch of your structure each location in the spreadsheet belongs to,
+**including branches that do not exist yet**. It understands departments written as a
+title above their people and locations split across several columns, and it flags in
+amber what it is not sure about.
+
+Its proposal is shown as a tree, shaped like the Structure tab: your organization at the
+top, the branches that would be created marked «New», and how many people go to each. If
+something looks wrong you fix it under «Fix locations», by typing the branch path
+(«Operations / Logistics»). **Nothing is created or saved until you click «Import»**, and
+the new branches are created together with the roster: if the import fails, none remain.
+
+Three things worth knowing:
+
+- **Who can create branches.** It proposes them for anyone importing, but only the owner
+  and admins can create them. For everyone else the assistant still organizes the columns
+  and the locations that already exist.
+- **What is sent.** When you click the button, the whole file is sent to **Anthropic**, the
+  company that makes Claude, the model that reads it. It does not use it to train its
+  models and deletes it within 30 days. It never receives survey answers. This is in the
+  [Privacy policy](/en/legal/privacy) and the [Data processing addendum](/en/legal/dpa).
+- **How long it takes.** Up to a minute. If it is unavailable, the import carries on with
+  the manual mapping.
+
+### If people were already loaded
+
+This is the case of someone who first imported without a structure, with the whole roster
+hanging from the organization, and then runs the same file through the assistant to
+organize it into branches. It works: the import recognizes each person by their email and
+**moves** them to their new branch, without duplicating or deleting anything.
+
+The condition is that, at the end, nobody remains in a node that now has branches under
+it. If someone who was there is not in the file, or has no email, the review tells you how
+many and nothing is imported: you add them to the file, or first move them with
+«Subdivide» in Structure.
 
 ## Roster statuses
 
@@ -100,8 +146,9 @@ Two statuses also carry a role:
 
 - **«For new people»** is where a person added without a status lands, and the one the
   import uses when the column is not mapped.
-- **«For people who leave»** is where anyone missing from the file goes in Sync mode. It
-  cannot have the checkbox checked: if it did, syncing would remove nobody from anything.
+- **«For people who leave»** is where anyone missing from the file goes when you import
+  with «Deactivate people who are not in the file». It cannot have the checkbox checked:
+  if it did, deactivating would remove nobody from anything.
 
 In the spreadsheet, the **status** column must carry the name of one of your statuses. A
 value that does not match is reported in the preview as a row with an error; no status
@@ -112,27 +159,45 @@ sample: it applies to the ones you set up from then on. There is a second criter
 entering the sample, the **minimum tenure**, which lives under Configuration → General;
 see [The four steps before your first study](/en/docs/first-study).
 
-## The two modes
+## People who are not in the file
 
-**Add** — Adds whatever is in the file. Leaves anyone not present alone.
+An import always **creates** the new people and **updates** the ones already on the
+roster, recognizing them by email. Anyone not in the file is left alone.
 
-**Sync** — Makes the roster match the file. Anyone absent **moves to the «For people
-who leave» status, never deleted**: participation in past studies references those
-people, and deleting them would break the history.
+If you want the roster to match the file, you check **«Deactivate people who are not in
+the file»** in the last step. Anyone absent **moves to the «For people who leave» status,
+never deleted**: participation in past studies references those people, and deleting them
+would break the history. This needs an email on every row, and before importing the
+screen tells you how many people it will deactivate.
 
-## The three steps
+## The four steps
 
-**1. Analyze** — Reads the headers and proposes the mapping. Does not validate data yet.
+**1. File** — You drag or choose the `.xlsx`. The headers are read and it moves on to the
+next step by itself.
 
-**2. Preview** — Validates **everything** without writing: valid rows, failing rows and
-why, unmatched locations. This is the point where you can still cancel.
+**2. Columns** — The proposed mapping, to confirm or correct. The assistant lives here
+and, if you used it, so does the resulting tree.
 
-**3. Execute** — Writes. It is **all or nothing**: if a single row is invalid, none are
-persisted.
+**3. Review** — Validates **everything** without writing: valid rows, failing rows and
+why, unmatched locations, new positions and your plan's cap. This is the point where you
+can still cancel.
 
-> **Being transactional is what makes the preview safe.** You cannot end up with half a
+**4. Confirm** — How many people are new, how many are updated and how many branches are
+created, plus the checkbox to deactivate whoever is missing. Clicking «Import» writes,
+and it is **all or nothing**: if a single row is invalid, none are persisted.
+
+> **Being transactional is what makes the review safe.** You cannot end up with half a
 > roster loaded and half not; either the whole file went in, or nothing did and you can
 > fix it and retry.
+
+## With a study in progress
+
+While a study is collecting answers, **the import does not move anyone** out of a branch
+that has answers from that study, nor into one that has them. Answers already given keep
+their branch and later ones would land in the new one, so the branch would be split in
+two within the same study. Adding new people, updating data without changing branch and
+deactivating are all allowed. If the file moves someone, the review tells you: you finish
+the study and import afterwards.
 
 ## Common errors
 
@@ -140,13 +205,16 @@ persisted.
 |---|---|
 | «Duplicate headers» | Two columns with the same name. Rename them |
 | «The file is empty» | The header row is missing or blank |
-| Unmatched locations | The node does not exist in the tree yet, or is spelled differently |
+| Unmatched locations | The node does not exist in the tree yet, or is spelled differently. Pick the node, use the assistant or create the branch in Structure |
 | Rows rejected on the node | They point at a node with children. They have to go to a leaf |
-| Invalid emails | Not email-shaped. If you will not use email mode, leave the column unmapped |
+| Invalid emails | Not email-shaped. If you will not use email, leave the column unmapped |
 | Invalid phone numbers | Not a valid number for their country. Check that numbers from another country carry `+` and their code |
+| «Branches can't be created inside…» | That node has people who are not in the file, and they would be left outside a final branch. Add them to the file or subdivide the branch in Structure |
+| «This file moves … to another branch» | A study in progress has answers in those branches. Finish it before importing |
 
 ## Before importing
 
-Build the tree first. The importer matches against existing nodes, so uploading the
-roster before the structure exists turns every row into an unresolved location. See
-[The org tree](/en/docs/org-tree).
+The simplest path is to build the tree first: the importer matches against existing nodes,
+and uploading the roster without a structure turns every row into an unresolved location.
+See [The org tree](/en/docs/org-tree). If you would rather start from the spreadsheet, the
+assistant proposes the missing branches and creates them when you import.

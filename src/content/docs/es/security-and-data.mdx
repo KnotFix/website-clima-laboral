@@ -37,12 +37,20 @@ la que manda—; esto es el resumen:
 | PlanetScale | La base de datos: nómina, respuestas y resultados | Estados Unidos |
 | Clerk | Identidad: correo, contraseña y segundo factor | Estados Unidos |
 | Resend | El envío de las invitaciones a responder | Estados Unidos |
+| Meta (WhatsApp) | Las invitaciones a responder por WhatsApp, si las usás | Estados Unidos |
+| Anthropic | El asistente de importación: lee el archivo de nómina solo cuando lo pedís | Estados Unidos |
 | Cloudflare R2 | El logo de tu organización | Estados Unidos |
 | Polar | El cobro | Estados Unidos |
 | Allegra | La factura electrónica ante Hacienda | Costa Rica |
 
 > **Cambiar un proveedor de esa lista es un cambio con aviso**, no algo que pase en
 > silencio: los términos fijan 30 días de antelación.
+
+**El asistente de importación es la única parte que usa inteligencia artificial**, y solo
+corre cuando alguien de la cuenta aprieta «Ordenar con el asistente». Ahí el archivo de
+nómina se envía a Anthropic, que no lo usa para entrenar sus modelos y lo borra dentro de
+los 30 días. Las respuestas de las encuestas no pasan nunca por ahí. Ver
+[El Excel de la nómina](/es/docs/roster-format).
 
 ## Quién puede ver qué
 

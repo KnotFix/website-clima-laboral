@@ -217,7 +217,9 @@ export const DOCS_NAV = [
         published: "2026-08-18",
         // 2026-10-01: dejo de decir que el sitio no usa medicion (entro GTM con
         // consentimiento) y remite a la politica de privacidad.
-        updated: "2026-10-01",
+        // 2026-11-05: Meta (WhatsApp) y Anthropic (asistente de importacion) en
+        // el resumen de proveedores.
+        updated: "2026-11-05",
       },
     ],
   },
@@ -237,7 +239,9 @@ export const DOCS_NAV = [
         slug: "roster-format",
         title: { es: "El Excel de la nómina", en: "The roster spreadsheet" },
         published: "2026-08-17",
-        updated: "2026-10-21",
+        // 2026-11-05: el asistente de importacion, los cuatro pasos y la casilla
+        // de desactivar en vez de los modos Agregar y Sincronizar.
+        updated: "2026-11-05",
       },
       {
         slug: "question-types",

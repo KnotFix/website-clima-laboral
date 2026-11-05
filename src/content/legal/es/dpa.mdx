@@ -46,7 +46,7 @@ salen casi todas las dudas.
 |---|---|
 | Objeto | Prestar el servicio de evaluación de clima laboral |
 | Duración | La del contrato, más los plazos de devolución y eliminación de la sección correspondiente |
-| Naturaleza | Recolección, almacenamiento, cálculo estadístico, agregación, supresión y eliminación |
+| Naturaleza | Recolección, almacenamiento, cálculo estadístico, agregación, supresión y eliminación, y la lectura asistida del archivo de nómina cuando el Cliente la pide al importarlo |
 | Finalidad | Producir resultados agregados de clima laboral para el Cliente |
 
 ## Datos y personas afectadas
@@ -56,8 +56,9 @@ cada estudio.
 
 **Categorías de datos:**
 
-- De la nómina: nombre, puesto, ubicación en la estructura organizacional y correo
-  cuando se aplique por ese medio.
+- De la nómina: nombre, puesto, ubicación en la estructura organizacional, fecha de
+  ingreso, correo cuando se aplique por ese medio y teléfono cuando la invitación se
+  envíe por WhatsApp.
 - De la participación: si la persona fue seleccionada y si ya respondió.
 - De las respuestas: los valores contestados y los atributos de segmento capturados con
   ellas.
@@ -322,10 +323,10 @@ encargado (Módulo 3), según su posición real. Firma y fecha: las de la acepta
 | | |
 |---|---|
 | Categorías de personas afectadas | Personas empleadas del Cliente incluidas en el alcance de cada estudio |
-| Categorías de datos | Nómina: nombre, puesto, ubicación en la estructura, correo cuando la encuesta se aplique por ese medio. Participación: si fue seleccionada y si ya respondió. Respuestas: valores contestados y atributos de segmento capturados con ellas |
+| Categorías de datos | Nómina: nombre, puesto, ubicación en la estructura, fecha de ingreso, correo cuando la encuesta se aplique por ese medio y teléfono cuando la invitación se envíe por WhatsApp. Participación: si fue seleccionada y si ya respondió. Respuestas: valores contestados y atributos de segmento capturados con ellas |
 | Datos sensibles | **Ninguno.** El servicio no está diseñado para tratarlos y el Cliente se obliga a no configurarlos |
 | Frecuencia | Continua, mientras el contrato esté vigente |
-| Naturaleza | Recolección, almacenamiento, cálculo estadístico, agregación, supresión y eliminación |
+| Naturaleza | Recolección, almacenamiento, cálculo estadístico, agregación, supresión y eliminación, y la lectura asistida del archivo de nómina cuando el Cliente la pide al importarlo |
 | Finalidad | Producir resultados agregados de clima laboral para el Cliente |
 | Conservación | Mientras la cuenta exista; el titular la elimina desde el producto y el borrado es inmediato e irreversible, salvo lo que una obligación legal exija conservar y lo que sobreviva en respaldos hasta que el ciclo de rotación los sobrescriba |
 | Subencargados | Los del Anexo III, para las finalidades y por la duración que ahí se indican |
@@ -407,6 +408,8 @@ efímeras —se descartan con cada despliegue— y no se archivan.
 | **PlanetScale** | Base de datos: nómina, respuestas y resultados | Estados Unidos |
 | **Clerk** | Identidad y autenticación de las personas usuarias de la cuenta | Estados Unidos |
 | **Resend** | Envío de los correos del sistema, incluidas las invitaciones a responder | Estados Unidos |
+| **Meta (WhatsApp)** | Envío de las invitaciones a responder por WhatsApp, cuando la organización elige ese medio: el número de teléfono de la persona y el texto de la invitación | Estados Unidos |
+| **Anthropic** | Lectura asistida del archivo de nómina al importarlo, solo cuando alguien de la cuenta aprieta «Ordenar con el asistente» | Estados Unidos |
 | **Cloudflare (R2)** | Almacenamiento del logo de la organización | Estados Unidos |
 | **Polar** | Procesamiento del pago con tarjeta y facturación de la suscripción como comercio registrado (*merchant of record*) | Estados Unidos |
 | **Allegra** | Emisión y envío de la factura electrónica ante la Administración Tributaria costarricense | Costa Rica |
@@ -415,6 +418,16 @@ efímeras —se descartan con cada despliegue— y no se archivan.
 facturación de la cuenta, y Cloudflare R2 guarda el logo que la organización sube. Se
 listan igual porque una lista de subencargados que solo nombra a algunos no sirve para
 evaluar a un proveedor.
+
+**Sobre Anthropic.** El asistente de importación manda el archivo de nómina tal como se
+subió (nombres, correos, puestos, ubicaciones y lo demás que traiga) a la API de
+Anthropic, que lo lee con su modelo de inteligencia artificial Claude y propone qué
+columna es cada dato y en qué rama de la estructura va cada persona. Solo pasa cuando
+alguien de la cuenta lo pide, nunca de forma automática, y lo que propone se revisa y se
+corrige antes de guardar nada. **Nunca recibe las respuestas de las encuestas.** Anthropic
+actúa como encargado: no usa esos datos para entrenar sus modelos y los borra dentro de
+los **30 días**, salvo lo que sus sistemas de seguridad marquen por un posible uso
+indebido, que puede conservar hasta 2 años.
 
 Esta lista es la que sostiene la autorización general de la sección «Subencargados» y la
 cláusula 9 de las Cláusulas Contractuales Tipo. Cualquier alta o sustitución se avisa con
