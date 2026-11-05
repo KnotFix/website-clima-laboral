@@ -129,12 +129,24 @@ it solely on our instructions:
 | **PlanetScale** | Database: roster, answers and results | United States |
 | **Clerk** | Identity and authentication of account users | United States |
 | **Resend** | Delivery of system email, including survey invitations | United States |
+| **Meta (WhatsApp)** | Delivery of survey invitations by WhatsApp, when the organization chooses that channel: the person's phone number and the invitation text | United States |
+| **Anthropic** | Assisted reading of the roster file during import, only when someone in the account clicks «Sort with the assistant» | United States |
 | **Cloudflare (R2)** | Storage of the organization's logo | United States |
 | **Polar** | Card payment processing and subscription billing as merchant of record | United States |
 | **Allegra** | Issuing and delivering the electronic invoice to the tax authority | Costa Rica |
 
 If you accept analytics or marketing on the website, **Google**, **Meta** and
 **Microsoft** are added, on the terms of the «Cookies and site measurement» section.
+
+**About Anthropic.** The import assistant sends the roster file as uploaded (names,
+emails, job titles, locations and whatever else it contains) to the Anthropic API, which
+reads it with its Claude artificial intelligence model and suggests which column holds
+each piece of data and which branch of the structure each person belongs to. It only
+happens when someone in the account asks for it, never automatically, and its suggestion
+is reviewed and corrected before anything is saved. **It never receives survey
+answers.** Anthropic acts as a processor: it does not use that data to train its models
+and deletes it within **30 days**, except content its safety systems flag for possible
+misuse, which it may keep for up to 2 years.
 
 We also disclose it when ordered by a competent authority through a reasoned decision, or
 when a legal rule requires it.
@@ -210,7 +222,8 @@ detecting it, with what we know at the time.
   effect.
 - **Not being subject to automated decisions** producing legal or similarly significant
   effects. **We do not take any**: Censuma produces aggregates and decides nothing about any
-  individual.
+  individual. Neither does the import assistant: it suggests where each person goes and
+  someone in the account reviews and confirms it.
 
 The first four are the right to informational self-determination of articles 7 and 11 of
 Law 8968; the full list is that of articles 15 to 22 of the GDPR.

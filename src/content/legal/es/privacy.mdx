@@ -128,12 +128,24 @@ de tratarlos exclusivamente según nuestras instrucciones:
 | **PlanetScale** | Base de datos: nómina, respuestas y resultados | Estados Unidos |
 | **Clerk** | Identidad y autenticación de las personas usuarias de la cuenta | Estados Unidos |
 | **Resend** | Envío de los correos del sistema, incluidas las invitaciones a responder | Estados Unidos |
+| **Meta (WhatsApp)** | Envío de las invitaciones a responder por WhatsApp, cuando la organización elige ese medio: el número de teléfono de la persona y el texto de la invitación | Estados Unidos |
+| **Anthropic** | Lectura asistida del archivo de nómina al importarlo, solo cuando alguien de la cuenta aprieta «Ordenar con el asistente» | Estados Unidos |
 | **Cloudflare (R2)** | Almacenamiento del logo de la organización | Estados Unidos |
 | **Polar** | Procesamiento del pago con tarjeta y facturación de la suscripción como comercio registrado (*merchant of record*) | Estados Unidos |
 | **Allegra** | Emisión y envío de la factura electrónica ante Hacienda | Costa Rica |
 
 Si aceptás analítica o marketing en el sitio web, se suman **Google**, **Meta** y
 **Microsoft**, en los términos de la sección «Cookies y medición del sitio».
+
+**Sobre Anthropic.** El asistente de importación manda el archivo de nómina tal como se
+subió (nombres, correos, puestos, ubicaciones y lo demás que traiga) a la API de
+Anthropic, que lo lee con su modelo de inteligencia artificial Claude y propone qué
+columna es cada dato y en qué rama de la estructura va cada persona. Solo pasa cuando
+alguien de la cuenta lo pide, nunca de forma automática, y lo que propone se revisa y se
+corrige antes de guardar nada. **Nunca recibe las respuestas de las encuestas.** Anthropic
+actúa como encargado: no usa esos datos para entrenar sus modelos y los borra dentro de
+los **30 días**, salvo lo que sus sistemas de seguridad marquen por un posible uso
+indebido, que puede conservar hasta 2 años.
 
 También los entregamos cuando lo ordena una autoridad competente por resolución
 fundamentada, o cuando una norma legal lo exige.
@@ -208,7 +220,9 @@ personales, lo comunicamos a quien corresponda **sin demora y a más tardar dent
 - **Retirar el consentimiento** en cualquier momento, cuando esa sea la base, sin efecto
   retroactivo.
 - **No ser objeto de decisiones automatizadas** con efectos jurídicos o similares. **No las
-  tomamos**: Censuma produce agregados y no decide nada sobre ninguna persona.
+  tomamos**: Censuma produce agregados y no decide nada sobre ninguna persona. El
+  asistente de importación tampoco: propone dónde va cada persona y alguien de la cuenta
+  lo revisa y lo confirma.
 
 Los cuatro primeros son el derecho de autodeterminación informativa de los artículos 7 y 11
 de la Ley 8968; la lista completa es la de los artículos 15 a 22 del RGPD.

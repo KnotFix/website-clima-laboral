@@ -604,7 +604,7 @@ const en = {
     {
       question: "How long does it take to get running?",
       answer:
-        "The system gives you a template of your company tree. You fill in the roster and upload it in the roster section. Then you pick who to measure and launch the study. There is no implementation project.",
+        "The system gives you a template of your company tree. You fill in the roster and upload it in the roster section; if you already have your own spreadsheet, an artificial intelligence assistant organizes it and proposes the missing branches (Anthropic processes it, and you review everything before importing). Then you pick who to measure and launch the study. There is no implementation project.",
     },
     {
       question: "Do you train us to use it?",

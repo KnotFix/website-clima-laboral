@@ -47,7 +47,7 @@ question comes from.
 |---|---|
 | Subject matter | Providing the workplace climate survey service |
 | Duration | That of the contract, plus the return and deletion periods in the corresponding section |
-| Nature | Collection, storage, statistical computation, aggregation, suppression and deletion |
+| Nature | Collection, storage, statistical computation, aggregation, suppression and deletion, and the assisted reading of the roster file when the Customer requests it during import |
 | Purpose | Producing aggregate workplace climate results for the Client |
 
 ## Data and data subjects
@@ -56,8 +56,9 @@ question comes from.
 
 **Categories of data:**
 
-- From the roster: name, job title, position in the organizational structure and email
-  where the survey is applied by that route.
+- From the roster: name, job title, position in the organizational structure, hire date,
+  email where the survey is applied by that route, and phone number where the invitation
+  is sent by WhatsApp.
 - From participation: whether the person was selected and whether they have answered.
 - From the answers: the values given and the segment attributes captured with them.
 
@@ -314,10 +315,10 @@ accepted.
 | | |
 |---|---|
 | Categories of data subjects | The Client's employees within the scope of each study |
-| Categories of data | Roster: name, job title, position in the structure, email where the survey is applied by that route. Participation: whether selected and whether answered. Answers: the values given and the segment attributes captured with them |
+| Categories of data | Roster: name, job title, position in the structure, hire date, email where the survey is applied by that route, and phone number where the invitation is sent by WhatsApp. Participation: whether selected and whether answered. Answers: the values given and the segment attributes captured with them |
 | Sensitive data | **None.** The service is not designed to process it and the Client undertakes not to configure it |
 | Frequency | Continuous, while the contract is in force |
-| Nature | Collection, storage, statistical computation, aggregation, suppression and deletion |
+| Nature | Collection, storage, statistical computation, aggregation, suppression and deletion, and the assisted reading of the roster file when the Customer requests it during import |
 | Purpose | Producing aggregate workplace climate results for the Client |
 | Retention | For as long as the account exists; the owner deletes it from the product and the erasure is immediate and irreversible, except for what a legal obligation requires to be kept and what survives in backups until the rotation cycle overwrites them |
 | Sub-processors | Those in Annex III, for the purposes and durations stated there |
@@ -398,6 +399,8 @@ deployment— and are not archived.
 | **PlanetScale** | Database: roster, answers and results | United States |
 | **Clerk** | Identity and authentication of the account's users | United States |
 | **Resend** | Sending system email, including survey invitations | United States |
+| **Meta (WhatsApp)** | Delivery of survey invitations by WhatsApp, when the organization chooses that channel: the person's phone number and the invitation text | United States |
+| **Anthropic** | Assisted reading of the roster file during import, only when someone in the account clicks «Sort with the assistant» | United States |
 | **Cloudflare (R2)** | Storage of the organization's logo | United States |
 | **Polar** | Card payment processing and subscription invoicing as merchant of record | United States |
 | **Allegra** | Issuing and delivering the electronic invoice to the Costa Rican tax authority | Costa Rica |
@@ -406,6 +409,16 @@ deployment— and are not archived.
 billing data, and Cloudflare R2 stores the logo the organization uploads. They are listed
 anyway because a sub-processor list that names only some of them is useless for assessing a
 vendor.
+
+**About Anthropic.** The import assistant sends the roster file as uploaded (names,
+emails, job titles, locations and whatever else it contains) to the Anthropic API, which
+reads it with its Claude artificial intelligence model and suggests which column holds
+each piece of data and which branch of the structure each person belongs to. It only
+happens when someone in the account asks for it, never automatically, and its suggestion
+is reviewed and corrected before anything is saved. **It never receives survey
+answers.** Anthropic acts as a processor: it does not use that data to train its models
+and deletes it within **30 days**, except content its safety systems flag for possible
+misuse, which it may keep for up to 2 years.
 
 This list is what underpins the general authorization in the «Sub-processors» section and
 clause 9 of the Standard Contractual Clauses. Any addition or replacement is notified 30

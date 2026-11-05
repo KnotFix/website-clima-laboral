@@ -304,7 +304,20 @@ Es la que sostiene la autorización de transferencia internacional del artículo
 que ser exacta y estar al día. Hoy: **Hostinger** (VPS con Dokploy, EE. UU.) · **PlanetScale**
 (Postgres, EE. UU.) · **Clerk** (identidad) · **Resend** (correo) · **Cloudflare R2** (logo) ·
 **Polar** (cobro y facturación como *merchant of record*, EE. UU.) · **Allegra** (factura
-electrónica, Costa Rica).
+electrónica, Costa Rica) · **Meta** (invitaciones por WhatsApp, EE. UU.) · **Anthropic** (el
+asistente de importación de nómina, EE. UU.).
+
+**Meta y Anthropic entraron el 2026-11-05** (privacy 1.2, dpa 2.1, junto con `DOCUMENTOS_LEGALES`
+de la app). Meta mandaba invitaciones por WhatsApp desde el 2026-10-21 sin estar en la tabla: es
+la misma lección de abajo, un proveedor que trata datos y no figura. **Anthropic solo recibe algo
+cuando alguien de la cuenta aprieta «Ordenar con el asistente»**: el archivo de nómina completo
+(la pantalla dejó de ofrecer mandarlo sin correos ni fechas el mismo 2026-11-05, decisión del
+usuario), nunca las respuestas. Lo que se publica de Anthropic —no entrena con datos de la API,
+los borra en 30 días salvo lo marcado por abuso, hasta 2 años— sale de su centro de privacidad
+(privacy.anthropic.com) a esa fecha; si cambia, cambian esas frases en `privacy`, `dpa`,
+`security-and-data` y `roster-format`. Se subió **sin preaviso** con el mismo argumento del
+2026-08-20 (decisión del usuario: todavía no hay clientes). **Si el modelo o el proveedor de IA
+cambia** (`IMPORTACION_IA_MODELO`, o se mueve a Bedrock o Vertex), esa fila se toca el mismo día.
 
 **Esa fila la decide `PASARELA` del backend, no una preferencia**: si un despliegue vuelve a
 `onvo`, quien procesa la tarjeta es ONVOPay (Costa Rica) y las seis páginas mienten hasta que se
