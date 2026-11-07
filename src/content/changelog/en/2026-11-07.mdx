@@ -1,6 +1,6 @@
 export const meta = {
   date: "2026-11-07",
-  title: "Creating branches from the org chart",
+  title: "An editable org chart and a «Why?» next to hidden results",
 };
 
 - **The org chart is no longer just for looking.** In Configuration → Structure, with the
@@ -8,3 +8,18 @@ export const meta = {
   already has people, it subdivides it: it creates a branch underneath and moves its people
   there. The card's «⋯» edits or deletes it. Reordering and moving branches still happens
   in the table. See [The four steps before your first study](/en/docs/first-study).
+- **The confidentiality threshold never goes below 3.** With two people, the group's
+  result hands each of them the exact answer of the other. Accounts that had it at 2 move
+  to 3, and studies already run keep the threshold they were measured with. See
+  [Anonymity and minimum N](/en/docs/anonymity).
+- **Everything hidden explains why.** Next to every hidden result there is a «Why?» link
+  with the two possible causes: fewer people answered than the threshold, or showing it
+  would let someone work out another small group by subtraction. It does not say which
+  of the two applies, because that would also reveal something about the group. Notices
+  now read «Hidden for anonymity».
+- **The history shows each figure with its filter.** When you change branch, years or
+  index in Statistics, the screen waits for the new data instead of leaving the previous
+  figures under the new filter. An index missing categories for anonymity is marked as
+  partial, an empty series says why (no finished studies, that branch was not measured,
+  or the year range leaves them out) and the goal line no longer joins two different
+  theoretical models. See [The historical series](/en/docs/history).
