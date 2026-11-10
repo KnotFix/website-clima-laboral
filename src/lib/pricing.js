@@ -119,7 +119,12 @@ function format_number(value, lang) {
 
 /**
  * Los ejes que se listan en cada tarjeta, en orden, con su campo del catalogo.
- * Son los mismos seis que la app.
+ * Son los mismos cinco que la app.
+ *
+ * **El tope de WhatsApp NO se lista** (decision del usuario, 2026-11-09; en la
+ * app no se anuncia desde el 2026-11-03). La API lo sigue publicando
+ * (`max_whatsapp_por_periodo`) y el producto lo hace cumplir, pero la oferta no
+ * lo muestra. Si vuelve, vuelve en los dos lados el mismo dia.
  */
 const LIMIT_FIELDS = [
   ["studies", "max_estudios_por_periodo"],
@@ -127,15 +132,13 @@ const LIMIT_FIELDS = [
   ["forms", "max_boletas"],
   ["kiosks", "max_estaciones_kiosco"],
   ["emails", "max_correos_por_periodo"],
-  ["whatsapp", "max_whatsapp_por_periodo"],
 ];
 
 /**
  * La viñeta de un tope. `null` es ilimitado en toda la tabla `planes`.
  *
  * **Un campo AUSENTE no es lo mismo que `null`**: es un eje que esa version de
- * la API todavia no publica (WhatsApp llego a `dev` antes que a produccion).
- * Ese se omite; ponerlo como «sin límite» le prometeria al cliente algo que el
+ * la API todavia no publica. Ese se omite; ponerlo como «sin límite» le prometeria al cliente algo que el
  * plan no dice.
  */
 function limit_line(plan, axis, field, dict, lang) {

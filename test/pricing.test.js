@@ -16,7 +16,7 @@ import { site_config } from "@/lib/site_config";
  */
 
 // La forma real de `GET /api/planes-publicos/` en produccion (2026-10-12),
-// sin `max_whatsapp_por_periodo`: ese campo llego a `dev` antes.
+// sin `max_whatsapp_por_periodo`: ese campo llego despues y no se lista.
 const CATALOG = [
   {
     codigo: "corporativo",
@@ -28,7 +28,7 @@ const CATALOG = [
     max_estudios_por_periodo: 6,
     max_empleados_activos: 2000,
     max_boletas: null,
-    max_correos_por_periodo: 12000,
+    max_correos_por_periodo: null,
     max_estaciones_kiosco: null,
     precio_empleado_extra_centavos: 1000,
     max_empleados_extra: 1000,
@@ -43,7 +43,7 @@ const CATALOG = [
     max_estudios_por_periodo: 1,
     max_empleados_activos: 100,
     max_boletas: null,
-    max_correos_por_periodo: 400,
+    max_correos_por_periodo: null,
     max_estaciones_kiosco: null,
     precio_empleado_extra_centavos: 3000,
     max_empleados_extra: 50,
@@ -58,7 +58,7 @@ const CATALOG = [
     max_estudios_por_periodo: 2,
     max_empleados_activos: 500,
     max_boletas: null,
-    max_correos_por_periodo: 2000,
+    max_correos_por_periodo: null,
     max_estaciones_kiosco: null,
     precio_empleado_extra_centavos: 1500,
     max_empleados_extra: 250,
@@ -89,22 +89,34 @@ describe("pricing_cards", () => {
   it("deriva las viñetas de los topes, con singular, plural e ilimitado", () => {
     const starter = pricing_cards(CATALOG, es, "es").find((card) => card.id === "starter");
     expect(starter.features).toEqual([
-      "1 estudio al año",
+      "1 estudio de Clima y 1 de Satisfacción al año, juntos o por separado",
       "100 personas en nómina",
       "Boletas sin límite",
       "Estaciones de kiosco sin límite",
-      "400 correos por período",
+      "Correos sin límite",
       "$30 al año por persona adicional (hasta 50 más)",
     ]);
   });
 
   it("omite un eje que la API no publica, en vez de darlo por ilimitado", () => {
-    const starter = pricing_cards(CATALOG, en, "en").find((card) => card.id === "starter");
-    expect(starter.features.some((line) => /WhatsApp/.test(line))).toBe(false);
+    const without_emails = CATALOG.map(({ max_correos_por_periodo: _omitido, ...plan }) => plan);
+    const starter = pricing_cards(without_emails, en, "en").find((card) => card.id === "starter");
+    expect(starter.features.some((line) => /email/i.test(line))).toBe(false);
+  });
 
+  it("no anuncia el tope de WhatsApp aunque la API lo publique", () => {
     const with_whatsapp = CATALOG.map((plan) => ({ ...plan, max_whatsapp_por_periodo: 200 }));
-    const again = pricing_cards(with_whatsapp, en, "en").find((card) => card.id === "starter");
-    expect(again.features).toContain("200 WhatsApp messages per period");
+    for (const [dict, lang] of [[es, "es"], [en, "en"]]) {
+      const cards = pricing_cards(with_whatsapp, dict, lang);
+      expect(cards.flatMap((card) => card.features).some((line) => /WhatsApp/i.test(line))).toBe(false);
+    }
+  });
+
+  it("dice el tope de estudios por indice, en plural tambien", () => {
+    const pro = pricing_cards(CATALOG, en, "en").find((card) => card.id === "profesional");
+    expect(pro.features[0]).toBe(
+      "2 Climate studies and 2 Satisfaction studies per year, together or separately",
+    );
   });
 
   it("da el precio de lista y el precio por persona", () => {
