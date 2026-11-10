@@ -16,7 +16,9 @@ import { site_config } from "@/lib/site_config";
  */
 
 // La forma real de `GET /api/planes-publicos/` en produccion (2026-10-12),
-// sin `max_whatsapp_por_periodo`: ese campo llego despues y no se lista.
+// sin `max_whatsapp_por_periodo`: ese campo llego despues. Un eje ausente se
+// omite, asi que estas tarjetas no nombran WhatsApp; las pruebas de WhatsApp lo
+// agregan a mano.
 const CATALOG = [
   {
     codigo: "corporativo",
@@ -104,11 +106,29 @@ describe("pricing_cards", () => {
     expect(starter.features.some((line) => /email/i.test(line))).toBe(false);
   });
 
-  it("no anuncia el tope de WhatsApp aunque la API lo publique", () => {
-    const with_whatsapp = CATALOG.map((plan) => ({ ...plan, max_whatsapp_por_periodo: 200 }));
+  it("anuncia WhatsApp sin límite cuando el plan no tiene tope", () => {
+    const sin_tope = CATALOG.map((plan) => ({ ...plan, max_whatsapp_por_periodo: null }));
+    const esperado = [[es, "es", "WhatsApp sin límite"], [en, "en", "Unlimited WhatsApp"]];
+    for (const [dict, lang, texto] of esperado) {
+      const starter = pricing_cards(sin_tope, dict, lang).find((card) => card.id === "starter");
+      expect(starter.features).toContain(texto);
+      // Va despues de los correos y antes del excedente de personas.
+      const posicion = starter.features.indexOf(texto);
+      expect(starter.features[posicion - 1]).toMatch(/correos|emails/i);
+    }
+  });
+
+  it("dice el numero si un plan lleva tope de WhatsApp", () => {
+    const con_tope = CATALOG.map((plan) => ({ ...plan, max_whatsapp_por_periodo: 200 }));
+    const starter = pricing_cards(con_tope, es, "es").find((card) => card.id === "starter");
+    expect(starter.features).toContain("200 mensajes de WhatsApp por período");
+  });
+
+  it("no nombra WhatsApp si la API no publica ese eje", () => {
     for (const [dict, lang] of [[es, "es"], [en, "en"]]) {
-      const cards = pricing_cards(with_whatsapp, dict, lang);
-      expect(cards.flatMap((card) => card.features).some((line) => /WhatsApp/i.test(line))).toBe(false);
+      const cards = pricing_cards(CATALOG, dict, lang);
+      const de_planes = cards.filter((card) => !["trial", "custom"].includes(card.id));
+      expect(de_planes.flatMap((card) => card.features).some((line) => /WhatsApp/i.test(line))).toBe(false);
     }
   });
 

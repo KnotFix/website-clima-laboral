@@ -119,12 +119,13 @@ function format_number(value, lang) {
 
 /**
  * Los ejes que se listan en cada tarjeta, en orden, con su campo del catalogo.
- * Son los mismos cinco que la app.
+ * Son los mismos seis que la app.
  *
- * **El tope de WhatsApp NO se lista** (decision del usuario, 2026-11-09; en la
- * app no se anuncia desde el 2026-11-03). La API lo sigue publicando
- * (`max_whatsapp_por_periodo`) y el producto lo hace cumplir, pero la oferta no
- * lo muestra. Si vuelve, vuelve en los dos lados el mismo dia.
+ * **WhatsApp se lista desde el 2026-11-10** (decision del usuario: «las
+ * tarjetas dicen WhatsApp sin límite»). Estuvo oculto entre el 2026-11-09 y esa
+ * fecha. Los planes de venta lo tienen sin tope, asi que sale como «WhatsApp sin
+ * límite»; si un plan lleva tope, sale el numero. Si cambia, cambia en los dos
+ * lados el mismo dia (`lib/registro.ts` de la app).
  */
 const LIMIT_FIELDS = [
   ["studies", "max_estudios_por_periodo"],
@@ -132,6 +133,7 @@ const LIMIT_FIELDS = [
   ["forms", "max_boletas"],
   ["kiosks", "max_estaciones_kiosco"],
   ["emails", "max_correos_por_periodo"],
+  ["whatsapp", "max_whatsapp_por_periodo"],
 ];
 
 /**

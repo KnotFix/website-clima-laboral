@@ -725,6 +725,11 @@ const es = {
       other: "{number} correos por período",
       unlimited: "Correos sin límite",
     },
+    whatsapp: {
+      one: "{number} mensaje de WhatsApp por período",
+      other: "{number} mensajes de WhatsApp por período",
+      unlimited: "WhatsApp sin límite",
+    },
   },
   pricing_extra: "{price} al año por persona adicional",
   pricing_extra_up_to: "{price} al año por persona adicional (hasta {number} más)",
