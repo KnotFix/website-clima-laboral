@@ -719,6 +719,11 @@ const en = {
       other: "{number} emails per period",
       unlimited: "Unlimited emails",
     },
+    whatsapp: {
+      one: "{number} WhatsApp message per period",
+      other: "{number} WhatsApp messages per period",
+      unlimited: "Unlimited WhatsApp",
+    },
   },
   pricing_extra: "{price} per year for each additional person",
   pricing_extra_up_to: "{price} per year for each additional person (up to {number} more)",
