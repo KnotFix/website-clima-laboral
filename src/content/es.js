@@ -687,7 +687,7 @@ const es = {
     "Planes anuales para medir clima y satisfacción laboral, con todas las funciones incluidas. Cambia cuántas personas medís. Prueba gratis 30 días, sin tarjeta.",
   pricing_title: "Planes y precios",
   pricing_body:
-    "Todos los planes incluyen todas las funciones del producto. Lo que cambia es cuántas personas medís, cuántos estudios lanzás por año y cuántas invitaciones mandás.",
+    "Todos los planes incluyen todas las funciones del producto. Lo que cambia es cuántas personas medís y cuántos estudios lanzás por año.",
   pricing_billing: "Facturación anual",
   pricing_currency_note:
     "Precios en dólares estadounidenses (USD), con impuestos incluidos: el importe que ves es el que se cobra.",
@@ -698,8 +698,11 @@ const es = {
   pricing_unavailable_button: "Ver los planes en la aplicación",
   pricing_limits: {
     studies: {
-      one: "{number} estudio al año",
-      other: "{number} estudios al año",
+      // Un estudio solo de Clima y uno solo de Satisfacción gastan UN estudio
+      // del plan (producto, 2026-11-09): por eso el tope se dice por índice.
+      // Mismo texto que la tarjeta del registro de la app.
+      one: "{number} estudio de Clima y {number} de Satisfacción al año, juntos o por separado",
+      other: "{number} estudios de Clima y {number} de Satisfacción al año, juntos o por separado",
       unlimited: "Estudios al año sin límite",
     },
     people: {
@@ -721,11 +724,6 @@ const es = {
       one: "{number} correo por período",
       other: "{number} correos por período",
       unlimited: "Correos sin límite",
-    },
-    whatsapp: {
-      one: "{number} mensaje de WhatsApp por período",
-      other: "{number} mensajes de WhatsApp por período",
-      unlimited: "WhatsApp sin límite",
     },
   },
   pricing_extra: "{price} al año por persona adicional",

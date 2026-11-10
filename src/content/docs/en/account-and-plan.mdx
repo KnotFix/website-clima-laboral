@@ -33,9 +33,9 @@ Only these things have a cap, and they are the ones that cost someone money:
 - **Studies per period** — how many times you open collection in the contracted year.
 - **People on the roster** — how many people you have loaded in a status that can receive
   surveys.
-- **Email invitations per period** — how many emails go out.
-- **WhatsApp invitations per period**: how many messages go out. It is an allowance
-  separate from email, because every WhatsApp message is paid for.
+
+Email and WhatsApp invitations are uncapped on every plan. What exists instead is a wait
+between one send and the next to the same person; it is explained further down.
 
 **Everything else is uncapped.** Questionnaires, per-branch variants, your own Section 3
 questions, custom theories, kiosk stations, segments, reports, platform users, languages: unlimited on
@@ -44,11 +44,11 @@ capping questionnaires capped nothing, because a questionnaire can be duplicated
 
 ## The plans
 
-| | Studies per year | People on roster | Emails per period |
+| | Studies per year | People on roster | Emails |
 |---|---|---|---|
-| **Starter** · USD 2,500/yr | 1 | 100 | 400 |
-| **Professional** · USD 5,000/yr | 2 | 500 | 2,000 |
-| **Corporate** · USD 12,000/yr | 6 | 2,000 | 12,000 |
+| **Starter** · USD 2,500/yr | 1 | 100 | unlimited |
+| **Professional** · USD 5,000/yr | 2 | 500 | unlimited |
+| **Corporate** · USD 12,000/yr | 6 | 2,000 | unlimited |
 | **Custom** · negotiated | unlimited | unlimited | unlimited |
 
 **Custom is not self-service**: we build it with you. It is the route when the roster does
@@ -65,7 +65,18 @@ period runs March to March, and March is when the counters go back to zero. The
 distinction matters: there is no January 1st handing studies back to anyone.
 
 **Studies are counted on launch, and the credit is not returned.** A finished study
-consumed its credit, and that is right: closing it does not undo the collection.
+consumed its credit, and that is right: closing it does not undo the collection. Deleting
+a study that was already launched does not return it either; a draft can be deleted at no
+cost, because it never opened collection.
+
+**Climate and Satisfaction can be measured separately without using two studies.** Each
+study in your plan covers one Climate measurement and one Satisfaction measurement. You
+can run them together, in a single study, or split them: one that measures only Climate
+in one month and another that measures only Satisfaction later on, with shorter surveys.
+The two parts count as a single study if both are launched within the same period. What
+each study measures is chosen under Configuration → Questionnaires before launching, and
+the first part has to be finished before the second one is launched. Two studies of the
+same index are two studies.
 
 **The roster counts the people who can receive surveys.** Every status on your roster
 has a checkbox, «Can receive surveys», and only the people in a status with it checked
@@ -76,10 +87,16 @@ on holiday or on sick leave does not count, and moving someone who has left to a
 without the checkbox frees their place. Statuses are defined under Configuration →
 Payroll → Statuses; see [The roster spreadsheet](/en/docs/roster-format).
 
-**Emails count sends, not people.** Re-inviting someone sends another email and adds
-another. The kiosk consumes nothing on this axis: only email costs email. WhatsApp
-works the same way in its own allowance: every message sent counts, and each plan's
-allowance is on the product's plans screen.
+**Invitations are uncapped, but they are not repeated pointlessly.** The same person does
+not get the invitation again on the same channel until the next day: about 20 hours have
+to pass since the previous send. If you sent the survey to the whole organisation and
+press send again, nothing goes out, and the screen tells you from what time you can
+resend. After that, the reminder reaches only those who have not answered yet, with the
+same link. Whoever has already answered receives nothing more, on any channel. This
+applies to email and to WhatsApp alike, and each channel keeps its own wait: having sent
+the email today does not stop you from sending the WhatsApp. On WhatsApp, in addition,
+each person gets at most the invitation and 3 reminders per study; after that they can
+still be invited by email or surveyed at the kiosk.
 
 All of it is visible on the plan screen, with its meter: what you have used and what you
 have.

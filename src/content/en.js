@@ -684,7 +684,7 @@ const en = {
     "Annual plans to measure workplace climate and satisfaction, every feature included. What changes is how many people you measure. Free 30-day trial, no card.",
   pricing_title: "Plans and pricing",
   pricing_body:
-    "Every plan includes every feature of the product. What changes is how many people you measure, how many studies you launch per year and how many invitations you send.",
+    "Every plan includes every feature of the product. What changes is how many people you measure and how many studies you launch per year.",
   pricing_billing: "Billed annually",
   pricing_currency_note:
     "Prices in US dollars (USD), taxes included: the amount you see is the amount you are charged.",
@@ -695,8 +695,8 @@ const en = {
   pricing_unavailable_button: "See the plans in the app",
   pricing_limits: {
     studies: {
-      one: "{number} study per year",
-      other: "{number} studies per year",
+      one: "{number} Climate study and {number} Satisfaction study per year, together or separately",
+      other: "{number} Climate studies and {number} Satisfaction studies per year, together or separately",
       unlimited: "Unlimited studies per year",
     },
     people: {
@@ -718,11 +718,6 @@ const en = {
       one: "{number} email per period",
       other: "{number} emails per period",
       unlimited: "Unlimited emails",
-    },
-    whatsapp: {
-      one: "{number} WhatsApp message per period",
-      other: "{number} WhatsApp messages per period",
-      unlimited: "Unlimited WhatsApp messages",
     },
   },
   pricing_extra: "{price} per year for each additional person",
