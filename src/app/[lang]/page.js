@@ -1,4 +1,5 @@
 import { SectionGlow } from "@/components/effects/section_glow";
+import { Clients } from "@/components/home/clients";
 import { Faq } from "@/components/home/faq";
 import { FinalCta } from "@/components/home/final_cta";
 import { Hero } from "@/components/home/hero";
@@ -144,6 +145,15 @@ export default async function HomePage({ params }) {
               <Reports dict={dict} />
             </SectionGlow>
           </div>
+
+          {/* **Los clientes van SIN `SectionGlow`, y es a proposito.** El lado
+              del resplandor alterna seccion a seccion; meter una seccion con
+              glow en el medio invertiria otra vez el FAQ y el CTA, igual que
+              paso al sumar los reportes. Sin glow, la alternancia de las demas
+              queda como estaba, y esta seccion recibe la sangria de las
+              vecinas. Va despues de los reportes: primero el producto, recien
+              ahi quien ya lo usa. */}
+          <Clients dict={dict} />
 
           <SectionGlow side="left" tint={0.9}>
             <Faq dict={dict} />

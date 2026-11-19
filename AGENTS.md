@@ -1,6 +1,6 @@
 <!-- BEGIN:nextjs-agent-rules -->
 
-# This is NOT the Next.js you know
+## This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
@@ -55,7 +55,7 @@ Tokens CSS en kebab-case (`--muted-foreground`): los genera shadcn.
 - Tokens heredados del sistema administrativo de Knotfix, para que sitio y producto se vean de la misma familia. Primario `#5b21b6` en claro, `#8b5cf6` en oscuro.
 - **Tema claro y oscuro**, ambos cuidados. Usar tokens (`bg-background`, `text-muted-foreground`), nunca colores literales.
 - **Ancho máximo 1200px**, y vive **solo** en `Container`. Ninguna sección define su propio `max-w`.
-- Sin badge/eyebrow arriba del titular del hero. Sin carrusel de logos.
+- Sin badge/eyebrow arriba del titular del hero. Sin tira de logos pegada al hero: los clientes van en su propia sección, «Nuestra familia» (decisión del usuario, 2026-11-19).
 
 ## Contenido
 
