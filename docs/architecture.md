@@ -109,6 +109,9 @@ src/
                                 bloques, cada uno con su maqueta        [programmer]
       scale_tree.jsx            escala: 4 organizaciones en pestanas    [programmer]
       org_chart.jsx             organigrama recursivo de un arbol       [programmer]
+      clients.jsx               seccion 5b, «Nuestra familia»: los logos
+                                de clientes en un riel que pasa solo
+                                (CSS, sin JS). Server Component         [programmer]
       faq.jsx                   seccion 6: el marco del FAQ             [programmer]
       faq_list.jsx              el acordeon; la unica parte con estado  [programmer]
       final_cta.jsx             seccion 7: texto y boton en fila        [programmer]
@@ -541,6 +544,13 @@ weights_shots      { scale_max, cross, weights, compare, threshold } — una
                    **Los numeros son contenido**: el decimal es coma en español
                    y punto en ingles, y de dividirlos por `scale_max` sale el
                    largo de cada barra
+clients_title_segments[] { text } | { text, tone: "brand" } — «Nuestra
+                   familia», con «familia» en acento
+clients_body
+clients_items[]    { name, logo, round? } — `name` es el `alt` del logo y
+                   no se traduce; `logo` es la ruta en `public/clients/`;
+                   `round` le saca el relleno a un logo circular para que su
+                   texto no quede chico. Mismo orden en los dos idiomas
 scale_title
 scale_body
 scale_orgs[]      { label, size, tree }  — `size` es la cifra que se despliega
@@ -1946,7 +1956,7 @@ entrando `0.44 / +63px`, dentro `1.0 / −28px`, saliendo `0 / −90px`.
 
 ```
 Hero → Problema → Medición → Planeta → Escala
-     → Cómo funciona → Análisis → Reportes → FAQ → CTA final
+     → Cómo funciona → Análisis → Reportes → Nuestra familia → FAQ → CTA final
 ```
 
 **Los reportes van pegados al análisis y comparten su banda**: son su
@@ -2707,6 +2717,37 @@ acá el peso está en las imágenes, que es lo que la sección tiene para mostra
 > crucen en el solape— así que meter una en el medio invierte a todas las que
 > siguen: el FAQ pasó a `left` y el CTA final a `right`. El `tint` de los
 > reportes es `0.85`, el escalón que quedaba libre entre el análisis y el FAQ.
+
+### Nuestra familia: los clientes en un riel
+
+Los logos de los clientes, pasando solos de derecha a izquierda. Va **después de
+los reportes y antes del FAQ**: primero se muestra el producto y recién ahí
+quién ya lo usa. Pedida por el usuario el 2026-11-19, con dos clientes: Grupo
+GACH y Right People.
+
+> **Levanta el «sin carrusel de logos» que había en `AGENTS.md`.** Esa regla era
+> contra la tira de logos genérica pegada al hero. Esta es una sección propia,
+> con titular, y con clientes reales.
+
+- **Va sin `SectionGlow`.** El costado del resplandor alterna sección a sección,
+  y una sección con glow en el medio habría vuelto a invertir el FAQ y el CTA,
+  como pasó al sumar los reportes. Sin glow, nada de abajo cambia.
+- **El movimiento es CSS**: `@keyframes clients-marquee` sobre `transform`, en
+  `globals.css`. El riel tiene dos mitades iguales y se corre `-50%`, así que el
+  salto de vuelta no se ve. Se detiene con el mouse encima.
+- **`RAIL_REPEAT`** (en `clients.jsx`) repite la lista dentro de cada mitad para
+  que media vuelta sea más ancha que una pantalla de 2560px. Si se suman
+  clientes, se puede bajar; si cambia el largo del riel, revisar los `60s`.
+- **Dos copias, cada una con su público.** El riel lleva `aria-hidden` y
+  `alt=""`. La lista real —un logo por cliente con su `alt`— está siempre en el
+  árbol de accesibilidad: `sr-only` con movimiento, y visible con
+  `prefers-reduced-motion`, que además esconde el riel. Quien pidió menos
+  movimiento ve los logos quietos, no un riel congelado.
+- **`--logo-plate`** es la placa de cada logo: blanca en los dos temas porque
+  los archivos vienen con fondo blanco. En oscuro baja a `#ebebeb` y el logo a
+  `brightness(0.92)`, para que placa y archivo sigan siendo un solo blanco.
+- Los archivos viven en `public/clients/` en WebP, recortados al logo. Al de
+  GACH se le pasó el fondo `#f6f6f6` a blanco para que coincida con la placa.
 
 ### Los pasos: cuatro fichas clavadas en zigzag
 

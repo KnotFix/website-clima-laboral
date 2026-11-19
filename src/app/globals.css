@@ -24,6 +24,7 @@
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
+  --color-logo-plate: var(--logo-plate);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
@@ -88,6 +89,11 @@
   --foreground: #0b0a0f;
   --card: #ffffff;
   --card-foreground: #0b0a0f;
+  /* La placa de los logos de clientes («Nuestra familia»). Blanca en los dos
+     temas porque los logos vienen con fondo blanco; en oscuro baja al 92%, el
+     mismo brillo que `dark:brightness-[0.92]` le da al logo encima, para que
+     placa y archivo sigan siendo un solo blanco. */
+  --logo-plate: #ffffff;
   --popover: #ffffff;
   --popover-foreground: #0b0a0f;
   /* Los botones son negros, no del color de acento. El acento quedo reservado
@@ -313,6 +319,7 @@
   --foreground: #f4f3f6;
   --card: #14121a;
   --card-foreground: #f4f3f6;
+  --logo-plate: #ebebeb;
   --popover: #14121a;
   --popover-foreground: #f4f3f6;
   /* En oscuro el boton negro desaparece contra el fondo: se invierte a
@@ -1623,4 +1630,46 @@
    eligio no ve un destello. El reabierto desde el pie no lleva «initial». */
 html[data-consent] [data-consent-banner="initial"] {
   display: none;
+}
+
+/* ---- Riel de clientes («Nuestra familia») --------------------------------
+   El riel lleva dos mitades identicas y se corre exactamente media vuelta: al
+   llegar al `-50%` la segunda mitad esta donde empezo la primera, y el salto de
+   vuelta a 0 no se ve. Solo `transform`.
+
+   La velocidad es fija en segundos y no en px/s: con la lista repetida
+   `RAIL_REPEAT` veces (ver `clients.jsx`), media vuelta son ~2500px, o sea
+   ~40px/s. Si cambia el largo del riel, revisar este numero.
+
+   Con `prefers-reduced-motion` el riel ni se dibuja (`motion-reduce:hidden` en
+   el componente) y se ve la lista quieta; el `animation: none` de abajo es por
+   si alguien quita esa clase. */
+@keyframes clients-marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.clients-rail {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+.clients-track {
+  animation: clients-marquee 60s linear infinite;
+}
+
+.clients-rail:hover .clients-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-track {
+    animation: none;
+  }
 }

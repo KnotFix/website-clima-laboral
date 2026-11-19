@@ -555,6 +555,19 @@ const en = {
     },
   ],
 
+  // Section 5b — clients ("Our family"). Same order as `es.js`; `name` is the
+  // logo's alt text. Brand names are not translated.
+  clients_title_segments: [
+    { text: "Our" },
+    { text: "family", tone: "brand" },
+  ],
+  clients_body:
+    "The organizations already measuring their workplace climate with Censuma.",
+  clients_items: [
+    { name: "Grupo GACH", logo: "/clients/gach.webp" },
+    { name: "Right People", logo: "/clients/right_people.webp", round: true },
+  ],
+
   // Section 6 — FAQ
   // > **The confidentiality section used to live here.** It was dropped as a
   // > section of its own, but the argument was NOT lost: it is the single

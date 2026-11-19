@@ -558,6 +558,23 @@ const es = {
     },
   ],
 
+  // Sección 5b — los clientes («Nuestra familia»)
+  //
+  // Va entre los reportes y el FAQ: primero se muestra el producto y recién
+  // ahí quién ya lo usa. `name` es el texto alternativo del logo; `logo`, el
+  // archivo en `public/clients/`. Sumar un cliente es sumar una entrada acá
+  // y en `en.js`, con el mismo orden.
+  clients_title_segments: [
+    { text: "Nuestra" },
+    { text: "familia", tone: "brand" },
+  ],
+  clients_body:
+    "Las organizaciones que ya miden su clima laboral con Censuma.",
+  clients_items: [
+    { name: "Grupo GACH", logo: "/clients/gach.webp" },
+    { name: "Right People", logo: "/clients/right_people.webp", round: true },
+  ],
+
   // Sección 6 — preguntas frecuentes
   // > **Acá vivía la sección de confidencialidad.** Se retiró como sección
   // > propia, pero el argumento NO se perdió: era la objeción más grande que

@@ -14,10 +14,12 @@ describe("is_doc_slug", () => {
 });
 
 describe("headings_of", () => {
-  it("devuelve vacio para un slug que no existe", () => {
+  it("devuelve vacio para un slug que no existe", async () => {
     // No revienta: la ruta ya devolvio 404 antes de llegar aca, y el indice
     // lateral se dibuja vacio en vez de tumbar la pagina.
-    expect(headings_of("es", "pagina-inventada")).resolves.toEqual([]);
+    // Con `await`: sin el, la asercion quedaba suelta y el test pasaba sin
+    // esperar el resultado. Vitest 5 lo marca como error.
+    await expect(headings_of("es", "pagina-inventada")).resolves.toEqual([]);
   });
 
   it("saca los backticks pero deja el guion bajo de un identificador", async () => {
