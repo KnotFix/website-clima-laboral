@@ -37,9 +37,8 @@ export default async function HomePage({ params }) {
       <Navbar lang={lang} dict={dict} />
       {/* Destino del enlace "saltar al contenido" del navbar. */}
       <main id="main" className="flex-1">
-        {/* El problema abre el argumento, apenas pasan el hero y los clientes:
-            primero se plantea que las encuestas de clima no cambian nada y
-            recien despues se afirma la solucion.
+        {/* El problema va segundo: primero se plantea que las encuestas de
+            clima no cambian nada y recien despues se afirma la solucion.
             Planeta y escala quedan pegados porque son el mismo argumento —
             alcance— visto de dos maneras. */}
         <Hero lang={lang} dict={dict} />
@@ -52,19 +51,6 @@ export default async function HomePage({ params }) {
             su altura**. Medido: 9645px de blanco encima de la atmosfera.
             El envoltorio se queda porque agrupa el bloque, pero ya no pinta. */}
         <div>
-          {/* **Los clientes van pegados al hero, justo debajo de la captura**
-              (decision del usuario, 2026-11-19; antes iban entre los reportes y
-              el FAQ). Es lo primero que se destapa cuando el hero se levanta:
-              `ScrollLift` mete los primeros `HERO_LIFT` px de ESTA seccion
-              detras del hero, donde antes quedaba el arranque del problema.
-
-              **Van SIN `SectionGlow`, y es a proposito.** El lado del
-              resplandor alterna seccion a seccion; una seccion con glow en el
-              medio invertiria a todas las de abajo, igual que paso al sumar los
-              reportes. Ademas este tramo de arriba —hero, problema y medicion—
-              no lleva glow: depende solo de las manchas de `<AtmosphereField>`. */}
-          <Clients dict={dict} />
-
           {/* **El problema y la medicion son un solo capitulo.** Se leen como
               dos diapositivas de un carrusel: la pila se arma con el titular
               quieto al lado, y cuando termina, esa composicion entera se va por
@@ -159,6 +145,15 @@ export default async function HomePage({ params }) {
               <Reports dict={dict} />
             </SectionGlow>
           </div>
+
+          {/* **Los clientes van SIN `SectionGlow`, y es a proposito.** El lado
+              del resplandor alterna seccion a seccion; meter una seccion con
+              glow en el medio invertiria otra vez el FAQ y el CTA, igual que
+              paso al sumar los reportes. Sin glow, la alternancia de las demas
+              queda como estaba, y esta seccion recibe la sangria de las
+              vecinas. Va despues de los reportes: primero el producto, recien
+              ahi quien ya lo usa. */}
+          <Clients dict={dict} />
 
           <SectionGlow side="left" tint={0.9}>
             <Faq dict={dict} />
