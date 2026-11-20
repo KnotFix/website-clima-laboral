@@ -558,10 +558,10 @@ const es = {
     },
   ],
 
-  // Sección 1b — los clientes («Nuestra familia»)
+  // Sección 5b — los clientes («Nuestra familia»)
   //
-  // Va justo debajo de la captura del hero, antes del problema (decisión del
-  // usuario, 2026-11-19). `name` es el texto alternativo del logo; `logo`, el
+  // Va entre los reportes y el FAQ: primero se muestra el producto y recién
+  // ahí quién ya lo usa. `name` es el texto alternativo del logo; `logo`, el
   // archivo en `public/clients/`. Sumar un cliente es sumar una entrada acá
   // y en `en.js`, con el mismo orden.
   clients_title_segments: [
