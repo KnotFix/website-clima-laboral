@@ -109,7 +109,7 @@ src/
                                 bloques, cada uno con su maqueta        [programmer]
       scale_tree.jsx            escala: 4 organizaciones en pestanas    [programmer]
       org_chart.jsx             organigrama recursivo de un arbol       [programmer]
-      clients.jsx               seccion 5b, «Nuestra familia»: los logos
+      clients.jsx               seccion 1b, «Nuestra familia»: los logos
                                 de clientes en un riel que pasa solo
                                 (CSS, sin JS). Server Component         [programmer]
       faq.jsx                   seccion 6: el marco del FAQ             [programmer]
@@ -404,8 +404,12 @@ docs/
 | `fog` | prop number | px en que `HeroCover` se disuelve al pie; ahí aparece lo que viene detrás |
 | `FOG_STOPS` | const array | los puntos de la curva de la niebla: `[cuánto queda del fondo, a qué altura]` |
 | `blurred` | prop boolean | `ScrollLine` dibuja la copia difusa, la que va **encima** de las fichas |
-| `shape` | prop `"stack"` | qué camino dibuja `ScrollLine`. La geometría vive en su archivo, no en la sección |
+| `shape` | prop `"stack"` \| `"lead"` | qué camino dibuja `ScrollLine`. La geometría vive en su archivo, no en la sección |
+| `outside_chapter` | prop boolean | `ScrollLine` fuera del capítulo: el trazo va quieto, entero con el capítulo suelto y solo riel con el capítulo clavado. Lo usa `lead` |
 | `STACK` | const string | la curva que hilvana la pila del problema, en coordenadas del viewBox (100 × 1000 = porcentajes) |
+| `STACK_START_X` | const number | por dónde entra la línea a la diapositiva del problema, en `x` del viewBox. `LEAD_*` termina ahí y `STACK` arranca ahí |
+| `LEAD_WIDE` / `LEAD_NARROW` | const string | el tramo que trae la línea desde el hero, cruzando los clientes, hasta el arranque de `STACK`. Uno por ancho, con el corte en `lg` |
+| `chapter-pinned` | variante de Tailwind | las condiciones con las que `PinnedChapter` clava el capítulo, escritas como media query en `globals.css`, para lo que vive fuera del capítulo |
 | `CONNECTOR_NARROW` / `CONNECTOR_WIDE` | const string | el empalme problema → medición, uno por tramo: arranca en `x = 82` o en `x = 91.5` según dónde terminó la pila |
 | `SHAPES` | const object | mapa de `shape` a la lista de caminos; más de uno cuando la caja cambia de ancho por breakpoint |
 | `travel` | number | px que el riel del carrusel recorre de lado. Es también el scroll que dura el clavado: van 1:1 |
@@ -837,7 +841,8 @@ Si un detalle tiene que ser morado, usa `--brand` (`text-brand`, `bg-brand`,
 > que se podía retirar y pasó a ser algo que había que retirar.
 >
 > Lo único que queda de esa familia es `HeroCover`, y **no es decoración**: es lo
-> que tapa la sección del problema que `ScrollLift` mete detrás del hero.
+> que tapa la sección siguiente —los clientes desde el 2026-11-19, antes el
+> problema— que `ScrollLift` mete detrás del hero.
 
 ### El fondo es blanco, y qué se llevó puesto
 
@@ -1353,6 +1358,11 @@ del contenido ya es `relative`, así que el texto queda arriba de las dos capas 
 tocar un `z-index`.
 
 ### El hero es una tapa que se levanta
+
+> **Desde el 2026-11-19 lo que el hero destapa es «Nuestra familia»**, que pasó
+> a ir justo debajo de la captura. Todo lo que sigue se escribió cuando la
+> sección de atrás era el problema, y las medidas son de entonces: donde dice
+> «el problema», hoy se lee «la sección siguiente». El mecanismo no cambió.
 
 El problema **arranca metido detrás del hero** y se destapa con el scroll. El
 mecanismo son dos cosas que van juntas y las escribe el mismo componente
@@ -1955,17 +1965,22 @@ entrando `0.44 / +63px`, dentro `1.0 / −28px`, saliendo `0 / −90px`.
 ### El orden de la página
 
 ```
-Hero → Problema → Medición → Planeta → Escala
-     → Cómo funciona → Análisis → Reportes → Nuestra familia → FAQ → CTA final
+Hero → Nuestra familia → Problema → Medición → Planeta → Escala
+     → Cómo funciona → Análisis → Reportes → FAQ → CTA final
 ```
+
+**«Nuestra familia» va pegada al hero, justo debajo de la captura** (decisión
+del usuario, 2026-11-19). Nació entre los reportes y el FAQ y el mismo día se
+subió: quién ya lo usa se ve antes de plantear el problema.
 
 **Los reportes van pegados al análisis y comparten su banda**: son su
 consecuencia. Primero se cruza y se compara, y recién ahí tiene sentido decir en
 qué formato te llevás eso. Puestos antes serían una lista de formatos de un
 informe del que todavía no se sabe qué trae.
 
-El **problema va segundo**: primero se plantea que las encuestas de clima no
-cambian nada y recién después se afirma la solución. Planeta y escala van
+El **problema abre el argumento**, apenas pasan el hero y los clientes: primero
+se plantea que las encuestas de clima no cambian nada y recién después se afirma
+la solución. Planeta y escala van
 pegados porque son el mismo argumento —alcance— visto de dos maneras.
 
 > **El `pt` entre planeta y escala lo pone escala, no el planeta.** `WorldReach`
@@ -2720,18 +2735,44 @@ acá el peso está en las imágenes, que es lo que la sección tiene para mostra
 
 ### Nuestra familia: los clientes en un riel
 
-Los logos de los clientes, pasando solos de derecha a izquierda. Va **después de
-los reportes y antes del FAQ**: primero se muestra el producto y recién ahí
-quién ya lo usa. Pedida por el usuario el 2026-11-19, con dos clientes: Grupo
-GACH y Right People.
+Los logos de los clientes, pasando solos de derecha a izquierda. Va **justo
+debajo de la captura del hero y antes del problema**. Pedida por el usuario el
+2026-11-19, con dos clientes: Grupo GACH y Right People.
+
+> **Nació entre los reportes y el FAQ y el mismo día se subió al hero** (decisión
+> del usuario, 2026-11-19). En `page.js` es el primer hijo del bloque que sigue
+> al hero, antes de `PinnedChapter`.
 
 > **Levanta el «sin carrusel de logos» que había en `AGENTS.md`.** Esa regla era
-> contra la tira de logos genérica pegada al hero. Esta es una sección propia,
-> con titular, y con clientes reales.
+> contra la tira de logos genérica suelta dentro del hero. Esta es una sección
+> propia, con titular, y con clientes reales.
 
+- **La línea del problema la cruza, y sale de abajo de la captura.** Mientras el
+  problema iba pegado al hero, el arranque de su línea quedaba detrás de la tapa;
+  con esta sección en el medio quedó a la vista, cortado en el aire debajo de
+  los logos. `ScrollLine shape="lead"` la trae desde el hero: su caja es la
+  sección más 6rem hacia arriba, que se meten debajo del hero para que el trazo
+  salga por la niebla. Baja por la derecha para no cruzar el texto (`x = 76` de
+  `lg` para arriba; por el margen, `x = 97`, abajo de `lg`), dobla por detrás de
+  las placas y termina en `STACK_START_X` bajando en vertical, igual que arranca
+  `STACK`.
+  - **El ancho copia al de la diapositiva del problema** (`chapter-pinned:w-screen`),
+    o el empalme queda corrido lo que mide la barra de scroll. Medido a 1368: los
+    dos trazos se encuentran en `x = 410.4`.
+  - **El tono también**: con el capítulo clavado es solo riel, y suelto va
+    oscuro, que es como está `STACK` en cada caso (`outside_chapter`).
+  - De paso el trazo perdió el `strokeLinecap="round"`: con el avance en 0
+    pintaba un punto oscuro en el arranque, que también había quedado a la vista.
+- **Es la sección que el hero destapa.** `ScrollLift` mete sus primeros
+  `HERO_LIFT` px detrás del hero, donde antes quedaba el arranque del problema.
+  Esos 320px tapan el aire de arriba, el titular y el arranque del riel (medido
+  a 1368×1018: sección en 1172, titular en 1313, riel en 1441), así que al
+  scrollear asoman primero los logos por la niebla del pie del hero y después
+  sale el titular. En reposo queda todo a la vista.
 - **Va sin `SectionGlow`.** El costado del resplandor alterna sección a sección,
-  y una sección con glow en el medio habría vuelto a invertir el FAQ y el CTA,
-  como pasó al sumar los reportes. Sin glow, nada de abajo cambia.
+  y una sección con glow en el medio habría invertido a todas las de abajo, como
+  pasó al sumar los reportes. Además el tramo de arriba —hero, problema y
+  medición— no lleva glow: depende solo de las manchas de `AtmosphereField`.
 - **El movimiento es CSS**: `@keyframes clients-marquee` sobre `transform`, en
   `globals.css`. El riel tiene dos mitades iguales y se corre `-50%`, así que el
   salto de vuelta no se ve. Se detiene con el mouse encima.
@@ -3436,7 +3477,8 @@ se elige con `resolvedTheme` de next-themes.
 | `lang` | navbar, footer, lang_switch | idioma actual |
 | `class_name` | componentes de motion/effects | clases extra desde afuera |
 | `children` | container, parallax, reveal | contenido envuelto |
-| `shape` | scroll_line | qué camino dibujar; hoy sólo `"stack"` |
+| `shape` | scroll_line | qué camino dibujar: `"stack"` o `"lead"` |
+| `outside_chapter` | scroll_line | trazo quieto, para el tramo que vive fuera del capítulo |
 | `progress` | scroll_line | avance 0→1 del dibujo; por defecto, el de la pila del capítulo |
 | `index` / `count` | cards_stack | turno y escalón de una ficha dentro de la pila |
 | `stack_steps` | pinned_chapter | cuántas fichas tiene la pila; de ahí sale el largo de la fase 1 |

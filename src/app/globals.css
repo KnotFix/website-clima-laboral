@@ -4,6 +4,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Cuando `PinnedChapter` clava el capitulo del problema y la medicion. Son las
+   mismas tres condiciones que mide en JavaScript (`PIN_MIN_WIDTH`,
+   `PIN_MIN_HEIGHT` y movimiento permitido, en `pinned_chapter.jsx`), para lo
+   que queda FUERA del capitulo y tiene que acompañarlo sin hidratar nada: el
+   tramo de la linea que cruza los clientes. Va en px y no en `rem` porque el
+   componente compara contra `innerWidth` en px. Si cambian alla, cambian aca. */
+@custom-variant chapter-pinned {
+  @media (min-width: 1024px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+    @slot;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

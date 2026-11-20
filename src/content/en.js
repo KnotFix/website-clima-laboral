@@ -555,8 +555,9 @@ const en = {
     },
   ],
 
-  // Section 5b — clients ("Our family"). Same order as `es.js`; `name` is the
-  // logo's alt text. Brand names are not translated.
+  // Section 1b — clients ("Our family"), right under the hero screenshot and
+  // before the problem. Same order as `es.js`; `name` is the logo's alt text.
+  // Brand names are not translated.
   clients_title_segments: [
     { text: "Our" },
     { text: "family", tone: "brand" },

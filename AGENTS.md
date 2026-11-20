@@ -55,7 +55,7 @@ Tokens CSS en kebab-case (`--muted-foreground`): los genera shadcn.
 - Tokens heredados del sistema administrativo de Knotfix, para que sitio y producto se vean de la misma familia. Primario `#5b21b6` en claro, `#8b5cf6` en oscuro.
 - **Tema claro y oscuro**, ambos cuidados. Usar tokens (`bg-background`, `text-muted-foreground`), nunca colores literales.
 - **Ancho máximo 1200px**, y vive **solo** en `Container`. Ninguna sección define su propio `max-w`.
-- Sin badge/eyebrow arriba del titular del hero. Sin tira de logos pegada al hero: los clientes van en su propia sección, «Nuestra familia» (decisión del usuario, 2026-11-19).
+- Sin badge/eyebrow arriba del titular del hero. Sin tira de logos suelta dentro del hero: los clientes van en su propia sección con titular, «Nuestra familia», justo debajo de la captura del hero y antes del problema (decisión del usuario, 2026-11-19; nació entre los reportes y el FAQ y el mismo día se subió).
 
 ## Contenido
 

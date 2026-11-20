@@ -27,6 +27,14 @@ import { cn } from "@/lib/utils";
 export const SEAM_Y = 740;
 
 /**
+ * Por donde entra la linea a la diapositiva del problema, en `x` del viewBox.
+ *
+ * Es la otra juntura, la de arriba: `LEAD` termina aca y `STACK` arranca aca.
+ * Un numero y no dos por lo mismo que `SEAM_Y`.
+ */
+const STACK_START_X = 30;
+
+/**
  * Las curvas, en coordenadas del viewBox. El ancho es 100 y el alto 1000, y el
  * SVG se estira al contenedor (`preserveAspectRatio="none"`), asi que estos
  * numeros son porcentajes: `x` del ancho de la caja, `y` del alto.
@@ -64,10 +72,55 @@ export const SEAM_Y = 740;
  * > lo que `S` hacia gratis y aca hay que escribir.
  */
 const STACK = [
-  `M 30 0`,
-  `C 30 170, 20 250, 20 390`,
+  `M ${STACK_START_X} 0`,
+  `C ${STACK_START_X} 170, 20 250, 20 390`,
   `C 20 480, 38 500, 50 560`,
   `C 62 620, 82 ${SEAM_Y}, 100 ${SEAM_Y}`,
+].join(" ");
+
+/**
+ * El tramo que trae la linea desde el hero hasta el arranque de `STACK`,
+ * cruzando la seccion de clientes. No se dibuja con el scroll: va quieto, ver
+ * `outside_chapter`.
+ *
+ * **Existe porque la linea quedo cortada** (2026-11-19). Mientras el problema
+ * iba pegado al hero, el arranque de `STACK` quedaba metido detras de la tapa y
+ * la linea se leia saliendo de abajo de la captura. Con «Nuestra familia» en el
+ * medio, ese arranque quedo a la vista: un trazo que empezaba en el aire, debajo
+ * de los logos.
+ *
+ * La caja es la seccion de clientes mas un tramo hacia arriba que se mete
+ * debajo del hero (ver `clients.jsx`), asi que `y = 0` esta tapado por la
+ * captura y `y = 1000` es el borde de arriba del problema.
+ *
+ * > **Termina en `(STACK_START_X, 1000)` bajando en vertical**, que es como
+ * > arranca `STACK`: mismo `x`, misma tangente. Son dos SVG distintos y lo unico
+ * > que los une es ese punto.
+ *
+ * > **Baja por la derecha para no cruzar el texto.** El titular y el cuerpo van
+ * > alineados a la izquierda y ocupan hasta `max-w-2xl`: a 1024 de ancho eso
+ * > llega al 69%. `WIDE` baja por 76 —debajo de la captura hasta los ~2300px de
+ * > ancho— y recien dobla a la altura del riel, por detras de las placas. En
+ * > `NARROW` el texto ocupa todo el ancho, asi que baja por el margen del
+ * > `Container` (97) y cruza donde ya no hay texto.
+ *
+ * > **El cruce es una sola ese, con los dos tiradores en vertical.** La primera
+ * > version doblaba en dos tramos y llegaba al empalme casi horizontal, con un
+ * > codo de 85px justo antes de la juntura: se leia como un quiebre y no como
+ * > la misma linea. Vertical arriba y vertical abajo es ademas lo unico que
+ * > sobrevive al estirado: la caja cambia de proporcion con cada ancho, y una
+ * > tangente en diagonal quedaria en otro angulo que la de `STACK`.
+ */
+const LEAD_WIDE = [
+  `M 76 0`,
+  `L 76 560`,
+  `C 76 800, ${STACK_START_X} 760, ${STACK_START_X} 1000`,
+].join(" ");
+
+const LEAD_NARROW = [
+  `M 97 0`,
+  `L 97 660`,
+  `C 97 860, ${STACK_START_X} 820, ${STACK_START_X} 1000`,
 ].join(" ");
 
 /**
@@ -83,6 +136,12 @@ const STACK = [
  */
 const SHAPES = {
   stack: [{ d: STACK }],
+  // Dos caminos, uno por ancho. El corte es `lg` porque es donde el texto de
+  // los clientes deja de ocupar todo el ancho del `Container`.
+  lead: [
+    { d: LEAD_NARROW, class_name: "lg:hidden" },
+    { d: LEAD_WIDE, class_name: "hidden lg:block" },
+  ],
 };
 
 /**
@@ -120,10 +179,22 @@ const SHAPES = {
  * `shape` elige el camino. La geometria vive **aca** y no en la seccion que la
  * usa: es una decision de dibujo, y el extremo del trazo tiene que poder
  * mirarse contra `SEAM_Y` en el mismo archivo.
+ *
+ * `outside_chapter` es para `lead`, que vive fuera del capitulo y no tiene
+ * avance que lo dibuje. El trazo va quieto y **copia el estado en que esta el
+ * arranque de `STACK` cuando los dos se ven juntos**:
+ * - con el capitulo clavado, `STACK` todavia no empezo a dibujarse —el avance
+ *   vale 0 hasta que la diapositiva llega arriba, y ahi los clientes ya
+ *   salieron de pantalla—, asi que aca queda solo el riel;
+ * - con el capitulo suelto (telefono, ventana baja, movimiento reducido),
+ *   `STACK` va entero y oscuro, y aca tambien.
+ * Sin esto, en un telefono la linea cambiaba de gris a negro justo en el
+ * empalme. El corte es la variante `chapter-pinned` de `globals.css`.
  */
 export function ScrollLine({
   progress,
   blurred = false,
+  outside_chapter = false,
   shape = "stack",
   class_name,
 }) {
@@ -168,16 +239,26 @@ export function ScrollLine({
               perdida.
               La version difusa va mas gruesa y mucho mas tenue: el desenfoque
               reparte la tinta, asi que un trazo de 2px se disolveria hasta
-              desaparecer. */}
+              desaparecer.
+              > **Sin `strokeLinecap="round"`, y es por el avance en 0.** Un
+              > trazo de largo cero con punta redonda igual pinta la punta: un
+              > punto oscuro en el arranque de la curva. Mientras ese arranque
+              > quedaba detras del hero no se veia; con los clientes en el medio
+              > quedo a la vista, justo en el empalme con `lead`. A 2px la punta
+              > recta no se distingue de la redonda. */}
           <motion.path
             d={variant.d}
             fill="none"
             stroke="var(--foreground)"
             strokeWidth={blurred ? 9 : 2}
-            strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             opacity={blurred ? 0.16 : 0.55}
-            style={reduced_motion ? undefined : { pathLength: draw }}
+            className={outside_chapter ? "chapter-pinned:hidden" : undefined}
+            style={
+              reduced_motion || outside_chapter
+                ? undefined
+                : { pathLength: draw }
+            }
           />
         </g>
       ))}

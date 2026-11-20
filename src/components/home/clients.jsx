@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { AccentTitle } from "@/components/home/accent_title";
+import { ScrollLine } from "@/components/motion/scroll_line";
 import { HEADING_PASS, ScrollPass } from "@/components/motion/scroll_pass";
 import { Container } from "@/components/site/container";
 import { cn } from "@/lib/utils";
@@ -19,10 +20,16 @@ const RAIL_REPEAT = 5;
  * «Nuestra familia»: los logos de los clientes, pasando solos.
  *
  * > **Contradice a proposito el «sin carrusel de logos» de `AGENTS.md`.** Esa
- * > regla era contra la tira de logos generica pegada al hero; esta es una
- * > seccion propia con los clientes reales, pedida por el usuario el
- * > 2026-11-19. Va despues de los reportes y antes del FAQ: primero se muestra
- * > el producto y recien ahi quien ya lo usa.
+ * > regla era contra la tira de logos generica suelta dentro del hero; esta es
+ * > una seccion propia, con titular y con los clientes reales, pedida por el
+ * > usuario el 2026-11-19.
+ *
+ * **Va justo debajo de la captura del hero, antes del problema** (decision del
+ * usuario, el mismo 2026-11-19; nacio entre los reportes y el FAQ). O sea que
+ * es la seccion que `ScrollLift` mete detras del hero: sus primeros `HERO_LIFT`
+ * px arrancan tapados y se destapan con el scroll. Primero asoma el riel por la
+ * niebla del pie del hero y despues el titular; en reposo queda todo a la
+ * vista, como cualquier otra seccion.
  *
  * **Es un Server Component: el movimiento es CSS.** El riel es una
  * `@keyframes` sobre `transform` (`clients-marquee`, en `globals.css`), que el
@@ -49,8 +56,32 @@ export function Clients({ dict }) {
     <section
       id="clients"
       data-section="clients"
-      className="scroll-mt-24 overflow-x-clip py-20 sm:py-32"
+      className="relative isolate scroll-mt-24 overflow-x-clip py-20 sm:py-32"
     >
+      {/* La linea del problema, traida desde el hero. Sin esto arranca en el
+          aire debajo de los logos: ver `LEAD` en `scroll_line.jsx`.
+
+          **Los 6rem de arriba se meten debajo del hero.** El pie del hero son
+          60px de niebla bajo la captura (`HERO_EDGE`); con 96 el trazo arranca
+          tapado por la captura y sale por la niebla, que es lo que lo hace
+          leerse como que viene de atras. El alto va escrito porque un `svg`
+          absoluto no se estira entre `top` y `bottom`.
+
+          **El ancho copia al de la diapositiva del problema**, o el empalme
+          queda corrido: clavada mide `w-screen`, que incluye la barra de
+          scroll, y suelta mide el 100%. `chapter-pinned` es la variante de
+          `globals.css` que repite las condiciones de `PinnedChapter`. Sobra
+          por la derecha lo que mide la barra, y lo corta el `overflow-x-clip`
+          de la seccion.
+
+          `-z-10` con `isolate`: queda detras del texto y de las placas, que
+          son opacas, asi que por el riel pasa por atras. */}
+      <ScrollLine
+        shape="lead"
+        outside_chapter
+        class_name="-top-24 left-0 -z-10 h-[calc(100%+6rem)] w-full chapter-pinned:w-screen"
+      />
+
       <Container>
         <ScrollPass {...HEADING_PASS}>
           <div className="max-w-2xl">
