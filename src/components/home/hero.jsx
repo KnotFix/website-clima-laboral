@@ -12,16 +12,22 @@ import { Button } from "@/components/ui/button";
 import { site_config } from "@/lib/site_config";
 
 /**
- * Cuanto del problema queda metido detras del hero, en px, y cuanto scroll
- * tarda en destaparse.
+ * Cuanto de la seccion siguiente queda metido detras del hero, en px, y cuanto
+ * scroll tarda en destaparse.
+ *
+ * > **La seccion siguiente es «Nuestra familia» desde el 2026-11-19**; antes
+ * > era el problema, y los comentarios de este archivo que dicen «el problema»
+ * > vienen de ahi. El mecanismo es el mismo: lo que cambio es que se destapa.
  *
  * Viven aca y no en `page.js` porque la tapa y el pie opaco que la hace posible
  * son la misma pieza: `HeroCover` tiene que ser mas del doble de `HERO_LIFT`
  * para que la parte solida alcance a cubrir lo que hay detras.
  *
- * 320px es poco menos que el `pt-32` del problema mas su titular: se tapa el
- * aire de arriba y el arranque del titulo, no la seccion entera. Tapar de mas
- * hace que el destape se lea como que faltaba contenido.
+ * 320px se eligio contra el problema: poco menos que su `pt-32` mas su titular.
+ * Sobre los clientes tapa el aire de arriba, el titular y el arranque del riel
+ * (medido a 1368x1018: el riel empieza a 269px del borde de la seccion), asi
+ * que los logos asoman primero por la niebla y el titular sale despues. Tapar
+ * de mas hace que el destape se lea como que faltaba contenido.
  */
 const HERO_LIFT = 320;
 const HERO_SPAN = 640;
@@ -42,9 +48,9 @@ const HERO_EDGE = 60;
 
 export function Hero({ lang, dict }) {
   return (
-    // El hero es la tapa: se levanta con el scroll y va descubriendo el
-    // problema, que arranca metido detras suyo. `ScrollLift` pone el margen
-    // negativo que lo mete y el movimiento que lo saca.
+    // El hero es la tapa: se levanta con el scroll y va descubriendo la seccion
+    // siguiente —los clientes—, que arranca metida detras suyo. `ScrollLift`
+    // pone el margen negativo que la mete y el movimiento que la saca.
     <ScrollLift lift={HERO_LIFT} span={HERO_SPAN} own_layer>
       {/* El padding de arriba centra el bloque de texto en la pantalla, y por
           eso es relativo al viewport y no un valor fijo: el bloque mide ~23rem,
